@@ -1,0 +1,26 @@
+<script>
+
+    const ws = new WebSocket("ws://localhost3000");
+
+    ws.onopen = () => {
+
+        console.log("Connected");
+    };
+
+    ws.onmessage = (event) => {
+        console.log("Server:", JSON.parse(event.data));
+    };
+
+    // send test mesage 
+    function sendmessage() {
+        ws.send(JSON.stringify({
+            type: "message",
+            users: "salama",
+            room: "lobby",
+            data: " hello everyone"
+        }));
+    }
+
+    </script>
+
+    <button onclick=""sendMessage()">Send message</button>"

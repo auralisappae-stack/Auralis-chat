@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auralis - Sign Up</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #1e1f22;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #box {
+      background: #2b2d31;
+      padding: 30px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .signup {
+      background: #3ba55c;
+    }
+
+    .back {
+      background: #404249;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #error {
+      margin-top: 10px;
+      color: #ff4d4d;
+      font-size: 14px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="box">
+  <h2>Create Account</h2>
+
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+  <input id="confirm" type="password" placeholder="Confirm Password">
+
+  <button class="signup" onclick="signup()">Sign Up</button>
+  <button class="back" onclick="goBack()">Back to Login</button>
+
+  <div id="error"></div>
+</div>
+
+<script>
+const ws = new WebSocket("wss://auralis-chat.onrender.com");
+
+let connected = false;
+const errorBox = document.getElementById("error");
+
+ws.onopen = () => {
+  connected = true;
+};
+
+// show error
+function showError(msg) {
+  errorBox.textContent = msg;
+}
+
+// clear error
+function clearError() {
+  errorBox.textContent = "";
+}
+
+// SIGNUP FUNCTION
+function signup() {
+  clearError();
+
+  if (!connected) {
+    showError("Server not connected yet");
+    return;
+  }
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const confirm = document.getElementById("confirm").value;
+
+  // ❌ empty fields
+  if (!username || !password || !confirm) {
+    showError("Please fill all fields");
+    return;
+  }
+
+  // ❌ password mismatch
+  if (password !== confirm) {
+    showError("Passwords do not match");
+    return;
+  }
+
+  ws.send(JSON.stringify({
+    type: "signup",
+    username,
+    password
+  }));
+}
+
+// BACK BUTTON
+function goBack() {
+  window.location.href = "index.html";
+}
+
+// SERVER RESPONSE
+ws.onmessage = (event) => {
+  const msg = JSON.parse(event.data);
+
+  if (msg.type === "auth") {
+    if (msg.error) {
+      showError(msg.error);
+    } else {
+      showError("Account created! Redirecting...");
+
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    }
+  }
+};
+</script>
+
+</body>
+</html>
