@@ -3,20 +3,22 @@
 <head>
   <title>Auralis Chat</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background: #1e1f22;
+      background: #313338;
       color: white;
       display: flex;
       height: 100vh;
     }
 
-    /* LEFT SIDEBAR */
+    /* Sidebar */
     #sidebar {
-      width: 60px;
-      background: #1a1b1e;
+      width: 70px;
+      background: #1e1f22;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -24,194 +26,125 @@
     }
 
     .server {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       background: #5865f2;
       border-radius: 50%;
       margin: 10px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
     }
 
-    /* CHANNELS */
-    #channels {
-      width: 200px;
-      background: #2b2d31;
-      padding: 10px;
-    }
-
-    .room {
-      padding: 8px;
-      cursor: pointer;
-    }
-
-    .room:hover {
-      background: #404249;
-    }
-
-    /* CHAT AREA */
-    #chatContainer {
+    /* Chat area */
+    #main {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    #chat {
-      flex: 1;
-      overflow-y: auto;
-      padding: 10px;
+    /* Header */
+    #header {
+      padding: 15px;
+      background: #2b2d31;
+      border-bottom: 1px solid #1e1f22;
     }
 
-    #inputArea {
+    /* Messages */
+    #messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .msg {
+      margin-bottom: 10px;
+    }
+
+    .username {
+      font-weight: bold;
+      color: #5865f2;
+    }
+
+    /* Input */
+    #inputBox {
       display: flex;
       padding: 10px;
       background: #2b2d31;
     }
 
-    input {
+    #inputBox input {
       flex: 1;
       padding: 10px;
       border: none;
+      border-radius: 5px;
       outline: none;
     }
 
-    button {
-      padding: 10px;
+    #inputBox button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      border: none;
       background: #5865f2;
       color: white;
-      border: none;
+      border-radius: 5px;
       cursor: pointer;
-    }
-
-    /* USERS PANEL */
-    #users {
-      width: 200px;
-      background: #2b2d31;
-      padding: 10px;
-    }
-
-    .user {
-      margin: 5px 0;
     }
   </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
+<!-- Sidebar -->
 <div id="sidebar">
-  <div class="server">A</div>
+  <div class="server"></div>
+  <div class="server"></div>
 </div>
 
-<!-- CHANNELS -->
-<div id="channels">
-  <h3>Rooms</h3>
-  <div class="room" onclick="switchRoom('lobby')"># lobby</div>
-  <div class="room" onclick="switchRoom('gaming')"># gaming</div>
-</div>
+<!-- Main Chat -->
+<div id="main">
 
-<!-- CHAT -->
-<div id="chatContainer">
-  <div id="chat"></div>
-
-  <div id="inputArea">
-    <input id="message" placeholder="Type a message...">
-    <button onclick="sendMessage()">Send</button>
+  <div id="header">
+    # general
   </div>
-</div>
 
-<!-- USERS -->
-<div id="users">
-  <h3>Online</h3>
-  <div id="userList"></div>
+  <div id="messages"></div>
+
+  <div id="inputBox">
+    <input id="msgInput" placeholder="Message..." />
+    <button onclick="sendMsg()">Send</button>
+  </div>
+
 </div>
 
 <script>
+const username = localStorage.getItem("username");
 const ws = new WebSocket("wss://auralis-chat.onrender.com");
 
-const username = localStorage.getItem("username");
-let currentRoom = "lobby";
+ws.onmessage = (msg) => {
+  const data = JSON.parse(msg.data);
 
-const chat = document.getElementById("chat");
-const userList = document.getElementById("userList");
+  if (data.type === "message") {
+    const messages = document.getElementById("messages");
 
-// CONNECT
-ws.onopen = () => {
-  ws.send(JSON.stringify({
-    type: "join",
-    user: username,
-    room: currentRoom
-  }));
-};
+    messages.innerHTML += `
+      <div class="msg">
+        <span class="username">${data.username}:</span>
+        ${data.message}
+      </div>
+    `;
 
-// RECEIVE
-ws.onmessage = (event) => {
-  const msg = JSON.parse(event.data);
-
-  // MESSAGE
-  if (msg.type === "message") {
-    addMessage(`${msg.user.name}: ${msg.data}`);
-  }
-
-  // USER JOIN
-  if (msg.type === "user-joined") {
-    addMessage(`${msg.user.name} joined`, true);
-  }
-
-  // USER LEFT
-  if (msg.type === "user-left") {
-    addMessage(`${msg.user.name} left`, true);
-  }
-
-  // USER LIST
-  if (msg.type === "user-list") {
-    userList.innerHTML = "";
-    msg.users.forEach(u => {
-      const div = document.createElement("div");
-      div.className = "user";
-      div.textContent = u;
-      userList.appendChild(div);
-    });
+    messages.scrollTop = messages.scrollHeight;
   }
 };
 
-// SEND MESSAGE
-function sendMessage() {
-  const input = document.getElementById("message");
+function sendMsg() {
+  const input = document.getElementById("msgInput");
 
   ws.send(JSON.stringify({
     type: "message",
-    data: input.value
+    username: username,
+    message: input.value
   }));
 
   input.value = "";
-}
-
-// SWITCH ROOM
-function switchRoom(room) {
-  currentRoom = room;
-
-  ws.send(JSON.stringify({
-    type: "switch-room",
-    room
-  }));
-
-  chat.innerHTML = "";
-}
-
-// ADD MESSAGE
-function addMessage(text, system = false) {
-  const div = document.createElement("div");
-  div.textContent = text;
-
-  if (system) {
-    div.style.color = "#888";
-  }
-
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
 }
 </script>
 
