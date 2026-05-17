@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Auralis Chat</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -15,8 +14,8 @@
       height: 100vh;
     }
 
-    /* Sidebar */
-    #sidebar {
+    /* SERVERS BAR */
+    #servers {
       width: 70px;
       background: #1e1f22;
       display: flex;
@@ -33,21 +32,44 @@
       margin: 10px 0;
     }
 
-    /* Chat area */
+    /* SIDEBAR (DM + CHANNELS) */
+    #sidebar {
+      width: 220px;
+      background: #2b2d31;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-title {
+      font-size: 12px;
+      color: #aaa;
+      margin: 10px 0 5px;
+    }
+
+    .item {
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .item:hover {
+      background: #3a3c42;
+    }
+
+    /* CHAT AREA */
     #main {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    /* Header */
     #header {
       padding: 15px;
       background: #2b2d31;
       border-bottom: 1px solid #1e1f22;
     }
 
-    /* Messages */
     #messages {
       flex: 1;
       padding: 15px;
@@ -63,7 +85,6 @@
       color: #5865f2;
     }
 
-    /* Input */
     #inputBox {
       display: flex;
       padding: 10px;
@@ -92,13 +113,26 @@
 
 <body>
 
-<!-- Sidebar -->
-<div id="sidebar">
+<!-- SERVERS -->
+<div id="servers">
   <div class="server"></div>
   <div class="server"></div>
 </div>
 
-<!-- Main Chat -->
+<!-- SIDEBAR -->
+<div id="sidebar">
+
+  <div class="section-title">DIRECT MESSAGES</div>
+  <div class="item">User1</div>
+  <div class="item">User2</div>
+
+  <div class="section-title">CHANNELS</div>
+  <div class="item"># general</div>
+  <div class="item"># gaming</div>
+
+</div>
+
+<!-- MAIN CHAT -->
 <div id="main">
 
   <div id="header">
