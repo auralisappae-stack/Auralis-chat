@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auralis - Login</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #1e1f22;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #box {
+      background: #2b2d31;
+      padding: 30px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      cursor: pointer;
+      color: white;
+    }
+
+    .login {
+      background: #5865f2;
+    }
+
+    .signup {
+      background: #3ba55c;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    #error {
+      margin-top: 10px;
+      color: #ff4d4d;
+      font-size: 14px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="box">
+  <h2>Auralis Login</h2>
+
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+
+  <!-- LOGIN -->
+  <button class="login" onclick="login()">Login</button>
+
+  <!-- GO TO SIGNUP PAGE -->
+  <button class="signup" onclick="goSignup()">Sign Up</button>
+
+  <!-- ERROR MESSAGE -->
+  <div id="error"></div>
+</div>
+
+<script>
+const ws = new WebSocket("ws://localhost:3000");
+
+let connected = false;
+const errorBox = document.getElementById("error");
+
+// connection ready
+ws.onopen = () => {
+  connected = true;
+};
+
+// show error in UI
+function showError(msg) {
+  errorBox.textContent = msg;
+}
+
+// clear error
+function clearError() {
+  errorBox.textContent = "";
+}
+
+// LOGIN FUNCTION
+function login() {
+  clearError();
+
+  if (!connected) {
+    showError("Server not connected yet");
+    return;
+  }
+
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (!username || !password) {
+    showError("Please fill all fields");
+    return;
+  }
+
+  ws.send(JSON.stringify({
+    type: "login",
+    username,
+    password
+  }));
+}
+
+// GO TO SIGNUP PAGE
+function goSignup() {
+  window.location.href = "signup.html";
+}
+
+// HANDLE SERVER RESPONSE
+ws.onmessage = (event) => {
+  const msg = JSON.parse(event.data);
+
+  if (msg.type === "auth") {
+    if (msg.error) {
+      showError(msg.error);
+    } else {
+      localStorage.setItem("username", msg.username);
+      window.location.href = "chat.html";
+    }
+  }
+};
+</script>
+
+</body>
+</html>
