@@ -1,154 +1,155 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Auralis - Sign Up</title>
+  <title>Sign Up - Auralis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
+      height: 100vh;
       font-family: Arial;
-      background: #1e1f22;
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+
+      background: linear-gradient(-45deg, #1e1f22, #2b2d31, #313338, #5865f2);
+      background-size: 400% 400%;
+      animation: gradientMove 10s ease infinite;
     }
 
-    #box {
-      background: #2b2d31;
-      padding: 30px;
-      border-radius: 8px;
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #container {
       width: 300px;
       text-align: center;
+      padding: 40px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      box-shadow: 0 0 15px rgba(88,101,242,0.8);
     }
 
     input {
       width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
+      padding: 12px;
+      margin: 8px 0;
       border: none;
+      border-radius: 8px;
+      background: #1e1f22;
+      color: white;
       outline: none;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .toggle {
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      cursor: pointer;
+      color: #aaa;
     }
 
     button {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 12px;
+      margin-top: 10px;
       border: none;
-      cursor: pointer;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #5865f2, #4752c4);
       color: white;
-    }
-
-    .signup {
-      background: #3ba55c;
-    }
-
-    .back {
-      background: #404249;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      opacity: 0.9;
+      transform: scale(1.05);
     }
 
-    #error {
-      margin-top: 10px;
-      color: #ff4d4d;
-      font-size: 14px;
-      min-height: 20px;
+    .link {
+      margin-top: 15px;
+      color: #aaa;
+      cursor: pointer;
     }
   </style>
 </head>
 
 <body>
 
-<div id="box">
+<div id="container">
+
+  <img src="logo.png">
+
   <h2>Create Account</h2>
+  <p style="color:#aaa;">Join Auralis</p>
 
   <input id="username" placeholder="Username">
-  <input id="password" type="password" placeholder="Password">
-  <input id="confirm" type="password" placeholder="Confirm Password">
 
-  <button class="signup" onclick="signup()">Sign Up</button>
-  <button class="back" onclick="goBack()">Back to Login</button>
+  <div class="password-box">
+    <input id="password" type="password" placeholder="Password">
+    <span class="toggle" onclick="togglePassword()">👁️</span>
+  </div>
 
-  <div id="error"></div>
+  <button onclick="signup()">Sign Up</button>
+
+  <div class="link" onclick="goLogin()">
+    Already have an account? Login
+  </div>
+
 </div>
 
 <script>
-const ws = new WebSocket("wss://auralis-chat.onrender.com");
-
-let connected = false;
-const errorBox = document.getElementById("error");
-
-ws.onopen = () => {
-  connected = true;
-};
-
-// show error
-function showError(msg) {
-  errorBox.textContent = msg;
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
 }
 
-// clear error
-function clearError() {
-  errorBox.textContent = "";
-}
-
-// SIGNUP FUNCTION
 function signup() {
-  clearError();
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
 
-  if (!connected) {
-    showError("Server not connected yet");
-    return;
-  }
+  const ws = new WebSocket("wss://auralis-chat.onrender.com");
 
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-  const confirm = document.getElementById("confirm").value;
+  ws.onopen = () => {
+    ws.send(JSON.stringify({
+      type: "signup",
+      username: user,
+      password: pass
+    }));
+  };
 
-  // ❌ empty fields
-  if (!username || !password || !confirm) {
-    showError("Please fill all fields");
-    return;
-  }
+  ws.onmessage = (msg) => {
+    const data = JSON.parse(msg.data);
 
-  // ❌ password mismatch
-  if (password !== confirm) {
-    showError("Passwords do not match");
-    return;
-  }
-
-  ws.send(JSON.stringify({
-    type: "signup",
-    username,
-    password
-  }));
-}
-
-// BACK BUTTON
-function goBack() {
-  window.location.href = "index.html";
-}
-
-// SERVER RESPONSE
-ws.onmessage = (event) => {
-  const msg = JSON.parse(event.data);
-
-  if (msg.type === "auth") {
-    if (msg.error) {
-      showError(msg.error);
+    if (data.success) {
+      alert("Account created!");
+      window.location.href = "login.html";
     } else {
-      showError("Account created! Redirecting...");
-
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1500);
+      alert("Signup failed");
     }
-  }
-};
+  };
+}
+
+function goLogin() {
+  window.location.href = "login.html";
+}
 </script>
 
 </body>
