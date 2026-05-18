@@ -1,114 +1,332 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Chat</title>
+<title>Auralis Chat</title>
 
 <style>
 body {
   margin:0;
-  display:flex;
   height:100vh;
+  display:flex;
   font-family:Arial;
-  background:#1e1f22;
   color:white;
+
+  background:
+    linear-gradient(rgba(2,6,23,0.85), rgba(2,6,23,0.95)),
+    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
+  background-size:cover;
 }
 
-/* SIDEBAR */
-#sidebar {
-  width:200px;
-  background:#2b2d31;
+/* 🧱 SERVERS */
+#servers {
+  width:70px;
+  background:#0b0f1a;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   padding:10px;
 }
 
-/* CHAT */
+.server {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#5865f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+  cursor:pointer;
+}
+
+.server.active {
+  border-radius:15px;
+}
+
+#addServer {
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#1e293b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:#aaa;
+  font-size:22px;
+  margin-top:5px;
+}
+
+#addServer:hover {
+  background:#5865f2;
+  color:white;
+  transform:scale(1.1);
+}
+
+/* 🧩 MAIN */
+#main {
+  display:flex;
+  flex:1;
+}
+
+/* 📂 CHANNELS */
+#sidebar {
+  width:220px;
+  background:#111827;
+  padding:15px;
+}
+
+.channel {
+  padding:8px;
+  border-radius:6px;
+  margin-bottom:5px;
+  cursor:pointer;
+  color:#aaa;
+}
+
+.channel.active {
+  background:#5865f2;
+  color:white;
+}
+
+/* 💬 CHAT */
 #chat {
   flex:1;
   display:flex;
   flex-direction:column;
 }
 
+#chatHeader {
+  padding:15px;
+  font-weight:bold;
+  background:rgba(15,17,25,0.6);
+}
+
 #messages {
   flex:1;
-  padding:10px;
+  padding:15px;
   overflow-y:auto;
 }
 
-.message {
+.msgRow {
   display:flex;
+  gap:10px;
   margin-bottom:10px;
 }
 
-.avatar img {
-  width:40px;
-  height:40px;
+.avatar {
+  width:35px;
+  height:35px;
   border-radius:50%;
-  margin-right:10px;
-}
-
-.username {
-  color:#5865f2;
-  font-weight:bold;
-}
-
-/* INPUT */
-#input-area {
+  background:#5865f2;
   display:flex;
-  padding:10px;
+  align-items:center;
+  justify-content:center;
 }
 
-#input {
+#inputBox {
+  padding:10px;
+  display:flex;
+  background:#0f172a;
+}
+
+#inputBox input {
   flex:1;
   padding:10px;
+  border:none;
+  border-radius:20px;
+  background:#111827;
+  color:white;
 }
 
-button {
+#inputBox button {
   margin-left:10px;
+  padding:10px 15px;
+  border:none;
+  border-radius:20px;
+  background:#5865f2;
+  color:white;
 }
+
+/* 👥 MEMBERS */
+#members {
+  width:220px;
+  background:#0f172a;
+  padding:15px;
+}
+
+.member {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.memberAvatar {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#5865f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.status {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+
+.online { background:#22c55e; }
 </style>
 </head>
 
 <body>
 
-<div id="sidebar">
-  <h3 id="userDisplay"></h3>
+<!-- SERVERS -->
+<div id="servers">
+  <div id="addServer">+</div>
 </div>
 
-<div id="chat">
+<!-- MAIN -->
+<div id="main">
 
-  <div id="messages"></div>
-
-  <div id="input-area">
-    <input id="input">
-    <button onclick="send()">Send</button>
+  <!-- CHANNELS -->
+  <div id="sidebar">
+    <h4>Channels</h4>
+    <div class="channel active"># general</div>
   </div>
+
+  <!-- CHAT -->
+  <div id="chat">
+    <div id="chatHeader"># general</div>
+    <div id="messages"></div>
+
+    <div id="inputBox">
+      <input id="msgInput" placeholder="Type a message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- MEMBERS -->
+  <div id="members"></div>
 
 </div>
 
 <script>
-const username = localStorage.getItem("username");
-const avatar = localStorage.getItem("avatar");
 
-document.getElementById("userDisplay").innerText = username;
+/* ================= SERVERS ================= */
+let servers = JSON.parse(localStorage.getItem("servers")) || [];
+const username = localStorage.getItem("username") || "User";
 
-function send(){
-  const msg = document.getElementById("input").value;
+if (servers.length === 0) {
+  servers.push({
+    name: username + "'s server",
+    icon: username.charAt(0).toUpperCase()
+  });
+  localStorage.setItem("servers", JSON.stringify(servers));
+}
 
-  const div = document.createElement("div");
-  div.className = "message";
+const serversDiv = document.getElementById("servers");
 
-  div.innerHTML = `
-    <div class="avatar">
-      <img src="${avatar || 'https://via.placeholder.com/40'}">
-    </div>
-    <div>
-      <div class="username">${username}</div>
-      <div>${msg}</div>
+function renderServers() {
+
+  const addBtn = document.getElementById("addServer");
+
+  // remove ONLY servers (keep +)
+  serversDiv.querySelectorAll(".server").forEach(el => el.remove());
+
+  servers.forEach((server, index) => {
+    const el = document.createElement("div");
+    el.className = "server";
+    el.innerText = server.icon;
+
+    if (index === 0) el.classList.add("active");
+
+    el.onclick = () => {
+      document.querySelectorAll(".server").forEach(s => s.classList.remove("active"));
+      el.classList.add("active");
+      document.getElementById("chatHeader").innerText = "# " + server.name;
+    };
+
+    // insert BEFORE +
+    serversDiv.insertBefore(el, addBtn);
+  });
+}
+
+renderServers();
+
+/* ➕ ADD SERVER */
+document.getElementById("addServer").onclick = () => {
+  const name = prompt("Server name:");
+  if (!name) return;
+
+  servers.push({
+    name,
+    icon: name.charAt(0).toUpperCase()
+  });
+
+  localStorage.setItem("servers", JSON.stringify(servers));
+  renderServers();
+};
+
+/* ================= MEMBERS ================= */
+let members = JSON.parse(localStorage.getItem("members")) || [];
+
+if (!members.find(m => m.name === username)) {
+  members.push({ name: username, status: "online" });
+  localStorage.setItem("members", JSON.stringify(members));
+}
+
+const membersDiv = document.getElementById("members");
+
+function renderMembers() {
+  membersDiv.innerHTML = "<h4>Members</h4>";
+
+  members.forEach(m => {
+    const el = document.createElement("div");
+    el.className = "member";
+
+    el.innerHTML = `
+      <div class="memberAvatar">${m.name.charAt(0)}</div>
+      <div>
+        <div>${m.name}</div>
+        <div class="status ${m.status}"></div>
+      </div>
+    `;
+
+    membersDiv.appendChild(el);
+  });
+}
+
+renderMembers();
+
+/* ================= CHAT ================= */
+const messages = document.getElementById("messages");
+
+function sendMessage() {
+  const input = document.getElementById("msgInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  const msg = document.createElement("div");
+
+  msg.innerHTML = `
+    <div class="msgRow">
+      <div class="avatar">${username.charAt(0)}</div>
+      <div>
+        <b>${username}</b>
+        <div>${text}</div>
+      </div>
     </div>
   `;
 
-  document.getElementById("messages").appendChild(div);
-  document.getElementById("input").value = "";
+  messages.appendChild(msg);
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
 }
+
 </script>
 
 </body>
