@@ -12,47 +12,31 @@ body {
   justify-content:center;
   align-items:center;
   overflow:hidden;
-
-  background: radial-gradient(circle at top, #0f172a, #020617);
   color:white;
+
+  background:
+    linear-gradient(rgba(2,6,23,0.75), rgba(2,6,23,0.95)),
+    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
+
+  background-size: cover;
+  background-position: center;
 }
 
-/* 🎬 GLOW ORBS */
-.orb {
-  position:absolute;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:0.4;
-}
-
-.orb1 {
-  width:400px;
-  height:400px;
-  background:#5865f2;
-  top:-100px;
-  left:-100px;
-}
-
-.orb2 {
-  width:300px;
-  height:300px;
-  background:#7289da;
-  bottom:-100px;
-  right:-100px;
-}
-
-/* 💎 GLASS BOX */
+/* 💎 BOX (same as signup) */
 #box {
-  position:relative;
-  z-index:1;
+  width: 280px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
 
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
+  background: rgba(15, 17, 25, 0.75);
+  backdrop-filter: blur(20px);
 
-  padding:30px;
-  border-radius:15px;
-  width:260px;
-  text-align:center;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow: 
+    0 0 40px rgba(88, 101, 242, 0.15),
+    0 0 80px rgba(88, 101, 242, 0.05);
 }
 
 /* INPUT */
@@ -67,79 +51,145 @@ input {
   outline:none;
 }
 
-/* PASSWORD WRAP */
+/* PASSWORD BOX */
 .password-box {
   position:relative;
 }
 
-/* 👁️ ICON */
 .toggle {
   position:absolute;
   right:10px;
   top:10px;
   cursor:pointer;
-  color:#aaa;
+}
+
+.eye {
+  width:20px;
+  height:20px;
+  fill:none;
+  stroke:#aaa;
+  stroke-width:2;
 }
 
 /* BUTTON */
 button {
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-top:10px;
   border:none;
   border-radius:10px;
-  background:#5865f2;
+
+  background: linear-gradient(135deg, #5865f2, #6c7bff);
   color:white;
   cursor:pointer;
+
+  transition: all 0.25s ease;
+
+  box-shadow: 0 0 20px rgba(88, 101, 242, 0.25);
 }
 
 button:hover {
-  background:#4752c4;
+  box-shadow: 
+    0 0 40px rgba(88, 101, 242, 0.5),
+    0 0 80px rgba(88, 101, 242, 0.2);
+
+  transform: translateY(-2px);
+}
+
+/* ERROR MESSAGE */
+#error {
+  color:#ff6b6b;
+  font-size:13px;
+  display:none;
+  text-align:left;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎬 BACKGROUND -->
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-
 <div id="box">
-  <h2>Login</h2>
+
+  <img src="Auralis-Logo.png" 
+       style="width:70px;border-radius:15px;margin-bottom:10px;">
+
+  <h2>Welcome Back</h2>
 
   <input id="username" placeholder="Username">
 
-  <!-- 🔁 UPDATED PASSWORD FIELD -->
+  <!-- PASSWORD -->
   <div class="password-box">
     <input id="password" type="password" placeholder="Password">
-    <span class="toggle" onclick="togglePassword()">👁️</span>
+    <span class="toggle" onclick="togglePassword('password', this)">
+      <svg class="eye" viewBox="0 0 24 24">
+        <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </span>
   </div>
 
+  <!-- ERROR MESSAGE -->
+  <p id="error"></p>
+
   <button onclick="login()">Login</button>
+
 </div>
 
 <script>
+
 /* 👁️ TOGGLE */
-function togglePassword() {
-  const pass = document.getElementById("password");
-  pass.type = pass.type === "password" ? "text" : "password";
+function togglePassword(id, el) {
+  const input = document.getElementById(id);
+  const svg = el.querySelector("svg");
+
+  if (input.type === "password") {
+    input.type = "text";
+    svg.innerHTML = `
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7z"/>
+      <circle cx="12" cy="12" r="3"/>
+    `;
+  } else {
+    input.type = "password";
+    svg.innerHTML = `
+      <path d="M2 2l20 20"/>
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7"/>
+    `;
+  }
 }
 
-/* LOGIN (same logic as before) */
+/* 🔐 LOGIN FUNCTION */
 function login() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const error = document.getElementById("error");
+
+  error.style.display = "none";
 
   const savedUser = localStorage.getItem("username");
   const savedPass = localStorage.getItem("password");
 
-  if(user === savedUser && pass === savedPass){
-    window.location = "chat.html";
-  } else {
-    alert("Wrong login");
+  if (user === "" || pass === "") {
+    error.innerText = "Please enter username and password";
+    error.style.display = "block";
+    return;
   }
+
+  if (user !== savedUser || pass !== savedPass) {
+    error.innerText = "Invalid login credentials";
+    error.style.display = "block";
+    return;
+  }
+
+  // ✅ SUCCESS
+  error.style.color = "#4CAF50";
+  error.innerText = "Login successful!";
+  error.style.display = "block";
+
+  setTimeout(() => {
+    window.location = "chat.html";
+  }, 1000);
 }
+
 </script>
 
 </body>

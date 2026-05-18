@@ -48,19 +48,32 @@ body {
 
 /* 💎 MAIN BOX */
 #box {
-  position:relative;
-  z-index:1;
+  position: relative;
+  z-index: 1;
 
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(15px);
+  width: 280px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
 
-  padding:40px;
-  border-radius:20px;
-  text-align:center;
-  width:280px;
+  background: rgba(15, 17, 25, 0.75); /* darker */
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow: 
+    0 0 40px rgba(88, 101, 242, 0.15),
+    0 0 80px rgba(88, 101, 242, 0.05);
 }
 
-/* BUTTONS */
+#box:hover {
+  box-shadow: 
+    0 0 60px rgba(88, 101, 242, 0.25),
+    0 0 120px rgba(88, 101, 242, 0.1);
+  transition: 0.3s;
+}
+
+
 button {
   width:100%;
   padding:12px;
@@ -68,23 +81,19 @@ button {
   border:none;
   border-radius:10px;
 
-  background:#5865f2;
+  background: linear-gradient(135deg, #5865f2, #6c7bff);
   color:white;
   cursor:pointer;
-  font-size:14px;
 
   transition: all 0.25s ease;
 
-  box-shadow: 0 0 20px rgba(88, 101, 242, 0.2);
+  box-shadow: 0 0 20px rgba(88, 101, 242, 0.25);
 }
 
-
 button:hover {
-  background:#4752c4;
-
   box-shadow: 
-    0 0 30px rgba(88, 101, 242, 0.4),
-    0 0 60px rgba(88, 101, 242, 0.2);
+    0 0 40px rgba(88, 101, 242, 0.5),
+    0 0 80px rgba(88, 101, 242, 0.2);
 
   transform: translateY(-2px);
 }
