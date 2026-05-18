@@ -1,154 +1,290 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Sign Up - Auralis</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up - Auralis</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: Arial;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+<style>
 
-      background: linear-gradient(-45deg, #1e1f22, #2b2d31, #313338, #5865f2);
-      background-size: 400% 400%;
-      animation: gradientMove 10s ease infinite;
-    }
+body {
+  margin:0;
+  height:100vh;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:white;
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  background:
+    linear-gradient(rgba(2,6,23,0.75), rgba(2,6,23,0.95)),
+    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
 
-    #container {
-      width: 300px;
-      text-align: center;
-      padding: 40px;
-      border-radius: 15px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(15px);
-      box-shadow: 0 0 40px rgba(0,0,0,0.5);
-    }
+  background-size: cover;
+  background-position: center;
+}
+/* 🎬 ORBS */
+.orb {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.4;
+}
 
-    img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-      box-shadow: 0 0 15px rgba(88,101,242,0.8);
-    }
+.orb1 {
+  width:400px;
+  height:400px;
+  background:#5865f2;
+  top:-100px;
+  left:-100px;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 8px;
-      background: #1e1f22;
-      color: white;
-      outline: none;
-    }
+.orb2 {
+  width:300px;
+  height:300px;
+  background:#7289da;
+  bottom:-100px;
+  right:-100px;
+}
 
-    .password-box {
-      position: relative;
-    }
+body {
+  animation: zoom 25s infinite alternate;
+}
 
-    .toggle {
-      position: absolute;
-      right: 10px;
-      top: 12px;
-      cursor: pointer;
-      color: #aaa;
-    }
+@keyframes zoom {
+  from { background-size: 100%; }
+  to { background-size: 110%; }
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #5865f2, #4752c4);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+/* 💎 BOX */
+#box {
+  position: relative;
+  z-index: 1;
 
-    button:hover {
-      transform: scale(1.05);
-    }
+  width: 280px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
 
-    .link {
-      margin-top: 15px;
-      color: #aaa;
-      cursor: pointer;
-    }
-  </style>
+  background: rgba(15, 17, 25, 0.6);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow: 
+    0 0 40px rgba(88, 101, 242, 0.15),
+    0 0 80px rgba(88, 101, 242, 0.05);
+
+    
+}
+
+#box:hover {
+  box-shadow: 
+    0 0 60px rgba(88, 101, 242, 0.25),
+    0 0 120px rgba(88, 101, 242, 0.1);
+  transition: 0.3s;
+}
+
+/* INPUT */
+input {
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:none;
+  border-radius:8px;
+  background:#1e1f22;
+  color:white;
+  outline:none;
+}
+
+.brand-glow {
+  position: absolute;
+  font-size: 120px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  color: rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+
+
+/* PASSWORD BOX */
+.password-box {
+  position:relative;
+}
+
+.toggle {
+  position:absolute;
+  right:10px;
+  top:10px;
+  cursor:pointer;
+  color:#aaa;
+}
+
+
+/* BUTTON */
+button {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#5865f2;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#4752c4;
+}
+
+.toggle {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.eye {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #aaa;
+  stroke-width: 2;
+}
+
+
+</style>
 </head>
 
 <body>
 
-<div id="container">
+<!-- 🎬 BACKGROUND -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
 
-  <img src="logo.png">
-
+<div id="box">
   <h2>Create Account</h2>
-  <p style="color:#aaa;">Join Auralis</p>
 
   <input id="username" placeholder="Username">
 
+  <!-- 👁️ PASSWORD -->
   <div class="password-box">
-    <input id="password" type="password" placeholder="Password">
-    <span class="toggle" onclick="togglePassword()">👁️</span>
-  </div>
+  <input id="password" type="password" placeholder="Password">
+  <span class="toggle" onclick="togglePassword('password', this)">
+    <!-- OPEN EYE -->
+    <svg class="eye" viewBox="0 0 24 24">
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  </span>
+</div>
+
+<div class="password-box">
+  <input id="confirmPassword" type="password" placeholder="Confirm Password">
+  <span class="toggle" onclick="togglePassword('confirmPassword', this)">
+    <svg class="eye" viewBox="0 0 24 24">
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  </span>
+</div>
+
+  <!-- 🖼️ AVATAR -->
+  <input id="avatar" placeholder="Avatar URL">
+
+  <!-- 🔥 PREVIEW -->
+  <img id="preview" src="" 
+       style="width:70px;height:70px;border-radius:50%;margin-top:10px;display:none;">
+
+
+<p id="error" style="color:#ff6b6b; font-size:13px; display:none;"></p>
 
   <button onclick="signup()">Sign Up</button>
-
-  <div class="link" onclick="goLogin()">
-    Already have an account? Login
-  </div>
-
 </div>
 
 <script>
-function togglePassword() {
-  const pass = document.getElementById("password");
-  pass.type = pass.type === "password" ? "text" : "password";
+/* 👁️ PASSWORD TOGGLE */
+function togglePassword(id, el) {
+  const input = document.getElementById(id);
+  const svg = el.querySelector("svg");
+
+  if (input.type === "password") {
+    input.type = "text";
+
+    // 👁️ OPEN EYE
+    svg.innerHTML = `
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7-3-7-10-7z"/>
+      <circle cx="12" cy="12" r="3"/>
+    `;
+  } else {
+    input.type = "password";
+
+    // 🙈 CLOSED EYE (like your image)
+    svg.innerHTML = `
+      <path d="M2 2l20 20"/>
+      <path d="M12 5C5 5 2 12 2 12s3 7 10 7 10-7 10-7"/>
+    `;
+  }
 }
 
-function signup() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
+/* SIGNUP */
 
-  const ws = new WebSocket("wss://auralis-chat.onrender.com");
+ function signup() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const confirm = document.getElementById("confirmPassword").value.trim();
+  const avatar = document.getElementById("avatar").value.trim();
+  const error = document.getElementById("error");
 
-  ws.onopen = () => {
-    ws.send(JSON.stringify({
-      type: "signup",
-      username: user,
-      password: pass
-    }));
-  };
+  // ✅ make sure error exists
+  if (!error) {
+    alert("Error element missing!");
+    return;
+  }
 
-  ws.onmessage = (msg) => {
-    const data = JSON.parse(msg.data);
+  // reset message
+  error.style.display = "none";
+  error.innerText = "";
 
-    if (data.success) {
-      alert("Account created!");
-      window.location.href = "login.html";
-    } else {
-      alert("Signup failed");
-    }
-  };
-}
+  // REQUIRED
+  if (user === "" || pass === "" || confirm === "") {
+    error.innerText = "Username and password are required!";
+    error.style.display = "block";
+    return;
+  }
 
-function goLogin() {
-  window.location.href = "login.html";
+  // MATCH
+  if (pass !== confirm) {
+    error.innerText = "Passwords do not match!";
+    error.style.display = "block";
+    return;
+  }
+
+  // LENGTH
+  if (pass.length < 8) {
+    error.innerText = "Password must be at least 8 characters";
+    error.style.display = "block";
+    return;
+  }
+
+  // CAPITAL LETTER
+  if (!/[A-Z]/.test(pass)) {
+    error.innerText = "Must include a capital letter";
+    error.style.display = "block";
+    return;
+  }
+
+  // ✅ SUCCESS
+  error.style.color = "#4CAF50";
+  error.innerText = "Account created!";
+  error.style.display = "block";
+
+  localStorage.setItem("username", user);
+  localStorage.setItem("password", pass);
+  localStorage.setItem("avatar", avatar || "");
+
+  setTimeout(() => {
+    window.location = "chat.html";
+  }, 1000);
 }
 </script>
 

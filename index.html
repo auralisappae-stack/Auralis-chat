@@ -1,195 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Auralis</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auralis</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: Arial;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+<style>
+body {
+  margin:0;
+  height:100vh;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:white;
 
-      background: #0f1115;
-      transition: opacity 0.3s ease;
-    }
+  background: 
+    linear-gradient(rgba(2,6,23,0.7), rgba(2,6,23,0.9)),
+    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
 
-    /* 🎬 CINEMATIC GLOW ORBS */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.5;
-      animation: move 20s infinite alternate ease-in-out;
-    }
+  background-size: cover;
+  background-position: center;
+}
 
-    .orb1 {
-      width: 500px;
-      height: 500px;
-      background: #5865f2;
-      top: -100px;
-      left: -100px;
-    }
+/* 🎬 ORBS */
+.orb {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  opacity:0.4;
+}
 
-    .orb2 {
-      width: 400px;
-      height: 400px;
-      background: #7289da;
-      bottom: -120px;
-      right: -100px;
-      animation-delay: 5s;
-    }
+.orb1 {
+  width:400px;
+  height:400px;
+  background:#5865f2;
+  top:-100px;
+  left:-100px;
+}
 
-    .orb3 {
-      width: 300px;
-      height: 300px;
-      background: #4752c4;
-      top: 50%;
-      left: 60%;
-      animation-delay: 10s;
-    }
+.orb2 {
+  width:300px;
+  height:300px;
+  background:#7289da;
+  bottom:-100px;
+  right:-100px;
+}
 
-    @keyframes move {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(80px, 60px); }
-    }
+/* 💎 MAIN BOX */
+#box {
+  position:relative;
+  z-index:1;
 
-    /* PARTICLES */
-    #particles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
 
-    /* MAIN UI */
-    #container {
-      position: relative;
-      z-index: 1;
+  padding:40px;
+  border-radius:20px;
+  text-align:center;
+  width:280px;
+}
 
-      text-align: center;
-      padding: 40px;
-      border-radius: 15px;
+/* BUTTONS */
+button {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  background:#5865f2;
+  color:white;
+  cursor:pointer;
+  font-size:14px;
+}
 
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(15px);
-
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
-    }
-
-    /* LOGO */
-    img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-
-      box-shadow: 0 0 30px rgba(88,101,242,1);
-    }
-
-    /* BUTTONS */
-    button {
-      width: 200px;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 10px;
-
-      background: linear-gradient(135deg, #5865f2, #4752c4);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-
-      transition: 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 25px rgba(88,101,242,0.5);
-    }
-  </style>
+button:hover {
+  background:#4752c4;
+}
+</style>
 </head>
 
 <body>
 
-<!-- 🎬 GLOW LAYERS -->
+<!-- 🎬 BACKGROUND -->
 <div class="orb orb1"></div>
 <div class="orb orb2"></div>
-<div class="orb orb3"></div>
 
-<canvas id="particles"></canvas>
+<div id="box">
 
-<div id="container">
-  <img src="Auralis-Logo.png">
+  <!-- 🖼️ LOGO -->
+  <img src="Auralis-Logo.png" 
+       style="width:80px;border-radius:20px;margin-bottom:10px;">
 
   <h1>Auralis</h1>
-  <p style="color:#aaa;">Voice & Chat Platform</p>
+  <p style="color:#aaa;font-size:14px;">Connect. Chat. Experience.</p>
 
-  <button onclick="goLogin()">Login</button><br>
+  <button onclick="goLogin()">Login</button>
   <button onclick="goSignup()">Sign Up</button>
+
 </div>
 
 <script>
-function fadeAndGo(page) {
-  document.body.style.opacity = "0";
-  setTimeout(() => {
-    window.location.href = page;
-  }, 300);
+function goLogin(){
+  window.location = "login.html";
 }
 
-function goLogin() {
-  fadeAndGo("login.html");
+function goSignup(){
+  window.location = "signup.html";
 }
-
-function goSignup() {
-  fadeAndGo("signup.html");
-}
-
-/* PARTICLES */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for (let i = 0; i < 60; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    size: Math.random() * 2,
-    speed: Math.random() * 0.5
-  });
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "white";
-
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    p.y -= p.speed;
-
-    if (p.y < 0) {
-      p.y = canvas.height;
-      p.x = Math.random() * canvas.width;
-    }
-  });
-
-  requestAnimationFrame(animateParticles);
-}
-
-animateParticles();
 </script>
 
 </body>

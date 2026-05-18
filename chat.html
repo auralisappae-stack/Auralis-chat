@@ -1,184 +1,113 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Auralis Chat</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #313338;
-      color: white;
-      display: flex;
-      height: 100vh;
-    }
+<style>
+body {
+  margin:0;
+  display:flex;
+  height:100vh;
+  font-family:Arial;
+  background:#1e1f22;
+  color:white;
+}
 
-    /* SERVERS BAR */
-    #servers {
-      width: 70px;
-      background: #1e1f22;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 10px;
-    }
+/* SIDEBAR */
+#sidebar {
+  width:200px;
+  background:#2b2d31;
+  padding:10px;
+}
 
-    .server {
-      width: 50px;
-      height: 50px;
-      background: #5865f2;
-      border-radius: 50%;
-      margin: 10px 0;
-    }
+/* CHAT */
+#chat {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
 
-    /* SIDEBAR (DM + CHANNELS) */
-    #sidebar {
-      width: 220px;
-      background: #2b2d31;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-    }
+#messages {
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
+}
 
-    .section-title {
-      font-size: 12px;
-      color: #aaa;
-      margin: 10px 0 5px;
-    }
+.message {
+  display:flex;
+  margin-bottom:10px;
+}
 
-    .item {
-      padding: 8px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+.avatar img {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  margin-right:10px;
+}
 
-    .item:hover {
-      background: #3a3c42;
-    }
+.username {
+  color:#5865f2;
+  font-weight:bold;
+}
 
-    /* CHAT AREA */
-    #main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+/* INPUT */
+#input-area {
+  display:flex;
+  padding:10px;
+}
 
-    #header {
-      padding: 15px;
-      background: #2b2d31;
-      border-bottom: 1px solid #1e1f22;
-    }
+#input {
+  flex:1;
+  padding:10px;
+}
 
-    #messages {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-    }
-
-    .msg {
-      margin-bottom: 10px;
-    }
-
-    .username {
-      font-weight: bold;
-      color: #5865f2;
-    }
-
-    #inputBox {
-      display: flex;
-      padding: 10px;
-      background: #2b2d31;
-    }
-
-    #inputBox input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      outline: none;
-    }
-
-    #inputBox button {
-      margin-left: 10px;
-      padding: 10px 15px;
-      border: none;
-      background: #5865f2;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>
+button {
+  margin-left:10px;
+}
+</style>
 </head>
 
 <body>
 
-<!-- SERVERS -->
-<div id="servers">
-  <div class="server"></div>
-  <div class="server"></div>
-</div>
-
-<!-- SIDEBAR -->
 <div id="sidebar">
-
-  <div class="section-title">DIRECT MESSAGES</div>
-  <div class="item">User1</div>
-  <div class="item">User2</div>
-
-  <div class="section-title">CHANNELS</div>
-  <div class="item"># general</div>
-  <div class="item"># gaming</div>
-
+  <h3 id="userDisplay"></h3>
 </div>
 
-<!-- MAIN CHAT -->
-<div id="main">
-
-  <div id="header">
-    # general
-  </div>
+<div id="chat">
 
   <div id="messages"></div>
 
-  <div id="inputBox">
-    <input id="msgInput" placeholder="Message..." />
-    <button onclick="sendMsg()">Send</button>
+  <div id="input-area">
+    <input id="input">
+    <button onclick="send()">Send</button>
   </div>
 
 </div>
 
 <script>
 const username = localStorage.getItem("username");
-const ws = new WebSocket("wss://auralis-chat.onrender.com");
+const avatar = localStorage.getItem("avatar");
 
-ws.onmessage = (msg) => {
-  const data = JSON.parse(msg.data);
+document.getElementById("userDisplay").innerText = username;
 
-  if (data.type === "message") {
-    const messages = document.getElementById("messages");
+function send(){
+  const msg = document.getElementById("input").value;
 
-    messages.innerHTML += `
-      <div class="msg">
-        <span class="username">${data.username}:</span>
-        ${data.message}
-      </div>
-    `;
+  const div = document.createElement("div");
+  div.className = "message";
 
-    messages.scrollTop = messages.scrollHeight;
-  }
-};
+  div.innerHTML = `
+    <div class="avatar">
+      <img src="${avatar || 'https://via.placeholder.com/40'}">
+    </div>
+    <div>
+      <div class="username">${username}</div>
+      <div>${msg}</div>
+    </div>
+  `;
 
-function sendMsg() {
-  const input = document.getElementById("msgInput");
-
-  ws.send(JSON.stringify({
-    type: "message",
-    username: username,
-    message: input.value
-  }));
-
-  input.value = "";
+  document.getElementById("messages").appendChild(div);
+  document.getElementById("input").value = "";
 }
 </script>
 
