@@ -267,6 +267,56 @@ body{
 
 }
 
+.msg {
+  display:flex;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+/* LEFT (others) */
+.msg.other {
+  justify-content:flex-start;
+}
+
+/* RIGHT (you) */
+.msg.me {
+  justify-content:flex-end;
+}
+
+/* flip layout for sender */
+.msg.me .avatar {
+  order:2;
+}
+
+.msg.me .bubbleWrap {
+  order:1;
+  align-items:flex-end;
+}
+
+/* bubble container */
+.bubbleWrap {
+  display:flex;
+  flex-direction:column;
+}
+
+/* sender bubble */
+.msg.me .bubble {
+  background:linear-gradient(135deg,#5865f2,#9aa7ff);
+  color:white;
+}
+
+/* receiver bubble */
+.msg.other .bubble {
+  background:rgba(255,255,255,0.08);
+}
+
+/* username */
+.name {
+  font-size:11px;
+  color:#94a3b8;
+  margin-bottom:4px;
+}
+
 
 
 
@@ -388,18 +438,19 @@ db.collection("messages").orderBy("time")
     const msg = doc.data();
 
 
-    const el = document.createElement("div");
-    el.className = "msg";
+    const isMe = msg.user === username;
+
+const el = document.createElement("div");
+el.className = "msg " + (isMe ? "me" : "other");
 
 
-    el.innerHTML = `
-      <div class="avatar">${msg.user.charAt(0)}</div>
-      <div>
-        <div>${msg.user}</div>
-        <div class="bubble">${msg.text}</div>
-      </div>
-    `;
-
+   el.innerHTML = `
+  <div class="avatar">${msg.user.charAt(0)}</div>
+  <div class="bubbleWrap">
+    <div class="name">${msg.user}</div>
+    <div class="bubble">${msg.text}</div>
+  </div>
+`;
 
     messagesDiv.appendChild(el);
   });
