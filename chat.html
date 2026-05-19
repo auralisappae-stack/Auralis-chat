@@ -94,11 +94,47 @@ body{
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
 }
 .bubble{
+  max-width:70%; /* 👈 was 60% → too narrow */
+  min-width:120px; /* 👈 bigger base size */
+  
   padding:12px 16px;
   border-radius:18px;
-  background:rgba(255,255,255,0.08);
+
+  display:inline-block;
+  word-wrap:break-word;
+  line-height:1.4; /* 👈 better text spacing */
 }
 
+.bubbleWrap{
+  display:flex;
+  flex-direction:column;
+  max-width:75%; /* 👈 lets bubbles expand more */
+}
+
+.msg{
+  display:flex;
+  width:100%;
+  margin-bottom:6px; /* default gap */
+}
+
+.msg.grouped {
+  margin-bottom:4px; /* 👈 gives breathing space */
+}
+
+
+/* LEFT (others) */
+.bubble.other{
+  background:rgba(255,255,255,0.08);
+  margin-right:auto;
+  border-bottom-left-radius:6px;
+}
+
+/* RIGHT (you) */
+.bubble.me{
+  background:#5865f2;
+  margin-left:auto;
+  border-bottom-right-radius:6px;
+}
 
 /* INPUT BAR */
 #inputBar{
@@ -267,10 +303,10 @@ body{
 
 }
 
-.msg {
+.msg{
   display:flex;
-  gap:12px;
-  margin-bottom:22px;
+  width:100%;
+  margin-bottom:6px; /* 👈 smaller gap */
 }
 
 /* LEFT (others) */
@@ -310,11 +346,20 @@ body{
   background:rgba(255,255,255,0.08);
 }
 
+
+
 /* username */
 .name {
   font-size:11px;
   color:#94a3b8;
   margin-bottom:4px;
+}
+
+.timeSeparator{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  margin:15px 0;
 }
 
 
@@ -427,44 +472,58 @@ document.getElementById("msgInput").addEventListener("keydown", e=>{
 });
 
 
-/* LIVE */
 db.collection("messages").orderBy("time")
 .onSnapshot(snapshot=>{
   const messagesDiv = document.getElementById("messages");
+
+  /* ✅ clear safely */
   messagesDiv.innerHTML = "";
 
+  let lastUser = null;
+  let lastTime = null;
 
   snapshot.forEach(doc=>{
     const msg = doc.data();
 
+    const timeDiff = lastTime ? (msg.time - lastTime) : 0;
+    const isNewGroup = msg.user !== lastUser || timeDiff > 300000;
+    const isGrouped = msg.user === lastUser && timeDiff < 300000;
 
     const isMe = msg.user === username;
 
-const el = document.createElement("div");
-el.className = "msg " + (isMe ? "me" : "other");
+    /* time separator */
+    if (isNewGroup && lastTime) {
+      const timeEl = document.createElement("div");
+      timeEl.className = "timeSeparator";
+      timeEl.textContent = new Date(msg.time).toLocaleTimeString();
+      messagesDiv.appendChild(timeEl);
+    }
 
+    /* message wrapper */
+    const el = document.createElement("div");
+   el.className = "msg " + (isMe ? "me" : "other") + (isGrouped ? " grouped" : "");
 
-   el.innerHTML = `
-  <div class="avatar">${msg.user.charAt(0)}</div>
-  <div class="bubbleWrap">
-    <div class="name">${msg.user}</div>
-    <div class="bubble">${msg.text}</div>
-  </div>
-`;
+    /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
+    el.innerHTML = `
+      <div class="bubbleWrap">
+        <div class="bubble ${isMe ? "me" : "other"}">
+          ${msg.text}
+        </div>
+      </div>
+    `;
 
     messagesDiv.appendChild(el);
+
+    /* ✅ keep inside loop */
+    lastUser = msg.user;
+    lastTime = msg.time;
   });
 
-
- 
-setTimeout(() => {
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}, 100);
-}
-
-
-);
-
+  /* ✅ FORCE RENDER THEN SCROLL */
+  requestAnimationFrame(() => {
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  });
+});
 
 /* ================= EMOJI SYSTEM ================= */
 const input = document.getElementById("msgInput");
