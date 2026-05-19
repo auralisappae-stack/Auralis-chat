@@ -41,7 +41,8 @@ body{
   gap:14px;
   background:rgba(5,10,20,0.7);
 
-  height:100%;              /* ✅ important */
+  height:100%;
+  position:relative; /* ✅ important */
 }
 
 .server{
@@ -141,9 +142,23 @@ body{
 }
 
 #addServer{
-  margin-top:auto;
+  position:absolute;   /* ✅ key fix */
+  bottom:20px;         /* stick to bottom */
+  left:50%;
+  transform:translateX(-50%);
+  
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
   background:#1e293b;
-  flex-shrink:0;            /* ✅ prevents disappearing */
+  color:white;
+  cursor:pointer;
+
+  box-shadow:0 0 15px rgba(88,101,242,0.4);
 }
 
 
@@ -267,7 +282,11 @@ body{
 
 
 <div id="rail">
-  <div class="server active">A</div>
+  <div id="serversList">
+    <div class="server active">A</div>
+  </div>
+
+  <div id="addServer">+</div> <!-- ✅ MUST EXIST -->
 </div>
 
 
