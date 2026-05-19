@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Auralis Final</title>
 
 <style>
@@ -16,7 +17,7 @@ body{
   background:#020617;
 }
 
-/* ================= APP FRAME ================= */
+/* APP */
 #app{
   width:92%;
   height:90%;
@@ -25,12 +26,9 @@ body{
   background:rgba(10,15,30,0.6);
   backdrop-filter:blur(30px);
   border:1px solid rgba(255,255,255,0.08);
-  box-shadow:
-    0 0 100px rgba(88,101,242,0.2),
-    inset 0 0 40px rgba(255,255,255,0.03);
 }
 
-/* ================= ICON RAIL ================= */
+/* RAIL */
 #rail{
   width:85px;
   display:flex;
@@ -41,49 +39,23 @@ body{
   background:rgba(5,10,20,0.7);
 }
 .server{
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
   background:rgba(255,255,255,0.05);
-  cursor:pointer;
 }
 .server.active{
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
-  box-shadow:
-    0 0 25px #5865f2,
-    0 0 60px rgba(88,101,242,0.6);
-}
-#serversList{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  flex:1;
-}
-#addServer{
-  margin-top:auto;
-  background:#1e293b;
+  box-shadow:0 0 25px #5865f2;
 }
 
-/* ================= SIDEBAR ================= */
+/* SIDEBAR */
 #sidebar{
   width:270px;
   padding:28px;
   background:rgba(15,23,42,0.55);
 }
-.serverTitle{font-size:20px;font-weight:600;}
-.progress{margin-top:10px;height:6px;border-radius:10px;background:#0b0f1a;overflow:hidden;}
-.progress span{width:70%;height:100%;display:block;background:linear-gradient(90deg,#5865f2,#9aa7ff);}
-.section{margin-top:25px;font-size:11px;color:#7c8aa5;}
-.channel{margin-top:8px;padding:10px;border-radius:10px;color:#aab4d4;}
-.channel.active{
-  background:linear-gradient(90deg,rgba(88,101,242,0.3),transparent);
-  color:white;
-}
 
-/* ================= CHAT ================= */
+/* CHAT */
 #chat{
   flex:1;
   display:flex;
@@ -93,6 +65,7 @@ body{
     url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564");
   background-size:cover;
 }
+
 #chatHeader{
   padding:18px 25px;
   display:flex;
@@ -100,7 +73,7 @@ body{
   background:rgba(15,23,42,0.4);
 }
 
-/* ================= MESSAGES ================= */
+/* MESSAGES */
 #messages{flex:1;padding:30px;overflow-y:auto;}
 .msg{display:flex;gap:12px;margin-bottom:22px;}
 .avatar{
@@ -108,114 +81,78 @@ body{
   display:flex;align-items:center;justify-content:center;
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
 }
-.msgContent{display:flex;flex-direction:column;}
-.msgHeader{font-size:13px;margin-bottom:4px;}
-.username{font-weight:600;color:#60a5fa;}
-.time{color:#94a3b8;font-size:11px;}
 .bubble{
   padding:12px 16px;
   border-radius:18px;
   background:rgba(255,255,255,0.08);
 }
 
-/* INPUT */
+/* INPUT BAR */
 #inputBar{
   margin:20px;
-  padding:10px 14px;
+  padding:12px;
   border-radius:999px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   gap:12px;
-
   background:rgba(15,23,42,0.55);
-  backdrop-filter:blur(25px);
-
-  box-shadow:
-    0 0 30px rgba(88,101,242,0.25),
-    inset 0 0 20px rgba(255,255,255,0.03);
-
   position:relative;
 }
 
-/* input */
-#inputBar input{
-  flex:1;
-  background:none;
-  border:none;
-  color:white;
-  outline:none;
-  font-size:14px;
-}
-
-/* left + right containers */
-.leftActions, .rightActions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-/* icons */
 .iconBtn{
   width:36px;
   height:36px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:50%;
   cursor:pointer;
-  color:#94a3b8;
-  transition:0.2s;
+  opacity:0.8;
 }
+.iconBtn:hover{opacity:1;}
 
-.iconBtn:hover{
-  background:rgba(255,255,255,0.08);
-  color:white;
-}
-
-/* send button (glow like your image) */
-#sendBtn{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  border:none;
-  background:linear-gradient(135deg,#5865f2,#7c8cff);
-  color:white;
-  cursor:pointer;
-
-  box-shadow:
-    0 0 20px rgba(88,101,242,0.8),
-    0 0 40px rgba(88,101,242,0.4);
-}s
-#inputBar input{
+#msgInput{
   flex:1;
   background:none;
   border:none;
   color:white;
   outline:none;
 }
+
 #sendBtn{
-  width:48px;height:48px;border-radius:50%;
+  width:44px;height:44px;
+  border-radius:50%;
   border:none;
   background:#5865f2;
   color:white;
   cursor:pointer;
+  box-shadow:0 0 20px rgba(88,101,242,0.8);
 }
-#emojiBtn{
-  cursor:pointer;
-}
+
+/* EMOJI PICKER */
 #emojiPicker{
   position:absolute;
-  bottom:70px;
-  right:80px; /* 👈 moves it near emoji icon */
+  bottom:80px;
+  right:70px;
   background:#0f172a;
   padding:10px;
   border-radius:12px;
   display:none;
-  gap:8px;
+  max-width:260px;
+  flex-wrap:wrap;
+  gap:6px;
+  z-index:9999;
+}
+#emojiPicker.active{
+  display:flex;
 }
 #emojiPicker span{
   cursor:pointer;
+  font-size:20px;
+  padding:6px;
+  border-radius:6px;
+}
+#emojiPicker span:hover{
+  background:rgba(255,255,255,0.1);
 }
 </style>
 
@@ -228,52 +165,31 @@ body{
 
 <div id="app">
 
-  <div id="rail">
-    <div id="serversList">
-      <div class="server active">A</div>
-    </div>
-    <div id="addServer" class="server">+</div>
-  </div>
-
-  <div id="sidebar">
-    <div class="serverTitle">Auralis Hub</div>
-    <div class="progress"><span></span></div>
-    <div class="section">COMMUNITY</div>
-    <div class="channel active"># general</div>
-  </div>
-
-  <div id="chat">
-
-    <div id="chatHeader">
-      <div># general</div>
-      <div>🔍 📌 👥 ⋮</div>
-    </div>
-
-    <div id="messages"></div>
-
-   <div id="inputBar">
-
-  <div class="leftActions">
-    <div class="iconBtn">＋</div>
-  </div>
-
-  <input id="msgInput" placeholder="Message #general">
-
-  <div class="rightActions">
-    <div id="emojiBtn" class="iconBtn">😊</div>
-    <button id="sendBtn">➤</button>
-  </div>
-
-  <div id="emojiPicker"></div>
-
+<div id="rail">
+  <div class="server active">A</div>
 </div>
 
-      <!-- emoji picker -->
-      <div id="emojiPicker"></div>
-    </div>
+<div id="sidebar">
+  <div>Auralis Hub</div>
+</div>
 
+<div id="chat">
+
+  <div id="chatHeader">
+    <div># general</div>
   </div>
 
+  <div id="messages"></div>
+
+  <div id="inputBar">
+    <div class="iconBtn">＋</div>
+    <input id="msgInput" placeholder="Message #general">
+    <div id="emojiBtn" class="iconBtn">😊</div>
+    <button id="sendBtn">➤</button>
+    <div id="emojiPicker"></div>
+  </div>
+
+</div>
 </div>
 
 <script>
@@ -303,15 +219,18 @@ document.getElementById("sendBtn").onclick = () => {
   input.value = "";
 };
 
-/* LIVE CHAT */
-db.collection("messages")
-.orderBy("time")
-.onSnapshot(snapshot => {
+/* ENTER KEY */
+document.getElementById("msgInput").addEventListener("keydown", e=>{
+  if(e.key === "Enter") document.getElementById("sendBtn").click();
+});
 
+/* LIVE */
+db.collection("messages").orderBy("time")
+.onSnapshot(snapshot=>{
   const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
 
-  snapshot.docs.forEach(doc => {
+  snapshot.forEach(doc=>{
     const msg = doc.data();
 
     const el = document.createElement("div");
@@ -319,11 +238,8 @@ db.collection("messages")
 
     el.innerHTML = `
       <div class="avatar">${msg.user.charAt(0)}</div>
-      <div class="msgContent">
-        <div class="msgHeader">
-          <span class="username">${msg.user}</span>
-          <span class="time">${new Date(msg.time).toLocaleTimeString()}</span>
-        </div>
+      <div>
+        <div>${msg.user}</div>
         <div class="bubble">${msg.text}</div>
       </div>
     `;
@@ -334,25 +250,43 @@ db.collection("messages")
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
-/* 😎 EMOJI SYSTEM */
-const emojiBtn = document.getElementById("emojiBtn");
-const picker = document.getElementById("emojiPicker");
+/* ================= EMOJI SYSTEM ================= */
+
 const input = document.getElementById("msgInput");
+const picker = document.getElementById("emojiPicker");
+const emojiBtn = document.getElementById("emojiBtn");
 
-const emojis = ["😀","😂","😍","🔥","✨","😎","😭","👍","💀","🚀"];
+/* TOGGLE */
+emojiBtn.onclick = () => {
+  picker.style.display = picker.style.display === "block" ? "none" : "flex";
+};
 
-emojis.forEach(e => {
+/* EMOJIS */
+const emojis = [
+  "😀","😁","😂","🤣","😎","😍","🥶","🔥","💀","✨",
+  "🚀","👍","❤️","👏","😈","😇","😜","🤖","👀","💎",
+  "🎉","🥳","😡","😢","🤯","😴","🤩","😏","🙌","💯"
+];
+
+/* RENDER */
+emojis.forEach(e=>{
   const span = document.createElement("span");
-  span.innerText = e;
-  span.onclick = () => {
+  span.textContent = e;
+
+  span.onclick = ()=>{
     input.value += e;
+    input.focus();
   };
+
   picker.appendChild(span);
 });
 
-emojiBtn.onclick = () => {
-  picker.style.display = picker.style.display === "flex" ? "none" : "flex";
-};
+/* CLOSE OUTSIDE */
+document.addEventListener("click", (e)=>{
+  if(!picker.contains(e.target) && e.target !== emojiBtn){
+    picker.classList.remove("active");
+  }
+});
 </script>
 
 </body>
