@@ -52,6 +52,9 @@ body{
 }
 .server.active{
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
+  box-shadow:
+    0 0 25px #5865f2,
+    0 0 60px rgba(88,101,242,0.6);
 }
 #serversList{
   display:flex;
@@ -62,13 +65,6 @@ body{
 #addServer{
   margin-top:auto;
   background:#1e293b;
-}
-
-.server.active{
-  background:linear-gradient(135deg,#5865f2,#9aa7ff);
-  box-shadow:
-    0 0 25px #5865f2,
-    0 0 60px rgba(88,101,242,0.6);
 }
 
 /* ================= SIDEBAR ================= */
@@ -125,12 +121,72 @@ body{
 /* INPUT */
 #inputBar{
   margin:20px;
-  padding:12px;
+  padding:10px 14px;
   border-radius:999px;
   display:flex;
+  align-items:center;
+  justify-content:space-between;
   gap:12px;
+
   background:rgba(15,23,42,0.55);
+  backdrop-filter:blur(25px);
+
+  box-shadow:
+    0 0 30px rgba(88,101,242,0.25),
+    inset 0 0 20px rgba(255,255,255,0.03);
+
+  position:relative;
 }
+
+/* input */
+#inputBar input{
+  flex:1;
+  background:none;
+  border:none;
+  color:white;
+  outline:none;
+  font-size:14px;
+}
+
+/* left + right containers */
+.leftActions, .rightActions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* icons */
+.iconBtn{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  cursor:pointer;
+  color:#94a3b8;
+  transition:0.2s;
+}
+
+.iconBtn:hover{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+/* send button (glow like your image) */
+#sendBtn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,#5865f2,#7c8cff);
+  color:white;
+  cursor:pointer;
+
+  box-shadow:
+    0 0 20px rgba(88,101,242,0.8),
+    0 0 40px rgba(88,101,242,0.4);
+}s
 #inputBar input{
   flex:1;
   background:none;
@@ -145,9 +201,24 @@ body{
   color:white;
   cursor:pointer;
 }
+#emojiBtn{
+  cursor:pointer;
+}
+#emojiPicker{
+  position:absolute;
+  bottom:60px;
+  left:10px;
+  background:#0f172a;
+  padding:10px;
+  border-radius:12px;
+  display:none;
+  gap:8px;
+}
+#emojiPicker span{
+  cursor:pointer;
+}
 </style>
 
-<!-- ✅ FIREBASE (COMPAT VERSION) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -180,9 +251,25 @@ body{
 
     <div id="messages"></div>
 
-    <div id="inputBar">
-      <input id="msgInput" placeholder="Message #general">
-      <button id="sendBtn">➤</button>
+   <div id="inputBar">
+
+  <div class="leftActions">
+    <div class="iconBtn">＋</div>
+  </div>
+
+  <input id="msgInput" placeholder="Message #general">
+
+  <div class="rightActions">
+    <div id="emojiBtn" class="iconBtn">😊</div>
+    <button id="sendBtn">➤</button>
+  </div>
+
+  <div id="emojiPicker"></div>
+
+</div>
+
+      <!-- emoji picker -->
+      <div id="emojiPicker"></div>
     </div>
 
   </div>
@@ -216,14 +303,13 @@ document.getElementById("sendBtn").onclick = () => {
   input.value = "";
 };
 
-/* LIVE LISTENER */
+/* LIVE CHAT */
 db.collection("messages")
 .orderBy("time")
 .onSnapshot(snapshot => {
 
   const messagesDiv = document.getElementById("messages");
-
-  messagesDiv.innerHTML = ""; // clear
+  messagesDiv.innerHTML = "";
 
   snapshot.docs.forEach(doc => {
     const msg = doc.data();
@@ -232,10 +318,10 @@ db.collection("messages")
     el.className = "msg";
 
     el.innerHTML = `
-      <div class="avatar blue">${msg.user.charAt(0)}</div>
+      <div class="avatar">${msg.user.charAt(0)}</div>
       <div class="msgContent">
         <div class="msgHeader">
-          <span class="username blue">${msg.user}</span>
+          <span class="username">${msg.user}</span>
           <span class="time">${new Date(msg.time).toLocaleTimeString()}</span>
         </div>
         <div class="bubble">${msg.text}</div>
@@ -247,6 +333,26 @@ db.collection("messages")
 
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
+
+/* 😎 EMOJI SYSTEM */
+const emojiBtn = document.getElementById("emojiBtn");
+const picker = document.getElementById("emojiPicker");
+const input = document.getElementById("msgInput");
+
+const emojis = ["😀","😂","😍","🔥","✨","😎","😭","👍","💀","🚀"];
+
+emojis.forEach(e => {
+  const span = document.createElement("span");
+  span.innerText = e;
+  span.onclick = () => {
+    input.value += e;
+  };
+  picker.appendChild(span);
+});
+
+emojiBtn.onclick = () => {
+  picker.style.display = picker.style.display === "flex" ? "none" : "flex";
+};
 </script>
 
 </body>
