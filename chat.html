@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Auralis Final</title>
 
+
 <style>
 *{box-sizing:border-box;}
 body{
@@ -17,6 +18,7 @@ body{
   background:#020617;
 }
 
+
 /* APP */
 #app{
   width:92%;
@@ -28,6 +30,7 @@ body{
   border:1px solid rgba(255,255,255,0.08);
 }
 
+
 /* RAIL */
 #rail{
   width:85px;
@@ -37,7 +40,10 @@ body{
   padding:20px 10px;
   gap:14px;
   background:rgba(5,10,20,0.7);
+
+  height:100%;              /* ✅ important */
 }
+
 .server{
   width:52px;height:52px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
@@ -48,12 +54,15 @@ body{
   box-shadow:0 0 25px #5865f2;
 }
 
+
 /* SIDEBAR */
 #sidebar{
   width:270px;
   padding:28px;
   background:rgba(15,23,42,0.55);
+  overflow: visible;
 }
+
 
 /* CHAT */
 #chat{
@@ -66,12 +75,14 @@ body{
   background-size:cover;
 }
 
+
 #chatHeader{
   padding:18px 25px;
   display:flex;
   justify-content:space-between;
   background:rgba(15,23,42,0.4);
 }
+
 
 /* MESSAGES */
 #messages{flex:1;padding:30px;overflow-y:auto;}
@@ -87,6 +98,7 @@ body{
   background:rgba(255,255,255,0.08);
 }
 
+
 /* INPUT BAR */
 #inputBar{
   margin:20px;
@@ -99,6 +111,7 @@ body{
   position:relative;
 }
 
+
 .iconBtn{
   width:36px;
   height:36px;
@@ -110,6 +123,7 @@ body{
 }
 .iconBtn:hover{opacity:1;}
 
+
 #msgInput{
   flex:1;
   background:none;
@@ -117,6 +131,21 @@ body{
   color:white;
   outline:none;
 }
+
+#serversList{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  flex:1;
+  overflow-y:auto;          /* ✅ prevents pushing + out */
+}
+
+#addServer{
+  margin-top:auto;
+  background:#1e293b;
+  flex-shrink:0;            /* ✅ prevents disappearing */
+}
+
 
 #sendBtn{
   width:44px;height:44px;
@@ -127,6 +156,7 @@ body{
   cursor:pointer;
   box-shadow:0 0 20px rgba(88,101,242,0.8);
 }
+
 
 /* EMOJI PICKER */
 #emojiPicker{
@@ -142,9 +172,11 @@ body{
   flex-direction:column;
 }
 
+
 #emojiPicker.active{
   display:flex;
 }
+
 
 #emojiTabs{
   display:flex;
@@ -154,15 +186,18 @@ body{
   padding-bottom:6px;
 }
 
+
 #emojiTabs span{
   cursor:pointer;
   font-size:18px;
   opacity:0.6;
 }
 
+
 #emojiTabs span:hover{
   opacity:1;
 }
+
 
 #emojiList{
   display:flex;
@@ -172,6 +207,7 @@ body{
   overflow-y:auto;
 }
 
+
 #emojiList span{
   cursor:pointer;
   font-size:20px;
@@ -179,35 +215,77 @@ body{
   border-radius:6px;
 }
 
+
 #emojiList span:hover{
   background:rgba(255,255,255,0.1);
 }
+
+
+/* 🔥 HIDE UGLY SCROLLBAR */
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#messages::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+}
+
+/* Hover effect */
+#messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+/* Firefox */
+#messages {
+  flex:1;
+  padding:30px;
+  overflow-y:auto;
+}
+
+
+
+
 </style>
+
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+
 </head>
+
 
 <body>
 
+
 <div id="app">
+
 
 <div id="rail">
   <div class="server active">A</div>
 </div>
 
+
 <div id="sidebar">
   <div>Auralis Hub</div>
 </div>
 
+
 <div id="chat">
+
 
   <div id="chatHeader">
     <div># general</div>
   </div>
 
+
   <div id="messages"></div>
+
 
   <div id="inputBar">
     <div class="iconBtn">＋</div>
@@ -216,6 +294,7 @@ body{
     <button id="sendBtn">➤</button>
     <div id="emojiPicker">
 
+
   <div id="emojiTabs">
     <span data-cat="faces">😀</span>
     <span data-cat="animals">🐱</span>
@@ -223,13 +302,17 @@ body{
     <span data-cat="flags">🏳️</span>
   </div>
 
+
   <div id="emojiList"></div>
+
 
 </div>
   </div>
 
+
 </div>
 </div>
+
 
 <script>
 const firebaseConfig = {
@@ -238,10 +321,13 @@ const firebaseConfig = {
   projectId: "auralis-web-app",
 };
 
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+
 const username = localStorage.getItem("username") || "User";
+
 
 /* SEND */
 document.getElementById("sendBtn").onclick = () => {
@@ -249,19 +335,23 @@ document.getElementById("sendBtn").onclick = () => {
   const text = input.value.trim();
   if (!text) return;
 
+
   db.collection("messages").add({
     user: username,
     text: text,
     time: Date.now()
   });
 
+
   input.value = "";
 };
+
 
 /* ENTER KEY */
 document.getElementById("msgInput").addEventListener("keydown", e=>{
   if(e.key === "Enter") document.getElementById("sendBtn").click();
 });
+
 
 /* LIVE */
 db.collection("messages").orderBy("time")
@@ -269,11 +359,14 @@ db.collection("messages").orderBy("time")
   const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
 
+
   snapshot.forEach(doc=>{
     const msg = doc.data();
 
+
     const el = document.createElement("div");
     el.className = "msg";
+
 
     el.innerHTML = `
       <div class="avatar">${msg.user.charAt(0)}</div>
@@ -283,11 +376,20 @@ db.collection("messages").orderBy("time")
       </div>
     `;
 
+
     messagesDiv.appendChild(el);
   });
 
+
+  const isNearBottom =
+  messagesDiv.scrollHeight - messagesDiv.scrollTop <= messagesDiv.clientHeight + 100;
+
+if (isNearBottom) {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
 });
+
 
 /* ================= EMOJI SYSTEM ================= */
 const input = document.getElementById("msgInput");
@@ -295,10 +397,12 @@ const picker = document.getElementById("emojiPicker");
 const emojiBtn = document.getElementById("emojiBtn");
 const emojiList = document.getElementById("emojiList");
 
+
 /* TOGGLE */
 emojiBtn.onclick = () => {
   picker.classList.toggle("active");
 };
+
 
 /* EMOJI CATEGORIES */
 const emojiData = {
@@ -308,25 +412,31 @@ const emojiData = {
   flags: ["🏳️","🏴","🇦🇪","🇺🇸","🇬🇧","🇯🇵","🇫🇷"]
 };
 
+
 /* RENDER FUNCTION */
 function loadCategory(cat){
   emojiList.innerHTML = "";
 
+
   emojiData[cat].forEach(e=>{
     const span = document.createElement("span");
     span.textContent = e;
+
 
     span.onclick = ()=>{
       input.value += e;
       input.focus();
     };
 
+
     emojiList.appendChild(span);
   });
 }
 
+
 /* DEFAULT LOAD */
 loadCategory("faces");
+
 
 /* TAB SWITCH */
 document.querySelectorAll("#emojiTabs span").forEach(tab=>{
@@ -334,6 +444,7 @@ document.querySelectorAll("#emojiTabs span").forEach(tab=>{
     loadCategory(tab.dataset.cat);
   };
 });
+
 
 /* CLOSE OUTSIDE */
 document.addEventListener("click", (e)=>{
@@ -343,5 +454,9 @@ document.addEventListener("click", (e)=>{
 });
 </script>
 
+
 </body>
 </html>
+
+
+
