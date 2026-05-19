@@ -190,28 +190,22 @@ body{
 </div>
 
 <script>
-
-/* ✅ FIREBASE CONFIG (FIXED) */
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
-  storageBucket: "auralis-web-app.appspot.com",
-  messagingSenderId: "817840303664",
-  appId: "1:817840303664:web:cc89d235f2ce1adcb307f5"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* USER */
 const username = localStorage.getItem("username") || "User";
 
-/* SEND MESSAGE */
+/* SEND */
 document.getElementById("sendBtn").onclick = () => {
   const input = document.getElementById("msgInput");
   const text = input.value.trim();
-  if(!text) return;
+  if (!text) return;
 
   db.collection("messages").add({
     user: username,
@@ -222,26 +216,27 @@ document.getElementById("sendBtn").onclick = () => {
   input.value = "";
 };
 
-/* LIVE CHAT */
+/* LIVE LISTENER */
 db.collection("messages")
 .orderBy("time")
 .onSnapshot(snapshot => {
 
   const messagesDiv = document.getElementById("messages");
-  messagesDiv.innerHTML = "";
 
-  snapshot.forEach(doc => {
+  messagesDiv.innerHTML = ""; // clear
+
+  snapshot.docs.forEach(doc => {
     const msg = doc.data();
 
     const el = document.createElement("div");
     el.className = "msg";
 
     el.innerHTML = `
-      <div class="avatar">${msg.user[0]}</div>
+      <div class="avatar blue">${msg.user.charAt(0)}</div>
       <div class="msgContent">
         <div class="msgHeader">
-          <span class="username">${msg.user}</span>
-          <span class="time">now</span>
+          <span class="username blue">${msg.user}</span>
+          <span class="time">${new Date(msg.time).toLocaleTimeString()}</span>
         </div>
         <div class="bubble">${msg.text}</div>
       </div>
@@ -252,7 +247,6 @@ db.collection("messages")
 
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
-
 </script>
 
 </body>
