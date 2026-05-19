@@ -405,14 +405,14 @@ db.collection("messages").orderBy("time")
   });
 
 
-  const isNearBottom =
-  messagesDiv.scrollHeight - messagesDiv.scrollTop <= messagesDiv.clientHeight + 100;
-
-if (isNearBottom) {
+ 
+setTimeout(() => {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}, 100);
 }
 
-});
+
+);
 
 
 /* ================= EMOJI SYSTEM ================= */
