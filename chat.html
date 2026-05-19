@@ -4,7 +4,6 @@
 <title>Auralis Final</title>
 
 <style>
-/* (✅ ALL YOUR CSS — UNCHANGED) */
 *{box-sizing:border-box;}
 body{
   margin:0;
@@ -16,6 +15,7 @@ body{
   color:white;
   background:#020617;
 }
+
 /* ================= APP FRAME ================= */
 #app{
   width:92%;
@@ -29,6 +29,7 @@ body{
     0 0 100px rgba(88,101,242,0.2),
     inset 0 0 40px rgba(255,255,255,0.03);
 }
+
 /* ================= ICON RAIL ================= */
 #rail{
   width:85px;
@@ -38,7 +39,6 @@ body{
   padding:20px 10px;
   gap:14px;
   background:rgba(5,10,20,0.7);
-  backdrop-filter:blur(20px);
 }
 .server{
   width:52px;
@@ -49,15 +49,9 @@ body{
   justify-content:center;
   background:rgba(255,255,255,0.05);
   cursor:pointer;
-  transition:0.3s;
-}
-.server:hover{
-  transform:translateY(-2px) scale(1.05);
-  box-shadow:0 0 20px rgba(88,101,242,0.7);
 }
 .server.active{
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
-  box-shadow:0 0 25px #5865f2;
 }
 #serversList{
   display:flex;
@@ -69,82 +63,91 @@ body{
   margin-top:auto;
   background:#1e293b;
 }
+
+.server.active{
+  background:linear-gradient(135deg,#5865f2,#9aa7ff);
+  box-shadow:
+    0 0 25px #5865f2,
+    0 0 60px rgba(88,101,242,0.6);
+}
+
 /* ================= SIDEBAR ================= */
 #sidebar{
   width:270px;
   padding:28px;
   background:rgba(15,23,42,0.55);
-  backdrop-filter:blur(25px);
 }
 .serverTitle{font-size:20px;font-weight:600;}
 .progress{margin-top:10px;height:6px;border-radius:10px;background:#0b0f1a;overflow:hidden;}
 .progress span{width:70%;height:100%;display:block;background:linear-gradient(90deg,#5865f2,#9aa7ff);}
 .section{margin-top:25px;font-size:11px;color:#7c8aa5;}
-.channel{margin-top:8px;padding:10px;border-radius:10px;color:#aab4d4;cursor:pointer;}
+.channel{margin-top:8px;padding:10px;border-radius:10px;color:#aab4d4;}
 .channel.active{
   background:linear-gradient(90deg,rgba(88,101,242,0.3),transparent);
   color:white;
-  box-shadow:inset 3px 0 #5865f2;
 }
+
 /* ================= CHAT ================= */
 #chat{
   flex:1;
   display:flex;
   flex-direction:column;
-  position:relative;
   background:
     linear-gradient(rgba(2,6,23,0.7), rgba(2,6,23,0.9)),
-    radial-gradient(circle at 80% 50%, rgba(88,101,242,0.3), transparent 60%),
     url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564");
   background-size:cover;
-  background-position:center;
 }
 #chatHeader{
   padding:18px 25px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
   background:rgba(15,23,42,0.4);
-  backdrop-filter:blur(15px);
 }
+
+/* ================= MESSAGES ================= */
 #messages{flex:1;padding:30px;overflow-y:auto;}
 .msg{display:flex;gap:12px;margin-bottom:22px;}
 .avatar{
   width:42px;height:42px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-weight:bold;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#5865f2,#9aa7ff);
 }
-.avatar.blue{background:linear-gradient(135deg,#5865f2,#9aa7ff);}
 .msgContent{display:flex;flex-direction:column;}
 .msgHeader{font-size:13px;margin-bottom:4px;}
-.username{font-weight:600;margin-right:8px;}
-.username.blue{color:#60a5fa;}
+.username{font-weight:600;color:#60a5fa;}
 .time{color:#94a3b8;font-size:11px;}
 .bubble{
-  padding:12px 16px;border-radius:18px;
+  padding:12px 16px;
+  border-radius:18px;
   background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.08);
-  max-width:420px;
 }
+
 /* INPUT */
 #inputBar{
-  margin:20px;padding:12px;border-radius:999px;
-  display:flex;align-items:center;gap:12px;
+  margin:20px;
+  padding:12px;
+  border-radius:999px;
+  display:flex;
+  gap:12px;
   background:rgba(15,23,42,0.55);
-  backdrop-filter:blur(25px);
 }
 #inputBar input{
-  flex:1;background:none;border:none;color:white;outline:none;
+  flex:1;
+  background:none;
+  border:none;
+  color:white;
+  outline:none;
 }
 #sendBtn{
   width:48px;height:48px;border-radius:50%;
   border:none;
-  background:linear-gradient(135deg,#5865f2,#9aa7ff);
-  color:white;cursor:pointer;
+  background:#5865f2;
+  color:white;
+  cursor:pointer;
 }
 </style>
 
-<!-- 🔥 FIREBASE -->
+<!-- ✅ FIREBASE (COMPAT VERSION) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -157,7 +160,6 @@ body{
   <div id="rail">
     <div id="serversList">
       <div class="server active">A</div>
-      <div class="server">T</div>
     </div>
     <div id="addServer" class="server">+</div>
   </div>
@@ -167,7 +169,6 @@ body{
     <div class="progress"><span></span></div>
     <div class="section">COMMUNITY</div>
     <div class="channel active"># general</div>
-    <div class="channel"># random</div>
   </div>
 
   <div id="chat">
@@ -180,7 +181,6 @@ body{
     <div id="messages"></div>
 
     <div id="inputBar">
-      <div>＋</div>
       <input id="msgInput" placeholder="Message #general">
       <button id="sendBtn">➤</button>
     </div>
@@ -191,11 +191,14 @@ body{
 
 <script>
 
-/* 🔥 FIREBASE CONFIG */
+/* ✅ FIREBASE CONFIG (FIXED) */
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
+  apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
+  storageBucket: "auralis-web-app.appspot.com",
+  messagingSenderId: "817840303664",
+  appId: "1:817840303664:web:cc89d235f2ce1adcb307f5"
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -205,9 +208,7 @@ const db = firebase.firestore();
 const username = localStorage.getItem("username") || "User";
 
 /* SEND MESSAGE */
-document.getElementById("sendBtn").onclick = sendMessage;
-
-function sendMessage(){
+document.getElementById("sendBtn").onclick = () => {
   const input = document.getElementById("msgInput");
   const text = input.value.trim();
   if(!text) return;
@@ -219,7 +220,7 @@ function sendMessage(){
   });
 
   input.value = "";
-}
+};
 
 /* LIVE CHAT */
 db.collection("messages")
@@ -236,10 +237,10 @@ db.collection("messages")
     el.className = "msg";
 
     el.innerHTML = `
-      <div class="avatar blue">${msg.user[0]}</div>
+      <div class="avatar">${msg.user[0]}</div>
       <div class="msgContent">
         <div class="msgHeader">
-          <span class="username blue">${msg.user}</span>
+          <span class="username">${msg.user}</span>
           <span class="time">now</span>
         </div>
         <div class="bubble">${msg.text}</div>
@@ -250,7 +251,6 @@ db.collection("messages")
   });
 
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
 });
 
 </script>
