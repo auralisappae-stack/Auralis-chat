@@ -135,23 +135,51 @@ body{
   right:70px;
   background:#0f172a;
   padding:10px;
-  border-radius:12px;
+  border-radius:16px;
   display:none;
-  max-width:260px;
-  flex-wrap:wrap;
-  gap:6px;
+  width:260px;
   z-index:9999;
+  flex-direction:column;
 }
+
 #emojiPicker.active{
   display:flex;
 }
-#emojiPicker span{
+
+#emojiTabs{
+  display:flex;
+  justify-content:space-around;
+  margin-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  padding-bottom:6px;
+}
+
+#emojiTabs span{
+  cursor:pointer;
+  font-size:18px;
+  opacity:0.6;
+}
+
+#emojiTabs span:hover{
+  opacity:1;
+}
+
+#emojiList{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  max-height:180px;
+  overflow-y:auto;
+}
+
+#emojiList span{
   cursor:pointer;
   font-size:20px;
   padding:6px;
   border-radius:6px;
 }
-#emojiPicker span:hover{
+
+#emojiList span:hover{
   background:rgba(255,255,255,0.1);
 }
 </style>
@@ -186,7 +214,18 @@ body{
     <input id="msgInput" placeholder="Message #general">
     <div id="emojiBtn" class="iconBtn">😊</div>
     <button id="sendBtn">➤</button>
-    <div id="emojiPicker"></div>
+    <div id="emojiPicker">
+
+  <div id="emojiTabs">
+    <span data-cat="faces">😀</span>
+    <span data-cat="animals">🐱</span>
+    <span data-cat="symbols">🔥</span>
+    <span data-cat="flags">🏳️</span>
+  </div>
+
+  <div id="emojiList"></div>
+
+</div>
   </div>
 
 </div>
@@ -251,34 +290,49 @@ db.collection("messages").orderBy("time")
 });
 
 /* ================= EMOJI SYSTEM ================= */
-
 const input = document.getElementById("msgInput");
 const picker = document.getElementById("emojiPicker");
 const emojiBtn = document.getElementById("emojiBtn");
+const emojiList = document.getElementById("emojiList");
 
 /* TOGGLE */
 emojiBtn.onclick = () => {
-  picker.style.display = picker.style.display === "block" ? "none" : "flex";
+  picker.classList.toggle("active");
 };
 
-/* EMOJIS */
-const emojis = [
-  "😀","😁","😂","🤣","😎","😍","🥶","🔥","💀","✨",
-  "🚀","👍","❤️","👏","😈","😇","😜","🤖","👀","💎",
-  "🎉","🥳","😡","😢","🤯","😴","🤩","😏","🙌","💯"
-];
+/* EMOJI CATEGORIES */
+const emojiData = {
+  faces: ["😀","😁","😂","🤣","😎","😍","😡","😢","😴","🤯","🥳"],
+  animals: ["🐶","🐱","🦁","🐯","🐸","🐼","🐵","🦊","🐨"],
+  symbols: ["🔥","✨","💀","💎","🚀","❤️","💯","⚡","⭐"],
+  flags: ["🏳️","🏴","🇦🇪","🇺🇸","🇬🇧","🇯🇵","🇫🇷"]
+};
 
-/* RENDER */
-emojis.forEach(e=>{
-  const span = document.createElement("span");
-  span.textContent = e;
+/* RENDER FUNCTION */
+function loadCategory(cat){
+  emojiList.innerHTML = "";
 
-  span.onclick = ()=>{
-    input.value += e;
-    input.focus();
+  emojiData[cat].forEach(e=>{
+    const span = document.createElement("span");
+    span.textContent = e;
+
+    span.onclick = ()=>{
+      input.value += e;
+      input.focus();
+    };
+
+    emojiList.appendChild(span);
+  });
+}
+
+/* DEFAULT LOAD */
+loadCategory("faces");
+
+/* TAB SWITCH */
+document.querySelectorAll("#emojiTabs span").forEach(tab=>{
+  tab.onclick = ()=>{
+    loadCategory(tab.dataset.cat);
   };
-
-  picker.appendChild(span);
 });
 
 /* CLOSE OUTSIDE */
