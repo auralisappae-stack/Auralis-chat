@@ -1053,7 +1053,7 @@ const nameInput = document.getElementById("nameInput");
 nameInput.value = username;
 
 /* update name */
-nameInput.addEventListener("input", () => {
+nameInput.addEventListener("change", () => {
   const newName = nameInput.value.trim();
   if (!newName) return;
 
