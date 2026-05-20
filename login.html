@@ -27,21 +27,25 @@ body {
   width: 280px;
   padding: 30px;
   border-radius: 20px;
+
+  display: flex;              /* 🔥 add this */
+  flex-direction: column;     /* 🔥 stack items */
+  align-items: center;        /* 🔥 CENTER everything */
+
   text-align: center;
 
   background: rgba(15, 17, 25, 0.75);
   backdrop-filter: blur(20px);
-
   border: 1px solid rgba(255,255,255,0.08);
 
-  box-shadow: 
+  box-shadow:
     0 0 40px rgba(88, 101, 242, 0.15),
     0 0 80px rgba(88, 101, 242, 0.05);
 }
 
 /* INPUT */
 input {
-  width:100%;
+  width:90%;
   padding:10px;
   margin:8px 0;
   border:none;
@@ -103,10 +107,33 @@ button:hover {
   display:none;
   text-align:left;
 }
+
+.loginContainer{
+  height:100vh;
+  display:flex;
+  align-items:center;     /* vertical center */
+  justify-content:center; /* horizontal center */
+}
+
+.loginBox{
+  width:300px;
+  padding:30px;
+  border-radius:16px;
+
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
 </style>
 </head>
 
 <body>
+
+
 
 <div id="box">
 
