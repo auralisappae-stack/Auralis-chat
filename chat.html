@@ -1290,6 +1290,40 @@ Creates the moving typing dots
   transform: translateX(20px);
 }
 
+.colorRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* color box */
+#colorPicker{
+  width:50px;
+  height:40px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:none;
+}
+
+/* hex input */
+#colorHex{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#020617;
+  color:white;
+}
+
+/* note text */
+.colorNote{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:6px;
+}
+
 </style>
 
 
@@ -1474,7 +1508,17 @@ Move this above input bar later for better UX
 
   <div class="section">
     <label>Bubble Color</label>
-    <input type="color" id="colorPicker">
+    <div class="colorRow">
+
+  <input type="color" id="colorPicker">
+
+  <input type="text" id="colorHex" placeholder="#5865f2">
+
+</div>
+
+<div class="colorNote">
+  Customize your message bubble
+</div>
   </div>
 
 </div>
@@ -1526,19 +1570,37 @@ const firebaseConfig = {
 
 
 
+
+
+
+
 const colorPicker = document.getElementById("colorPicker");
+const colorHex = document.getElementById("colorHex");
 
-
-
-
+/* when picking color */
 colorPicker.addEventListener("input", (e)=>{
   const color = e.target.value;
 
-
+  colorHex.value = color; // sync text
 
   db.collection("users").doc(username).set({
     bubbleColor: color
   });
+});
+
+/* when typing hex */
+colorHex.addEventListener("input", ()=>{
+  let value = colorHex.value;
+
+  if(!value.startsWith("#")) value = "#" + value;
+
+  if(/^#[0-9A-Fa-f]{6}$/.test(value)){
+    colorPicker.value = value;
+
+    db.collection("users").doc(username).set({
+      bubbleColor: value
+    });
+  }
 });
 
 
@@ -1569,7 +1631,7 @@ const confirmBtn = document.getElementById("confirmName");
 
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
-const closeSettings = document.getElementById("closeSettings");
+
 
 
 
@@ -2094,10 +2156,7 @@ settingsBtn.onclick = () => {
 };
 
 
-/* CLOSE */
-closeSettings.onclick = () => {
-  settingsPanel.classList.remove("active");
-};
+
 
 
 document.getElementById("closeSettingsTop").onclick = () => {
