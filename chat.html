@@ -458,13 +458,17 @@ body{
 /* ================= TYPING INDICATOR ================= */
 
 .typingBox{
-  height:20px;
-  padding:0 25px;
+  padding:6px 25px;
+  font-size:12px;
+  color:#94a3b8;
+
+  position:sticky;   /* ✅ KEY FIX */
+  bottom:0;          /* sticks above input */
+  background:transparent;
+
   display:flex;
   align-items:center;
   gap:6px;
-  font-size:12px;
-  color:#94a3b8;
 }
 
 /* dots container */
@@ -472,6 +476,7 @@ body{
   display:flex;
   gap:4px;
   opacity:0; /* NOTE: hidden until someone types */
+  transition: opacity 0.2s ease; /* smooth appear */
 }
 
 /* each dot */
@@ -1121,6 +1126,7 @@ setTimeout(() => {
 
       typingText.textContent = typingUsers.join(", ") + " is typing";
       dots.style.opacity = "1";
+      dots.style.display = "flex"; /* force visible */
 
     } else {
 
