@@ -726,6 +726,46 @@ Creates the moving typing dots
   right:0; /* slide in */
 }
 
+#settingsPanel h2{
+  margin-bottom:20px;
+}
+
+#settingsPanel label{
+  font-size:13px;
+  color:#94a3b8;
+  margin-top:15px;
+  display:block;
+}
+
+#settingsPanel input[type="text"],
+#settingsPanel input[type="color"]{
+  width:100%;
+  margin-top:6px;
+  padding:8px;
+  border-radius:8px;
+  border:none;
+  background:#020617;
+  color:white;
+}
+
+.settingRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+}
+
+#settingsPanel button{
+  margin-top:15px;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#1e293b;
+  color:white;
+  cursor:pointer;
+}
+
 
 
 </style>
@@ -877,14 +917,7 @@ Move this above input bar later for better UX
 
 
 
-      <input type="color" id="colorPicker"
-style="width:36px;height:36px;border:none;background:none;cursor:pointer;">
-
-
-
-
-
-
+    
 
 
   <div id="emojiTabs">
@@ -932,6 +965,33 @@ style="width:36px;height:36px;border:none;background:none;cursor:pointer;">
 </div>
 
 
+
+<div id="settingsPanel">
+
+  <h2>Settings</h2>
+
+  <!-- USERNAME -->
+  <label>Username</label>
+  <input id="nameInput" placeholder="Enter name">
+
+  <!-- COLOR -->
+  <label>Bubble Color</label>
+  <input type="color" id="colorPicker">
+
+  <!-- TOGGLE -->
+  <div class="settingRow">
+    <span>Typing Indicator</span>
+    <input type="checkbox" id="typingToggle" checked>
+  </div>
+
+  <hr>
+
+  <!-- FUTURE -->
+  <button id="openFullSettings">⚙️ Full Settings</button>
+
+  <button id="closeSettings">Close</button>
+
+</div>
 
 
 
@@ -1429,19 +1489,17 @@ const settingsBtn = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
 const closeSettings = document.getElementById("closeSettings");
 
+/* OPEN */
 settingsBtn.onclick = () => {
-  settingsBtn.onclick = () => {
   settingsPanel.classList.add("active");
 };
 
+/* CLOSE */
 closeSettings.onclick = () => {
   settingsPanel.classList.remove("active");
 };
-};
 
-closeSettings.onclick = () => {
-  settingsPanel.style.display = "none";
-};
+
 
 
 
@@ -1453,10 +1511,7 @@ closeSettings.onclick = () => {
 
 
 
-<div id="settingsPanel">
-  <h2>Settings</h2>
-  <button id="closeSettings">Close</button>
-</div>
+
 
 </body>
 </html>
