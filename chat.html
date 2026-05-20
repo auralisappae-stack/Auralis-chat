@@ -713,6 +713,16 @@ REMINDER (future upgrades):
 - Add animated dots (...)
 */
 
+// NOTE: add this inside your send button click
+db.collection("typing").doc(username).set({
+  typing: false
+});
+
+/*
+REMINDER:
+Without this → "typing..." can get stuck forever
+*/
+
 </script>
 
 
