@@ -11,6 +11,14 @@
 
 
 
+
+
+
+
+
+
+
+
 <style>
 *{box-sizing:border-box;}
 body{
@@ -23,6 +31,14 @@ body{
   color:white;
   background:#020617;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -49,6 +65,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 /* RAIL */
 #rail{
   width:85px;
@@ -62,9 +86,17 @@ body{
 
 
 
+
+
+
+
   height:100%;
   position:relative; /* ✅ important */
 }
+
+
+
+
 
 
 
@@ -78,6 +110,14 @@ body{
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
   box-shadow:0 0 25px #5865f2;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -101,6 +141,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 /* CHAT */
 #chat{
   flex:1;
@@ -115,14 +163,32 @@ body{
 
 
 
-#chatHeader { 
+
+
+
+
+
+
+
+
+#chatHeader {
   padding:18px 25px;
   display:flex;
   justify-content:space-between;
   background:rgba(15,23,42,0.4);
 
-  
+
+ 
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -147,6 +213,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 .bubble{
   width:100%;
   padding:12px 16px;
@@ -156,8 +230,16 @@ body{
 
 
 
+
+
+
+
   word-break:break-word;
 }
+
+
+
+
 
 
 
@@ -175,6 +257,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 .msg{
   display:flex;
   width:100%;
@@ -184,9 +274,21 @@ body{
 
 
 
+
+
+
+
 .msg.grouped{
   margin-bottom:0px; /* 👈 NO GAP */
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -206,6 +308,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 /* LEFT (others) */
 .bubble.other{
   background:rgba(255,255,255,0.08);
@@ -216,12 +326,20 @@ body{
 
 
 
+
+
+
+
 /* RIGHT (you) */
 .bubble.me{
   background:#5865f2;
   margin-left:auto;
   border-bottom-right-radius:6px;
 }
+
+
+
+
 
 
 
@@ -238,6 +356,12 @@ body{
   position:relative;
  
 }
+
+
+
+
+
+
 
 
 
@@ -262,6 +386,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 #msgInput{
   flex:1;
   background:none;
@@ -273,6 +405,10 @@ body{
 
 
 
+
+
+
+
 #serversList{
   display:flex;
   flex-direction:column;
@@ -280,6 +416,10 @@ body{
   flex:1;
   overflow-y:auto;          /* ✅ prevents pushing + out */
 }
+
+
+
+
 
 
 
@@ -300,6 +440,10 @@ body{
 
 
 
+
+
+
+
   background:#1e293b;
   color:white;
   cursor:pointer;
@@ -307,8 +451,20 @@ body{
 
 
 
+
+
+
+
   box-shadow:0 0 15px rgba(88,101,242,0.4);
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -326,6 +482,14 @@ body{
   cursor:pointer;
   box-shadow:0 0 20px rgba(88,101,242,0.8);
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -355,9 +519,25 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 #emojiPicker.active{
   display:flex;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -381,6 +561,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 #emojiTabs span{
   cursor:pointer;
   font-size:18px;
@@ -394,9 +582,25 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 #emojiTabs span:hover{
   opacity:1;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -420,12 +624,28 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 #emojiList span{
   cursor:pointer;
   font-size:20px;
   padding:6px;
   border-radius:6px;
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -445,6 +665,14 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 /* 🔥 HIDE UGLY SCROLLBAR */
 #messages::-webkit-scrollbar {
   width: 6px;
@@ -453,9 +681,17 @@ body{
 
 
 
+
+
+
+
 #messages::-webkit-scrollbar-track {
   background: transparent;
 }
+
+
+
+
 
 
 
@@ -468,10 +704,18 @@ body{
 
 
 
+
+
+
+
 /* Hover effect */
 #messages::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.3);
 }
+
+
+
+
 
 
 
@@ -489,7 +733,15 @@ body{
 
 
 
+
+
+
+
 }
+
+
+
+
 
 
 
@@ -503,10 +755,18 @@ body{
 
 
 
+
+
+
+
 /* LEFT (others) */
 .msg.other {
   justify-content:flex-start;
 }
+
+
+
+
 
 
 
@@ -518,8 +778,16 @@ body{
 
 
 
+
+
+
+
   animation: messageIn 0.2s ease;
 }
+
+
+
+
 
 
 
@@ -532,10 +800,18 @@ body{
 
 
 
+
+
+
+
 .msg.me .bubbleWrap {
   order:1;
   align-items:flex-end;
 }
+
+
+
+
 
 
 
@@ -549,6 +825,10 @@ body{
 
 
 
+
+
+
+
 /* sender bubble */
 .msg.me .bubble {
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
@@ -558,10 +838,22 @@ body{
 
 
 
+
+
+
+
 /* receiver bubble */
 .msg.other .bubble {
   background:rgba(255,255,255,0.08);
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -580,6 +872,10 @@ body{
 
 
 
+
+
+
+
 .timeSeparator{
   text-align:center;
   font-size:12px;
@@ -592,7 +888,15 @@ body{
 
 
 
+
+
+
+
+
+
 /* ================= TYPING INDICATOR ================= */
+
+
 
 
 .dots{
@@ -601,17 +905,21 @@ body{
   opacity:0;
 }
 
+
 .dots span{
   width:5px;
   height:5px;
   background:#94a3b8;
   border-radius:50%;
 
+
   animation: typingBounceFinal 1.2s infinite ease-in-out;
 }
 
+
 .dots span:nth-child(2){animation-delay:0.2s;}
 .dots span:nth-child(3){animation-delay:0.4s;}
+
 
 @keyframes typingBounceFinal {
   0%, 80%, 100% {
@@ -631,7 +939,17 @@ body{
 
 
 
+
+
+
+
+
+
+
+
 /* ===== TYPING ANIMATION ===== */
+
+
 
 
 .typingBox{
@@ -640,13 +958,19 @@ body{
   color:#94a3b8;
 
 
+
+
   display:flex;
   align-items:center;
   gap:6px;
 
 
+
+
   min-height:20px; /* ✅ keeps space stable */
 }
+
+
 
 
 /* dots container */
@@ -655,6 +979,8 @@ body{
   gap:4px;
   opacity:0; /* hidden by default */
 }
+
+
 
 
 /* each dot */
@@ -667,9 +993,13 @@ body{
 }
 
 
+
+
 /* delays */
 .dots span:nth-child(2){animation-delay:0.2s;}
 .dots span:nth-child(3){animation-delay:0.4s;}
+
+
 
 
 /* animation */
@@ -679,6 +1009,8 @@ body{
 }
 
 
+
+
 /*
 NOTE:
 Creates the moving typing dots
@@ -686,7 +1018,11 @@ Creates the moving typing dots
 
 
 
+
+
+
 /* ===== FORCE TYPING ANIMATION (FINAL FIX) ===== */
+
 
 @keyframes typingBounceFinal {
   0%, 80%, 100% {
@@ -699,74 +1035,120 @@ Creates the moving typing dots
   }
 }
 
+
 .dots span {
   animation-name: typingBounceFinal !important;
   animation-duration: 1.2s !important;
   animation-iteration-count: infinite !important;
   animation-timing-function: ease-in-out !important;
 
+
   display: inline-block !important;
 }
+
+
 
 
 #settingsPanel{
   position:fixed;
   top:0;
-  right:-320px; /* hidden by default */
-  width:300px;
+  right:-380px; /* slightly wider */
+  width:360px;
   height:100%;
-  background:#0f172a;
-  box-shadow:-5px 0 20px rgba(0,0,0,0.4);
-  padding:20px;
-  transition:0.3s;
+  padding:0; /* IMPORTANT */
+  
+  background:linear-gradient(180deg,#0f172a,#020617);
+  backdrop-filter:blur(30px);
+
+  border-left:1px solid rgba(255,255,255,0.08);
+  box-shadow:-10px 0 40px rgba(0,0,0,0.6);
+
+  transition:0.35s ease;
   z-index:99999;
+
+  display:flex;
+  flex-direction:column;
 }
+
 
 #settingsPanel.active{
   right:0; /* slide in */
 }
 
-#settingsPanel h2{
-  margin-bottom:20px;
-  text-align:center;
+
+.settingsHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-#settingsPanel h2{
-  margin-bottom:20px;
-  text-align:center;
+.settingsIcon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#5865f2,#9aa7ff);
+  font-size:18px;
+}
+
+.settingsTitles{
+  flex:1;
+  margin-left:12px;
+}
+
+.settingsTitles h2{
+  margin:0;
+  font-size:18px;
   font-weight:600;
-  letter-spacing:0.5px;
 }
 
-#settingsPanel label{
-  font-size:13px;
+.settingsTitles span{
+  font-size:12px;
   color:#94a3b8;
-  margin-top:15px;
-  display:block;
 }
 
-#settingsPanel input[type="text"],
-#settingsPanel input[type="color"]{
+#closeSettingsTop{
+  cursor:pointer;
+  font-size:18px;
+  opacity:0.7;
+}
+#closeSettingsTop:hover{
+  opacity:1;
+}
+
+.settingsContent{
+  padding:20px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+
+/* section titles */
+.sectionTitle{
+  font-size:12px;
+  color:#94a3b8;
+  margin-bottom:8px;
+}
+
+/* inputs */
+.settingsContent input[type="text"]{
   width:100%;
-  margin-top:6px;
-  padding:8px;
-  border-radius:8px;
+  padding:10px;
+  border-radius:10px;
   border:none;
   background:#020617;
   color:white;
 }
 
-.settingRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:20px;
-}
-
-#settingsPanel button{
-  margin-top:15px;
-  width:100%;
-  padding:10px;
+/* buttons */
+.settingsContent button{
+  margin-top:10px;
+  padding:12px;
   border:none;
   border-radius:10px;
   background:#1e293b;
@@ -775,11 +1157,7 @@ Creates the moving typing dots
 }
 
 
-
 </style>
-
-
-
 
 
 
@@ -791,32 +1169,13 @@ Creates the moving typing dots
 
 
 
-
-
-
-
 </head>
-
-
-
-
-
-
 
 
 <body>
 
 
-
-
-
-
-
-
 <div id="app">
-
-
-
 
 
 
@@ -830,12 +1189,12 @@ Creates the moving typing dots
 
 
 
+
+
+
+
   <div id="addServer">+</div> <!-- ✅ MUST EXIST -->
 </div>
-
-
-
-
 
 
 
@@ -846,16 +1205,7 @@ Creates the moving typing dots
 
 
 
-
-
-
-
-
 <div id="chat">
-
-
-
-
 
 
 
@@ -867,17 +1217,15 @@ Creates the moving typing dots
 
 
 
-
-
-
-
-
   <div id="messages"></div>
+
+
 
 
 <!-- STEP 1: typing indicator UI (NO LOGIC YET) -->
 <div id="typingIndicator" class="typingBox">
   <span id="typingText">someone is typing</span>
+
 
   <div class="dots">
     <span></span>
@@ -886,6 +1234,7 @@ Creates the moving typing dots
   </div>
 </div>
 
+
 <!-- NOTE:
 This is just visual for now
 We will connect it later
@@ -893,11 +1242,7 @@ We will connect it later
 
 
 
-
-
-
   <!-- ================= TYPING INDICATOR ================= -->
-
 
 
 
@@ -908,11 +1253,12 @@ so it appears like real chat apps
 
 
 
+
+
+
 <!-- REMINDER:
 Move this above input bar later for better UX
 -->
-
-
 
 
   <div id="inputBar">
@@ -925,9 +1271,6 @@ Move this above input bar later for better UX
 
 
 
-    
-
-
   <div id="emojiTabs">
     <span data-cat="faces">😀</span>
     <span data-cat="animals">🐱</span>
@@ -936,16 +1279,7 @@ Move this above input bar later for better UX
 
 
 
-
-
-
-
-
   </div>
-
-
-
-
 
 
 
@@ -955,54 +1289,77 @@ Move this above input bar later for better UX
 
 
 
-
-
-
-
 </div>
   </div>
 
-
-
-
-
-
-
-
 </div>
 </div>
+
+
+
 
 
 
 <div id="settingsPanel">
 
-  <h2>Settings</h2>
+  <!-- ✅ NEW HEADER -->
+  <div class="settingsHeader">
+    <div class="settingsIcon">⚙️</div>
 
-  <!-- USERNAME -->
-  <label>Username</label>
-  <input id="nameInput" placeholder="Enter name">
-  <button id="confirmName">Confirm Username</button>
+    <div class="settingsTitleWrap">
+      <div class="settingsTitle">Settings</div>
+      <div class="settingsSubtitle">Customize your experience</div>
+    </div>
 
-  
-
-  <!-- COLOR -->
-  <label>Bubble Color</label>
-  <input type="color" id="colorPicker">
-
-  <!-- TOGGLE -->
-  <div class="settingRow">
-    <span>Typing Indicator</span>
-    <input type="checkbox" id="typingToggle" checked>
+    <div id="closeSettingsTop" class="closeBtn" > ✕ </div>
   </div>
 
-  <hr>
 
-  <!-- FUTURE -->
-  <button id="openFullSettings">⚙️ Full Settings</button>
 
-  <button id="closeSettings">Close</button>
+  <!-- CONTENT -->
+  <div class="settingsContent">
+
+    <div class="section">
+      <div class="sectionTitle">ACCOUNT</div>
+
+      <label>Username</label>
+      <input id="nameInput" placeholder="Enter name">
+      <button id="confirmName">Confirm Username</button>
+    </div>
+
+    <div class="section">
+      <div class="sectionTitle">APPEARANCE</div>
+
+      <label>Bubble Color</label>
+      <input type="color" id="colorPicker">
+    </div>
+
+    <div class="section">
+      <div class="sectionTitle">BEHAVIOR</div>
+
+      <div class="settingRow">
+        <span>Typing Indicator</span>
+        <input type="checkbox" id="typingToggle" checked>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sectionTitle">ACTIONS</div>
+
+      <button id="openFullSettings">⚙️ Full Settings</button>
+      <button id="closeSettings">Close</button>
+    </div>
+
+  </div>
 
 </div>
+
+
+
+
+
+
+
 
 
 
@@ -1012,11 +1369,6 @@ const firebaseConfig = {
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
 };
-
-
-
-
-
 
 
 
@@ -1030,14 +1382,10 @@ colorPicker.addEventListener("input", (e)=>{
 
 
 
-
   db.collection("users").doc(username).set({
     bubbleColor: color
   });
 });
-
-
-
 
 
 
@@ -1050,13 +1398,13 @@ const db = firebase.firestore();
 
 
 
-
-
-
 let username = localStorage.getItem("username") || "User";
 
 
+
+
 const nameInput = document.getElementById("nameInput");
+
 
 
 
@@ -1065,45 +1413,49 @@ const confirmBtn = document.getElementById("confirmName");
 
 
 
-
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
 const closeSettings = document.getElementById("closeSettings");
 
 
+
+
+
+
 confirmBtn.onclick = () => {
   const newName = nameInput.value.trim();
+
 
   if (!newName) {
     alert("Username cannot be empty");
     return;
   }
 
+
   const ok = confirm("Are you sure you want to change your username?");
   if (!ok) return;
 
+
   // 🔥 delete old typing status
   db.collection("typing").doc(username).delete();
+
 
   // update username
   localStorage.setItem("username", newName);
   username = newName;
 
+
   db.collection("users").doc(newName).set({
     bubbleColor: "#5865f2"
   });
 
+
   settingsPanel.classList.remove("active");
 };
 
+
 /* load current name */
 nameInput.value = username;
-
-
-
-
-
-
 
 
 
@@ -1114,6 +1466,8 @@ document.getElementById("sendBtn").onclick = () => {
   if (!text) return;
 
 
+
+
   db.collection("messages").add({
     user: username,
     text: text,
@@ -1121,17 +1475,15 @@ document.getElementById("sendBtn").onclick = () => {
   });
 
 
+
+
     // ✅ STOP typing when message sent
   db.collection("typing").doc(username).set({
     typing: false
   });
-  
+ 
   input.value = "";
 };
-
-
-
-
 
 
 
@@ -1155,12 +1507,13 @@ let userStyles = {};
 
 
 
-
 db.collection("users").onSnapshot(snapshot=>{
   snapshot.forEach(doc=>{
     userStyles[doc.id] = doc.data();
   });
 });
+
+
 
 
 
@@ -1177,10 +1530,8 @@ db.collection("messages").orderBy("time")
 
 
 
-
   let lastUser = null;
   let lastTime = null;
-
 
 
 
@@ -1205,7 +1556,6 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
 
 
 
-
     /* time separator */
     if (isNewGroup && lastTime) {
       const timeEl = document.createElement("div");
@@ -1224,6 +1574,7 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
 
 
 
+
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
    el.innerHTML = `
   <div class="bubbleWrap">
@@ -1235,9 +1586,7 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
 
 
 
-
     messagesDiv.appendChild(el);
-
 
 
 
@@ -1249,11 +1598,19 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
 
 
 
+
+
+
+
   /* ✅ FORCE RENDER THEN SCROLL */
   requestAnimationFrame(() => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+
+
+
+
 
 
 
@@ -1268,16 +1625,10 @@ const emojiList = document.getElementById("emojiList");
 
 
 
-
-
-
 /* TOGGLE */
 emojiBtn.onclick = () => {
   picker.classList.toggle("active");
 };
-
-
-
 
 
 
@@ -1294,10 +1645,6 @@ const emojiData = {
 
 
 
-
-
-
-
 /* RENDER FUNCTION */
 function loadCategory(cat){
   emojiList.innerHTML = "";
@@ -1305,18 +1652,9 @@ function loadCategory(cat){
 
 
 
-
-
-
-
   emojiData[cat].forEach(e=>{
     const span = document.createElement("span");
     span.textContent = e;
-
-
-
-
-
 
 
 
@@ -1328,10 +1666,6 @@ function loadCategory(cat){
 
 
 
-
-
-
-
     emojiList.appendChild(span);
   });
 }
@@ -1339,15 +1673,8 @@ function loadCategory(cat){
 
 
 
-
-
-
-
 /* DEFAULT LOAD */
 loadCategory("faces");
-
-
-
 
 
 
@@ -1367,13 +1694,27 @@ document.querySelectorAll("#emojiTabs span").forEach(tab=>{
 
 
 
+
+
+
+
+
+
+
+
 const inputField = document.getElementById("msgInput");
+
+
 
 
 let typingTimeout;
 
 
+
+
 inputField.addEventListener("input", () => {
+
+
 
 
   // NOTE: user started typing
@@ -1382,11 +1723,17 @@ inputField.addEventListener("input", () => {
   });
 
 
+
+
   // NOTE: reset timer while typing
   clearTimeout(typingTimeout);
 
 
+
+
   typingTimeout = setTimeout(() => {
+
+
 
 
     // NOTE: stop typing after 1.5s
@@ -1395,12 +1742,19 @@ inputField.addEventListener("input", () => {
     });
 
 
+
+
   }, 1500);
 
-  
+
+ 
+
+
 
 
 });
+
+
 
 
 /*
@@ -1408,10 +1762,19 @@ NOTE:
 This runs every time user types
 
 
+
+
 REMINDER:
 - "input" = detects typing instantly
 - better than keydown for this feature
 */
+
+
+
+
+
+
+
 
 
 
@@ -1428,10 +1791,6 @@ REMINDER (future improvements):
 
 
 
-
-
-
-
 /*
 REMINDER (future upgrades):
 - Show "1 user typing" vs "2 users typing"
@@ -1443,14 +1802,14 @@ REMINDER (future upgrades):
 
 
 
-
-
-
-
 /*
 REMINDER:
 Without this → "typing..." can get stuck forever
 */
+
+
+
+
 
 
 
@@ -1467,32 +1826,54 @@ document.addEventListener("click", (e)=>{
 
 
 
+
+
+
+
+
+
 /* ================= TYPING DISPLAY (SAFE VERSION) ================= */
 
 
+
+
 setTimeout(() => {
+
+
 
 
   const typingDiv = document.getElementById("typingIndicator");
   const typingText = document.getElementById("typingText");
 
 
+
+
   // ✅ stop if not found (prevents crash)
   if (!typingDiv || !typingText) return;
+
+
 
 
   const dots = typingDiv.querySelector(".dots");
   if (!dots) return;
 
 
+
+
   db.collection("typing").onSnapshot(snapshot => {
+
+
 
 
     let typingUsers = [];
 
 
+
+
     snapshot.forEach(doc => {
       const data = doc.data();
+
+
 
 
       if (doc.id !== username && data.typing) {
@@ -1501,7 +1882,11 @@ setTimeout(() => {
     });
 
 
+
+
     if (typingUsers.length > 0) {
+
+
 
 
       typingText.textContent = typingUsers.join(", ") + " is typing";
@@ -1509,7 +1894,11 @@ setTimeout(() => {
       dots.style.display = "flex"; /* force visible */
 
 
+
+
     } else {
+
+
 
 
       typingText.textContent = "";
@@ -1517,15 +1906,23 @@ setTimeout(() => {
     }
 
 
+
+
   });
+
+
 
 
 }, 0);
 
 
+
+
 /*
 NOTE:
 setTimeout ensures HTML loads before JS runs
+
+
 
 
 REMINDER:
@@ -1534,10 +1931,14 @@ Prevents crashes that break buttons
 
 
 
+
+
+
 /* OPEN */
 settingsBtn.onclick = () => {
   settingsPanel.classList.add("active");
 };
+
 
 /* CLOSE */
 closeSettings.onclick = () => {
@@ -1545,18 +1946,17 @@ closeSettings.onclick = () => {
 };
 
 
-
-
+document.getElementById("closeSettingsTop").onclick = () => {
+  settingsPanel.classList.remove("active");
+};
 
 </script>
 
 
 
 
-
-
-
-
-
 </body>
 </html>
+
+
+
