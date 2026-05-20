@@ -151,7 +151,10 @@ body{
   gap:12px;
   background:rgba(15,23,42,0.55);
   position:relative;
+  
 }
+
+
 
 
 .iconBtn{
@@ -322,6 +325,8 @@ body{
 /* RIGHT (you) */
 .msg.me {
   justify-content:flex-end;
+
+  animation: messageIn 0.2s ease;
 }
 
 /* flip layout for sender */
@@ -353,6 +358,8 @@ body{
 
 
 
+
+
 /* username */
 .name {
   font-size:11px;
@@ -366,6 +373,8 @@ body{
   color:#94a3b8;
   margin:15px 0;
 }
+
+
 
 
 
@@ -418,12 +427,17 @@ body{
     <button id="sendBtn">➤</button>
     <div id="emojiPicker">
 
+      <input type="color" id="colorPicker"
+style="width:36px;height:36px;border:none;background:none;cursor:pointer;">
+
 
   <div id="emojiTabs">
     <span data-cat="faces">😀</span>
     <span data-cat="animals">🐱</span>
     <span data-cat="symbols">🔥</span>
     <span data-cat="flags">🏳️</span>
+
+
   </div>
 
 
@@ -438,12 +452,32 @@ body{
 </div>
 
 
+<!-- NOTE: This is where "is typing..." will appear -->
+<div id="typingIndicator"
+style="padding:10px 20px; font-size:13px; color:#94a3b8;"></div>
+
+<!-- REMINDER:
+Move this above input bar later for better UX
+-->
+
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
 };
+
+
+const colorPicker = document.getElementById("colorPicker");
+
+colorPicker.addEventListener("input", (e)=>{
+  const color = e.target.value;
+
+  db.collection("users").doc(username).set({
+    bubbleColor: color
+  });
+});
 
 
 firebase.initializeApp(firebaseConfig);
@@ -476,6 +510,17 @@ document.getElementById("msgInput").addEventListener("keydown", e=>{
   if(e.key === "Enter") document.getElementById("sendBtn").click();
 });
 
+db.collection("users").doc(username).set({
+  bubbleColor: "#5865f2"
+});
+
+let userStyles = {};
+
+db.collection("users").onSnapshot(snapshot=>{
+  snapshot.forEach(doc=>{
+    userStyles[doc.id] = doc.data();
+  });
+});
 
 db.collection("messages").orderBy("time")
 .onSnapshot(snapshot=>{
@@ -487,6 +532,9 @@ db.collection("messages").orderBy("time")
   let lastUser = null;
   let lastTime = null;
 
+
+  
+
   snapshot.forEach(doc=>{
     const msg = doc.data();
 
@@ -495,6 +543,9 @@ db.collection("messages").orderBy("time")
     const isGrouped = msg.user === lastUser && timeDiff < 300000;
 
     const isMe = msg.user === username;
+    
+    const userStyle = userStyles[msg.user];
+const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
     /* time separator */
     if (isNewGroup && lastTime) {
@@ -509,13 +560,13 @@ db.collection("messages").orderBy("time")
    el.className = "msg " + (isMe ? "me" : "other") + (isGrouped ? " grouped" : "");
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
-    el.innerHTML = `
-      <div class="bubbleWrap">
-        <div class="bubble ${isMe ? "me" : "other"}">
-          ${msg.text}
-        </div>
-      </div>
-    `;
+   el.innerHTML = `
+  <div class="bubbleWrap">
+    <div class="bubble" style="background:${bubbleColor}">
+      ${msg.text}
+    </div>
+  </div>
+`;
 
     messagesDiv.appendChild(el);
 
@@ -591,6 +642,77 @@ document.addEventListener("click", (e)=>{
     picker.classList.remove("active");
   }
 });
+
+
+
+const inputField = document.getElementById("msgInput");
+
+let typingTimeout;
+
+inputField.addEventListener("input", () => {
+
+  // NOTE: tell Firebase "this user is typing"
+  db.collection("typing").doc(username).set({
+    typing: true
+  });
+
+  // NOTE: clear previous timeout so it resets while typing
+  clearTimeout(typingTimeout);
+
+  typingTimeout = setTimeout(() => {
+
+    // NOTE: after 1.5s of no typing → set typing to false
+    db.collection("typing").doc(username).set({
+      typing: false
+    });
+
+  }, 1500);
+
+  
+
+});
+
+/*
+REMINDER (future improvements):
+- Reduce Firebase writes (optimize with debounce)
+- Delete typing status when user disconnects
+*/
+
+const typingDiv = document.getElementById("typingIndicator");
+
+db.collection("typing").onSnapshot(snapshot => {
+
+  let typingUsers = [];
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+
+    // NOTE: ignore yourself, only show others
+    if (doc.id !== username && data.typing) {
+      typingUsers.push(doc.id);
+    }
+  });
+
+  if (typingUsers.length > 0) {
+
+    // NOTE: show names of users typing
+    typingDiv.textContent = typingUsers.join(", ") + " is typing...";
+
+  } else {
+
+    // NOTE: clear when no one typing
+    typingDiv.textContent = "";
+  }
+
+});
+
+/*
+REMINDER (future upgrades):
+- Show "1 user typing" vs "2 users typing"
+- Add avatars instead of names
+- Add animated dots (...)
+*/
+
 </script>
 
 
