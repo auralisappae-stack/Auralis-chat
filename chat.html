@@ -1051,7 +1051,13 @@ const username = localStorage.getItem("username") || "User";
 const nameInput = document.getElementById("nameInput");
 
 
+
+
 const confirmBtn = document.getElementById("confirmName");
+
+confirmBtn.onclick = () => {
+  alert("Confirm button clicked"); // test first
+};
 
 confirmBtn.onclick = () => {
   const newName = nameInput.value.trim();
