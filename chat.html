@@ -1083,9 +1083,10 @@ Creates the moving typing dots
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
-.settingsIcon{
-  z-index:2;
-   flex-shrink:0;
+.settingsIcon img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
 }
 
 .settingsTitle{
@@ -1176,6 +1177,28 @@ Creates the moving typing dots
   margin-left:12px;
 }
 
+.settingsTrigger{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border-radius:10px;
+
+  background:rgba(255,255,255,0.05);
+  transition:0.2s;
+}
+
+.settingsTrigger:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.settingsTrigger img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+}
 
 </style>
 
@@ -1232,7 +1255,9 @@ Creates the moving typing dots
 
   <div id="chatHeader">
     <div># general</div>
-    <div id="settingsBtn" style="cursor:pointer; font-size:18px;">⚙️</div>
+    <div id="settingsBtn" class="settingsTrigger">
+  <img src="setting_icon.png" alt="settings">
+</div>
   </div>
 
 
@@ -1324,7 +1349,9 @@ Move this above input bar later for better UX
 
   <!-- ✅ NEW HEADER -->
   <div class="settingsHeader">
-    <div class="settingsIcon">⚙️</div>
+    <div class="settingsIcon">
+  <img src="setting_icon.png" alt="settings">
+</div>
 
     <div class="settingsTitleWrap">
       <div class="settingsTitle">Settings</div>
