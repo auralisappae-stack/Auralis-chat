@@ -631,18 +631,8 @@ body{
   gap:6px;
 }
 
-.dots span{
-  width:6px;
-  height:6px;
-  background:#94a3b8;
-  border-radius:50%;
-
-  display:inline-block; /* ✅ IMPORTANT */
-
-  animation-name: typingBounce; /* ✅ force animation */
-  animation-duration: 1.2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+.dots span {
+  background: red !important;
 }
 
 .dots span:nth-child(2){ animation-delay:0.2s; }
@@ -721,7 +711,27 @@ Creates the moving typing dots
 
 
 
+/* ===== FORCE TYPING ANIMATION (FINAL FIX) ===== */
 
+@keyframes typingBounceFinal {
+  0%, 80%, 100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+.dots span {
+  animation-name: typingBounceFinal !important;
+  animation-duration: 1.2s !important;
+  animation-iteration-count: infinite !important;
+  animation-timing-function: ease-in-out !important;
+
+  display: inline-block !important;
+}
 
 
 
