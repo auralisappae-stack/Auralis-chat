@@ -5,6 +5,8 @@
 <title>Auralis Final</title>
 
 
+
+
 <style>
 *{box-sizing:border-box;}
 body{
@@ -19,6 +21,8 @@ body{
 }
 
 
+
+
 /* APP */
 #app{
   width:92%;
@@ -31,6 +35,8 @@ body{
 }
 
 
+
+
 /* RAIL */
 #rail{
   width:85px;
@@ -41,9 +47,11 @@ body{
   gap:14px;
   background:rgba(5,10,20,0.7);
 
+
   height:100%;
   position:relative; /* ✅ important */
 }
+
 
 .server{
   width:52px;height:52px;border-radius:50%;
@@ -56,6 +64,8 @@ body{
 }
 
 
+
+
 /* SIDEBAR */
 #sidebar{
   width:270px;
@@ -63,6 +73,8 @@ body{
   background:rgba(15,23,42,0.55);
   overflow: visible;
 }
+
+
 
 
 /* CHAT */
@@ -77,12 +89,16 @@ body{
 }
 
 
+
+
 #chatHeader{
   padding:18px 25px;
   display:flex;
   justify-content:space-between;
   background:rgba(15,23,42,0.4);
 }
+
+
 
 
 /* MESSAGES */
@@ -95,14 +111,18 @@ body{
 }
 
 
+
+
 .bubble{
   width:100%;
   padding:12px 16px;
   border-radius:18px;
   line-height:1.4;
 
+
   word-break:break-word;
 }
+
 
 .bubbleWrap{
   display:flex;
@@ -111,20 +131,27 @@ body{
 }
 
 
+
+
 .msg{
   display:flex;
   width:100%;
   margin-bottom:2px; /* 👈 very small base gap */
 }
 
+
 .msg.grouped{
   margin-bottom:0px; /* 👈 NO GAP */
 }
 
 
+
+
 .msg.grouped .bubble{
   border-radius:12px; /* smoother stacking */
 }
+
+
 
 
 /* LEFT (others) */
@@ -134,12 +161,14 @@ body{
   border-bottom-left-radius:6px;
 }
 
+
 /* RIGHT (you) */
 .bubble.me{
   background:#5865f2;
   margin-left:auto;
   border-bottom-right-radius:6px;
 }
+
 
 /* INPUT BAR */
 #inputBar{
@@ -151,8 +180,12 @@ body{
   gap:12px;
   background:rgba(15,23,42,0.55);
   position:relative;
-  
+ 
 }
+
+
+
+
 
 
 
@@ -169,6 +202,8 @@ body{
 .iconBtn:hover{opacity:1;}
 
 
+
+
 #msgInput{
   flex:1;
   background:none;
@@ -176,6 +211,7 @@ body{
   color:white;
   outline:none;
 }
+
 
 #serversList{
   display:flex;
@@ -185,12 +221,13 @@ body{
   overflow-y:auto;          /* ✅ prevents pushing + out */
 }
 
+
 #addServer{
   position:absolute;   /* ✅ key fix */
   bottom:20px;         /* stick to bottom */
   left:50%;
   transform:translateX(-50%);
-  
+ 
   width:52px;
   height:52px;
   border-radius:50%;
@@ -198,12 +235,16 @@ body{
   align-items:center;
   justify-content:center;
 
+
   background:#1e293b;
   color:white;
   cursor:pointer;
 
+
   box-shadow:0 0 15px rgba(88,101,242,0.4);
 }
+
+
 
 
 #sendBtn{
@@ -215,6 +256,8 @@ body{
   cursor:pointer;
   box-shadow:0 0 20px rgba(88,101,242,0.8);
 }
+
+
 
 
 /* EMOJI PICKER */
@@ -232,9 +275,13 @@ body{
 }
 
 
+
+
 #emojiPicker.active{
   display:flex;
 }
+
+
 
 
 #emojiTabs{
@@ -246,6 +293,8 @@ body{
 }
 
 
+
+
 #emojiTabs span{
   cursor:pointer;
   font-size:18px;
@@ -253,9 +302,13 @@ body{
 }
 
 
+
+
 #emojiTabs span:hover{
   opacity:1;
 }
+
+
 
 
 #emojiList{
@@ -267,6 +320,8 @@ body{
 }
 
 
+
+
 #emojiList span{
   cursor:pointer;
   font-size:20px;
@@ -275,9 +330,13 @@ body{
 }
 
 
+
+
 #emojiList span:hover{
   background:rgba(255,255,255,0.1);
 }
+
+
 
 
 /* 🔥 HIDE UGLY SCROLLBAR */
@@ -285,19 +344,23 @@ body{
   width: 6px;
 }
 
+
 #messages::-webkit-scrollbar-track {
   background: transparent;
 }
+
 
 #messages::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.15);
   border-radius: 10px;
 }
 
+
 /* Hover effect */
 #messages::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.3);
 }
+
 
 /* Firefox */
 #messages {
@@ -309,7 +372,9 @@ body{
   gap: 18px;
  
 
+
 }
+
 
 .msg{
   display:flex;
@@ -317,27 +382,33 @@ body{
   margin-bottom:6px; /* 👈 smaller gap */
 }
 
+
 /* LEFT (others) */
 .msg.other {
   justify-content:flex-start;
 }
 
+
 /* RIGHT (you) */
 .msg.me {
   justify-content:flex-end;
 
+
   animation: messageIn 0.2s ease;
 }
+
 
 /* flip layout for sender */
 .msg.me .avatar {
   order:2;
 }
 
+
 .msg.me .bubbleWrap {
   order:1;
   align-items:flex-end;
 }
+
 
 /* bubble container */
 .bubbleWrap {
@@ -345,16 +416,23 @@ body{
   flex-direction:column;
 }
 
+
 /* sender bubble */
 .msg.me .bubble {
   background:linear-gradient(135deg,#5865f2,#9aa7ff);
   color:white;
 }
 
+
 /* receiver bubble */
 .msg.other .bubble {
   background:rgba(255,255,255,0.08);
 }
+
+
+
+
+
 
 
 
@@ -367,6 +445,7 @@ body{
   margin-bottom:4px;
 }
 
+
 .timeSeparator{
   text-align:center;
   font-size:12px;
@@ -376,23 +455,94 @@ body{
 
 
 
+/* ================= TYPING INDICATOR ================= */
+
+.typingBox{
+  height:20px;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:#94a3b8;
+}
+
+/* dots container */
+.dots{
+  display:flex;
+  gap:4px;
+  opacity:0; /* NOTE: hidden until someone types */
+}
+
+/* each dot */
+.dots span{
+  width:5px;
+  height:5px;
+  background:#94a3b8;
+  border-radius:50%;
+
+  /* NOTE: animation applied */
+  animation:bounce 1.2s infinite;
+}
+
+/* delay each dot for wave effect */
+.dots span:nth-child(2){animation-delay:0.2s;}
+.dots span:nth-child(3){animation-delay:0.4s;}
+
+/* animation keyframes */
+@keyframes bounce{
+  0%,80%,100%{
+    transform:scale(0.6);
+    opacity:0.3;
+  }
+  40%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+/*
+NOTE:
+Creates smooth typing animation
+
+REMINDER:
+Later we can:
+- match bubble color
+- move into chat bubble style
+*/
+
+
+
+
+
+
 
 
 
 </style>
 
 
+
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+
 
 
 </head>
 
 
+
+
 <body>
 
 
+
+
 <div id="app">
+
+
 
 
 <div id="rail">
@@ -400,8 +550,11 @@ body{
     <div class="server active">A</div>
   </div>
 
+
   <div id="addServer">+</div> <!-- ✅ MUST EXIST -->
 </div>
+
+
 
 
 <div id="sidebar">
@@ -409,7 +562,11 @@ body{
 </div>
 
 
+
+
 <div id="chat">
+
+
 
 
   <div id="chatHeader">
@@ -417,15 +574,38 @@ body{
   </div>
 
 
+
+
   <div id="messages"></div>
+
+
+  <!-- ================= TYPING INDICATOR ================= -->
+<div id="typingIndicator" class="typingBox">
+  <span id="typingText"></span>
+
+  <!-- NOTE: animated dots -->
+  <div class="dots">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<!-- REMINDER:
+This must be ABOVE input bar
+so it appears like real chat apps
+-->
+
 
 <!-- NOTE: This is where "is typing..." will appear -->
 <div id="typingIndicator"
 style="padding:10px 20px; font-size:13px; color:#94a3b8;"></div>
 
+
 <!-- REMINDER:
 Move this above input bar later for better UX
 -->
+
 
   <div id="inputBar">
     <div class="iconBtn">＋</div>
@@ -434,8 +614,11 @@ Move this above input bar later for better UX
     <button id="sendBtn">➤</button>
     <div id="emojiPicker">
 
+
       <input type="color" id="colorPicker"
 style="width:36px;height:36px;border:none;background:none;cursor:pointer;">
+
+
 
 
   <div id="emojiTabs">
@@ -445,18 +628,27 @@ style="width:36px;height:36px;border:none;background:none;cursor:pointer;">
     <span data-cat="flags">🏳️</span>
 
 
+
+
   </div>
+
+
 
 
   <div id="emojiList"></div>
 
 
+
+
 </div>
   </div>
 
 
+
+
 </div>
 </div>
+
 
 <div id="typingIndicator"
 style="
@@ -472,6 +664,10 @@ style="
 
 
 
+
+
+
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
@@ -480,10 +676,14 @@ const firebaseConfig = {
 };
 
 
+
+
 const colorPicker = document.getElementById("colorPicker");
+
 
 colorPicker.addEventListener("input", (e)=>{
   const color = e.target.value;
+
 
   db.collection("users").doc(username).set({
     bubbleColor: color
@@ -491,11 +691,17 @@ colorPicker.addEventListener("input", (e)=>{
 });
 
 
+
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 
+
+
 const username = localStorage.getItem("username") || "User";
+
+
 
 
 /* SEND */
@@ -505,6 +711,8 @@ document.getElementById("sendBtn").onclick = () => {
   if (!text) return;
 
 
+
+
   db.collection("messages").add({
     user: username,
     text: text,
@@ -512,8 +720,12 @@ document.getElementById("sendBtn").onclick = () => {
   });
 
 
+
+
   input.value = "";
 };
+
+
 
 
 /* ENTER KEY */
@@ -521,11 +733,14 @@ document.getElementById("msgInput").addEventListener("keydown", e=>{
   if(e.key === "Enter") document.getElementById("sendBtn").click();
 });
 
+
 db.collection("users").doc(username).set({
   bubbleColor: "#5865f2"
 });
 
+
 let userStyles = {};
+
 
 db.collection("users").onSnapshot(snapshot=>{
   snapshot.forEach(doc=>{
@@ -533,30 +748,39 @@ db.collection("users").onSnapshot(snapshot=>{
   });
 });
 
+
 db.collection("messages").orderBy("time")
 .onSnapshot(snapshot=>{
   const messagesDiv = document.getElementById("messages");
 
+
   /* ✅ clear safely */
   messagesDiv.innerHTML = "";
+
 
   let lastUser = null;
   let lastTime = null;
 
 
-  
+
+
+ 
+
 
   snapshot.forEach(doc=>{
     const msg = doc.data();
+
 
     const timeDiff = lastTime ? (msg.time - lastTime) : 0;
     const isNewGroup = msg.user !== lastUser || timeDiff > 300000;
     const isGrouped = msg.user === lastUser && timeDiff < 300000;
 
+
     const isMe = msg.user === username;
-    
+   
     const userStyle = userStyles[msg.user];
 const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
+
 
     /* time separator */
     if (isNewGroup && lastTime) {
@@ -566,9 +790,11 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
       messagesDiv.appendChild(timeEl);
     }
 
+
     /* message wrapper */
     const el = document.createElement("div");
    el.className = "msg " + (isMe ? "me" : "other") + (isGrouped ? " grouped" : "");
+
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
    el.innerHTML = `
@@ -579,18 +805,22 @@ const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,
   </div>
 `;
 
+
     messagesDiv.appendChild(el);
+
 
     /* ✅ keep inside loop */
     lastUser = msg.user;
     lastTime = msg.time;
   });
 
+
   /* ✅ FORCE RENDER THEN SCROLL */
   requestAnimationFrame(() => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+
 
 /* ================= EMOJI SYSTEM ================= */
 const input = document.getElementById("msgInput");
@@ -599,10 +829,14 @@ const emojiBtn = document.getElementById("emojiBtn");
 const emojiList = document.getElementById("emojiList");
 
 
+
+
 /* TOGGLE */
 emojiBtn.onclick = () => {
   picker.classList.toggle("active");
 };
+
+
 
 
 /* EMOJI CATEGORIES */
@@ -614,14 +848,20 @@ const emojiData = {
 };
 
 
+
+
 /* RENDER FUNCTION */
 function loadCategory(cat){
   emojiList.innerHTML = "";
 
 
+
+
   emojiData[cat].forEach(e=>{
     const span = document.createElement("span");
     span.textContent = e;
+
+
 
 
     span.onclick = ()=>{
@@ -630,13 +870,19 @@ function loadCategory(cat){
     };
 
 
+
+
     emojiList.appendChild(span);
   });
 }
 
 
+
+
 /* DEFAULT LOAD */
 loadCategory("faces");
+
+
 
 
 /* TAB SWITCH */
@@ -645,6 +891,8 @@ document.querySelectorAll("#emojiTabs span").forEach(tab=>{
     loadCategory(tab.dataset.cat);
   };
 });
+
+
 
 
 /* CLOSE OUTSIDE */
@@ -656,32 +904,77 @@ document.addEventListener("click", (e)=>{
 
 
 
+
+
+
 const inputField = document.getElementById("msgInput");
 
 let typingTimeout;
 
 inputField.addEventListener("input", () => {
 
-  // NOTE: tell Firebase "this user is typing"
+  // NOTE: user started typing
   db.collection("typing").doc(username).set({
     typing: true
   });
 
-  // NOTE: clear previous timeout so it resets while typing
+  // NOTE: reset timer while typing
   clearTimeout(typingTimeout);
 
   typingTimeout = setTimeout(() => {
 
-    // NOTE: after 1.5s of no typing → set typing to false
+    // NOTE: stop typing after 1.5s
     db.collection("typing").doc(username).set({
       typing: false
     });
 
   }, 1500);
 
-  
+});
+
+/*
+NOTE:
+This runs every time user types
+
+REMINDER:
+- "input" = detects typing instantly
+- better than keydown for this feature
+*/
+
+
+
+
+
+inputField.addEventListener("input", () => {
+
+
+  // NOTE: tell Firebase "this user is typing"
+  db.collection("typing").doc(username).set({
+    typing: true
+  });
+
+
+  // NOTE: clear previous timeout so it resets while typing
+  clearTimeout(typingTimeout);
+
+
+  typingTimeout = setTimeout(() => {
+
+
+    // NOTE: after 1.5s of no typing → set typing to false
+    db.collection("typing").doc(username).set({
+      typing: false
+    });
+
+
+  }, 1500);
+
+
+ 
+
 
 });
+
 
 /*
 REMINDER (future improvements):
@@ -689,14 +982,19 @@ REMINDER (future improvements):
 - Delete typing status when user disconnects
 */
 
+
 const typingDiv = document.getElementById("typingIndicator");
+
 
 db.collection("typing").onSnapshot(snapshot => {
 
+
   let typingUsers = [];
+
 
   snapshot.forEach(doc => {
     const data = doc.data();
+
 
     // NOTE: ignore yourself, only show others
     if (doc.id !== username && data.typing) {
@@ -704,18 +1002,24 @@ db.collection("typing").onSnapshot(snapshot => {
     }
   });
 
+
   if (typingUsers.length > 0) {
+
 
     // NOTE: show names of users typing
     typingDiv.textContent = typingUsers.join(", ") + " is typing...";
 
+
   } else {
+
 
     // NOTE: clear when no one typing
     typingDiv.textContent = "";
   }
 
+
 });
+
 
 /*
 REMINDER (future upgrades):
@@ -724,21 +1028,34 @@ REMINDER (future upgrades):
 - Add animated dots (...)
 */
 
+
 // NOTE: add this inside your send button click
 db.collection("typing").doc(username).set({
   typing: false
 });
+
 
 /*
 REMINDER:
 Without this → "typing..." can get stuck forever
 */
 
+
 </script>
+
+
 
 
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
