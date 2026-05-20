@@ -637,7 +637,12 @@ body{
   background:#94a3b8;
   border-radius:50%;
 
-  animation: typingBounce 1.2s infinite ease-in-out;
+  display:inline-block; /* ✅ IMPORTANT */
+
+  animation-name: typingBounce; /* ✅ force animation */
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
 
 .dots span:nth-child(2){ animation-delay:0.2s; }
