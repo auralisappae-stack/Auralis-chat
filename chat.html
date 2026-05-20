@@ -1106,12 +1106,6 @@ document.getElementById("sendBtn").onclick = () => {
   if (!text) return;
 
 
-
-
-
-
-
-
   db.collection("messages").add({
     user: username,
     text: text,
@@ -1119,12 +1113,11 @@ document.getElementById("sendBtn").onclick = () => {
   });
 
 
-
-
-
-
-
-
+    // ✅ STOP typing when message sent
+  db.collection("typing").doc(username).set({
+    typing: false
+  });
+  
   input.value = "";
 };
 
@@ -1396,6 +1389,8 @@ inputField.addEventListener("input", () => {
 
   }, 1500);
 
+  
+
 
 });
 
@@ -1439,10 +1434,7 @@ REMINDER (future upgrades):
 
 
 
-// NOTE: add this inside your send button click
-db.collection("typing").doc(username).set({
-  typing: false
-});
+
 
 
 
