@@ -973,6 +973,7 @@ Move this above input bar later for better UX
   <!-- USERNAME -->
   <label>Username</label>
   <input id="nameInput" placeholder="Enter name">
+  <button id="confirmName">Confirm Username</button>
 
   
 
@@ -1049,22 +1050,39 @@ const username = localStorage.getItem("username") || "User";
 
 const nameInput = document.getElementById("nameInput");
 
-/* load current name */
-nameInput.value = username;
 
-/* update name */
-nameInput.addEventListener("change", () => {
+const confirmBtn = document.getElementById("confirmName");
+
+confirmBtn.onclick = () => {
   const newName = nameInput.value.trim();
-  if (!newName) return;
 
+  if (!newName) {
+    alert("Username cannot be empty");
+    return;
+  }
+
+  // confirmation popup
+  const ok = confirm("Are you sure you want to change your username?");
+  if (!ok) return;
+
+  // save username
   localStorage.setItem("username", newName);
 
   db.collection("users").doc(newName).set({
     bubbleColor: "#5865f2"
   });
 
+  // close panel
+  settingsPanel.classList.remove("active");
+
+  // reload app with new username
   location.reload();
-});
+};
+
+/* load current name */
+nameInput.value = username;
+
+
 
 
 
