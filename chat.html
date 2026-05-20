@@ -1139,11 +1139,41 @@ Creates the moving typing dots
   cursor:pointer;
 }
 
+.section{
+  background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:16px;
+  backdrop-filter:blur(20px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.section label{
+  font-size:13px;
+  color:#94a3b8;
+  margin-bottom:6px;
+  display:block;
+}
+
+.section input{
+  margin-bottom:10px;
+}
+
 /* section titles */
 .sectionTitle{
-  font-size:12px;
+  font-size:11px;
+  letter-spacing:1px;
   color:#94a3b8;
-  margin-bottom:8px;
+  padding-left:4px; /* slight alignment tweak */
+}
+
+.sectionBlock{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
 /* inputs */
@@ -1159,19 +1189,23 @@ Creates the moving typing dots
 /* buttons */
 .settingsContent button{
   margin-top:10px;
-  padding:12px;
+  padding:14px;
   border:none;
-  border-radius:14px;
-  background:rgba(255,255,255,0.05);
+  border-radius:12px;
+
+  background:linear-gradient(135deg,#5865f2,#7b8cff);
   color:white;
+  font-weight:500;
+
   cursor:pointer;
-  backdrop-filter:blur(10px);
   transition:0.2s;
 }
 
 .settingsContent button:hover{
-  background:rgba(255,255,255,0.1);
+  transform:translateY(-1px);
+  box-shadow:0 5px 20px rgba(88,101,242,0.5);
 }
+
 
 .settingsTitleWrap{
   margin-left:12px;
@@ -1365,39 +1399,53 @@ Move this above input bar later for better UX
 
   <!-- CONTENT -->
   <div class="settingsContent">
+<div class="sectionBlock">
 
-    <div class="section">
-      <div class="sectionTitle">ACCOUNT</div>
+  <div class="sectionTitle">ACCOUNT</div>
 
-      <label>Username</label>
-      <input id="nameInput" placeholder="Enter name">
-      <button id="confirmName">Confirm Username</button>
-    </div>
-
-    <div class="section">
-      <div class="sectionTitle">APPEARANCE</div>
-
-      <label>Bubble Color</label>
-      <input type="color" id="colorPicker">
-    </div>
-
-    <div class="section">
-      <div class="sectionTitle">BEHAVIOR</div>
-
-      <div class="settingRow">
-        <span>Typing Indicator</span>
-        <input type="checkbox" id="typingToggle" checked>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="sectionTitle">ACTIONS</div>
-
-      <button id="openFullSettings">⚙️ Full Settings</button>
-      <button id="closeSettings">Close</button>
-    </div>
-
+  <div class="section">
+    <!-- content inside box -->
+    <label>Username</label>
+    <input id="nameInput">
+    <button id="confirmName">Confirm Username</button>
   </div>
+
+</div>
+
+    <div class="sectionBlock">
+
+  <div class="sectionTitle">APPEARANCE</div>
+
+  <div class="section">
+    <label>Bubble Color</label>
+    <input type="color" id="colorPicker">
+  </div>
+
+</div>
+
+   <div class="sectionBlock">
+
+  <div class="sectionTitle">BEHAVIOR</div>
+
+  <div class="section">
+    <div class="settingRow">
+      <span>Typing Indicator</span>
+      <input type="checkbox" id="typingToggle" checked>
+    </div>
+  </div>
+
+</div>
+
+    <div class="sectionBlock">
+
+  <div class="sectionTitle">ACTIONS</div>
+
+  <div class="section">
+    <button id="openFullSettings">⚙️ Full Settings</button>
+    <button id="closeSettings">Close</button>
+  </div>
+
+</div>
 
 </div>
 
