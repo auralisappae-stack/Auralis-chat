@@ -96,11 +96,9 @@ body{
 
 
 .bubble{
-  width:100%; /* 👈 fills wrapper cleanly */
-
+  width:100%;
   padding:12px 16px;
   border-radius:18px;
-
   line-height:1.4;
 
   word-break:break-word;
@@ -116,11 +114,16 @@ body{
 .msg{
   display:flex;
   width:100%;
-  margin-bottom:6px; /* default gap */
+  margin-bottom:2px; /* 👈 very small base gap */
 }
 
-.msg.grouped {
-  margin-bottom:4px; /* 👈 gives breathing space */
+.msg.grouped{
+  margin-bottom:0px; /* 👈 NO GAP */
+}
+
+
+.msg.grouped .bubble{
+  border-radius:12px; /* smoother stacking */
 }
 
 
