@@ -1079,25 +1079,23 @@ Creates the moving typing dots
 .settingsHeader{
   display:flex;
   align-items:center;
-  justify-content:space-between;
   padding:20px;
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .settingsIcon{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#5865f2,#9aa7ff);
-  font-size:18px;
+  z-index:2;
+   flex-shrink:0;
 }
 
-.settingsTitles{
-  flex:1;
-  margin-left:12px;
+.settingsTitle{
+  font-size:18px;
+  font-weight:600;
+}
+
+.settingsSubtitle{
+  font-size:12px;
+  color:#94a3b8;
 }
 
 .settingsTitles h2{
@@ -1112,10 +1110,13 @@ Creates the moving typing dots
 }
 
 #closeSettingsTop{
+  margin-left:auto;
   cursor:pointer;
   font-size:18px;
   opacity:0.7;
 }
+
+
 #closeSettingsTop:hover{
   opacity:1;
 }
@@ -1126,6 +1127,15 @@ Creates the moving typing dots
   display:flex;
   flex-direction:column;
   gap:20px;
+}
+
+.settingsContent input[type="color"]{
+  width:50px;
+  height:30px;
+  border:none;
+  border-radius:6px;
+  background:none;
+  cursor:pointer;
 }
 
 /* section titles */
@@ -1150,10 +1160,20 @@ Creates the moving typing dots
   margin-top:10px;
   padding:12px;
   border:none;
-  border-radius:10px;
-  background:#1e293b;
+  border-radius:14px;
+  background:rgba(255,255,255,0.05);
   color:white;
   cursor:pointer;
+  backdrop-filter:blur(10px);
+  transition:0.2s;
+}
+
+.settingsContent button:hover{
+  background:rgba(255,255,255,0.1);
+}
+
+.settingsTitleWrap{
+  margin-left:12px;
 }
 
 
