@@ -1045,7 +1045,7 @@ const db = firebase.firestore();
 
 
 
-const username = localStorage.getItem("username") || "User";
+let username = localStorage.getItem("username") || "User";
 
 
 const nameInput = document.getElementById("nameInput");
@@ -1055,9 +1055,13 @@ const nameInput = document.getElementById("nameInput");
 
 const confirmBtn = document.getElementById("confirmName");
 
-confirmBtn.onclick = () => {
-  alert("Confirm button clicked"); // test first
-};
+
+
+
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsPanel = document.getElementById("settingsPanel");
+const closeSettings = document.getElementById("closeSettings");
+
 
 confirmBtn.onclick = () => {
   const newName = nameInput.value.trim();
@@ -1067,22 +1071,21 @@ confirmBtn.onclick = () => {
     return;
   }
 
-  // confirmation popup
   const ok = confirm("Are you sure you want to change your username?");
   if (!ok) return;
 
-  // save username
+  // 🔥 delete old typing status
+  db.collection("typing").doc(username).delete();
+
+  // update username
   localStorage.setItem("username", newName);
+  username = newName;
 
   db.collection("users").doc(newName).set({
     bubbleColor: "#5865f2"
   });
 
-  // close panel
   settingsPanel.classList.remove("active");
-
-  // reload app with new username
-  location.reload();
 };
 
 /* load current name */
@@ -1530,9 +1533,6 @@ Prevents crashes that break buttons
 */
 
 
-const settingsBtn = document.getElementById("settingsBtn");
-const settingsPanel = document.getElementById("settingsPanel");
-const closeSettings = document.getElementById("closeSettings");
 
 /* OPEN */
 settingsBtn.onclick = () => {
