@@ -513,7 +513,48 @@ Later we can:
 
 
 
+/* ===== TYPING ANIMATION ===== */
 
+.typingBox{
+  height:20px;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:#94a3b8;
+}
+
+/* dots container */
+.dots{
+  display:flex;
+  gap:4px;
+  opacity:0; /* hidden by default */
+}
+
+/* each dot */
+.dots span{
+  width:5px;
+  height:5px;
+  background:#94a3b8;
+  border-radius:50%;
+  animation:bounce 1.2s infinite;
+}
+
+/* delays */
+.dots span:nth-child(2){animation-delay:0.2s;}
+.dots span:nth-child(3){animation-delay:0.4s;}
+
+/* animation */
+@keyframes bounce{
+  0%,80%,100%{transform:scale(0.6);opacity:0.3;}
+  40%{transform:scale(1);opacity:1;}
+}
+
+/*
+NOTE:
+Creates the moving typing dots
+*/
 
 
 
@@ -578,8 +619,7 @@ Later we can:
 
   <div id="messages"></div>
 
-
-  <!-- ================= TYPING INDICATOR ================= -->
+  <!-- TYPING INDICATOR -->
 <div id="typingIndicator" class="typingBox">
   <span id="typingText"></span>
 
@@ -590,6 +630,10 @@ Later we can:
     <span></span>
   </div>
 </div>
+
+
+  <!-- ================= TYPING INDICATOR ================= -->
+
 
 <!-- REMINDER:
 This must be ABOVE input bar
@@ -895,12 +939,10 @@ document.querySelectorAll("#emojiTabs span").forEach(tab=>{
 
 
 
-/* CLOSE OUTSIDE */
-document.addEventListener("click", (e)=>{
-  if(!picker.contains(e.target) && e.target !== emojiBtn){
-    picker.classList.remove("active");
-  }
-});
+
+
+
+
 
 
 
@@ -1040,6 +1082,63 @@ REMINDER:
 Without this → "typing..." can get stuck forever
 */
 
+
+/* CLOSE OUTSIDE */
+document.addEventListener("click", (e)=>{
+  if(!picker.contains(e.target) && e.target !== emojiBtn){
+    picker.classList.remove("active");
+  }
+});
+
+
+
+/* ================= TYPING DISPLAY (SAFE VERSION) ================= */
+
+setTimeout(() => {
+
+  const typingDiv = document.getElementById("typingIndicator");
+  const typingText = document.getElementById("typingText");
+
+  // ✅ stop if not found (prevents crash)
+  if (!typingDiv || !typingText) return;
+
+  const dots = typingDiv.querySelector(".dots");
+  if (!dots) return;
+
+  db.collection("typing").onSnapshot(snapshot => {
+
+    let typingUsers = [];
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+
+      if (doc.id !== username && data.typing) {
+        typingUsers.push(doc.id);
+      }
+    });
+
+    if (typingUsers.length > 0) {
+
+      typingText.textContent = typingUsers.join(", ") + " is typing";
+      dots.style.opacity = "1";
+
+    } else {
+
+      typingText.textContent = "";
+      dots.style.opacity = "0";
+    }
+
+  });
+
+}, 0);
+
+/*
+NOTE:
+setTimeout ensures HTML loads before JS runs
+
+REMINDER:
+Prevents crashes that break buttons
+*/
 
 </script>
 
