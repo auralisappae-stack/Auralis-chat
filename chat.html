@@ -1654,6 +1654,7 @@ Move this above input bar later for better UX
       <label class="switch">
   <input type="checkbox" id="typingToggle" checked>
   <span class="slider"></span>
+  
 </label>
     </div>
   </div>
@@ -1711,6 +1712,26 @@ slider.addEventListener("input", () => {
   db.collection("users").doc(username).set({
     bubbleColor: color
   });
+});
+
+// 🎯 when user types or pastes HEX
+colorHex.addEventListener("input", () => {
+  let value = colorHex.value.trim();
+
+  // make sure it starts with #
+  if (!value.startsWith("#")) {
+    value = "#" + value;
+  }
+
+  // check if valid HEX
+  if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+
+    // save to Firebase
+    db.collection("users").doc(username).set({
+      bubbleColor: value
+    });
+
+  }
 });
 
 /* when picking color 
