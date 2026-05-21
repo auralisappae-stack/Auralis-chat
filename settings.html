@@ -530,7 +530,34 @@ const content = document.getElementById("centerContent");
 const pages = {
 
   "My Account": "<h2>My Account</h2><p>Edit your account info</p>",
-  "Profile": "<h2>Profile</h2><p>Update your profile</p>",
+
+
+  "Profile": `
+  <h2>Profile</h2>
+
+  <div class="profileBox">
+
+    <div class="profileRow">
+      <label>Username</label>
+      <input type="text" placeholder="Enter username">
+    </div>
+
+    <div class="profileRow">
+      <label>Email</label>
+      <input type="email" placeholder="Enter email">
+    </div>
+
+    <div class="profileRow">
+      <label>Bio</label>
+      <textarea placeholder="Write something..."></textarea>
+    </div>
+
+    <button class="saveBtn">Save Changes</button>
+
+  </div>
+`,
+
+
   "Security": "<h2>Security</h2><p>Manage security</p>",
 
   "General": "<h2>General</h2><p>General settings</p>",
