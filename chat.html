@@ -1376,6 +1376,26 @@ Creates the moving typing dots
   margin-top:6px;
 }
 
+
+.usernameIcon{
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: rgba(255,255,255,0.05);
+  color: #94a3b8;
+
+  font-size: 14px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+}
+
 </style>
 
 
@@ -1550,6 +1570,7 @@ Move this above input bar later for better UX
     <label>Username</label>
 
 <div class="usernameRow">
+  <div class="usernameIcon">👤</div>
   <input id="nameInput">
   <button id="confirmName">✔</button>
 </div>
