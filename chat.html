@@ -1604,6 +1604,19 @@ body{
    flex-shrink: 0; /* 🔥 prevents squishing */
 }
 
+.rowLeft{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.rowIcon{
+  width:50px;
+  height:50px;
+  object-fit:contain;
+  opacity:0.8;
+}
+
 
 
 
@@ -1702,12 +1715,6 @@ Move this above input bar later for better UX
     <div id="emojiPicker">
 
 
-
-
-
-
-
-
   <div id="emojiTabs">
     <span data-cat="faces">😀</span>
     <span data-cat="animals">🐱</span>
@@ -1716,15 +1723,7 @@ Move this above input bar later for better UX
 
 
 
-
-
-
   </div>
-
-
-
-
-
 
 
 
@@ -1732,24 +1731,12 @@ Move this above input bar later for better UX
 
 
 
-
-
-
-
-
 </div>
   </div>
 
 
 </div>
 </div>
-
-
-
-
-
-
-
 
 
 
@@ -1842,8 +1829,15 @@ Move this above input bar later for better UX
 
   <div class="section">
     <div class="settingRow">
-      <span>Typing Indicator</span>
-      <label class="switch">
+
+  <div class="rowLeft">
+    <img src="Behavior-icon.png" class="rowIcon">
+    <span>Typing Indicator</span>
+  </div>
+
+  <label class="switch">
+
+
   <input type="checkbox" id="typingToggle" checked>
   <span class="slider"></span>
  
