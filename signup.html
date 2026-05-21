@@ -28,6 +28,7 @@ body {
   border-radius:50%;
   filter:blur(120px);
   opacity:0.4;
+   pointer-events: none; /* 👈 THIS fixes clicking */
 }
 
 .orb1 {
@@ -158,6 +159,35 @@ button:hover {
   transition: 0.2s;
 }
 
+/* go back button CSS */
+
+.backBtn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+
+  background: rgba(255,255,255,0.05);
+  color: #cbd5f5;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 0 0 rgba(88, 101, 242, 0); /* base */
+}
+
+.backBtn:hover {
+  border-color: rgba(88, 101, 242, 0.6);
+
+  box-shadow:
+    0 0 10px rgba(88, 101, 242, 0.3),
+    0 0 20px rgba(88, 101, 242, 0.15);
+
+  background: rgba(255,255,255,0.08);
+}
+
 </style>
 </head>
 
@@ -204,6 +234,10 @@ button:hover {
 <p id="error" style="color:#ff6b6b; font-size:13px; display:none;"></p>
 
   <button onclick="signup()">Sign Up</button>
+
+  
+  <button class="backBtn" onclick="goBack()">Go Back</button>
+
 </div>
 
 <script>
@@ -239,6 +273,10 @@ function togglePassword(id, el) {
   const confirm = document.getElementById("confirmPassword").value.trim();
   const avatar = document.getElementById("avatar").value.trim();
   const error = document.getElementById("error");
+
+
+
+
 
   // ✅ make sure error exists
   if (!error) {
@@ -299,6 +337,13 @@ localStorage.setItem("server", JSON.stringify(server));
     window.location = "chat.html";
   }, 1000);
 }
+
+
+  function goBack() {
+  window.location = "index.html"; // or login.html
+}
+
+
 </script>
 
 </body>
