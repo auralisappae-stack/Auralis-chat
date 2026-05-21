@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Full Settings</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#020617;
+  color:white;
+  display:flex;
+}
+
+/* sidebar */
+#settingsNav{
+  width:220px;
+  background:#0f172a;
+  padding:20px;
+}
+
+/* content */
+#settingsMain{
+  flex:1;
+  padding:30px;
+}
+
+/* items */
+.navItem{
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  opacity:0.7;
+}
+
+.navItem:hover{
+  background:rgba(255,255,255,0.05);
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div id="settingsNav">
+  <div class="navItem">Account</div>
+  <div class="navItem">Appearance</div>
+  <div class="navItem">Behavior</div>
+</div>
+
+<div id="settingsMain">
+  <h2>Settings</h2>
+  <p>Welcome to full settings</p>
+</div>
+
+</body>
+</html>
