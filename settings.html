@@ -165,25 +165,40 @@ body{
 
 /* CENTER (flexible) */
 .centerPanel{
-  flex: 1;
+
   padding: 60px 20px 20px; /* 👈 top space added */
 
   /* adding line */
    flex: 1;
   padding: 20px;
-
+ display: flex;
+  flex-direction: column; /* 🔥 THIS FIXES IT */
   border-right: 1px solid rgba(255,255,255,0.08); /* 👈 second line */
 }
 /* RIGHT (push to edge) */
 .rightPanel{
+  
   width: 320px;
 
-  padding: 20px;
-  padding-left: 40px; /* 🔥 increase this */
+  padding: 40px 30px; /* 👈 more breathing space */
 
   border-left: 1px solid rgba(255,255,255,0.08);
+  padding-left: 40px; /* 🔥 increase this */
 
   
+
+  
+}
+
+.rightPanel h3{
+  margin-bottom: 5px;
+    margin-top: 25px;
+}
+
+.subText{
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 20px;
 }
 
 .navItem{
@@ -213,6 +228,100 @@ body{
 }
 
 
+.subText{
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 15px;
+}
+
+/* main box */
+.settingsBox{
+  background: rgba(255,255,255,0.04);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+
+  padding: 8px 0;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* 👈 depth */
+
+  margin-bottom: 40px; /* 👈 adds space between boxes */
+}
+
+/* each row */
+.settingRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px 20px; /* 👈 more space */
+
+  font-size: 14px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.settingRow:last-child{
+  border-bottom: none;
+}
+
+/* right values */
+.value{
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.value.purple{
+  color: #a78bfa;
+}
+
+
+
+/* SWITCH (reuse if already exists) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+}
+
+.switch input {
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #374151;
+  border-radius: 999px;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.switch input:checked + .slider {
+  background: #8b5cf6;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+
 
 body{
   height: 100vh; /* 🔥 important */
@@ -232,6 +341,7 @@ body{
   <div class="leftPanel">
 
     
+
 
 
 <!-- OVERVIEW (TITLE ONLY) -->
@@ -271,6 +381,8 @@ body{
 
 <div class="navItem">Connections</div>
 <div class="navItem">Blocked Users</div>
+
+
   </div>
 
   
@@ -285,21 +397,79 @@ body{
   </div>
 
   <!-- RIGHT -->
-  <div class="rightPanel">
+  <!-- RIGHT -->
+<div class="rightPanel">
 
-  
+  <h3>App Settings</h3>
+  <p class="subText">Customize your Auralis experience.</p>
 
-    <div class="topHeader"></div>
-    <h3>App Settings</h3>
+  <!-- FIRST BOX -->
+  <div class="settingsBox">
 
-    <div class="rightItem">Theme</div>
-    <div class="rightItem">Accent Color</div>
-    <div class="rightItem">Language</div>
+    <div class="settingRow">
+      <span>Theme</span>
+      <span class="value">Dark ▾</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Accent Color</span>
+      <span class="value purple">● Neon Purple</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Language</span>
+      <span class="value">English ▾</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Startup Behavior</span>
+      <span class="value">Open Auralis ▾</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Minimize To Tray</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="settingRow">
+      <span>Close Button Behavior</span>
+      <span class="value">Minimize ▾</span>
+    </div>
+
+  </div>
+
+  <!-- 🔥 SECOND TITLE -->
+  <h3>Content & Privacy</h3>
+  <p class="subText">Control what you see and share.</p>
+
+  <!-- SECOND BOX -->
+  <div class="settingsBox">
+
+    <div class="settingRow">
+      <span>Content Filtering</span>
+      <span class="value">Moderate ▾</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Allow Direct Messages</span>
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
   </div>
 
 </div>
 
 
+
+
+
+</div>
 
 
 
