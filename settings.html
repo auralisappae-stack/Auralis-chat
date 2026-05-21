@@ -327,6 +327,14 @@ body{
   height: 100vh; /* 🔥 important */
 }
 
+
+.navSmallIcon{
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  opacity: 0.8;
+}
+
 </style>
 </head>
 
@@ -357,9 +365,20 @@ body{
   <h4>Account</h4>
 </div>
 
-<div class="navItem">My Account</div>
-<div class="navItem">Profile</div>
-<div class="navItem">Security</div>
+<div class="navItem">
+  <img src="MyAccount-icon.png" class="navSmallIcon">
+  <span>My Account</span>
+</div>
+
+<div class="navItem">
+  <img src="MyAccount-icon.png" class="navSmallIcon">
+  <span>Profile</span>
+</div>
+
+<div class="navItem">
+  <img src="Security-icon.png" class="navSmallIcon">
+  <span>Security</span>
+</div>
 
 <!-- APP SETTINGS SECTION -->
 <div class="navTitle">
