@@ -1214,9 +1214,11 @@ body{
 .settingsContent{
   padding:20px;
   overflow-y:auto;
+
   display:flex;
   flex-direction:column;
-  gap:20px;
+
+  height:100%; /* ✅ important */
 }
 
 .settingsContent button {
@@ -1617,6 +1619,11 @@ body{
   opacity:0.8;
 }
 
+.fullSettingsWrap{
+  margin-top:auto;
+  padding-top:10px;
+}
+
 
 
 
@@ -1848,18 +1855,12 @@ Move this above input bar later for better UX
 
 </div>
 
-
-    <div class="sectionBlock">
-
-
-  <div class="sectionTitle">ACTIONS</div>
-
-
-  <div class="section">
+  <div class="fullSettingsWrap">
     <button id="openFullSettings">⚙️ Full Settings</button>
-
-
   </div>
+
+</div>
+
 
 
 </div>
