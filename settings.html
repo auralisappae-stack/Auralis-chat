@@ -337,20 +337,28 @@ body{
 
 .profileTop{
   display: flex;
-  flex-direction: column;   /* 🔥 stack items */
-  align-items: center;      /* 🔥 center everything */
-  gap: 20px;
+  align-items: center;
+  gap: 30px; /* 🔥 creates space between avatar & text */
 }
+
 /* avatar */
 .avatarWrapper{
   position: relative;
 }
 
+/* avatar bigger */
 .avatar{
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 120px;
+  height: 120px;
+}
+
+/* LEFT SIDE */
+.avatarSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex-shrink: 0; /* 🔥 prevents squishing */
 }
 
 /* status dot */
@@ -377,9 +385,10 @@ body{
   background: #64748b;
 }
 
-/* right info */
+
+/* RIGHT SIDE */
 .profileInfo{
-  flex: 1;
+  flex: 1; /* 🔥 pushes text away naturally */
 }
 
 .infoRow{
@@ -424,6 +433,13 @@ body{
 
   padding: 20px;
   max-width: 500px;
+
+    margin-top: 20px;
+
+  display: flex;
+  justify-content: center;   /* center horizontally */
+
+  
 }
 
 .profileRow{
@@ -674,59 +690,45 @@ const pages = {
 
     <div class="profileTop">
 
-      <!-- LEFT: IMAGE -->
-      <div class="avatarWrapper">
-        <img src="Profile.pic" class="avatar">
-        <span class="status online"></span>
-      </div>
-
-      <!-- RIGHT: INFO -->
-      <div class="profileInfo">
-
-        <div class="infoRow">
-          <div>
-            <strong>Username</strong>
-            <p class="subText">auralis_user</p>
-            <p class="userId">ID: 48291</p>
-          </div>
-          <button class="editBtn">Edit</button>
-        </div>
-
-        <div class="infoRow">
-          <div>
-            <strong>Email</strong>
-            <p class="subText">user@email.com</p>
-          </div>
-          <button class="editBtn">Edit</button>
-        </div>
-
-        <div class="infoRow">
-          <div>
-            <strong>Bio</strong>
-            <p class="subText">This is my bio...</p>
-          </div>
-          <button class="editBtn">Edit</button>
-
-          <section class="personal-info">
-  <h2>Personal Information</h2>
-
-  <div class="info-row">
-    <label>Display Name</label>
-    <span id="displayName"></span>
-  </div>
-
-  <div class="info-row">
-    <label>Date of Birth</label>
-    <span id="birthDate"></span>
-  </div>
-</section>
-localStorage.setItem("userName", "C");
-localStorage.setItem("userBirth", "2004-10-21");
-        </div>
-
-      </div>
-
+  <!-- LEFT: AVATAR ONLY -->
+  <div class="avatarSection">
+    <div class="avatarWrapper">
+      <img src="test.JPG" class="avatar">
+      <span class="status online"></span>
     </div>
+  </div>
+
+  <!-- RIGHT: TEXT ONLY -->
+  <div class="profileInfo">
+
+    <div class="infoRow">
+      <div>
+        <strong>Username</strong>
+        <p class="subText">auralis_user</p>
+        <p class="userId">ID: 48291</p>
+      </div>
+      <button class="editBtn">Edit</button>
+    </div>
+
+    <div class="infoRow">
+      <div>
+        <strong>Email</strong>
+        <p class="subText">user@email.com</p>
+      </div>
+      <button class="editBtn">Edit</button>
+    </div>
+
+    <div class="infoRow">
+      <div>
+        <strong>Bio</strong>
+        <p class="subText">This is my bio...</p>
+      </div>
+      <button class="editBtn">Edit</button>
+    </div>
+
+  </div>
+
+</div>
 
   </div>
 
