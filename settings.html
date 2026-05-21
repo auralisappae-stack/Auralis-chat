@@ -198,12 +198,16 @@ body{
   opacity: 0.8;
 }
 
-
-.leftPanel,
-.centerPanel,
-.rightPanel{
-  height: 100%;
+.topLine{
+  position: absolute;
+  top: 30px; /* adjust height */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
 }
+
+
 
 body{
   height: 100vh; /* 🔥 important */
@@ -217,9 +221,14 @@ body{
 <body>
 
 <div class="settingsLayout">
+<div class="topLine"></div> <!-- 👈 ADD THIS -->
 
   <!-- LEFT -->
   <div class="leftPanel">
+
+    
+
+
 <!-- OVERVIEW (TITLE ONLY) -->
 <div class="navTitle">
   <img src="overview-icon.png" class="navIcon">
@@ -239,13 +248,20 @@ body{
   </div>
 
   <!-- CENTER -->
-  <div class="centerPanel" id="dynamicContent">
+  <div class="centerPanel" > 
+
+     <div class="topHeader"></div>
+
     <h2>Overview</h2>
     <p>Select a section</p>
   </div>
 
   <!-- RIGHT -->
   <div class="rightPanel">
+
+  
+
+    <div class="topHeader"></div>
     <h3>App Settings</h3>
 
     <div class="rightItem">Theme</div>
