@@ -1616,6 +1616,24 @@ const db = firebase.firestore();
 
 let username = localStorage.getItem("username") || "User";
 
+db.collection("users").doc(username).get().then(doc => {
+
+  if (doc.exists) {
+
+    const data = doc.data();
+
+    if (data.bubbleColor) {
+
+      // 🎯 set the picker UI
+      colorPicker.value = data.bubbleColor;
+      colorHex.value = data.bubbleColor;
+
+    }
+
+  }
+
+});
+
 
 
 
@@ -1712,9 +1730,7 @@ document.getElementById("msgInput").addEventListener("keydown", e=>{
 
 
 
-db.collection("users").doc(username).set({
-  bubbleColor: "#5865f2"
-});
+
 
 
 
