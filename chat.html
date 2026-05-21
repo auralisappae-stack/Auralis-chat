@@ -1858,12 +1858,15 @@ document.getElementById("sendBtn").onclick = () => {
 
 
 
+// get current color
+const currentColor = userStyles[username]?.bubbleColor || "#5865f2";
 
-  db.collection("messages").add({
-    user: username,
-    text: text,
-    time: Date.now()
-  });
+db.collection("messages").add({
+  user: username,
+  text: text,
+  time: Date.now(),
+  color: currentColor // ✅ SAVE COLOR HERE
+});
 
 
 
@@ -1941,7 +1944,7 @@ db.collection("messages").orderBy("time")
     const isMe = msg.user === username;
    
     const userStyle = userStyles[msg.user];
-const bubbleColor = userStyle?.bubbleColor || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
+const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
 
 
