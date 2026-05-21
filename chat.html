@@ -1295,29 +1295,39 @@ Creates the moving typing dots
 }
 
 .colorRow{
-  display:flex;
-  align-items:center;
-  gap:10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 /* color box */
 #colorPicker{
-  width:50px;
-  height:40px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  background:none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* 🔥 makes it circle */
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden; /* important for circle */
+}
+
+#colorPicker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+#colorPicker::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
 }
 
 /* hex input */
 #colorHex{
-  flex:1;
-  padding:10px;
-  border-radius:10px;
-  border:none;
-  background:#020617;
-  color:white;
+  width: 90px; /* 👈 controls size */
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: #020617;
+  color: white;
 }
 
 /* note text */
@@ -1394,6 +1404,37 @@ Creates the moving typing dots
 
     border: 1px solid rgba(255,255,255,0.08);
   background: rgba(255,255,255,0.03);
+}
+
+#colorSlider{
+  flex: 1; /* 🔥 takes all available space */
+  height: 8px;
+  border-radius: 999px;
+  appearance: none;
+
+  background: linear-gradient(
+    to right,
+    red, yellow, lime, cyan, blue, magenta, red
+  );
+}
+
+/* thumb (the circle you drag) */
+#colorSlider::-webkit-slider-thumb{
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  border: 2px solid #020617;
+}
+
+#colorSlider::-moz-range-thumb{
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
 }
 
 </style>
@@ -1590,7 +1631,7 @@ Move this above input bar later for better UX
     <label>Bubble Color</label>
     <div class="colorRow">
 
-  <input type="color" id="colorPicker">
+ <input type="range" id="colorSlider" min="0" max="360">
 
   <input type="text" id="colorHex" placeholder="#5865f2">
 
@@ -1654,10 +1695,25 @@ const firebaseConfig = {
 
 
 
-const colorPicker = document.getElementById("colorPicker");
+const slider = document.getElementById("colorSlider");
 const colorHex = document.getElementById("colorHex");
 
-/* when picking color */
+
+slider.addEventListener("input", () => {
+  const hue = slider.value;
+
+  const color = `hsl(${hue}, 80%, 60%)`;
+
+  // update hex/text field
+  colorHex.value = color;
+
+  // save to firebase
+  db.collection("users").doc(username).set({
+    bubbleColor: color
+  });
+});
+
+/* when picking color 
 colorPicker.addEventListener("input", (e)=>{
   const color = e.target.value;
 
@@ -1668,7 +1724,7 @@ colorPicker.addEventListener("input", (e)=>{
   });
 });
 
-/* when typing hex */
+/* when typing hex 
 colorHex.addEventListener("input", ()=>{
   let value = colorHex.value;
 
@@ -1681,7 +1737,7 @@ colorHex.addEventListener("input", ()=>{
       bubbleColor: value
     });
   }
-});
+}); */
 
 
 
