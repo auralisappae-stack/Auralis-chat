@@ -28,15 +28,30 @@ body{
 
 /* items */
 .navItem{
-  padding:10px;
-  border-radius:8px;
-  cursor:pointer;
-  opacity:0.7;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 6px 0; /* 👈 smaller, no box feel */
+  border-radius: 0; /* ❌ remove rounded box */
+
+  cursor: pointer;
+  opacity: 0.8;
+  background: none; /* ❌ remove background */
 }
 
-.navItem:hover{
-  background:rgba(255,255,255,0.05);
-  opacity:1;
+
+
+.navItem h4{
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* highlight the text of the overview on the left panel */
+
+.navItem.active h4{
+  color: #5865f2;
 }
 
 #settingsLayout{
@@ -106,18 +121,38 @@ body{
 /* LEFT */
 .leftPanel{
   width: 220px;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* CENTER (flexible) */
 .centerPanel{
   flex: 1;
-  padding: 20px;
+  padding: 60px 20px 20px; /* 👈 top space added */
 }
-
 /* RIGHT (push to edge) */
 .rightPanel{
   width: 320px;
   margin-left: auto; /* 🔥 THIS pushes it all the way right */
+}
+
+.navItem{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.navIcon{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  opacity: 0.8;
 }
 
 </style>
@@ -131,7 +166,12 @@ body{
 
   <!-- LEFT -->
   <div class="leftPanel">
-    <div class="navItem active">Overview</div>
+
+  <div class="navItem active">
+  <img src="overview-icon.png" class="navIcon">
+  <h4>Overview</h4>
+</div>
+
     <div class="navItem">Account</div>
     <div class="navItem">Appearance</div>
   </div>
