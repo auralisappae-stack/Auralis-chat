@@ -388,9 +388,9 @@ body{
   
 
   <!-- CENTER -->
-  <div class="centerPanel" > 
+  <div class="centerPanel" id="centerContent">
 
-     <div class="topHeader"></div>
+     
 
     <h2>Overview</h2>
     <p>Select a section</p>
@@ -475,30 +475,34 @@ body{
 
 <script>
 
-    const content = document.getElementById("dynamicContent");
+
+const content = document.getElementById("centerContent");
+
+const pages = {
+
+  "My Account": "<h2>My Account</h2><p>Edit your account info</p>",
+  "Profile": "<h2>Profile</h2><p>Update your profile</p>",
+  "Security": "<h2>Security</h2><p>Manage security</p>",
+
+  "General": "<h2>General</h2><p>General settings</p>",
+  "Voice & Audio": "<h2>Voice & Audio</h2><p>Audio settings</p>",
+  "Notifications": "<h2>Notifications</h2><p>Notifications settings</p>",
+  "Appearance": "<h2>Appearance</h2><p>Theme settings</p>",
+  "Streamer Mode": "<h2>Streamer Mode</h2><p>Streaming settings</p>",
+  "Keybinds": "<h2>Keybinds</h2><p>Shortcuts</p>",
+
+  "Connections": "<h2>Connections</h2><p>Linked accounts</p>",
+  "Blocked Users": "<h2>Blocked Users</h2><p>Manage blocked users</p>"
+
+};
 
 document.querySelectorAll(".navItem").forEach(item => {
   item.onclick = () => {
 
-    // remove active
-    document.querySelectorAll(".navItem")
-      .forEach(i => i.classList.remove("active"));
+    const text = item.textContent.trim();
 
-    item.classList.add("active");
-
-    const text = item.textContent;
-
-    // 🔥 change center content
-    if (text === "Overview") {
-      content.innerHTML = "<p>This is overview page</p>";
-    }
-
-    if (text === "Account") {
-      content.innerHTML = "<p>Account settings here</p>";
-    }
-
-    if (text === "Appearance") {
-      content.innerHTML = "<p>Appearance settings here</p>";
+    if (pages[text]) {
+      content.innerHTML = pages[text];
     }
 
   };
