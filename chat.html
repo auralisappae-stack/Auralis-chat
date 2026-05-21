@@ -252,46 +252,12 @@ body{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .msg{
   display:flex;
+  align-items:flex-start; /* 🔥 important */
   width:100%;
-  margin-bottom:2px; /* 👈 very small base gap */
+  margin-bottom:6px;
 }
-
-
-
-
-
-
-
-
-.msg.grouped{
-  margin-bottom:0px; /* 👈 NO GAP */
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -300,17 +266,6 @@ body{
 .msg.grouped .bubble{
   border-radius:12px; /* smoother stacking */
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -776,19 +731,23 @@ body{
   justify-content:flex-end;
 
 
-
-
-
-
-
-
   animation: messageIn 0.2s ease;
 }
 
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 10px;
+  flex-shrink: 0;
 
+  background: linear-gradient(135deg,#5865f2,#9aa7ff);
+}
 
-
-
+/* 👇 reserve space even when avatar hidden */
+.avatar.hidden {
+  visibility: hidden;
+}
 
 
 
@@ -849,30 +808,12 @@ body{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* username */
-.name {
+.name{
   font-size:11px;
   color:#94a3b8;
   margin-bottom:4px;
 }
-
-
-
-
-
 
 
 
@@ -1936,7 +1877,7 @@ db.collection("messages").orderBy("time")
 
     const timeDiff = lastTime ? (msg.time - lastTime) : 0;
     const isNewGroup = msg.user !== lastUser || timeDiff > 300000;
-    const isGrouped = msg.user === lastUser && timeDiff < 300000;
+    const isGrouped = msg.user === lastUser && timeDiff < 3600000
 
 
 
@@ -1968,8 +1909,12 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
-   el.innerHTML = `
+el.innerHTML = `
+  <div class="avatar ${isGrouped ? "hidden" : ""}"></div>
+
   <div class="bubbleWrap">
+    ${!isGrouped ? `<div class="name">${msg.user}</div>` : ``}
+
     <div class="bubble" style="background:${bubbleColor}">
       ${msg.text}
     </div>
