@@ -1219,6 +1219,10 @@ body{
   gap:20px;
 }
 
+.settingsContent button {
+  width: 100%; /* 🔥 makes it full width again */
+}
+
 
 .settingsContent input[type="text"]{
   flex:1;
@@ -1244,6 +1248,8 @@ body{
   border-radius:16px;
   padding:16px;
   backdrop-filter:blur(20px);
+   width: 100%; /* 🔥 force full width */
+  box-sizing: border-box;
 
 
   box-shadow:
@@ -1273,10 +1279,11 @@ body{
 }
 
 
-.sectionBlock{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* slightly tighter */
+  width: 100%; /* 🔥 important */
 }
 
 
@@ -1413,10 +1420,11 @@ body{
 }
 
 
-.colorRow{
+.colorRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  width: 100%; /* 🔥 prevents overflow */
 }
 
 
@@ -1593,6 +1601,7 @@ body{
   height: 34px;
   object-fit: contain;
   opacity: 0.8;
+   flex-shrink: 0; /* 🔥 prevents squishing */
 }
 
 
@@ -1816,17 +1825,13 @@ Move this above input bar later for better UX
   <input type="text" id="colorHex" placeholder="#5865f2">
 </div>
 
-
-</div>
-
-
 <div class="colorNote">
   Customize your message bubble
 </div>
   </div>
 
-
 </div>
+
 
 
    <div class="sectionBlock">
@@ -1871,38 +1876,12 @@ Move this above input bar later for better UX
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
 };
-
-
-
-
-
-
-
-
-
-
 
 
 
