@@ -1130,13 +1130,14 @@ Creates the moving typing dots
   gap:20px;
 }
 
-.settingsContent input[type="color"]{
-  width:50px;
-  height:30px;
-  border:none;
-  border-radius:6px;
-  background:none;
-  cursor:pointer;
+.settingsContent input[type="text"]{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.05);
+  color:white;
+  outline:none;
 }
 
 .settingRow{
@@ -1164,9 +1165,7 @@ Creates the moving typing dots
   display:block;
 }
 
-.section input{
-  margin-bottom:10px;
-}
+
 
 /* section titles */
 .sectionTitle{
@@ -1184,17 +1183,22 @@ Creates the moving typing dots
 
 /* inputs */
 .settingsContent input[type="text"]{
-  width:100%;
-  padding:10px;
+  flex:1;
+  padding:12px;
   border-radius:10px;
-  border:none;
-  background:#020617;
+
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.05) !important; /* 🔥 force it */
   color:white;
+
+  outline:none;
+  box-shadow:none;
+  appearance:none;
 }
 
 /* buttons */
 .settingsContent button{
-  margin-top:10px;
+  margin-top:0px;
   padding:14px;
   border:none;
   border-radius:12px;
@@ -1318,6 +1322,54 @@ Creates the moving typing dots
 
 /* note text */
 .colorNote{
+  text-align:center;
+  font-size:12px;
+  color:#94a3b8;
+  margin-top:6px;
+}
+
+.usernameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between input + button */
+  
+}
+
+.usernameRow input {
+  flex: 1;
+  height: 34px; /* ✅ force exact height */
+  padding: 0 10px; /* remove vertical padding */
+  border-radius: 10px;
+  border: none;
+  background: #020617;
+  color: white;
+}
+
+.usernameRow button {
+  width: 34px;   /* smaller */
+  height: 34px;  /* smaller */
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 14px; /* smaller icon */
+
+  background: linear-gradient(135deg,#5865f2,#7b8cff);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.usernameRow button:hover{
+  transform: scale(1.05);
+}
+
+
+
+/* note text */
+.usernameNote{
   text-align:center;
   font-size:12px;
   color:#94a3b8;
@@ -1496,8 +1548,15 @@ Move this above input bar later for better UX
   <div class="section">
     <!-- content inside box -->
     <label>Username</label>
-    <input id="nameInput">
-    <button id="confirmName">Confirm Username</button>
+
+<div class="usernameRow">
+  <input id="nameInput">
+  <button id="confirmName">✔</button>
+</div>
+
+<div class="usernameNote">
+  change username here
+</div>
   </div>
 
 </div>
