@@ -337,10 +337,10 @@ body{
 
 .profileTop{
   display: flex;
+  flex-direction: column;   /* 🔥 stack items */
+  align-items: center;      /* 🔥 center everything */
   gap: 20px;
-  align-items: flex-start;
 }
-
 /* avatar */
 .avatarWrapper{
   position: relative;
@@ -706,6 +706,22 @@ const pages = {
             <p class="subText">This is my bio...</p>
           </div>
           <button class="editBtn">Edit</button>
+
+          <section class="personal-info">
+  <h2>Personal Information</h2>
+
+  <div class="info-row">
+    <label>Display Name</label>
+    <span id="displayName"></span>
+  </div>
+
+  <div class="info-row">
+    <label>Date of Birth</label>
+    <span id="birthDate"></span>
+  </div>
+</section>
+localStorage.setItem("userName", "C");
+localStorage.setItem("userBirth", "2004-10-21");
         </div>
 
       </div>
