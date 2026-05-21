@@ -335,6 +335,85 @@ body{
   opacity: 0.8;
 }
 
+.profileTop{
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* avatar */
+.avatarWrapper{
+  position: relative;
+}
+
+.avatar{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* status dot */
+.status{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #020617;
+}
+
+.status.online{
+  background: #22c55e;
+}
+
+.status.away{
+  background: #facc15;
+}
+
+.status.offline{
+  background: #64748b;
+}
+
+/* right info */
+.profileInfo{
+  flex: 1;
+}
+
+.infoRow{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.infoRow:last-child{
+  border-bottom: none;
+}
+
+.userId{
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* edit button */
+.editBtn{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+
+  padding: 6px 12px;
+  color: white;
+  cursor: pointer;
+}
+
+.editBtn:hover{
+  background: rgba(255,255,255,0.1);
+}
 
 .profileBox{
   margin-top: 20px;
@@ -588,29 +667,53 @@ const pages = {
   "My Account": "<h2>My Account</h2><p>Edit your account info</p>",
 
 
-  "Profile": `
+"Profile": `
   <h2>Profile</h2>
 
   <div class="profileBox">
 
-    <div class="profileRow">
-      <label>Username</label>
-      <input type="text" placeholder="Enter username">
-    </div>
+    <div class="profileTop">
 
-    <div class="profileRow">
-      <label>Email</label>
-      <input type="email" placeholder="Enter email">
-    </div>
+      <!-- LEFT: IMAGE -->
+      <div class="avatarWrapper">
+        <img src="Profile.pic" class="avatar">
+        <span class="status online"></span>
+      </div>
 
-    <div class="profileRow">
-      <label>Bio</label>
-      <textarea placeholder="Write something..."></textarea>
-    </div>
+      <!-- RIGHT: INFO -->
+      <div class="profileInfo">
 
-    <button class="saveBtn">Save Changes</button>
+        <div class="infoRow">
+          <div>
+            <strong>Username</strong>
+            <p class="subText">auralis_user</p>
+            <p class="userId">ID: 48291</p>
+          </div>
+          <button class="editBtn">Edit</button>
+        </div>
+
+        <div class="infoRow">
+          <div>
+            <strong>Email</strong>
+            <p class="subText">user@email.com</p>
+          </div>
+          <button class="editBtn">Edit</button>
+        </div>
+
+        <div class="infoRow">
+          <div>
+            <strong>Bio</strong>
+            <p class="subText">This is my bio...</p>
+          </div>
+          <button class="editBtn">Edit</button>
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
+
 `,
 
 
