@@ -26,26 +26,45 @@ body{
   padding:30px;
 }
 
+
+.navTitle{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding-left: 0; /* 🔥 align with items */
+}
+
 /* items */
 .navItem{
   display: flex;
   align-items: center;
   gap: 10px;
 
-  padding: 6px 0; /* 👈 smaller, no box feel */
-  border-radius: 0; /* ❌ remove rounded box */
-
+  padding: 0px 0;
   cursor: pointer;
   opacity: 0.8;
-  background: none; /* ❌ remove background */
+}
+
+.navColumn{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 
 
+.navColumn h4{
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.navTitle h4,
+.navItem span,
 .navItem h4{
   margin: 0;
   font-size: 14px;
-  font-weight: 500;
 }
 
 /* highlight the text of the overview on the left panel */
@@ -92,6 +111,7 @@ body{
   border-radius:8px;
   cursor:pointer;
   opacity:0.7;
+   padding-left: 0;
 }
 
 .navItem:hover{
@@ -125,6 +145,8 @@ body{
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+   padding-left: 20px; /* 👈 ONE consistent left line */
 }
 
 /* CENTER (flexible) */
@@ -166,14 +188,22 @@ body{
 
   <!-- LEFT -->
   <div class="leftPanel">
-
-  <div class="navItem active">
+<!-- OVERVIEW (TITLE ONLY) -->
+<div class="navTitle">
   <img src="overview-icon.png" class="navIcon">
   <h4>Overview</h4>
 </div>
 
-    <div class="navItem">Account</div>
-    <div class="navItem">Appearance</div>
+
+
+<!-- ACCOUNT SECTION -->
+<div class="navTitle">
+  <h4>Account</h4>
+</div>
+
+<div class="navItem">My Account</div>
+<div class="navItem">Profile</div>
+<div class="navItem">Security</div>
   </div>
 
   <!-- CENTER -->
@@ -192,6 +222,8 @@ body{
   </div>
 
 </div>
+
+
 
 
 
