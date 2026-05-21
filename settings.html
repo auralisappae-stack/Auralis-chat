@@ -38,21 +38,158 @@ body{
   background:rgba(255,255,255,0.05);
   opacity:1;
 }
+
+#settingsLayout{
+  display:flex;
+  height:100vh;
+  background:#020617;
+  color:white;
+}
+
+/* LEFT */
+#settingsLeft{
+  width:220px;
+  padding:20px;
+  background:#0f172a;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+/* CENTER (DYNAMIC) */
+#settingsCenter{
+  flex:1;
+  padding:30px;
+  overflow-y:auto;
+}
+
+/* RIGHT (FIXED PANEL) */
+#settingsRight{
+  width:300px;
+  padding:20px;
+  background:rgba(15,23,42,0.6);
+  border-left:1px solid rgba(255,255,255,0.08);
+}
+
+/* NAV ITEMS */
+.navItem{
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  opacity:0.7;
+}
+
+.navItem:hover{
+  background:rgba(255,255,255,0.05);
+  opacity:1;
+}
+
+.navItem.active{
+  background:rgba(88,101,242,0.2);
+  opacity:1;
+}
+
+/* RIGHT ITEMS */
+.rightItem{
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.05);
+}
+
+.settingsLayout{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* LEFT */
+.leftPanel{
+  width: 220px;
+}
+
+/* CENTER (flexible) */
+.centerPanel{
+  flex: 1;
+  padding: 20px;
+}
+
+/* RIGHT (push to edge) */
+.rightPanel{
+  width: 320px;
+  margin-left: auto; /* 🔥 THIS pushes it all the way right */
+}
+
 </style>
 </head>
 
+
+
 <body>
 
-<div id="settingsNav">
-  <div class="navItem">Account</div>
-  <div class="navItem">Appearance</div>
-  <div class="navItem">Behavior</div>
+<div class="settingsLayout">
+
+  <!-- LEFT -->
+  <div class="leftPanel">
+    <div class="navItem active">Overview</div>
+    <div class="navItem">Account</div>
+    <div class="navItem">Appearance</div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="centerPanel" id="dynamicContent">
+    <h2>Overview</h2>
+    <p>Select a section</p>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="rightPanel">
+    <h3>App Settings</h3>
+
+    <div class="rightItem">Theme</div>
+    <div class="rightItem">Accent Color</div>
+    <div class="rightItem">Language</div>
+  </div>
+
 </div>
 
-<div id="settingsMain">
-  <h2>Settings</h2>
-  <p>Welcome to full settings</p>
+
+
+<script>
+
+    const content = document.getElementById("dynamicContent");
+
+document.querySelectorAll(".navItem").forEach(item => {
+  item.onclick = () => {
+
+    // remove active
+    document.querySelectorAll(".navItem")
+      .forEach(i => i.classList.remove("active"));
+
+    item.classList.add("active");
+
+    const text = item.textContent;
+
+    // 🔥 change center content
+    if (text === "Overview") {
+      content.innerHTML = "<p>This is overview page</p>";
+    }
+
+    if (text === "Account") {
+      content.innerHTML = "<p>Account settings here</p>";
+    }
+
+    if (text === "Appearance") {
+      content.innerHTML = "<p>Appearance settings here</p>";
+    }
+
+  };
+});
+
+</script>
+
 </div>
+
 
 </body>
 </html>
