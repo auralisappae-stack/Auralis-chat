@@ -2567,6 +2567,22 @@ document.getElementById("closeSettingsTop").onclick = () => {
 };
 
 
+// when clicking outside the panel it close automatiically and save what have been changed
+document.addEventListener("click", (e) => {
+  const panel = document.getElementById("settingsPanel");
+  const btn = document.getElementById("settingsBtn");
+
+  // if panel is open
+  if (panel.classList.contains("active")) {
+
+    // click is NOT inside panel AND not the button
+    if (!panel.contains(e.target) && !btn.contains(e.target)) {
+      panel.classList.remove("active");
+    }
+
+  }
+});
+
 </script>
 
 
