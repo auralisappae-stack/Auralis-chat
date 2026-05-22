@@ -733,7 +733,34 @@ const pages = {
 `,
 
 
-  "Security": "<h2>Security</h2><p>Manage security</p>",
+  "Security":` "<h2>Security</h2><p>Manage security</p>"
+  
+  <section class="security-section">
+
+  <div class="security-card">
+    <h3>Password</h3>
+    <button onclick="changePassword()">Change Password</button>
+  </div>
+
+  <div class="security-card">
+    <h3>Email Verification</h3>
+    <span id="verifyStatus"></span>
+    <button onclick="sendVerification()">Send Verification Email</button>
+  </div>
+
+  <div class="security-card">
+    <h3>Sessions</h3>
+    <button onclick="logoutAll()">Log out from all devices</button>
+  </div>
+
+  <div class="security-card danger">
+    <h3>Delete Account</h3>
+    <button onclick="deleteAccount()">Delete Account</button>
+
+    
+  </div> 
+`
+  ,
 
   "General": "<h2>General</h2><p>General settings</p>",
   "Voice & Audio": "<h2>Voice & Audio</h2><p>Audio settings</p>",
