@@ -1799,6 +1799,8 @@ Move this above input bar later for better UX
 </div>
   </div>
 
+ <input type="file" id="avatarUpload" accept="image/*">
+
 
 </div>
 
@@ -2129,9 +2131,7 @@ db.collection("users").onSnapshot(snapshot=>{
   snapshot.forEach(doc=>{
     userStyles[doc.id] = doc.data();
 
-    db.collection("users").doc(username).set({
-  avatar: imageURL
-}, { merge: true });
+   
   });
 });
 
@@ -2178,6 +2178,8 @@ db.collection("messages").orderBy("time")
   snapshot.forEach(doc=>{
     const msg = doc.data();
 
+    const userStyle = userStyles[msg.user] || {}; // ✅ HERE (correct place)
+
 
 
 
@@ -2189,7 +2191,7 @@ db.collection("messages").orderBy("time")
 
     const isMe = msg.user === username;
    
-    const userStyle = userStyles[msg.user];
+  
 const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
 
@@ -2219,9 +2221,11 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
 
 
-    /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
+
+ 
+
 el.innerHTML = `
-  ${!isMe ? `<img src="${msg.avatar || 'default.png'}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
+  ${!isMe ? `<img src="${userStyle.avatar || 'https://i.pravatar.cc/40?u=' + msg.user}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
@@ -2528,6 +2532,26 @@ document.getElementById("openFullSettings").onclick = () => {
   window.location.href = "settings.html";
 };
 
+
+const avatarInput = document.getElementById("avatarUpload");
+
+avatarInput.addEventListener("change", () => {
+  const file = avatarInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const imageURL = e.target.result; // base64 image
+
+    // 🔥 SAVE TO FIREBASE
+    db.collection("users").doc(username).set({
+      avatar: imageURL
+    }, { merge: true });
+  };
+
+  reader.readAsDataURL(file);
+});
 
 };
 </script>
