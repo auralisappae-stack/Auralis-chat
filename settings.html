@@ -375,19 +375,30 @@ body{
 /* RIGHT SIDE */
 .profileInfo{
   flex: 1; /* 🔥 pushes text away naturally */
+    max-width: 500px; /* 🔥 keeps it inside box */
+     padding-right: 20px; /* 👈 prevents overflow */
 }
 
 .infoRow{
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  flex-direction: column; /* label on top */
+  gap: 6px;
+  margin-bottom: 15px;
 }
 
+.inputRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.editInput{
+  flex: 1; /* 🔥 takes full space */
+}
+
+
 .infoText{
-  max-width: 70%;
+  flex: 1; /* 👈 takes available space only */
 }
 
 .infoRow:last-child{
@@ -417,6 +428,8 @@ body{
   padding: 6px;
   color: white;
   width: 100%;
+  max-width: 250px; /* 👈 prevents pushing */
+
 }
 
 .editBtn:hover{
@@ -433,7 +446,7 @@ body{
   padding: 20px;
 
   display: flex;
-  align-items: center; /* 👈 vertical align */
+  align-items: flex-start; /* 👈 vertical align */
   gap: 30px; /* 👈 space between avatar and text */
 }
 
@@ -732,11 +745,12 @@ const pages = {
   "My Account": "<h2>My Account</h2><p>Edit your account info</p>",
 
 "Profile": `
+
 <h2>Profile</h2>
 
 <div class="profileBox">
 
-  <!-- LEFT: AVATAR + BUTTON -->
+  <!-- LEFT -->
   <div class="avatarSection">
 
     <div class="avatarWrapper">
@@ -744,55 +758,47 @@ const pages = {
       <span class="status online"></span>
     </div>
 
-    <!-- 🔥 BUTTON UNDER IMAGE -->
-   <div class="uploadSection">
-  
-  <div class="uploadSection">
+    <div class="uploadSection">
+      <input type="file" id="fileInput" style="display:none;" onchange="uploadImage()">
 
-  <!-- hidden file input -->
-  <input type="file" id="fileInput" style="display:none;" onchange="uploadImage()">
-
-  <!-- button -->
-  <button class="uploadBtn" onclick="document.getElementById('fileInput').click()">
-    Upload
-  </button>
-
-</div>
-
-</div>
+      <button class="uploadBtn" onclick="document.getElementById('fileInput').click()">
+        Upload
+      </button>
+    </div>
 
   </div>
 
-  <!-- RIGHT: INFO -->
+  <!-- RIGHT -->
   <div class="profileInfo">
 
-    <div class="infoRow">
-      <div class="infoText">
-        <strong>Username</strong>
-       <input type="text" value="auralis_user" class="editInput" maxlength="20">
-      </div>
-      <button class="editBtn">Confirm</button>
-    </div>
+   <div class="infoRow">
+  <strong>Username</strong>
 
-    <div class="infoRow">
-      <div class="infoText">
-        <strong>Email</strong>
-        <input type="email" value="user@email.com" class="editInput">
-      </div>
-      <button class="editBtn">Confirm</button>
-    </div>
-
-    <div class="infoRow">
-      <div class="infoText">
-        <strong>Bio</strong>
-
-        <textarea class="editInput" maxlength="120">This is my bio...</textarea>
-
-      </div>
-      <button class="editBtn">Confirm</button>
-    </div>
-
+  <div class="inputRow">
+    <input type="text" value="auralis_user" class="editInput" maxlength="20">
+    <button class="editBtn">Confirm</button>
   </div>
+</div>
+
+
+    <div class="infoRow">
+  <strong>Email</strong>
+
+  <div class="inputRow">
+    <input type="email" value="user@email.com" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+</div>
+
+
+   <div class="infoRow">
+  <strong>Bio</strong>
+
+  <div class="inputRow">
+    <textarea class="editInput" maxlength="120">This is my bio...</textarea>
+    <button class="editBtn">Confirm</button>
+  </div>
+</div>
 
 </div>
 `
@@ -811,6 +817,10 @@ const pages = {
 };
 
 document.querySelectorAll(".navItem").forEach(item => {
+
+  
+
+
   item.onclick = () => {
 
     const text = item.textContent.trim();
