@@ -410,6 +410,15 @@ body{
   cursor: pointer;
 }
 
+.editInput{
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 6px;
+  color: white;
+  width: 100%;
+}
+
 .editBtn:hover{
   background: rgba(255,255,255,0.1);
 }
@@ -453,7 +462,10 @@ body{
 
 .profileRow textarea{
   resize: none;
-  height: 80px;
+}
+
+textarea.editInput{
+  resize: none;
 }
 
 .saveBtn{
@@ -757,25 +769,27 @@ const pages = {
     <div class="infoRow">
       <div class="infoText">
         <strong>Username</strong>
-        <p class="subText">auralis_user</p>
+       <input type="text" value="auralis_user" class="editInput" maxlength="20">
       </div>
-      <button class="editBtn">Edit</button>
+      <button class="editBtn">Confirm</button>
     </div>
 
     <div class="infoRow">
       <div class="infoText">
         <strong>Email</strong>
-        <p class="subText">user@email.com</p>
+        <input type="email" value="user@email.com" class="editInput">
       </div>
-      <button class="editBtn">Edit</button>
+      <button class="editBtn">Confirm</button>
     </div>
 
     <div class="infoRow">
       <div class="infoText">
         <strong>Bio</strong>
-        <p class="subText">This is my bio...</p>
+
+        <textarea class="editInput" maxlength="120">This is my bio...</textarea>
+
       </div>
-      <button class="editBtn">Edit</button>
+      <button class="editBtn">Confirm</button>
     </div>
 
   </div>
