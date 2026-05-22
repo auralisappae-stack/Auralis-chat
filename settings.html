@@ -348,6 +348,8 @@ body{
 .avatar{
   width: 120px;
   height: 120px;
+  border-radius: 50%; /* 🔥 makes it a circle */
+  object-fit: cover; /* 🔥 prevents stretching */
 }
 
 /* LEFT SIDE */
@@ -690,7 +692,7 @@ const pages = {
     <!-- LEFT: AVATAR -->
     <div class="avatarSection">
       <div class="avatarWrapper">
-        <img src="test.JPG" class="avatar">
+        <img src="https://i.imgur.com/x32UXQw.jpeg" class="avatar">
         <span class="status online"></span>
       </div>
     </div>
