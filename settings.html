@@ -729,18 +729,18 @@ window.uploadImage = function () {
 
   const storageRef = ref(storage, 'avatars/' + file.name);
 
- uploadBytes(storageRef, file)
-  .then(() => getDownloadURL(storageRef))
-  .then((url) => {
+uploadBytes(storageRef, file).then(() => {
+  getDownloadURL(storageRef).then((url) => {
+
+    // show image
     document.getElementById("profilePic").src = url;
-  })
-  .catch((error) => {
-    console.error(error);
-    alert(error.message);
+
+    // 🔥 SAVE IT
+    localStorage.setItem("profilePic", url);
   });
 
 
-};
+}
 </script>
 
 <script>
@@ -828,15 +828,25 @@ document.querySelectorAll(".navItem").forEach(item => {
   
 
 
-  item.onclick = () => {
+ item.onclick = () => {
+  const text = item.textContent.trim();
 
-    const text = item.textContent.trim();
+  if (pages[text]) {
+    content.innerHTML = pages[text];
 
-    if (pages[text]) {
-      content.innerHTML = pages[text];
+    // 🔥 ONLY when Profile is opened
+    if (text === "Profile") {
+      const savedPic = localStorage.getItem("profilePic");
+
+      if (savedPic) {
+        setTimeout(() => {
+          const img = document.getElementById("profilePic");
+          if (img) img.src = savedPic;
+        }, 50);
+      }
     }
-
-  };
+  }
+};
 });
 
 </script>
