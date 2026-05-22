@@ -729,12 +729,14 @@ window.uploadImage = function () {
 
   const storageRef = ref(storage, 'avatars/' + file.name);
 
-  uploadBytes(storageRef, file).then(() => {
-    getDownloadURL(storageRef).then((url) => {
-      document.getElementById("profilePic").src = url;
-
-      console.log("LIVE URL:", url);
-    });
+ uploadBytes(storageRef, file)
+  .then(() => getDownloadURL(storageRef))
+  .then((url) => {
+    document.getElementById("profilePic").src = url;
+  })
+  .catch((error) => {
+    console.error(error);
+    alert(error.message);
   });
 };
 </script>
