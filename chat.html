@@ -1907,7 +1907,7 @@ if (slider && colorHex) {
     colorHex.value = color;
 
     db.collection("users")
-      .doc(localStorage.getItem("username") || "Guest")
+      .doc(username)
       .set({ bubbleColor: color });
   });
 
@@ -1918,7 +1918,7 @@ if (slider && colorHex) {
 
     if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
       db.collection("users")
-        .doc(localStorage.getItem("username") || "Guest")
+        .doc(username)
         .set({ bubbleColor: value });
     }
   });
@@ -1942,7 +1942,7 @@ colorHex.addEventListener("input", () => {
 
 
     // save to Firebase
-    db.collection("users").doc(localStorage.getItem("username") || "Guest").set({
+    db.collection("users").doc(username).set({
       bubbleColor: value
     });
 
@@ -1954,7 +1954,7 @@ colorHex.addEventListener("input", () => {
 
 
 
-db.collection("users").doc(localStorage.getItem("username") || "Guest").get().then(doc => {
+db.collection("users").doc(username).get().then(doc => {
 
 
   if (doc.exists) {
@@ -2002,6 +2002,7 @@ if (settingsBtn) {
     settingsPanel.classList.add("active");
   };
 }
+
 const settingsPanel = document.getElementById("settingsPanel");
 
 
@@ -2027,7 +2028,7 @@ confirmBtn.onclick = () => {
 
 
   // 🔥 delete old typing status
-  db.collection("typing").doc(localStorage.getItem("username") || "Guest").delete();
+  db.collection("typing").doc(username).delete();
 
 
 
@@ -2075,11 +2076,15 @@ document.getElementById("sendBtn").onclick = () => {
 const currentColor = userStyles[username]?.bubbleColor || "#5865f2";
 
 
+
+const userData = userStyles[username] || {};
+
 db.collection("messages").add({
   user: username,
   text: text,
   time: Date.now(),
-  color: currentColor // ✅ SAVE COLOR HERE
+  color: currentColor,
+  avatar: userData.avatar || "default.png"
 });
 
 
@@ -2090,7 +2095,7 @@ db.collection("messages").add({
 
 
     // ✅ STOP typing when message sent
-  db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
+  db.collection("typing").doc(username).set({
     typing: false
   });
  
@@ -2123,6 +2128,10 @@ let userStyles = {};
 db.collection("users").onSnapshot(snapshot=>{
   snapshot.forEach(doc=>{
     userStyles[doc.id] = doc.data();
+
+    db.collection("users").doc(username).set({
+  avatar: imageURL
+}, { merge: true });
   });
 });
 
@@ -2212,7 +2221,7 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
 el.innerHTML = `
-  ${!isMe ? `<img src="https://i.pravatar.cc/40" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
+  ${!isMe ? `<img src="${msg.avatar || 'default.png'}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
@@ -2373,7 +2382,7 @@ inputField.addEventListener("input", () => {
 
 
   // NOTE: user started typing
-  db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
+  db.collection("typing").doc(username).set({
     typing: true
   });
 
@@ -2392,7 +2401,7 @@ inputField.addEventListener("input", () => {
 
 
     // NOTE: stop typing after 1.5s
-    db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
+    db.collection("typing").doc(username).set({
       typing: false
     });
 
