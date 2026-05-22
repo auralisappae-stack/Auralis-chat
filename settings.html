@@ -380,17 +380,19 @@ body{
 }
 
 .infoRow{
-  display: flex;
-  flex-direction: column; /* label on top */
+   display: flex;
+  flex-direction: column;
   gap: 6px;
-  margin-bottom: 15px;
+
+  margin-bottom: 20px; /* 👈 increase spacing */
 }
 
 .inputRow{
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex !important;
+  flex-direction: row !important; /* 🔥 force horizontal */
   align-items: center;
   width: 100%;
+  gap: 10px;
 }
 
 
@@ -414,11 +416,11 @@ body{
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 6px;
 
+ padding: 6px 14px; /* slightly bigger */
 
-  padding: 6px 12px;
   color: white;
   cursor: pointer;
-
+white-space: nowrap; /* 👈 keeps "Confirm" on one line */
    
   flex-shrink: 0;     /* prevents weird resizing */
 }
@@ -429,7 +431,11 @@ body{
   border-radius: 6px;
   padding: 6px;
   color: white;
-  width: 100%;
+  
+  flex: 1;        /* 👈 fills remaining space */
+  min-width: 0;   /* 👈 prevents weird overflow */
+    width: 100%;
+  margin-right: 12px; /* 👈 THIS creates real space */
   
 
 }
