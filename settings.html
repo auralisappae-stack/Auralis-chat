@@ -338,7 +338,7 @@ body{
 .profileTop{
   display: flex;
   align-items: center;
-  gap: 30px; /* 🔥 creates space between avatar & text */
+  gap: 30px;
 }
 
 /* avatar */
@@ -393,11 +393,16 @@ body{
 
 .infoRow{
   display: flex;
-  justify-content: space-between;
   align-items: center;
+
+  justify-content: space-between; /* 🔥 pushes edit button to far right */
 
   padding: 12px 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.infoText{
+  max-width: 70%;
 }
 
 .infoRow:last-child{
@@ -432,14 +437,10 @@ body{
   border-radius: 16px;
 
   padding: 20px;
-  max-width: 500px;
-
-    margin-top: 20px;
 
   display: flex;
-  justify-content: center;   /* center horizontally */
-
-  
+  align-items: center; /* 👈 vertical align */
+  gap: 30px; /* 👈 space between avatar and text */
 }
 
 .profileRow{
@@ -688,49 +689,46 @@ const pages = {
 
   <div class="profileBox">
 
-    <div class="profileTop">
-
-  <!-- LEFT: AVATAR ONLY -->
-  <div class="avatarSection">
-    <div class="avatarWrapper">
-      <img src="test.JPG" class="avatar">
-      <span class="status online"></span>
-    </div>
-  </div>
-
-  <!-- RIGHT: TEXT ONLY -->
-  <div class="profileInfo">
-
-    <div class="infoRow">
-      <div>
-        <strong>Username</strong>
-        <p class="subText">auralis_user</p>
-        <p class="userId">ID: 48291</p>
+    <!-- LEFT: AVATAR -->
+    <div class="avatarSection">
+      <div class="avatarWrapper">
+        <img src="test.JPG" class="avatar">
+        <span class="status online"></span>
       </div>
-      <button class="editBtn">Edit</button>
     </div>
 
-    <div class="infoRow">
-      <div>
-        <strong>Email</strong>
-        <p class="subText">user@email.com</p>
+    <!-- RIGHT: INFO -->
+    <div class="profileInfo">
+
+      <div class="infoRow">
+        <div class="infoText">
+          <strong>Username</strong>
+          <p class="subText">auralis_user</p>
+          <p class="userId">ID: 48291</p>
+        </div>
+        <button class="editBtn">Edit</button>
       </div>
-      <button class="editBtn">Edit</button>
-    </div>
 
-    <div class="infoRow">
-      <div>
-        <strong>Bio</strong>
-        <p class="subText">This is my bio...</p>
+      <div class="infoRow">
+        <div class="infoText">
+          <strong>Email</strong>
+          <p class="subText">user@email.com</p>
+        </div>
+        <button class="editBtn">Edit</button>
       </div>
-      <button class="editBtn">Edit</button>
+
+      <div class="infoRow">
+        <div class="infoText">
+          <strong>Bio</strong>
+          <p class="subText">This is my bio...</p>
+        </div>
+        <button class="editBtn">Edit</button>
+      </div>
+
     </div>
 
-  </div>
+  
 
-</div>
-
-  </div>
 
 `,
 
