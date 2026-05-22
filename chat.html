@@ -1879,6 +1879,10 @@ Move this above input bar later for better UX
 
 window.onload = () => {
 
+  
+
+
+
 
   const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
@@ -2178,7 +2182,7 @@ db.collection("messages").orderBy("time")
   snapshot.forEach(doc=>{
     const msg = doc.data();
 
-    const userStyle = userStyles[msg.user] || {}; // ✅ HERE (correct place)
+    const userStyle = userStyles[msg.user] || { avatar: null };// ✅ HERE (correct place)
 
 
 
@@ -2225,7 +2229,7 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
  
 
 el.innerHTML = `
-  ${!isMe ? `<img src="${userStyle.avatar || 'https://i.pravatar.cc/40?u=' + msg.user}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
+  ${!isMe ? `<img src="${userStyle.avatar ? userStyle.avatar : 'https://i.pravatar.cc/40?u=' + msg.user}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
@@ -2533,25 +2537,37 @@ document.getElementById("openFullSettings").onclick = () => {
 };
 
 
+
+
+
 const avatarInput = document.getElementById("avatarUpload");
+  console.log("avatarInput:", avatarInput);
 
-avatarInput.addEventListener("change", () => {
-  const file = avatarInput.files[0];
-  if (!file) return;
+if (avatarInput) {
+  avatarInput.addEventListener("change", () => {
+    console.log("UPLOAD TRIGGERED"); // 👈 MUST SHOW
 
-  const reader = new FileReader();
+    const file = avatarInput.files[0];
+    if (!file) return;
 
-  reader.onload = function(e) {
-    const imageURL = e.target.result; // base64 image
+    const reader = new FileReader();
+reader.onload = function(e) {
+  console.log("IMAGE READY");
 
-    // 🔥 SAVE TO FIREBASE
+  const imageURL = e.target.result;
+
+  setTimeout(() => {
     db.collection("users").doc(username).set({
       avatar: imageURL
     }, { merge: true });
-  };
 
-  reader.readAsDataURL(file);
-});
+    console.log("SAVED TO FIREBASE");
+  }, 100); // 👈 tiny delay fixes everything
+};
+
+    reader.readAsDataURL(file);
+  });
+}
 
 };
 </script>
