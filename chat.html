@@ -1984,7 +1984,8 @@ const db = firebase.firestore();
 
 
 
-let username = localStorage.getItem("username") || "User";
+const profilePic = localStorage.getItem("profilePic") 
+  || "https://via.placeholder.com/33";
 
 
 db.collection("users").doc(username).get().then(doc => {
@@ -2281,7 +2282,7 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
 el.innerHTML = `
-  ${!isMe ? `<div class="avatar ${isGrouped ? "hidden" : ""}"></div>` : ``}
+  ${!isMe ? `<img src="${profilePic}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
