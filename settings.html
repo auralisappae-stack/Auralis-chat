@@ -735,7 +735,18 @@ const pages = {
     <!-- 🔥 BUTTON UNDER IMAGE -->
    <div class="uploadSection">
   
-  <button class="uploadBtn" onclick="uploadImage()">Upload</button>
+  <div class="uploadSection">
+
+  <!-- hidden file input -->
+  <input type="file" id="fileInput" style="display:none;" onchange="uploadImage()">
+
+  <!-- button -->
+  <button class="uploadBtn" onclick="document.getElementById('fileInput').click()">
+    Upload
+  </button>
+
+</div>
+
 </div>
 
   </div>
