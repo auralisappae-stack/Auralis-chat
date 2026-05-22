@@ -1873,11 +1873,24 @@ Move this above input bar later for better UX
 
 
 <script>
-const firebaseConfig = {
+
+
+window.onload = () => {
+
+
+  const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
   projectId: "auralis-web-app",
 };
+
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let username = localStorage.getItem("username") || "Guest";
+
+
 
 
 
@@ -1885,25 +1898,32 @@ const firebaseConfig = {
 const slider = document.getElementById("colorSlider");
 const colorHex = document.getElementById("colorHex");
 
+if (slider && colorHex) {
 
+  slider.addEventListener("input", () => {
+    const hue = slider.value;
+    const color = `hsl(${hue}, 80%, 60%)`;
 
+    colorHex.value = color;
 
-slider.addEventListener("input", () => {
-  const hue = slider.value;
-
-
-  const color = `hsl(${hue}, 80%, 60%)`;
-
-
-  // update hex/text field
-  colorHex.value = color;
-
-
-  // save to firebase
-  db.collection("users").doc(username).set({
-    bubbleColor: color
+    db.collection("users")
+      .doc(localStorage.getItem("username") || "Guest")
+      .set({ bubbleColor: color });
   });
-});
+
+  colorHex.addEventListener("input", () => {
+    let value = colorHex.value.trim();
+
+    if (!value.startsWith("#")) value = "#" + value;
+
+    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+      db.collection("users")
+        .doc(localStorage.getItem("username") || "Guest")
+        .set({ bubbleColor: value });
+    }
+  });
+
+}
 
 
 // 🎯 when user types or pastes HEX
@@ -1922,7 +1942,7 @@ colorHex.addEventListener("input", () => {
 
 
     // save to Firebase
-    db.collection("users").doc(username).set({
+    db.collection("users").doc(localStorage.getItem("username") || "Guest").set({
       bubbleColor: value
     });
 
@@ -1931,64 +1951,10 @@ colorHex.addEventListener("input", () => {
 });
 
 
-/* when picking color
-colorPicker.addEventListener("input", (e)=>{
-  const color = e.target.value;
-
-
-  colorHex.value = color; // sync text
-
-
-  db.collection("users").doc(username).set({
-    bubbleColor: color
-  });
-});
-
-
-/* when typing hex
-colorHex.addEventListener("input", ()=>{
-  let value = colorHex.value;
-
-
-  if(!value.startsWith("#")) value = "#" + value;
-
-
-  if(/^#[0-9A-Fa-f]{6}$/.test(value)){
-    colorPicker.value = value;
-
-
-    db.collection("users").doc(username).set({
-      bubbleColor: value
-    });
-  }
-}); */
 
 
 
-
-
-
-
-
-
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-
-
-
-
-
-
-
-
-
-const profilePic = localStorage.getItem("profilePic") 
-  || "https://via.placeholder.com/33";
-
-
-db.collection("users").doc(username).get().then(doc => {
+db.collection("users").doc(localStorage.getItem("username") || "Guest").get().then(doc => {
 
 
   if (doc.exists) {
@@ -2000,19 +1966,17 @@ db.collection("users").doc(username).get().then(doc => {
     if (data.bubbleColor) {
 
 
-      // 🎯 set the picker UI
-      colorPicker.value = data.bubbleColor;
-      colorHex.value = data.bubbleColor;
+    
 
 
     }
+    
 
 
   }
 
 
 });
-
 
 
 
@@ -2025,12 +1989,6 @@ const nameInput = document.getElementById("nameInput");
 
 
 
-
-
-
-
-
-
 const confirmBtn = document.getElementById("confirmName");
 
 
@@ -2039,18 +1997,12 @@ const confirmBtn = document.getElementById("confirmName");
 
 
 const settingsBtn = document.getElementById("settingsBtn");
+if (settingsBtn) {
+  settingsBtn.onclick = () => {
+    settingsPanel.classList.add("active");
+  };
+}
 const settingsPanel = document.getElementById("settingsPanel");
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2075,7 +2027,7 @@ confirmBtn.onclick = () => {
 
 
   // 🔥 delete old typing status
-  db.collection("typing").doc(username).delete();
+  db.collection("typing").doc(localStorage.getItem("username") || "Guest").delete();
 
 
 
@@ -2138,7 +2090,7 @@ db.collection("messages").add({
 
 
     // ✅ STOP typing when message sent
-  db.collection("typing").doc(username).set({
+  db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
     typing: false
   });
  
@@ -2156,19 +2108,6 @@ db.collection("messages").add({
 document.getElementById("msgInput").addEventListener("keydown", e=>{
   if(e.key === "Enter") document.getElementById("sendBtn").click();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2233,18 +2172,9 @@ db.collection("messages").orderBy("time")
 
 
 
-
-
-
-
     const timeDiff = lastTime ? (msg.time - lastTime) : 0;
     const isNewGroup = msg.user !== lastUser || timeDiff > 300000;
     const isGrouped = msg.user === lastUser && timeDiff < 3600000
-
-
-
-
-
 
 
 
@@ -2282,7 +2212,7 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
     /* ✅ FIXED STRUCTURE (THIS WAS BREAKING UI) */
 el.innerHTML = `
-  ${!isMe ? `<img src="${profilePic}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
+  ${!isMe ? `<img src="https://i.pravatar.cc/40" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
@@ -2443,7 +2373,7 @@ inputField.addEventListener("input", () => {
 
 
   // NOTE: user started typing
-  db.collection("typing").doc(username).set({
+  db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
     typing: true
   });
 
@@ -2462,7 +2392,7 @@ inputField.addEventListener("input", () => {
 
 
     // NOTE: stop typing after 1.5s
-    db.collection("typing").doc(username).set({
+    db.collection("typing").doc(localStorage.getItem("username") || "Guest").set({
       typing: false
     });
 
@@ -2589,6 +2519,8 @@ document.getElementById("openFullSettings").onclick = () => {
   window.location.href = "settings.html";
 };
 
+
+};
 </script>
 
 
