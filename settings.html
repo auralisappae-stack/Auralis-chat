@@ -26,7 +26,6 @@ body{
   padding:30px;
 }
 
-
 .navTitle{
   display: flex;
   align-items: center;
@@ -52,8 +51,6 @@ body{
   flex-direction: column;
   gap: 8px;
 }
-
-
 
 .navColumn h4{
   margin: 0;
@@ -160,9 +157,6 @@ body{
 
 }
 
-
-
-
 /* CENTER (flexible) */
 .centerPanel{
 
@@ -177,7 +171,7 @@ body{
 }
 /* RIGHT (push to edge) */
 .rightPanel{
-  
+ 
    width: 450px; /* 👈 smaller */
 
   padding: 40px 30px; /* 👈 more breathing space */
@@ -185,7 +179,7 @@ body{
   border-left: 1px solid rgba(255,255,255,0.08);
   padding-left: 40px; /* 🔥 increase this */
 
-  
+ 
 }
 
 .rightPanel h3{
@@ -224,7 +218,6 @@ body{
   height: 1px;
   background: rgba(255,255,255,0.08);
 }
-
 
 .subText{
   font-size: 12px;
@@ -277,8 +270,6 @@ body{
   color: #a78bfa;
 }
 
-
-
 /* SWITCH (reuse if already exists) */
 .switch {
   position: relative;
@@ -319,12 +310,9 @@ body{
   transform: translateX(18px);
 }
 
-
-
 body{
   height: 100vh; /* 🔥 important */
 }
-
 
 .navSmallIcon{
   width: 24px;
@@ -357,8 +345,7 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  flex-shrink: 0; /* 🔥 prevents squishing */
+  gap: 10px; /* space between image + button */
 }
 
 /* status dot */
@@ -385,7 +372,6 @@ body{
   background: #64748b;
 }
 
-
 /* RIGHT SIDE */
 .profileInfo{
   flex: 1; /* 🔥 pushes text away naturally */
@@ -393,9 +379,8 @@ body{
 
 .infoRow{
   display: flex;
+  justify-content: space-between;
   align-items: center;
-
-  justify-content: space-between; /* 🔥 pushes edit button to far right */
 
   padding: 12px 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -487,10 +472,35 @@ body{
   background: #4752c4;
 }
 
+.uploadSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+#fileInput{
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.uploadBtn{
+  width: 100%;
+  background: #5865f2;
+  border: none;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+}
+
+.uploadBtn:hover{
+  background: #4752c4;
+}
+
 </style>
 </head>
-
-
 
 <body>
 
@@ -500,17 +510,13 @@ body{
   <!-- LEFT -->
   <div class="leftPanel">
 
-    
-
-
+   
 
 <!-- OVERVIEW (TITLE ONLY) -->
 <div class="navTitle">
   <img src="overview-icon.png" class="navIcon">
   <h4>Overview</h4>
 </div>
-
-
 
 <!-- ACCOUNT SECTION -->
 <div class="navTitle">
@@ -567,7 +573,6 @@ body{
   <span>Keybinds</span>
 </div>
 
-
 <!-- SOCIAL SECTION -->
 <div class="navTitle">
   <h4>Social</h4>
@@ -583,10 +588,9 @@ body{
   <span>Blocked Users</span>
 </div>
 
-
   </div>
 
-  
+ 
 
   <!-- CENTER -->
   <div class="centerPanel" id="centerContent">
@@ -666,16 +670,48 @@ body{
 
 </div>
 
-
-
-
-
 </div>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
+// 🔥 YOUR FIREBASE CONFIG (from console)
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "...",
+  appId: "..."
+};
+
+// init
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+// 🔥 MOVE YOUR FUNCTION HERE
+window.uploadImage = function () {
+  const file = document.getElementById("fileInput").files[0];
+
+  if (!file) {
+    alert("Select file first");
+    return;
+  }
+
+  const storageRef = ref(storage, 'avatars/' + file.name);
+
+  uploadBytes(storageRef, file).then(() => {
+    getDownloadURL(storageRef).then((url) => {
+      document.getElementById("profilePic").src = url;
+
+      console.log("LIVE URL:", url);
+    });
+  });
+};
+</script>
 
 <script>
-
 
 const content = document.getElementById("centerContent");
 
@@ -683,82 +719,57 @@ const pages = {
 
   "My Account": "<h2>My Account</h2><p>Edit your account info</p>",
 
-
 "Profile": `
-  <h2>Profile</h2>
+<h2>Profile</h2>
 
-  <div class="profileBox">
+<div class="profileBox">
 
-    <!-- LEFT: AVATAR -->
-    <div class="avatarSection">
-      <div class="avatarWrapper">
-        <img src="https://i.imgur.com/x32UXQw.jpeg" class="avatar">
-        <span class="status online"></span>
-      </div>
+  <!-- LEFT: AVATAR + BUTTON -->
+  <div class="avatarSection">
+
+    <div class="avatarWrapper">
+      <img src="test.JPG" class="avatar" id="profilePic">
+      <span class="status online"></span>
     </div>
 
-    <!-- RIGHT: INFO -->
-    <div class="profileInfo">
+    <!-- 🔥 BUTTON UNDER IMAGE -->
+   <div class="uploadSection">
+  
+  <button class="uploadBtn" onclick="uploadImage()">Upload</button>
+</div>
 
-      <div class="infoRow">
-        <div class="infoText">
-          <strong>Username</strong>
-          <p class="subText">auralis_user</p>
-          <p class="userId">ID: 48291</p>
-        </div>
-        <button class="editBtn">Edit</button>
+  </div>
+
+  <!-- RIGHT: INFO -->
+  <div class="profileInfo">
+
+    <div class="infoRow">
+      <div class="infoText">
+        <strong>Username</strong>
+        <p class="subText">auralis_user</p>
       </div>
-
-      <div class="infoRow">
-        <div class="infoText">
-          <strong>Email</strong>
-          <p class="subText">user@email.com</p>
-        </div>
-        <button class="editBtn">Edit</button>
-      </div>
-
-      <div class="infoRow">
-        <div class="infoText">
-          <strong>Bio</strong>
-          <p class="subText">This is my bio...</p>
-        </div>
-        <button class="editBtn">Edit</button>
-      </div>
-
+      <button class="editBtn">Edit</button>
     </div>
 
-  
+    <div class="infoRow">
+      <div class="infoText">
+        <strong>Email</strong>
+        <p class="subText">user@email.com</p>
+      </div>
+      <button class="editBtn">Edit</button>
+    </div>
 
+    <div class="infoRow">
+      <div class="infoText">
+        <strong>Bio</strong>
+        <p class="subText">This is my bio...</p>
+      </div>
+      <button class="editBtn">Edit</button>
+    </div>
 
-`,
-
-
-  "Security":` "<h2>Security</h2><p>Manage security</p>"
-  
-  <section class="security-section">
-
-  <div class="security-card">
-    <h3>Password</h3>
-    <button onclick="changePassword()">Change Password</button>
   </div>
 
-  <div class="security-card">
-    <h3>Email Verification</h3>
-    <span id="verifyStatus"></span>
-    <button onclick="sendVerification()">Send Verification Email</button>
-  </div>
-
-  <div class="security-card">
-    <h3>Sessions</h3>
-    <button onclick="logoutAll()">Log out from all devices</button>
-  </div>
-
-  <div class="security-card danger">
-    <h3>Delete Account</h3>
-    <button onclick="deleteAccount()">Delete Account</button>
-
-    
-  </div> 
+</div>
 `
   ,
 
@@ -789,7 +800,6 @@ document.querySelectorAll(".navItem").forEach(item => {
 </script>
 
 </div>
-
 
 </body>
 </html>
