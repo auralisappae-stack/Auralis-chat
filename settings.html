@@ -428,8 +428,8 @@ body{
 }
 
 .h3Input{
-  font-size: 18px;       /* 👈 H3 size */
-  font-weight: 600;
+  font-size: 15px;      /* 👈 not full H3 anymore */
+  font-weight: 500;     /* 👈 medium, not bold */
 
   background: transparent;
   border: none;
@@ -437,8 +437,8 @@ body{
 
   padding: 4px 6px;
   color: white;
- flex: 1; /* 👈 makes it stretch properly */
-  width: 250px;
+
+  flex: 1;
 }
 
 .personalRow.horizontalRow{
@@ -527,23 +527,45 @@ body{
 }
 
 /* edit button */
-.editBtn{
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+.editInput{
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 6px;
 
-  padding: 4px 10px;   /* 🔥 smaller */
-  font-size: 12px;     /* 🔥 smaller text */
+  padding: 6px 10px;
+
+  font-size: 13px;      /* 👈 smaller */
+  font-weight: 400;     /* 👈 normal (not bold) */
+
+  color: white;
+
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+
+  margin-right: 12px;
+}
+
+.editBtn{
+  background: rgba(255,255,255,0.05); /* 👈 soft glass look */
+  border: 1px solid rgba(255,255,255,0.1);
+
+  border-radius: 8px;
+
+  width: 144px;
+  height: 42px;
+
+  font-size: 13px;
+  font-weight: 500;
 
   color: white;
   cursor: pointer;
 
-  white-space: nowrap;
-  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  margin-left: auto; /* keep it right */
-
-  
+  transition: 0.2s;
 }
 
 .editInput{
