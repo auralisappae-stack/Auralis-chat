@@ -430,6 +430,21 @@ body{
   font-size: 16px; /* font size of Personal info titles*/
 }
 
+.dateInput{
+
+  color-scheme: dark; /*make calender dark */
+
+  font-size: 13px;
+  font-weight: 400;
+
+  background: #020617;
+  border:  1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+
+  padding: 6px  10px;
+  color: white;
+}
+
 .h3Input{
   text-align: center;
 
@@ -1074,7 +1089,7 @@ const pages = {
 <div class="personalRow horizontalRow">
   <strong>Date Of Birth</strong>
 
-  <input type="text" class="editInput h3Input">
+  <input type="date" class="editInput dateInput">
 
   <button class="editBtn">Edit</button>
 </div>
