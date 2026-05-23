@@ -1146,6 +1146,20 @@ document.querySelectorAll(".navItem").forEach(item => {
     // 🔥 ONLY when Profile is opened
 if (text === "Profile") {
 
+
+  setTimeout(() => {
+  const input = document.getElementById("aboutMeInput");
+  const counter = document.getElementById("charCount");
+
+  if (input && counter) {
+    input.addEventListener("input", () => {
+      counter.textContent = input.value.length + " / 200";
+    });
+  }
+}, 50);
+
+
+
   setTimeout(() => {
     const img = document.getElementById("profilePic");
     const savedPic = localStorage.getItem("profilePic");
@@ -1162,27 +1176,7 @@ if (text === "Profile") {
 
 
 
-setTimeout(() => {
-  const input = document.getElementById("aboutMeInput");
-  const counter = document.getElementById("charCount");
-  const msg = document.getElementById("limitMsg");
 
-  if (input && counter && msg) {
-
-    input.addEventListener("input", () => {
-      const length = input.value.length;
-
-      counter.textContent = length + " / 200";
-
-      if (length >= 200) {
-        msg.style.display = "block";   // show message
-      } else {
-        msg.style.display = "none";    // hide message
-      }
-    });
-
-  }
-}, 50);
 
 </script>
 
