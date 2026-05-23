@@ -930,36 +930,33 @@ document.querySelectorAll(".navItem").forEach(item => {
     content.innerHTML = pages[text];
 
     // 🔥 ONLY when Profile is opened
-   if (text === "Profile") {
-  const savedPic = localStorage.getItem("profilePic");
+  if (text === "Profile") {
 
-  if (savedPic) {
-    setTimeout(() => {
-      const img = document.getElementById("profilePic");
-      if (img) img.src = savedPic;
-    }, 50);
-  }
-
-  // 🔥 ADD THIS PART
   setTimeout(() => {
     const input = document.getElementById("aboutMeInput");
     const counter = document.getElementById("charCount");
     const msg = document.getElementById("limitMsg");
 
-    if (input && counter && msg) {
-      input.addEventListener("input", () => {
-        const length = input.value.length;
-
-        counter.textContent = length + " / 200";
-
-        if (length >= 200) {
-          msg.style.display = "block";
-        } else {
-          msg.style.display = "none";
-        }
-      });
+    if (!input) {
+      console.log("❌ input not found");
+      return;
     }
-  }, 100); // small delay so element exists
+
+    console.log("✅ input connected");
+
+    input.oninput = () => {
+      const length = input.value.length;
+
+      counter.textContent = length + " / 200";
+
+      if (length >= 200) {
+        msg.style.display = "block";
+      } else {
+        msg.style.display = "none";
+      }
+    };
+
+  }, 200);
 }
 }
 };
