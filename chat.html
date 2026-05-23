@@ -2244,7 +2244,7 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
  
 
 el.innerHTML = `
-  ${!isMe ? `<img src="${userStyle.avatar ? userStyle.avatar : 'https://i.pravatar.cc/40?u=' + msg.user}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
+  ${!isMe ? `<img src="${userStyle.avatar ? userStyle.avatar : 'default.png'}" class="avatar ${isGrouped ? "hidden" : ""}">` : ``}
 
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
