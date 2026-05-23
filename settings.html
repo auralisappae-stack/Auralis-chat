@@ -5,6 +5,11 @@
 <title>Full Settings</title>
 
 <style>
+
+  :root {
+
+    --accent: #8b5cf6; /*deffault purple*/
+  }
 body{
   margin:0;
   font-family:'Inter',sans-serif;
@@ -308,8 +313,11 @@ body{
   transition: 0.3s;
 }
 
+
+
 .switch input:checked + .slider {
-  background: #8b5cf6;
+  background: var(--accent);
+color: var(--accent);
 }
 
 .switch input:checked + .slider:before {
@@ -811,6 +819,17 @@ body.light .rightPanel{
   background: rgba(255,255,255,0.1);
 }
 
+.accentToggle{
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.accentToggle:hover{
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
 
 
 
@@ -937,7 +956,7 @@ body.light .rightPanel{
 
     <div class="settingRow">
       <span>Accent Color</span>
-      <span class="value purple">● Neon Purple</span>
+      <span class="value accentToggle" id="accentToggle"> Purple ▾</span>
     </div>
 
     <div class="settingRow">
@@ -1271,6 +1290,51 @@ function applyTheme(theme){
   const toggleText = document.getElementById("themeToggle");
   if (toggleText){
     toggleText.textContent = theme === "dark" ? "Dark ▾" : "Light ▾";
+  }
+}
+
+
+const accentToggle = document.getElementById("accentToggle");
+
+const accents = [
+  {name: "Purple", value: "#8b5cf6"},
+  {name: "Blue", value: "#3b82f6"},
+  {name: "Green", value: "#22c55e"},
+  {name: "Pink", value: "#ec4899"}
+];
+
+let currentAccent = 0;
+
+// load saved accent
+const savedAccent = localStorage.getItem("accent");
+if (savedAccent){
+  const index = accents.findIndex(a => a.value === savedAccent);
+  if (index !== -1) currentAccent = index;
+}
+
+// apply first time
+applyAccent();
+
+// click to switch
+if (accentToggle){
+  accentToggle.addEventListener("click", () => {
+    currentAccent = (currentAccent + 1) % accents.length;
+    applyAccent();
+  });
+}
+
+function applyAccent(){
+  const accent = accents[currentAccent];
+
+  // 🔥 THIS changes the color globally
+  document.documentElement.style.setProperty("--accent", accent.value);
+
+  // save
+  localStorage.setItem("accent", accent.value);
+
+  // update text
+  if (accentToggle){
+    accentToggle.textContent = "● " + accent.name + " ▾";
   }
 }
 
