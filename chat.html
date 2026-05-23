@@ -1141,10 +1141,18 @@ body{
   transition:0.35s ease;
   z-index:99999;
 
+ pointer-events:none; /* 🔥 add this */
+  pointer-events:auto; /* 🔥 allow clicks only when open */
+
 
   display:flex;
-  flex-direction:column;
-}
+  flex-direction:column; 
+} 
+ 
+
+
+
+
 
 
 
@@ -1876,10 +1884,19 @@ Move this above input bar later for better UX
 
 <script>
 
+  window.onerror = function(msg, url, line) {
+  console.error("🔥 JS CRASH:", msg, "at line", line);
+};
+
 
 window.onload = () => {
 
-  
+  const avatarInput = document.getElementById("avatarUpload");
+  const settingsPanel = document.getElementById("settingsPanel");
+  const settingsBtn = document.getElementById("settingsBtn");
+
+
+
 
 
 
@@ -2002,14 +2019,12 @@ const confirmBtn = document.getElementById("confirmName");
 
 
 
-const settingsBtn = document.getElementById("settingsBtn");
-if (settingsBtn) {
+if (settingsBtn && settingsPanel) {
   settingsBtn.onclick = () => {
     settingsPanel.classList.add("active");
   };
 }
 
-const settingsPanel = document.getElementById("settingsPanel");
 
 
 
@@ -2540,47 +2555,44 @@ document.getElementById("openFullSettings").onclick = () => {
 
 
 
-const avatarInput = document.getElementById("avatarUpload");
 
 if (avatarInput) {
-  avatarInput.addEventListener("change", () => {
+  avatarInput.addEventListener("change", (event) => {
 
-    console.log("UPLOAD TRIGGERED");
-
-    const file = avatarInput.files[0];
+    const file = event.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
-
-      console.log("IMAGE READY");
+    reader.onload = (e) => {
 
       const imageURL = e.target.result;
 
-      if (!username) {
-        console.error("❌ username missing");
-        return;
-      }
+      console.log("Uploading avatar...");
 
       db.collection("users").doc(username).set({
         avatar: imageURL
       }, { merge: true })
       .then(() => {
-        console.log("✅ SAVED");
+        console.log("✅ Avatar saved");
       })
-      .catch(err => {
-        console.error("❌ ERROR:", err);
+      .catch((err) => {
+        console.error("❌ Save failed:", err);
       });
 
     };
 
     reader.readAsDataURL(file);
+  
 
   });
-}
 
+ }
 };
+
+
+
+
 
 
 
