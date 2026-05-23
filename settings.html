@@ -405,6 +405,11 @@ body{
   border-bottom: none;
 }
 
+.infoTitle{
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .userId{
   font-size: 12px;
   color: #64748b;
@@ -462,6 +467,7 @@ white-space: nowrap; /* 👈 keeps "Confirm" on one line */
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+   width: 95%;
 }
 
 .profileRow label{
@@ -533,6 +539,34 @@ textarea.editInput{
   background: rgba(255,255,255,0.05);
   border-color: rgba(88,101,242,0.4);
   box-shadow: 0 0 10px rgba(88,101,242,0.3);
+}
+
+#aboutMeInput{
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  padding-bottom: 25px; /* 🔥 space for counter */
+
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: white;
+
+  resize: none;
+}
+
+.aboutWrapper{
+  position: relative;
+  width: 100%;
+}
+
+#charCount{
+  position: absolute;
+  bottom: 10px;  /* 🔥 increase this (was 6px) */
+  right: 10px;
+
+  font-size: 11px;
+  color: #64748b;
 }
 
 </style>
@@ -816,7 +850,9 @@ const pages = {
   <div class="inputRow">
     <input type="text" value="auralis_user" class="editInput" maxlength="20">
     <button class="editBtn">Confirm</button>
+
   </div>
+
 </div>
 
 
@@ -838,8 +874,36 @@ const pages = {
   </div>
 </div>
 
+
+
 </div>
+
+</div>
+
+<div class="profileBox">
+
+  <div class="profileRow">
+    <strong>About Me</strong>
+
+    <!-- ✅ WRAPPER START -->
+    <div class="aboutWrapper">
+
+      <textarea id="aboutMeInput" maxlength="200"
+        placeholder="Write something about yourself..."></textarea>
+
+      <div id="charCount">0 / 200</div>
+
+    </div>
+    <!-- ✅ WRAPPER END -->
+
+  </div>
+
+</div>
+
+
 `
+
+
   ,
 
   "General": "<h2>General</h2><p>General settings</p>",
@@ -866,19 +930,64 @@ document.querySelectorAll(".navItem").forEach(item => {
     content.innerHTML = pages[text];
 
     // 🔥 ONLY when Profile is opened
-    if (text === "Profile") {
-      const savedPic = localStorage.getItem("profilePic");
+   if (text === "Profile") {
+  const savedPic = localStorage.getItem("profilePic");
 
-      if (savedPic) {
-        setTimeout(() => {
-          const img = document.getElementById("profilePic");
-          if (img) img.src = savedPic;
-        }, 50);
-      }
-    }
+  if (savedPic) {
+    setTimeout(() => {
+      const img = document.getElementById("profilePic");
+      if (img) img.src = savedPic;
+    }, 50);
   }
+
+  // 🔥 ADD THIS PART
+  setTimeout(() => {
+    const input = document.getElementById("aboutMeInput");
+    const counter = document.getElementById("charCount");
+    const msg = document.getElementById("limitMsg");
+
+    if (input && counter && msg) {
+      input.addEventListener("input", () => {
+        const length = input.value.length;
+
+        counter.textContent = length + " / 200";
+
+        if (length >= 200) {
+          msg.style.display = "block";
+        } else {
+          msg.style.display = "none";
+        }
+      });
+    }
+  }, 100); // small delay so element exists
+}
+}
 };
 });
+
+
+
+setTimeout(() => {
+  const input = document.getElementById("aboutMeInput");
+  const counter = document.getElementById("charCount");
+  const msg = document.getElementById("limitMsg");
+
+  if (input && counter && msg) {
+
+    input.addEventListener("input", () => {
+      const length = input.value.length;
+
+      counter.textContent = length + " / 200";
+
+      if (length >= 200) {
+        msg.style.display = "block";   // show message
+      } else {
+        msg.style.display = "none";    // hide message
+      }
+    });
+
+  }
+}, 50);
 
 </script>
 
