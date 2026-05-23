@@ -2541,35 +2541,49 @@ document.getElementById("openFullSettings").onclick = () => {
 
 
 const avatarInput = document.getElementById("avatarUpload");
-  console.log("avatarInput:", avatarInput);
 
 if (avatarInput) {
   avatarInput.addEventListener("change", () => {
-    console.log("UPLOAD TRIGGERED"); // 👈 MUST SHOW
+
+    console.log("UPLOAD TRIGGERED");
 
     const file = avatarInput.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-reader.onload = function(e) {
-  console.log("IMAGE READY");
 
-  const imageURL = e.target.result;
+    reader.onload = function(e) {
 
-  setTimeout(() => {
-    db.collection("users").doc(username).set({
-      avatar: imageURL
-    }, { merge: true });
+      console.log("IMAGE READY");
 
-    console.log("SAVED TO FIREBASE");
-  }, 100); // 👈 tiny delay fixes everything
-};
+      const imageURL = e.target.result;
+
+      if (!username) {
+        console.error("❌ username missing");
+        return;
+      }
+
+      db.collection("users").doc(username).set({
+        avatar: imageURL
+      }, { merge: true })
+      .then(() => {
+        console.log("✅ SAVED");
+      })
+      .catch(err => {
+        console.error("❌ ERROR:", err);
+      });
+
+    };
 
     reader.readAsDataURL(file);
+
   });
 }
 
 };
+
+
+
 </script>
 
 
