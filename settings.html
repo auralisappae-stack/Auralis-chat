@@ -138,6 +138,10 @@ body{
   height: 100vh; /* 🔥 full screen height */
 }
 
+.settingsBox{
+  padding: 20px 20px; /* 🔥 more space inside (top/bottom + sides) */
+}
+
 /* LEFT */
 .leftPanel{
   width: 220px;
@@ -375,25 +379,29 @@ body{
 /* RIGHT SIDE */
 .profileInfo{
   flex: 1; /* 🔥 pushes text away naturally */
-   width: 100%;
+    max-width: 500px; /* 🔥 keeps it inside box */
      padding-right: 20px; /* 👈 prevents overflow */
 }
 
-.infoRow{
-   display: flex;
-  flex-direction: column;
-  gap: 6px;
 
-  margin-bottom: 20px; /* 👈 increase spacing */
+.infoRow{
+  display: flex;
+  flex-direction: column; /* label on top */
+  gap: 6px;
+  margin-bottom: 15px;
 }
 
-.inputRow{
-  display: flex !important;
-  flex-direction: row !important; /* 🔥 force horizontal */
+
+
+ 
+ .inputRow{
+  display: flex;
   align-items: center;
   width: 100%;
   gap: 10px;
 }
+
+
 
 
 
@@ -410,6 +418,33 @@ body{
   font-weight: 600;
 }
 
+.personalRow{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+   margin-bottom: 14px;
+}
+
+.personalRow input{
+  flex: 1;
+  min-width: 0;
+}
+
+.personalInputRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.personalRow strong{
+  width: 160px; /* 🔥 keeps all labels aligned */
+}
+
+
+.personalRow .editBtn{
+  margin-left: auto;
+}
+
 .userId{
   font-size: 12px;
   color: #64748b;
@@ -421,13 +456,18 @@ body{
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 6px;
 
- padding: 6px 14px; /* slightly bigger */
+  padding: 4px 10px;   /* 🔥 smaller */
+  font-size: 12px;     /* 🔥 smaller text */
 
   color: white;
   cursor: pointer;
-white-space: nowrap; /* 👈 keeps "Confirm" on one line */
-   
-  flex-shrink: 0;     /* prevents weird resizing */
+
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  margin-left: auto; /* keep it right */
+
+  
 }
 
 .editInput{
@@ -452,16 +492,20 @@ white-space: nowrap; /* 👈 keeps "Confirm" on one line */
 .profileBox{
   margin-top: 20px;
 
+
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
 
+
   padding: 20px;
+
 
   display: flex;
   align-items: flex-start; /* 👈 vertical align */
   gap: 30px; /* 👈 space between avatar and text */
 }
+
 
 .profileRow{
   display: flex;
@@ -900,6 +944,41 @@ const pages = {
   </div>
 
 </div>
+
+
+<!-- 🔥 TITLE (outside box) -->
+<h3 style="margin-top: 30px;">Personal Information</h3>
+
+<!-- 🔥 BOX -->
+<h3>Personal Information</h3>
+
+<div class="settingsBox">
+
+  <div class="personalRow">
+    <strong>Display Name</strong>
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+
+  <div class="personalRow">
+    <strong>Date of Birth</strong>
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+
+  <div class="personalRow">
+    <strong>Language</strong>
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+
+  <div class="personalRow">
+    <strong>Country/Region</strong>
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+
+</div> <!-- ✅ CLOSE ONLY HERE -->
 
 
 `
