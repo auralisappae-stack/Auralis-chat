@@ -741,6 +741,66 @@ textarea.editInput{
   color: #64748b;
 }
 
+body.light
+{
+
+  background: #f1f5f9;
+  color: #020617;
+}
+
+body.light .settingsBox, 
+body.light .profileBox {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.1);
+
+}
+
+body.light .editBtn{
+  background: #e2e8f0; /* light gray, not pure white */
+  color: #020617;
+
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light .editBtn:hover{
+  background: #cbd5f5;
+}
+
+body.light .editBtn{
+  background: rgba(0,0,0,0.05);
+  color: #020617;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light .editInput,
+body.light textarea{
+  background: white;
+  color: black;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+
+body.light .lightPanel,
+body.light .rightPanel{
+  background: #e2e8f0;
+}
+
+.themeToggle{
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.themeToggle:hover{
+  background: rgba(255,255,255,0.1);
+}
+
+
+
+
+
+
 </style>
 </head>
 
@@ -855,7 +915,9 @@ textarea.editInput{
 
     <div class="settingRow">
       <span>Theme</span>
-      <span class="value">Dark ▾</span>
+
+    
+      <span class="value themeToggle" id="themeToggle">Dark</span>
     </div>
 
     <div class="settingRow">
@@ -979,9 +1041,7 @@ uploadBytes(storageRef, file).then(() => {
 };
 
 
-</script>
 
-<script>
 
 const content = document.getElementById("centerContent");
 
@@ -1175,7 +1235,29 @@ if (text === "Profile") {
 });
 
 
+const toggle = document.getElementById("themeToggle");
 
+// load saved theme
+let theme = localStorage.getItem("theme") || "dark";
+applyTheme(theme);
+
+// click toggle
+if (toggle) {
+  toggle.addEventListener("click", () => {
+    theme = (theme === "dark") ? "light" : "dark";
+    applyTheme(theme);
+  });
+}
+
+function applyTheme(theme){
+  document.body.classList.toggle("light", theme === "light");
+  localStorage.setItem("theme", theme);
+
+  const toggleText = document.getElementById("themeToggle");
+  if (toggleText){
+    toggleText.textContent = theme === "dark" ? "Dark ▾" : "Light ▾";
+  }
+}
 
 
 </script>
