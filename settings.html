@@ -165,7 +165,7 @@ body{
  max-width: 900px;
  margin: 0 auto;
 
- 
+
   padding: 60px 20px 20px; /* 👈 top space added */
 
   /* adding line */
@@ -431,6 +431,8 @@ body{
 }
 
 .h3Input{
+  text-align: center;
+
   font-size: 15px;      /* 👈 not full H3 anymore */
   font-weight: 500;     /* 👈 medium, not bold */
 
@@ -446,13 +448,20 @@ body{
 
 .personalRow.horizontalRow{
   display: flex;
-  flex-direction: row; /* 🔥 force horizontal */
+ flex-direction: row !important;
   align-items: center;
   gap: 16px;
 }
 
 .personalRow.horizontalRow strong{
   width: 160px;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.personalRow.horizontalRow .editBtn{
+
+  width: 144px;
   flex-shrink: 0;
 }
 
