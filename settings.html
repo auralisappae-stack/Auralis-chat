@@ -1017,33 +1017,17 @@ document.querySelectorAll(".navItem").forEach(item => {
     content.innerHTML = pages[text];
 
     // 🔥 ONLY when Profile is opened
-  if (text === "Profile") {
+if (text === "Profile") {
 
   setTimeout(() => {
-    const input = document.getElementById("aboutMeInput");
-    const counter = document.getElementById("charCount");
-    const msg = document.getElementById("limitMsg");
+    const img = document.getElementById("profilePic");
+    const savedPic = localStorage.getItem("profilePic");
 
-    if (!input) {
-      console.log("❌ input not found");
-      return;
+    if (img && savedPic) {
+      img.src = savedPic; // 🔥 force update
     }
 
-    console.log("✅ input connected");
-
-    input.oninput = () => {
-      const length = input.value.length;
-
-      counter.textContent = length + " / 200";
-
-      if (length >= 200) {
-        msg.style.display = "block";
-      } else {
-        msg.style.display = "none";
-      }
-    };
-
-  }, 200);
+  }, 50);
 }
 }
 };
