@@ -421,6 +421,48 @@ body{
   font-weight: 600;
 }
 
+.personalRow H3{
+
+  margin: 0;
+  font-size: 16px; /* font size of Personal info titles*/
+}
+
+.h3Input{
+  font-size: 18px;       /* 👈 H3 size */
+  font-weight: 600;
+
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+
+  padding: 4px 6px;
+  color: white;
+ flex: 1; /* 👈 makes it stretch properly */
+  width: 250px;
+}
+
+.personalRow.horizontalRow{
+  display: flex;
+  flex-direction: row; /* 🔥 force horizontal */
+  align-items: center;
+  gap: 16px;
+}
+
+.personalRow.horizontalRow strong{
+  width: 160px;
+  flex-shrink: 0;
+}
+
+.horizontalRow .editBtn{
+  margin-left: auto;
+}
+
+.horizontalRow{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .personalRow{
   display: flex;
   flex-direction: column; /* 🔥 THIS moves input under title */
@@ -475,9 +517,7 @@ body{
   min-width: 0;
 }
 
-.personalRow strong{
-  width: 160px; /* 🔥 keeps all labels aligned */
-}
+
 
 
 
@@ -989,40 +1029,36 @@ const pages = {
 
 <div class="settingsBox">
 
-<div class="personalRow">
+<div class="personalRow horizontalRow">
   <strong>Display Name</strong>
 
-  <div class="personalInputRow">
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+  <input type="text" class="editInput h3Input">
+
+  <button class="editBtn">Edit</button>
 </div>
 
-<div class="personalRow">
+<div class="personalRow horizontalRow">
   <strong>Date Of Birth</strong>
 
-  <div class="personalInputRow">
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+  <input type="text" class="editInput h3Input">
+
+  <button class="editBtn">Edit</button>
 </div>
 
-<div class="personalRow">
+<div class="personalRow horizontalRow">
   <strong>Language</strong>
 
-  <div class="personalInputRow">
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+  <input type="text" class="editInput h3Input">
+
+  <button class="editBtn">Edit</button>
 </div>
 
-  <div class="personalRow">
+ <div class="personalRow horizontalRow">
   <strong>Country/Region</strong>
 
-  <div class="personalInputRow">
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+  <input type="text" class="editInput h3Input">
+
+  <button class="editBtn">Edit</button>
 </div>
 
 </div> <!-- ✅ CLOSE ONLY HERE -->
