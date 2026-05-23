@@ -738,15 +738,38 @@ window.uploadImage = function () {
 uploadBytes(storageRef, file).then(() => {
   getDownloadURL(storageRef).then((url) => {
 
+  // show image
+  document.getElementById("profilePic").src = url;
+
+  // save locally
+  localStorage.setItem("profilePic", url);
+
+  // ✅ ALSO SAVE TO FIREBASE
+  const username = localStorage.getItem("username") || "Guest";
+
+  fetch("https://firestore.googleapis.com/v1/projects/auralis-web-app/databases/(default)/documents/users/" + username, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fields: {
+        avatar: { stringValue: url }
+      }
+    })
+  });
+
+});
+
     // show image
     document.getElementById("profilePic").src = url;
 
     // 🔥 SAVE IT
     localStorage.setItem("profilePic", url);
   });
-});
+};
 
-}
+
 </script>
 
 <script>
@@ -767,7 +790,7 @@ const pages = {
   <div class="avatarSection">
 
     <div class="avatarWrapper">
-      <img src="https://'default.png'.com/120" class="avatar" id="profilePic">
+      <img src="default.png" class="avatar" id="profilePic">
       <span class="status online"></span>
     </div>
 
