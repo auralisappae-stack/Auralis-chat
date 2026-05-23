@@ -423,20 +423,56 @@ body{
 
 .personalRow{
   display: flex;
+  flex-direction: column; /* 🔥 THIS moves input under title */
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.personalRow .editBtn{
+  width: 144px;
+  height: 42px;
+
+  display: flex;
   align-items: center;
-  gap: 15px;
-   margin-bottom: 14px;
+  justify-content: center;
+
+  font-size: 14px;
+  border-radius: 8px;
+
+  margin-left: auto; /* keep it right */
 }
 
 .personalRow input{
   flex: 1;
   min-width: 0;
+
+  width: 250px;   /* 👈 adjust (220–280px is sweet spot) */
+ max-width: 260px; /* 👈 caps the size */
+
 }
 
 .personalInputRow{
   display: flex;
+  flex-direction: row; /* 🔥 force horizontal */
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  width: 100%;
+}
+
+.personalInputRow input{
+  flex: 1;
+  min-width: 0;
+}
+
+.personalInputRow .editBtn{
+  margin-left: auto;
+}
+
+
+
+.personalInputRow textarea{
+  flex: 1;        /* 🔥 takes available space */
+  min-width: 0;
 }
 
 .personalRow strong{
@@ -444,9 +480,6 @@ body{
 }
 
 
-.personalRow .editBtn{
-  margin-left: auto;
-}
 
 .userId{
   font-size: 12px;
@@ -469,11 +502,6 @@ body{
   flex-shrink: 0;
 
   margin-left: auto; /* keep it right */
-
-  
-  flex: 1;
-  min-width: 0;
-
 
   
 }
@@ -961,29 +989,41 @@ const pages = {
 
 <div class="settingsBox">
 
-  <div class="personalRow">
-    <strong>Display Name</strong>
+<div class="personalRow">
+  <strong>Display Name</strong>
+
+  <div class="personalInputRow">
     <input type="text" class="editInput">
     <button class="editBtn">Confirm</button>
   </div>
+</div>
+
+<div class="personalRow">
+  <strong>Date Of Birth</strong>
+
+  <div class="personalInputRow">
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+</div>
+
+<div class="personalRow">
+  <strong>Language</strong>
+
+  <div class="personalInputRow">
+    <input type="text" class="editInput">
+    <button class="editBtn">Confirm</button>
+  </div>
+</div>
 
   <div class="personalRow">
-    <strong>Date of Birth</strong>
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+  <strong>Country/Region</strong>
 
-  <div class="personalRow">
-    <strong>Language</strong>
+  <div class="personalInputRow">
     <input type="text" class="editInput">
     <button class="editBtn">Confirm</button>
   </div>
-
-  <div class="personalRow">
-    <strong>Country/Region</strong>
-    <input type="text" class="editInput">
-    <button class="editBtn">Confirm</button>
-  </div>
+</div>
 
 </div> <!-- ✅ CLOSE ONLY HERE -->
 
