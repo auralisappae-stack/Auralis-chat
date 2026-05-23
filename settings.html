@@ -362,6 +362,13 @@ body{
   gap: 10px; /* space between image + button */
 }
 
+
+.statusRow{
+  display: flex;
+  justify-content: flex-end; /* 🔥 pushes it to the right */
+  width: 100%;
+}
+
 /* status dot */
 .status{
   position: absolute;
@@ -866,6 +873,50 @@ padding: 2px 6px;
 }
 
 
+.statusToggle:hover{
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.horizontalStatus{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* make it align nicely with your layout */
+.horizontalStatus strong{
+  margin: 0;
+  text-align: left;
+  flex: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.statusToggle{
+  margin-left: auto;
+}
+
+
+.statusFix{
+  display: flex !important;
+  flex-direction: row !important; /* 🔥 override column */
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.statusFix strong{
+  text-align: left;
+}
+
+.statusToggle{
+  margin-left: auto;
+}
+
+
 
 
 
@@ -996,7 +1047,7 @@ padding: 2px 6px;
 
     <div class="settingRow">
       <span>Language</span>
-      <span class="valuelanguageToggle" id="languageToggle">English ▾</span>
+      <span class="value languageToggle" id="languageToggle">English ▾</span>
     </div>
 
     <div class="settingRow">
@@ -1073,13 +1124,13 @@ window.uploadImage = function () {
     return;
   }
 
-  const storageRef = ref(storage, 'avatars/' + file.name);
+  const storageRef = ref(storage, 'avatars/' + Date.now() + '_' + file.name);
 
 uploadBytes(storageRef, file).then(() => {
   getDownloadURL(storageRef).then((url) => {
 
   // show image
-  document.getElementById("profilePic").src = url;
+  
 
   // save locally
   localStorage.setItem("profilePic", url);
@@ -1173,6 +1224,12 @@ const pages = {
   <div class="inputRow">
     <span class="userId">UID_123456</span>
   </div>
+</div>
+
+
+<div class="infoRow statusFix">
+  <strong>Status</strong>
+  <span class="statusToggle" id="statusToggle">Away ▾</span>
 </div>
 
 
@@ -1276,6 +1333,11 @@ document.querySelectorAll(".navItem").forEach(item => {
 if (text === "Profile") {
 
 
+
+
+
+
+
   setTimeout(() => {
   const input = document.getElementById("aboutMeInput");
   const counter = document.getElementById("charCount");
@@ -1298,6 +1360,34 @@ if (text === "Profile") {
     }
 
   }, 50);
+
+
+
+
+
+
+  setTimeout(() => {
+
+  const statusToggle = document.getElementById("statusToggle");
+
+  if (!statusToggle) return;
+
+  const statuses = ["Online", "Away", "Offline"];
+  let currentStatus = 0;
+
+  statusToggle.onclick = () => {
+    currentStatus = (currentStatus + 1) % statuses.length;
+    const status = statuses[currentStatus];
+
+    statusToggle.textContent = status + " ▾";
+
+    const dot = document.querySelector(".status");
+    if (dot){
+      dot.className = "status " + status.toLowerCase();
+    }
+  };
+
+}, 50);
 }
 }
 };
@@ -1442,6 +1532,48 @@ function applyStartup(){
     startupToggle.textContent = value + " ▾";
   }
 }
+
+const statusToggle = document.getElementById("statusToggle");
+
+const statuses = ["Online", "Away", "Offline"];
+let currentStatus = 0;
+
+// load saved
+const savedStatus = localStorage.getItem("status");
+if (savedStatus){
+  const index = statuses.indexOf(savedStatus);
+  if (index !== -1) currentStatus = index;
+}
+
+applyStatus();
+
+// click to switch
+if (statusToggle){
+  statusToggle.addEventListener("click", () => {
+    currentStatus = (currentStatus + 1) % statuses.length;
+    applyStatus();
+  });
+}
+
+function applyStatus(){
+  const status = statuses[currentStatus];
+
+  localStorage.setItem("status", status);
+
+  if (statusToggle){
+    statusToggle.textContent = status + " ▾";
+  }
+}
+
+
+const dot = document.querySelector(".status");
+
+if (dot){
+  dot.className = "status " + statuses[currentStatus].toLowerCase();
+}
+
+
+
 
 </script>
 
