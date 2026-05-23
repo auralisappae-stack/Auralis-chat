@@ -841,6 +841,16 @@ padding: 2px 6px;
 
 }
 
+.startupToggle{
+  cursor: pointer;
+}
+
+.startupToggle:hover{
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
 
 
 
@@ -977,7 +987,7 @@ padding: 2px 6px;
 
     <div class="settingRow">
       <span>Startup Behavior</span>
-      <span class="value">Open Auralis ▾</span>
+      <span class="value startupToggle" id="startupToggle">Open Auralis ▾</span>
     </div>
 
     <div class="settingRow">
@@ -1382,6 +1392,42 @@ function applyLanguage(){
   }
 }
 
+
+const startupToggle = document.getElementById("startupToggle");
+
+const startupOptions = [
+  "Open Auralis",
+  "Minimized",
+  "Do Nothing"
+];
+
+let currentStartup = 0;
+
+// load saved
+const savedStartup = localStorage.getItem("startup");
+if (savedStartup){
+  const index = startupOptions.indexOf(savedStartup);
+  if (index !== -1) currentStartup = index;
+}
+
+applyStartup();
+
+if (startupToggle){
+  startupToggle.addEventListener("click", () => {
+    currentStartup = (currentStartup + 1) % startupOptions.length;
+    applyStartup();
+  });
+}
+
+function applyStartup(){
+  const value = startupOptions[currentStartup];
+
+  localStorage.setItem("startup", value);
+
+  if (startupToggle){
+    startupToggle.textContent = value + " ▾";
+  }
+}
 
 </script>
 
