@@ -447,6 +447,7 @@ body{
 
 .h3Input{
   text-align: center;
+  width: 100%;
 
   font-size: 15px;      /* 👈 not full H3 anymore */
   font-weight: 500;     /* 👈 medium, not bold */
@@ -462,14 +463,15 @@ body{
 }
 
 .personalRow.horizontalRow{
-  display: flex;
+  display: grid;
+  grid-template-columns: 160px 1fr 144px; 
  flex-direction: row !important;
   align-items: center;
   gap: 16px;
 }
 
 .personalRow.horizontalRow strong{
-  width: 160px;
+  width: auto; /* grids handle it automaticaly*/
   flex-shrink: 0;
   text-align: left;
 }
