@@ -1492,7 +1492,7 @@ function applyLanguage(){
 }
 
 
-const startupToggle = document.getElementById("startupToggle");
+
 
 const startupOptions = [
   "Open Auralis",
@@ -1518,8 +1518,10 @@ function applyStartup(){
 
   localStorage.setItem("startup", value);
 
-  if (startupToggle){
-    startupToggle.textContent = value + " ▾";
+  const el = document.getElementById("startupToggle");
+
+  if (el){
+    el.textContent = value + " ▾";
   }
 }
 
