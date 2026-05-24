@@ -937,15 +937,26 @@ padding: 2px 6px;
   background:#1e293b;
   border:2px solid transparent;
   cursor:pointer;
+
+    border:2px solid rgba(255,255,255,0.2);
+
+  cursor:pointer;
+}
+
+.bubbleOption.solid{
+  border-style: solid;
 }
 
 .bubbleOption.light{
-  background:#e5e7eb;
+   background:#e5e7eb;
+  border-color: rgba(0,0,0,0.2);
+
 }
 
 .bubbleOption.dashed{
-  border:2px dashed rgba(255,255,255,0.3);
-  box-sizing: border-box;
+    border:2px dashed rgba(255,255,255,0.4);
+
+  background: transparent;
 }
 
 .bubbleOption.active{
@@ -1069,7 +1080,15 @@ padding: 2px 6px;
   align-self: start !important;
 }
 
+.preview-light{
+  background:#e5e7eb;
+  color:#020617;
+}
 
+.preview-dashed{
+  background:transparent;
+  border-style:dashed;
+}
 
 
 
@@ -1565,9 +1584,9 @@ const pages = {
 
     <div class="options">
       <div class="optionGroup">
-        <div class="bubbleOption"></div>
-        <div class="bubbleOption light"></div>
-        <div class="bubbleOption dashed"></div>
+        <div class="bubbleOption solid" data-style="default"> </div>
+        <div class="bubbleOption light" data-style="light"> </div>
+        <div class="bubbleOption dashed" data-style= "dashed"> </div>
       </div>
     </div>
   </div>
@@ -1647,7 +1666,53 @@ document.querySelectorAll(".navItem").forEach(item => {
               preview.style.borderColor = input.value;
             });
           }
+
+          
+
+          
         }, 0);
+
+        setTimeout(() => {
+  const options = document.querySelectorAll(".bubbleOption");
+  const preview = document.getElementById("bubblePreview");
+
+  options.forEach(option => {
+    option.addEventListener("click", () => {
+
+      // remove active from all
+      options.forEach(o => o.classList.remove("active"));
+
+      // add active to clicked
+      option.classList.add("active");
+
+      const style = option.dataset.style;
+
+      // reset preview
+      preview.className = "";
+      preview.id = "bubblePreview";
+
+      // apply style
+      if (style === "light") {
+        preview.style.background = "#e5e7eb";
+        preview.style.color = "#020617";
+        preview.style.borderStyle = "solid";
+      }
+
+      else if (style === "dashed") {
+        preview.style.background = "transparent";
+        preview.style.borderStyle = "dashed";
+      }
+
+      else {
+        // default
+        preview.style.background = "rgba(255,255,255,0.05)";
+        preview.style.color = "white";
+        preview.style.borderStyle = "solid";
+      }
+
+    });
+  });
+}, 0);
 
        rightPanel.innerHTML = `
   <h3>Preview</h3>
