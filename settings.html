@@ -943,6 +943,18 @@ padding: 2px 6px;
   cursor:pointer;
 }
 
+.bubbleDecor{
+  position: absolute;
+
+  top: -4px;     /* 👈 move up */
+  right: -4px;   /* 👈 move right */
+
+}
+
+.bubbleText{
+  font-size: 15px;
+}
+
 .bubbleOption.solid{
   border-style: solid;
 }
@@ -1069,6 +1081,7 @@ padding: 2px 6px;
   font-size: 20px;
 
   margin-top: 2px;
+
 
   position: relative;
   transform: translateY(15px); /* move the bubble preview up */
@@ -1573,7 +1586,10 @@ const pages = {
       </div>
 
       <!-- ✅ bubble preview INSIDE row -->
-      <div id="bubblePreview">hello</div>
+     <div id="bubblePreview">
+  <span class="bubbleText">hello</span>
+  <span class="bubbleDecor"></span>
+</div>
 
     </div>
   </div>
@@ -1593,16 +1609,16 @@ const pages = {
 
   <!-- Decorations -->
   <div class="appearanceRow">
-    <span>Bubble Decoration</span>
+  <span>Bubble Decoration</span>
 
-    <div style="display:flex; gap:10px;">
-      <span class="decor">💖</span>
-      <span class="decor">⭐</span>
-      <span class="decor">☁️</span>
-      <span class="decor">🌸</span>
-      <span class="decor active">🌱</span>
-    </div>
+  <div class="options">
+    <span class="decor" data-decor="💖">💖</span>
+    <span class="decor" data-decor="⭐">⭐</span>
+    <span class="decor" data-decor="☁️">☁️</span>
+    <span class="decor" data-decor="🌸">🌸</span>
+    <span class="decor active" data-decor="🌱">🌱</span>
   </div>
+</div>
 
 </div>
 `
@@ -1713,6 +1729,42 @@ document.querySelectorAll(".navItem").forEach(item => {
     });
   });
 }, 0);
+
+// 🎯 DECORATION CLICK
+const decors = document.querySelectorAll(".decor");
+const preview = document.getElementById("bubblePreview");
+
+decors.forEach(d => {
+  d.addEventListener("click", () => {
+
+    // remove active
+    decors.forEach(x => x.classList.remove("active"));
+
+    // add active
+    d.classList.add("active");
+
+    // update preview
+  const decorEl = document.querySelector(".bubbleDecor");
+
+decors.forEach(d => {
+  d.addEventListener("click", () => {
+
+    // highlight selection
+    decors.forEach(x => x.classList.remove("active"));
+    d.classList.add("active");
+
+    // ONLY change the emoji
+    decorEl.textContent = d.dataset.decor;
+
+  });
+});
+
+
+
+
+  });
+});
+
 
        rightPanel.innerHTML = `
   <h3>Preview</h3>
