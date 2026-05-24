@@ -169,6 +169,7 @@ align-items: stretch; /* 👈 THIS ensures full height */
  max-width: 900px;
  margin: 0 auto;
   min-height: 100vh;
+  
 
 
   padding: 60px 20px 20px; /* 👈 top space added */
@@ -922,6 +923,137 @@ padding: 2px 6px;
 }
 
 
+/* bubble appearence detaisl */
+
+.bubbleOption{
+  width:40px;
+  height:28px;
+
+  display:flex;              /* 🔥 IMPORTANT */
+  align-items:center;        /* 🔥 */
+  justify-content:center;    /* 🔥 */
+
+  border-radius:8px;
+  background:#1e293b;
+  border:2px solid transparent;
+  cursor:pointer;
+}
+
+.bubbleOption.light{
+  background:#e5e7eb;
+}
+
+.bubbleOption.dashed{
+  border:2px dashed rgba(255,255,255,0.3);
+  box-sizing: border-box;
+}
+
+.bubbleOption.active{
+  border:2px solid var(--accent);
+}
+
+.decor{
+  font-size:18px;
+  cursor:pointer;
+  opacity:0.6;
+}
+
+.decor.active{
+  opacity:1;
+  outline:2px solid var(--accent);
+  border-radius:6px;
+  padding:2px;
+}
+/* FORCE FIX (override everything) */
+
+/* CLEAN SYSTEM (one layout only) */
+
+.appearanceRow{
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 10px; /* 🔥 ADD THIS */
+}
+
+/* right side */
+.appearanceRow .options{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 🔥 center ONLY bubble row properly */
+.appearanceRow.bubbleRow .options{
+  justify-content: center;
+}
+
+/* DEFAULT (everything aligned normally) */
+
+
+
+/* keep bubbles tight */
+.optionGroup{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.appearanceRow{
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+}
+
+.appearanceRow span{
+  display: flex;
+  align-items: center;
+}
+
+/* ONLY fix bubble row alignment */
+.bubbleRow .options{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start; /* 👈 THIS fixes alignment */
+  margin-top: -4px;
+}
+
+
+/* ONLY affect outline row */
+.appearanceRow .appearanceContent{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.controls{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#bubblePreview{
+  width: 100px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border-radius:  6px;
+ border: 2px solid var(--accent);
+
+  font-size: 20px;
+
+  margin-top: 2px;
+
+  position: relative;
+  transform: translateY(-6px); /* move the bubble preview up */
+}
+
+
 
 
 
@@ -1323,24 +1455,76 @@ const pages = {
 
 
 
-  "Appearance": `
+"Appearance": `
 <h2>Appearance</h2>
+<p class="subText">Customize the look and feel of your chat experience.</p>
 
 <div class="settingsBox">
 
-  <div class="settingRow">
-    <span>Theme</span>
-    <span class="value themeToggle" id="themeToggle">Dark ▾</span>
+  <!-- TITLE -->
+  <div style="margin-bottom:20px;">
+    <strong>Message Bubbles</strong>
   </div>
 
-  <div class="settingRow">
-    <span>Accent Color</span>
-    <span class="value accentToggle" id="accentToggle">Purple ▾</span>
+  <!-- Outline Color -->
+  <div class="appearanceRow">
+    <span>Outline Color</span>
+
+    <div class="appearanceContent">
+
+      <div class="controls">
+        <div id="outlineColorCircle" style="
+          width:18px;
+          height:18px;
+          border-radius:50%;
+          background: var(--accent);
+        "></div>
+
+        <input id="outlineColorInput" type="text" value="#8B5CF6"
+          style="
+            background:#020617;
+            border:1px solid rgba(255,255,255,0.1);
+            border-radius:6px;
+            padding:6px 10px;
+            color:white;
+            width:120px;
+        ">
+      </div>
+
+      <!-- ✅ bubble preview INSIDE row -->
+      <div id="bubblePreview">hello</div>
+
+    </div>
+  </div>
+
+  <!-- Bubble Style -->
+  <div class="appearanceRow bubbleRow">
+    <span>Bubble Style</span>
+
+    <div class="options">
+      <div class="optionGroup">
+        <div class="bubbleOption"></div>
+        <div class="bubbleOption light"></div>
+        <div class="bubbleOption dashed"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorations -->
+  <div class="appearanceRow">
+    <span>Right Side Decoration</span>
+
+    <div style="display:flex; gap:10px;">
+      <span class="decor">💖</span>
+      <span class="decor">⭐</span>
+      <span class="decor">☁️</span>
+      <span class="decor">🌸</span>
+      <span class="decor active">🌱</span>
+    </div>
   </div>
 
 </div>
 `
-
 
 ,
 
@@ -1381,18 +1565,59 @@ document.querySelectorAll(".navItem").forEach(item => {
       // 👉 default right panel (always)
       rightPanel.innerHTML = defaultRightPanel;
 
-      applyAccent();
+
+
+      
 
       // 👉 ONLY change for Appearance
       if (text === "Appearance") {
-        rightPanel.innerHTML = `
-          <h3>Preview</h3>
-          <p class="subText">See how your theme looks</p>
 
-          <div class="settingsBox">
-            <p>This is a preview message</p>
-          </div>
-        `;
+         setTimeout(() => {
+          const input = document.getElementById("outlineColorInput");
+          const circle = document.getElementById("outlineColorCircle");
+          const preview = document.getElementById("bubblePreview")
+
+          if (input && circle && preview){
+            input.addEventListener("input", () => {
+              circle.style.background = input.value;
+
+              //preview border
+              preview.style.borderColor = input.value;
+            });
+          }
+        }, 0);
+
+       rightPanel.innerHTML = `
+  <h3>Preview</h3>
+  <p class="subText">See how your theme looks</p>
+
+  <div class="settingsBox">
+    <p style="color: var(--accent); font-weight: 600;">
+      Accent Preview Text
+    </p>
+
+    <div style="
+      margin-top:10px;
+      padding:10px;
+      border-radius:8px;
+      background: rgba(255,255,255,0.05);
+    ">
+      Sample UI Block
+    </div>
+
+    <button style="
+      margin-top:10px;
+      padding:8px 12px;
+      border:none;
+      border-radius:6px;
+      background: var(--accent);
+      color:white;
+      cursor:pointer;
+    ">
+      Accent Button
+    </button>
+  </div>
+`;
       }
 
     }
