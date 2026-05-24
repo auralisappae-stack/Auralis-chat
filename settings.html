@@ -1637,6 +1637,35 @@ const pages = {
   </div>
 </div>
 
+
+<div class="appearanceRow">
+  <span>Bubble Color</span>
+
+  <div class="appearanceContent">
+
+    <!-- LEFT -->
+    <div class="controls">
+      <div id="bubbleColorCircle" style="
+        width:18px;
+        height:18px;
+        border-radius:50%;
+        background: rgba(255,255,255,0.05);
+      "></div>
+
+      <input id="bubbleColorInput" type="text" value="#1e293b"
+        style="
+          background:#020617;
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:6px;
+          padding:6px 10px;
+          color:white;
+          width:120px;
+      ">
+    </div>
+
+  </div>
+</div>
+
 </div>
 `
 
@@ -1691,6 +1720,14 @@ document.querySelectorAll(".navItem").forEach(item => {
           const circle = document.getElementById("outlineColorCircle");
           const preview = document.getElementById("bubblePreview")
 
+
+          //bubble color 
+
+          const bubbleInput = document.getElementById("bubbleColorInput");
+          
+          const bubbleCircle = document.getElementById("bubbleColorCircle");
+
+
           if (input && circle && preview){
             input.addEventListener("input", () => {
               circle.style.background = input.value;
@@ -1700,7 +1737,15 @@ document.querySelectorAll(".navItem").forEach(item => {
             });
           }
 
-          
+
+          //outline logic
+
+              if (bubbleInput && bubbleCircle && preview){
+      bubbleInput.addEventListener("input", () => {
+        bubbleCircle.style.background = bubbleInput.value;
+        preview.style.background = bubbleInput.value;
+      });
+    }
 
           
         }, 0);
