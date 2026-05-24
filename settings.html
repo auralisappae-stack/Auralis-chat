@@ -1018,6 +1018,15 @@ padding: 2px 6px;
  
 }
 
+.appearanceContent {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+ 
+}
+
 
 /* ONLY affect outline row */
 .appearanceRow .appearanceContent{
@@ -1051,7 +1060,13 @@ padding: 2px 6px;
   margin-top: 2px;
 
   position: relative;
-  transform: translateY(-6px); /* move the bubble preview up */
+  transform: translateY(15px); /* move the bubble preview up */
+}
+
+.outlineRow Span{
+
+  margin-top: 4px !important;
+  align-self: start !important;
 }
 
 
@@ -1468,10 +1483,11 @@ const pages = {
   </div>
 
   <!-- Outline Color -->
-  <div class="appearanceRow">
+  <div class="appearanceRow outlineRow">
     <span>Outline Color</span>
 
     <div class="appearanceContent">
+
 
       <div class="controls">
         <div id="outlineColorCircle" style="
