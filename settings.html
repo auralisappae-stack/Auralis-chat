@@ -15,12 +15,12 @@
   height: 100%;
 }
 
+
 body{
   margin:0;
   font-family:'Inter',sans-serif;
   background:#020617;
   color:white;
-  display:flex;
 }
 
 /* sidebar */
@@ -81,12 +81,6 @@ body{
   color: #5865f2;
 }
 
-#settingsLayout{
-  display:flex;
-  height:100vh;
-  background:#020617;
-  color:white;
-}
 
 /* LEFT */
 #settingsLeft{
@@ -164,7 +158,6 @@ align-items: stretch; /* 👈 THIS ensures full height */
 
    /* ading line between the Right panel with the centre */
 
-    width: 220px;
   border-right: 1px solid rgba(255,255,255,10); /* 👈 line */
 
   border-right: 1px solid rgba(88,101,242,0.15);
@@ -333,9 +326,7 @@ color: var(--accent);
   transform: translateX(18px);
 }
 
-body{
-  height: 100vh; /* 🔥 important */
-}
+
 
 .navSmallIcon{
   width: 24px;
@@ -995,6 +986,7 @@ padding: 2px 6px;
 </div>
 
 <div class="navItem">
+  
   <img src="Appearence-icon.png" class="navSmallIcon">
   <span>Appearance</span>
 </div>
@@ -1039,7 +1031,7 @@ padding: 2px 6px;
 
   <!-- RIGHT -->
   <!-- RIGHT -->
-<div class="rightPanel">
+<div class="rightPanel" id="rightPanel">
 
   <h3>App Settings</h3>
   <p class="subText">Customize your Auralis experience.</p>
@@ -1129,6 +1121,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
+
 // 🔥 MOVE YOUR FUNCTION HERE
 window.uploadImage = function () {
   const file = document.getElementById("fileInput").files[0];
@@ -1178,6 +1171,9 @@ uploadBytes(storageRef, file).then(() => {
 
 
 const content = document.getElementById("centerContent");
+const rightPanel = document.getElementById("rightPanel");
+
+
 
 const pages = {
 
@@ -1324,7 +1320,32 @@ const pages = {
   "General": "<h2>General</h2><p>General settings</p>",
   "Voice & Audio": "<h2>Voice & Audio</h2><p>Audio settings</p>",
   "Notifications": "<h2>Notifications</h2><p>Notifications settings</p>",
-  "Appearance": "<h2>Appearance</h2><p>Theme settings</p>",
+
+
+
+  "Appearance": `
+<h2>Appearance</h2>
+
+<div class="settingsBox">
+
+  <div class="settingRow">
+    <span>Theme</span>
+    <span class="value themeToggle" id="themeToggle">Dark ▾</span>
+  </div>
+
+  <div class="settingRow">
+    <span>Accent Color</span>
+    <span class="value accentToggle" id="accentToggle">Purple ▾</span>
+  </div>
+
+</div>
+`
+
+
+,
+
+
+
   "Streamer Mode": "<h2>Streamer Mode</h2><p>Streaming settings</p>",
   "Keybinds": "<h2>Keybinds</h2><p>Shortcuts</p>",
 
@@ -1333,100 +1354,51 @@ const pages = {
 
 };
 
+
+
+
+
+
+
+
+
 document.querySelectorAll(".navItem").forEach(item => {
 
-  
+  item.onclick = () => {
 
+    const text = item.querySelector("span").textContent.trim();
 
- item.onclick = () => {
-  const text = item.textContent.trim();
+    if (pages[text]) {
 
-  if (pages[text]) {
-    content.innerHTML = pages[text];
+      // 👉 load center content
+      content.innerHTML = pages[text];
 
-    // 🔥 ONLY when Profile is opened
-if (text === "Profile") {
+      // 👉 run profile setup ONLY when needed
+      if (text === "Profile") {
+        setupProfile();
+      }
 
+      // 👉 default right panel (always)
+      rightPanel.innerHTML = defaultRightPanel;
 
+      applyAccent();
 
+      // 👉 ONLY change for Appearance
+      if (text === "Appearance") {
+        rightPanel.innerHTML = `
+          <h3>Preview</h3>
+          <p class="subText">See how your theme looks</p>
 
+          <div class="settingsBox">
+            <p>This is a preview message</p>
+          </div>
+        `;
+      }
 
-
-
-  setTimeout(() => {
-  const input = document.getElementById("aboutMeInput");
-  const counter = document.getElementById("charCount");
-
-  if (input && counter) {
-    input.addEventListener("input", () => {
-      counter.textContent = input.value.length + " / 200";
-    });
-  }
-}, 50);
-
-
-
-  setTimeout(() => {
-    const img = document.getElementById("profilePic");
-    const savedPic = localStorage.getItem("profilePic");
-
-    if (img && savedPic) {
-      img.src = savedPic; // 🔥 force update
     }
 
-  }, 50);
-
-
-
-
-
-
-  setTimeout(() => {
-
-  const statusToggle = document.getElementById("statusToggle");
-
-  if (!statusToggle) return;
-
-  const statuses = ["Online", "Away", "Offline"];
-  let currentStatus = 0;
-
-  statusToggle.onclick = () => {
-    currentStatus = (currentStatus + 1) % statuses.length;
-    const status = statuses[currentStatus];
-
-    statusToggle.textContent = status + " ▾";
-
-    const dot = document.querySelector(".status");
-    if (dot){
-      dot.className = "status " + status.toLowerCase();
-    }
   };
 
-}, 50);
-
-setTimeout(() => {
-
-  const copyBtn = document.getElementById("copyBtn");
-  const userIdText = document.getElementById("userIdText");
-
-  if (copyBtn && userIdText){
-    copyBtn.onclick = () => {
-      navigator.clipboard.writeText(userIdText.textContent);
-
-      copyBtn.textContent = "Copied!";
-      
-      setTimeout(() => {
-        copyBtn.textContent = "Copy";
-      }, 1500);
-    };
-  }
-
-}, 50);
-
-
-}
-}
-};
 });
 
 
@@ -1436,13 +1408,7 @@ const toggle = document.getElementById("themeToggle");
 let theme = localStorage.getItem("theme") || "dark";
 applyTheme(theme);
 
-// click toggle
-if (toggle) {
-  toggle.addEventListener("click", () => {
-    theme = (theme === "dark") ? "light" : "dark";
-    applyTheme(theme);
-  });
-}
+
 
 function applyTheme(theme){
   document.body.classList.toggle("light", theme === "light");
@@ -1455,7 +1421,7 @@ function applyTheme(theme){
 }
 
 
-const accentToggle = document.getElementById("accentToggle");
+
 
 const accents = [
   {name: "Purple", value: "#8b5cf6"},
@@ -1476,35 +1442,32 @@ if (savedAccent){
 // apply first time
 applyAccent();
 
-// click to switch
-if (accentToggle){
-  accentToggle.addEventListener("click", () => {
-    currentAccent = (currentAccent + 1) % accents.length;
-    applyAccent();
-  });
-}
 
 function applyAccent(){
   const accent = accents[currentAccent];
 
-  // 🔥 THIS changes the color globally
+  // change color
   document.documentElement.style.setProperty("--accent", accent.value);
 
   // save
   localStorage.setItem("accent", accent.value);
 
-  // update text
-  if (accentToggle){
-    accentToggle.textContent = "● " + accent.name + " ▾";
+  // update text (🔥 important fix)
+  const el = document.getElementById("accentToggle");
+  if (el){
+    el.textContent = "● " + accent.name + " ▾";
   }
 }
 
 
 
-const languageToggle = document.getElementById("languageToggle");
+
+
 
 const languages = ["English", "Arabic"];
 let currentLang = 0;
+
+
 
 // load saved
 const savedLang = localStorage.getItem("language");
@@ -1515,20 +1478,16 @@ if (savedLang){
 
 applyLanguage();
 
-if (languageToggle){
-  languageToggle.addEventListener("click", () => {
-    currentLang = (currentLang + 1) % languages.length;
-    applyLanguage();
-  });
-}
+
 
 function applyLanguage(){
   const lang = languages[currentLang];
 
   localStorage.setItem("language", lang);
 
-  if (languageToggle){
-    languageToggle.textContent = lang + " ▾";
+  const el = document.getElementById("languageToggle");
+  if(el) {
+    el.textContent = lang + " ▾";
   }
 }
 
@@ -1552,12 +1511,7 @@ if (savedStartup){
 
 applyStartup();
 
-if (startupToggle){
-  startupToggle.addEventListener("click", () => {
-    currentStartup = (currentStartup + 1) % startupOptions.length;
-    applyStartup();
-  });
-}
+
 
 function applyStartup(){
   const value = startupOptions[currentStartup];
@@ -1583,13 +1537,7 @@ if (savedStatus){
 
 applyStatus();
 
-// click to switch
-if (statusToggle){
-  statusToggle.addEventListener("click", () => {
-    currentStatus = (currentStatus + 1) % statuses.length;
-    applyStatus();
-  });
-}
+
 
 function applyStatus(){
   const status = statuses[currentStatus];
@@ -1610,6 +1558,92 @@ if (dot){
 
 
 
+
+const defaultRightPanel = rightPanel.innerHTML;
+
+
+
+function setupProfile() {
+
+  // About me counter
+  const input = document.getElementById("aboutMeInput");
+  const counter = document.getElementById("charCount");
+
+  if (input && counter) {
+    input.addEventListener("input", () => {
+      counter.textContent = input.value.length + " / 200";
+    });
+  }
+
+  // Load profile pic
+  const img = document.getElementById("profilePic");
+  const savedPic = localStorage.getItem("profilePic");
+  if (img && savedPic) {
+    img.src = savedPic;
+  }
+
+  // Status toggle
+  const statusToggle = document.getElementById("statusToggle");
+  if (statusToggle) {
+    const statuses = ["Online", "Away", "Offline"];
+    let current = 0;
+
+    statusToggle.onclick = () => {
+      current = (current + 1) % statuses.length;
+      const status = statuses[current];
+
+      statusToggle.textContent = status + " ▾";
+
+      const dot = document.querySelector(".status");
+      if (dot) dot.className = "status " + status.toLowerCase();
+    };
+  }
+
+  // Copy button
+  const copyBtn = document.getElementById("copyBtn");
+  const userIdText = document.getElementById("userIdText");
+
+  if (copyBtn && userIdText) {
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(userIdText.textContent);
+
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => {
+        copyBtn.textContent = "Copy";
+      }, 1500);
+    };
+  }
+}
+
+
+document.addEventListener("click", function(e) {
+
+  // THEME
+  if (e.target.closest("#themeToggle")) {
+    let theme = localStorage.getItem("theme") || "dark";
+    theme = (theme === "dark") ? "light" : "dark";
+    applyTheme(theme);
+  }
+
+  // LANGUAGE
+  if (e.target.closest("#languageToggle")) {
+    currentLang = (currentLang + 1) % languages.length;
+    applyLanguage();
+  }
+
+  // ACCENT
+  if (e.target.closest("#accentToggle")) {
+    currentAccent = (currentAccent + 1) % accents.length;
+    applyAccent();
+  }
+
+  // STARTUP
+  if (e.target.closest("#startupToggle")) {
+    currentStartup = (currentStartup + 1) % startupOptions.length;
+    applyStartup();
+  }
+
+});
 
 </script>
 
