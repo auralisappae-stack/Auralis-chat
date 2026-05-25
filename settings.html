@@ -1908,10 +1908,13 @@ const pages = {
   <div class="appearanceContent">
     <div class="controls">
 
-      <input type="file" id="chatBgInput" accept="image/*" style="
-        color:white;
-        font-size:12px;
-      ">
+    <input type="file" id="chatBgInput" accept="image/*" style="display:none;">
+
+    <button class="uploadBtn" id="chatBgBtn">
+  🖼 Import Background
+</button>
+
+
 
     </div>
   </div>
@@ -2360,6 +2363,13 @@ setTimeout(() => {
   };
 
 });
+
+const bgBtn = document.getElementById("chatBgBtn");
+const bgInput = document.getElementById("chatBgInput");
+
+if (bgBtn && bgInput){
+  bgBtn.onclick = () => bgInput.click();
+}
 
 
 const toggle = document.getElementById("themeToggle");
