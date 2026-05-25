@@ -954,8 +954,8 @@ padding: 2px 6px;
 }
 
 .bubbleText{
-
-  font-size: 18px;
+ font-size: 16px; 
+  line-height: 1.4;
 }
 
 
@@ -1031,7 +1031,6 @@ padding: 2px 6px;
   justify-content: center;
 
 
-    transform: translateY(50px);
 
 }
 
@@ -1223,6 +1222,62 @@ padding: 2px 6px;
   );
 }
 
+.chatPreview{
+   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* spacing */
+.previewSender {
+  border-radius: 999px;
+  padding: 10px 16px;
+
+  position: relative; /* 🔥 REQUIRED */
+
+    align-self: flex-end;   /* 🔥 pushes to the right */
+  margin-left: auto;      /* 🔥 ensures it hugs the right side */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+   
+
+
+  color: white;
+
+   width: fit-content;
+  max-width: 70%;
+}
+
+.previewSender + .previewSender {
+  margin-top: 2px;
+}
+
+.previewSender .bubbleDecor {
+  position: absolute;
+
+   top: -12px;
+  right: -6px;
+  font-size: 22px;
+}
+
+.previewReceiver {
+  border-radius: 999px;
+  padding: 10px 16px;
+
+   width: fit-content;
+  max-width: 70%;
+  margin-top: 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+ align-self: flex-start;
+  
+}
 
 
 
@@ -1805,6 +1860,31 @@ const pages = {
       ">
     </div>
 
+  </div>
+
+  <div class="appearanceRow">
+  <span>Font Style</span>
+
+  <div class="appearanceContent">
+    <div class="controls">
+
+      <select id="fontStyleSelect" style="
+        background:#020617;
+        border:1px solid rgba(255,255,255,0.1);
+        border-radius:6px;
+        padding:6px 10px;
+        color:white;
+      ">
+        <option value="Inter">Default</option>
+        <option value="Arial">Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Courier New">Courier</option>
+        <option value="Comic Sans MS">Comic</option>
+      </select>
+
+    </div>
+</div>
+
   
 </div>
 
@@ -1868,7 +1948,7 @@ document.querySelectorAll(".navItem").forEach(item => {
          setTimeout(() => {
           const input = document.getElementById("outlineColorInput");
           const circle = document.getElementById("outlineColorCircle");
-          const preview = document.getElementById("bubblePreview")
+          
 
 
           const glossyInput = document.getElementById("glossyColorInput");
@@ -1885,21 +1965,28 @@ const decors = document.querySelectorAll(".decor");
 
 
 
-   // ✅ ADD LISTENER HERE
+
+const preview = document.getElementById("bubblePreview");
     if (input && circle && preview){
       input.addEventListener("input", () => {
 
-        circle.style.background = input.value;
+circle.style.background = input.value;
 
-        preview.style.border = `2px solid ${input.value}`;
+preview.style.borderColor = input.value;
+preview.style.borderWidth = "2px";
+preview.style.borderStyle = "solid";
+        syncChatPreview();
 
-      });
+  
+
+});
 
 
 
 
-      const fontSelect = document.getElementById("fontStyleSelect");
+const fontSelect = document.getElementById("fontStyleSelect");
 const preview = document.getElementById("bubblePreview");
+
 
 if (fontSelect && preview){
   fontSelect.addEventListener("change", () => {
@@ -1910,6 +1997,7 @@ if (fontSelect && preview){
     const text = preview.querySelector(".bubbleText");
 if (text) {
   text.style.fontFamily = selectedFont;
+  syncChatPreview();
 }
 
   });
@@ -1926,6 +2014,13 @@ if (bubbleInput && bubbleCircle && preview){
 
     // 🔥 THIS is the important line
     preview.style.background = bubbleInput.value;
+    syncChatPreview();
+
+    const senderPreview = document.querySelector(".previewSender");
+
+if (senderPreview){
+  senderPreview.style.background = bubbleInput.value;
+}
 
   });
 }
@@ -1938,7 +2033,7 @@ if (glossyInput && glossyCircle && preview){
     glossyCircle.style.background = glossyInput.value;
 
     // 🔥 APPLY GLOSS EFFECT DIRECTLY
- preview.style.background = `
+preview.style.background = `
   linear-gradient(
     to bottom,
     ${glossyInput.value}cc 0%,
@@ -1953,6 +2048,15 @@ preview.style.boxShadow = `
   inset 0 -4px 10px rgba(255,255,255,0.15)
 `;
 
+const senderPreview = document.querySelector(".previewSender");
+
+if (senderPreview){
+  senderPreview.style.background = preview.style.background;
+  senderPreview.style.boxShadow = preview.style.boxShadow;
+}
+
+syncChatPreview();
+
   });
 }
 
@@ -1966,25 +2070,24 @@ function applyBubbleStyle() {
 
   const style = preview.dataset.style || "default";
 
-  // 🔥 KEEP existing border color
-  const currentBorderColor = preview.style.borderColor;
+  // ✅ KEEP existing border color
+  const color = preview.style.borderColor || "#8b5cf6";
 
-  // reset only what we need
+  // reset safely
   preview.style.borderStyle = "solid";
-  preview.style.background = "transparent";
 
   if (style === "dashed") {
     preview.style.borderStyle = "dashed";
   }
 
-  else if (style === "light") {
+  if (style === "light") {
     preview.style.background = "#e5e7eb";
   }
 
-  // 🔥 RESTORE border color
-  preview.style.borderColor = currentBorderColor;
+  // ✅ REAPPLY COLOR AFTER RESET
+  preview.style.borderColor = color;
 }
-        }, 0);
+}, 0);
 
 
 
@@ -2005,6 +2108,65 @@ function applyBubbleStyle() {
   else if (style === "light") {
     preview.style.background = "#e5e7eb";
   }
+
+
+
+
+}
+
+function syncChatPreview() {
+  const preview = document.getElementById("bubblePreview");
+  const senders = document.querySelectorAll(".previewSender");
+
+  if (!preview || senders.length === 0) return;
+
+  senders.forEach(sender => {
+    // background
+    sender.style.background = preview.style.background;
+
+    // border
+    sender.style.border = preview.style.border;
+    sender.style.borderStyle = preview.style.borderStyle;
+    sender.style.borderColor = preview.style.borderColor;
+
+    // text color
+    sender.style.color = preview.style.color;
+
+    // shape
+    sender.style.borderRadius = preview.style.borderRadius;
+
+    // font sync
+    const previewText = preview.querySelector(".bubbleText");
+    const senderText = sender.querySelector(".bubbleText");
+
+    if (previewText && senderText) {
+      senderText.style.fontFamily = previewText.style.fontFamily;
+    }
+  });
+
+  if (!preview || !sender) return;
+
+  // background (color / glossy)
+  sender.style.background = preview.style.background;
+
+  // border
+  sender.style.border = preview.style.border;
+  sender.style.borderStyle = preview.style.borderStyle;
+  sender.style.borderColor = preview.style.borderColor;
+
+  // text color
+  sender.style.color = preview.style.color;
+
+  // radius (shape)
+  sender.style.borderRadius = preview.style.borderRadius;
+
+  // font
+  const previewText = preview.querySelector(".bubbleText");
+  const senderText = sender.querySelector(".bubbleText");
+
+  if (previewText && senderText) {
+    senderText.style.fontFamily = previewText.style.fontFamily;
+  }
 }
 
       
@@ -2022,8 +2184,9 @@ setTimeout(() => {
 
       const style = option.dataset.style;
 
-      preview.dataset.style = style; // ✅ save style
-      applyBubbleStyle();            // ✅ apply it
+     preview.dataset.style = style;
+applyBubbleStyle();
+syncChatPreview(); // ✅ EXACTLY HERE
 
     });
   });
@@ -2043,9 +2206,26 @@ decors.forEach(d => {
     // apply to preview
     const value = d.dataset.decor;
     decorSpan.textContent = value;
+    syncChatPreview();
+
+
+    const decorPreviews = document.querySelectorAll(".previewSender .bubbleDecor");
+
+decorPreviews.forEach(d => {
+  d.textContent = value;
+
+const decorPreviews = document.querySelectorAll(".previewSender .bubbleDecor");
+
+decorPreviews.forEach(d => {
+  d.textContent = value;
+});
 
   });
 });
+
+});
+
+
 
 }, 0);
 
@@ -2055,37 +2235,38 @@ decors.forEach(d => {
 
 
 
-       rightPanel.innerHTML = `
-  <h3>Preview</h3>
-  <p class="subText">See how your theme looks</p>
+ rightPanel.innerHTML = `
+  <h3>Chat Preview</h3>
 
-  <div class="settingsBox">
-    <p style="color: var(--accent); font-weight: 600;">
-      Accent Preview Text
-    </p>
+  <p class="subText">Live preview of your chat style</p>
 
-    <div style="
-      margin-top:10px;
-      padding:10px;
-      border-radius:8px;
-      background: rgba(255,255,255,0.05);
-    ">
-      Sample UI Block
+  <div class="settingsBox chatPreview">
+
+    <!-- RECEIVER -->
+    <div class="bubbleSample receiver previewReceiver">
+      Hey! How are you?
     </div>
 
-    <button style="
-      margin-top:10px;
-      padding:8px 12px;
-      border:none;
-      border-radius:6px;
-      background: var(--accent);
-      color:white;
-      cursor:pointer;
-    ">
-      Accent Button
-    </button>
+    <!-- MULTIPLE SENDERS -->
+    <div class="bubbleSample sender previewSender">
+      <span class="bubbleText">Hello Dear <3 </span>
+      <span class="bubbleDecor">🌸</span>
+    </div>
+
+    <div class="bubbleSample sender previewSender">
+      <span class="bubbleText">I am up to gaming!</span>
+      <span class="bubbleDecor">🌸</span>
+    </div>
+
+    <div class="bubbleSample sender previewSender">
+      <span class="bubbleText">Wanna Hope on ?</span>
+      <span class="bubbleDecor">🌸</span>
+    </div>
+
   </div>
 `;
+
+
       }
 
     }
