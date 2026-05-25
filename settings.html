@@ -1137,14 +1137,23 @@ padding: 2px 6px;
   align-self: start !important;
 }
 
-.preview-light{
-  background:#e5e7eb;
-  color:#020617;
+.preview-light {
+  background: #e5e7eb;
+  color: #020617;
 }
 
-.preview-dashed{
-  background:transparent;
-  border-style:dashed;
+.preview-dashed {
+  border-style: dashed;
+  background: transparent;
+}
+
+.preview-glossy {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.25),
+    rgba(255,255,255,0.08),
+    rgba(0,0,0,0.1)
+  );
 }
 
 
@@ -1647,7 +1656,6 @@ const pages = {
         <div class="bubbleOption solid" data-style="default"> </div>
         <div class="bubbleOption light" data-style="light"> </div>
         <div class="bubbleOption dashed" data-style= "dashed"> </div>
-        <div class="bubbleOption glossy" data-style= " glossy"></div>
       </div>
     </div>
   </div>
@@ -1691,7 +1699,37 @@ const pages = {
       ">
     </div>
 
+
   </div>
+
+  <div class="appearanceRow">
+  <span>Glossy Color</span>
+
+  <div class="appearanceContent">
+
+    <div class="controls">
+      <div id="glossyColorCircle" style="
+        width:18px;
+        height:18px;
+        border-radius:50%;
+        background: #ffffff;
+      "></div>
+
+      <input id="glossyColorInput" type="text" value="#ffffff"
+        style="
+          background:#020617;
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:6px;
+          padding:6px 10px;
+          color:white;
+          width:120px;
+      ">
+    </div>
+
+  </div>
+</div>
+
+
 </div>
 
 </div>
@@ -1749,142 +1787,136 @@ document.querySelectorAll(".navItem").forEach(item => {
           const preview = document.getElementById("bubblePreview")
 
 
+          const glossyInput = document.getElementById("glossyColorInput");
+          const glossyCircle = document.getElementById("glossyColorCircle");
 
 
-          function applyBubbleStyle() {
+          // 🎯 DECORATION CLICK
+const decors = document.querySelectorAll(".decor");
+
+
+
+
+
+  function applyBubbleStyle() {
   const preview = document.getElementById("bubblePreview");
+   const bubbleInput = document.getElementById("bubbleColorInput");
+          
+const bubbleCircle = document.getElementById("bubbleColorCircle");
 
-  const color = preview.dataset.color || "rgba(255,255,255,0.05)";
+
   const style = preview.dataset.style || "default";
 
-  if (style === "glossy") {
-    preview.style.background = `
-      linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.25),
-        rgba(255,255,255,0.08),
-        rgba(0,0,0,0.1)
-      ),
-      ${color}
-    `;
-  }
-
-  else if (style === "light") {
-    preview.style.background = color;
-    preview.style.color = "#020617";
-    preview.style.borderStyle = "solid";
-  }
-
-  else if (style === "dashed") {
-    preview.style.background = "transparent";
-    preview.style.borderStyle = "dashed";
-  }
-
-  else {
-    preview.style.background = color;
-    preview.style.color = "white";
-    preview.style.borderStyle = "solid";
-  }
-}
 
 
           //bubble color 
 
-          const bubbleInput = document.getElementById("bubbleColorInput");
-          
-          const bubbleCircle = document.getElementById("bubbleColorCircle");
 
+if (input && circle && preview){
+    input.addEventListener("input", () => {
+    circle.style.background = input.value;
 
-          if (input && circle && preview){
-            input.addEventListener("input", () => {
-              circle.style.background = input.value;
+    //preview border
+    preview.style.borderColor = input.value;
+  });
+ }
 
-              //preview border
-              preview.style.borderColor = input.value;
-            });
-          }
+//glossy system 
+
+          if (glossyInput && glossyCircle && preview) {
+  glossyInput.addEventListener("input", () => {
+
+    glossyCircle.style.background = glossyInput.value;
+
+    // save glossy color
+    preview.dataset.glossy = glossyInput.value;
+
+    applyBubbleStyle();
+  });
+}
 
 
           //outline logic
+if (bubbleInput && bubbleCircle && preview){
+  bubbleInput.addEventListener("input", () => {
 
-              if (bubbleInput && bubbleCircle && preview){
-      bubbleInput.addEventListener("input", () => {
-        bubbleCircle.style.background = bubbleInput.value;
+    bubbleCircle.style.background = bubbleInput.value;
 
-       bubbleInput.addEventListener("input", () => {
-  bubbleCircle.style.background = bubbleInput.value;
+    preview.style.borderColor = bubbleInput.value;
 
-  // store color
-  preview.dataset.color = bubbleInput.value;
+  });
+}
 
-  applyBubbleStyle();
-});
-      });
-    }
-
-          
+  }
         }, 0);
 
-        setTimeout(() => {
+
+
+function applyBubbleStyle() {
+  const preview = document.getElementById("bubblePreview");
+  if (!preview) return;
+
+  const style = preview.dataset.style || "default";
+
+  // reset everything first
+  preview.style.borderStyle = "solid";
+  preview.style.background = "transparent";
+
+  if (style === "dashed") {
+    preview.style.borderStyle = "dashed";
+  }
+
+  else if (style === "light") {
+    preview.style.background = "#e5e7eb";
+  }
+}
+
+      
+setTimeout(() => {
   const options = document.querySelectorAll(".bubbleOption");
   const preview = document.getElementById("bubblePreview");
+
+  if (!preview) return;
 
   options.forEach(option => {
     option.addEventListener("click", () => {
 
-      // remove active from all
       options.forEach(o => o.classList.remove("active"));
-
-      // add active to clicked
       option.classList.add("active");
 
       const style = option.dataset.style;
 
-// save selected style
-preview.dataset.style = style;
-
-// apply everything
-applyBubbleStyle();
-
+      preview.dataset.style = style; // ✅ save style
+      applyBubbleStyle();            // ✅ apply it
 
     });
   });
+
+
+  const decors = document.querySelectorAll(".decor");
+
+const decorSpan = preview.querySelector(".bubbleDecor");
+
+decors.forEach(d => {
+  d.addEventListener("click", () => {
+
+    // active UI
+    decors.forEach(x => x.classList.remove("active"));
+    d.classList.add("active");
+
+    // apply to preview
+    const value = d.dataset.decor;
+    decorSpan.textContent = value;
+
+  });
+});
+
 }, 0);
 
-// 🎯 DECORATION CLICK
-const decors = document.querySelectorAll(".decor");
-const preview = document.getElementById("bubblePreview");
-
-decors.forEach(d => {
-  d.addEventListener("click", () => {
-
-    // remove active
-    decors.forEach(x => x.classList.remove("active"));
-
-    // add active
-    d.classList.add("active");
-
-    // update preview
-  const decorEl = document.querySelector(".bubbleDecor");
-
-decors.forEach(d => {
-  d.addEventListener("click", () => {
-
-    // highlight selection
-    decors.forEach(x => x.classList.remove("active"));
-    d.classList.add("active");
-
-    // ONLY change the emoji
-    decorEl.textContent = d.dataset.decor;
-
-  });
-});
 
 
 
 
-  });
-});
 
 
        rightPanel.innerHTML = `
