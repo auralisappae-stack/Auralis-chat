@@ -1834,14 +1834,20 @@ if (glossyInput && glossyCircle && preview){
     glossyCircle.style.background = glossyInput.value;
 
     // 🔥 APPLY GLOSS EFFECT DIRECTLY
-    preview.style.background = `
-      linear-gradient(
-        to bottom,
-        ${glossyInput.value},
-        rgba(255,255,255,0.1),
-        rgba(0,0,0,0.2)
-      )
-    `;
+ preview.style.background = `
+  linear-gradient(
+    to bottom,
+    ${glossyInput.value}cc 0%,
+    ${glossyInput.value}88 40%,
+    ${glossyInput.value}55 70%,
+    ${glossyInput.value}33 100%
+  )
+`;
+
+preview.style.boxShadow = `
+  inset 0 2px 6px rgba(255,255,255,0.4),
+  inset 0 -4px 10px rgba(255,255,255,0.15)
+`;
 
   });
 }
