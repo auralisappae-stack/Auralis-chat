@@ -1790,6 +1790,9 @@ document.querySelectorAll(".navItem").forEach(item => {
           const glossyInput = document.getElementById("glossyColorInput");
           const glossyCircle = document.getElementById("glossyColorCircle");
 
+          const bubbleInput = document.getElementById("bubbleColorInput");
+          const bubbleCircle = document.getElementById("bubbleColorCircle");
+
 
           // 🎯 DECORATION CLICK
 const decors = document.querySelectorAll(".decor");
@@ -1798,56 +1801,79 @@ const decors = document.querySelectorAll(".decor");
 
 
 
-  function applyBubbleStyle() {
-  const preview = document.getElementById("bubblePreview");
-   const bubbleInput = document.getElementById("bubbleColorInput");
-          
-const bubbleCircle = document.getElementById("bubbleColorCircle");
+   // ✅ ADD LISTENER HERE
+    if (input && circle && preview){
+      input.addEventListener("input", () => {
+
+        circle.style.background = input.value;
+
+        preview.style.border = `2px solid ${input.value}`;
+
+      });
+    }
 
 
-  const style = preview.dataset.style || "default";
+    
+if (bubbleInput && bubbleCircle && preview){
+  bubbleInput.addEventListener("input", () => {
 
+    // update small circle
+    bubbleCircle.style.background = bubbleInput.value;
 
+    // 🔥 THIS is the important line
+    preview.style.background = bubbleInput.value;
 
-          //bubble color 
-
-
-if (input && circle && preview){
-    input.addEventListener("input", () => {
-    circle.style.background = input.value;
-
-    //preview border
-    preview.style.borderColor = input.value;
   });
- }
+}
 
-//glossy system 
 
-          if (glossyInput && glossyCircle && preview) {
+
+if (glossyInput && glossyCircle && preview){
   glossyInput.addEventListener("input", () => {
 
     glossyCircle.style.background = glossyInput.value;
 
-    // save glossy color
-    preview.dataset.glossy = glossyInput.value;
-
-    applyBubbleStyle();
-  });
-}
-
-
-          //outline logic
-if (bubbleInput && bubbleCircle && preview){
-  bubbleInput.addEventListener("input", () => {
-
-    bubbleCircle.style.background = bubbleInput.value;
-
-    preview.style.borderColor = bubbleInput.value;
+    // 🔥 APPLY GLOSS EFFECT DIRECTLY
+    preview.style.background = `
+      linear-gradient(
+        to bottom,
+        ${glossyInput.value},
+        rgba(255,255,255,0.1),
+        rgba(0,0,0,0.2)
+      )
+    `;
 
   });
 }
 
+
+
+
+
+function applyBubbleStyle() {
+  const preview = document.getElementById("bubblePreview");
+  if (!preview) return;
+
+  const style = preview.dataset.style || "default";
+
+  // 🔥 KEEP existing border color
+  const currentBorderColor = preview.style.borderColor;
+
+  // reset only what we need
+  preview.style.borderStyle = "solid";
+  preview.style.background = "transparent";
+
+  if (style === "dashed") {
+    preview.style.borderStyle = "dashed";
   }
+
+  else if (style === "light") {
+    preview.style.background = "#e5e7eb";
+  }
+
+  // 🔥 RESTORE border color
+  preview.style.borderColor = currentBorderColor;
+}
         }, 0);
 
 
