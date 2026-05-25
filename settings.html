@@ -1726,6 +1726,28 @@ const pages = {
       ">
     </div>
 
+  
+</div>
+
+  <div class="appearanceRow">
+  <span>Font Style</span>
+
+  <div class="appearanceContent">
+    <select id="fontStyleSelect" style="
+      background:#020617;
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px;
+      padding:6px 10px;
+      color:white;
+    ">
+      <option value="Inter">Inter</option>
+      <option value="Arial">Arial</option>
+      <option value="Courier New">Courier</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Poppins">Poppins</option>
+    </select>
+  </div>
+
   </div>
 </div>
 
@@ -1810,6 +1832,26 @@ const decors = document.querySelectorAll(".decor");
         preview.style.border = `2px solid ${input.value}`;
 
       });
+
+
+
+
+      const fontSelect = document.getElementById("fontStyleSelect");
+const preview = document.getElementById("bubblePreview");
+
+if (fontSelect && preview){
+  fontSelect.addEventListener("change", () => {
+
+    const selectedFont = fontSelect.value;
+
+    // apply to bubble text
+    const text = preview.querySelector(".bubbleText");
+if (text) {
+  text.style.fontFamily = selectedFont;
+}
+
+  });
+}
     }
 
 
