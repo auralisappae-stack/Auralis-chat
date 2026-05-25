@@ -1226,6 +1226,17 @@ padding: 2px 6px;
    display: flex;
   flex-direction: column;
   gap: 8px;
+
+
+    display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  padding: 15px;
+  border-radius: 12px;
+
+  background-size: cover;
+  background-position: center;
 }
 
 /* spacing */
@@ -1891,6 +1902,21 @@ const pages = {
     </div>
 </div>
 
+<div class="appearanceRow">
+  <span>Chat Background</span>
+
+  <div class="appearanceContent">
+    <div class="controls">
+
+      <input type="file" id="chatBgInput" accept="image/*" style="
+        color:white;
+        font-size:12px;
+      ">
+
+    </div>
+  </div>
+</div>
+
   
 </div>
 
@@ -2166,6 +2192,35 @@ function syncChatPreview() {
   if (previewText && senderText) {
     senderText.style.fontFamily = previewText.style.fontFamily;
   }
+
+
+
+  const bgInput = document.getElementById("chatBgInput");
+const chatPreview = document.querySelector(".chatPreview");
+
+if (bgInput && chatPreview){
+  bgInput.addEventListener("change", () => {
+
+    const file = bgInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      const url = e.target.result;
+
+      // ✅ apply to preview panel
+      chatPreview.style.backgroundImage = `url(${url})`;
+
+      // ✅ OPTIONAL: save it
+      localStorage.setItem("chatBackground", url);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+
 }
 
       
@@ -2229,6 +2284,8 @@ decors.forEach(d => {
 
 
  rightPanel.innerHTML = `
+
+ 
   <h3>Chat Preview</h3>
 
   <p class="subText">Live preview of your chat style</p>
@@ -2258,6 +2315,42 @@ decors.forEach(d => {
 
   </div>
 `;
+
+// ✅ BACKGROUND IMAGE LOGIC (PUT HERE)
+setTimeout(() => {
+  const bgInput = document.getElementById("chatBgInput");
+  const chatPreview = document.querySelector(".chatPreview");
+
+  if (bgInput && chatPreview) {
+    bgInput.addEventListener("change", () => {
+      const file = bgInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const url = e.target.result;
+
+        chatPreview.style.backgroundImage = `url(${url})`;
+        chatPreview.style.backgroundSize = "cover";
+        chatPreview.style.backgroundPosition = "center";
+
+        localStorage.setItem("chatBackground", url);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ✅ LOAD SAVED BACKGROUND
+  const savedBg = localStorage.getItem("chatBackground");
+  if (savedBg && chatPreview) {
+    chatPreview.style.backgroundImage = `url(${savedBg})`;
+    chatPreview.style.backgroundSize = "cover";
+    chatPreview.style.backgroundPosition = "center";
+  }
+
+}, 0);
 
 
       }
