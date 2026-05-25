@@ -1270,6 +1270,7 @@ padding: 2px 6px;
    width: fit-content;
   max-width: 70%;
   margin-top: 4px;
+  margin-left: 20px; /* 🔥 adds space from inputs */
 
   display: flex;
   align-items: center;
@@ -1279,7 +1280,13 @@ padding: 2px 6px;
   
 }
 
+.previewGroup {
+  display: flex;
+  gap: 12px;
 
+  margin-left: 30px; /* 🔥 THIS is the magic */
+  align-items: center;
+}
 
 
 
@@ -1761,7 +1768,7 @@ const pages = {
       </div>
 
       <!-- ✅ bubble preview INSIDE row -->
-   <div style="display:flex; gap:12px;">
+  <div class="previewGroup">
 
   <!-- RECEIVER (STATIC) -->
   <div id="bubblePreviewStatic" class="bubbleSample receiver">
@@ -1788,7 +1795,6 @@ const pages = {
     <div class="options">
       <div class="optionGroup">
         <div class="bubbleOption solid" data-style="default"> </div>
-        <div class="bubbleOption light" data-style="light"> </div>
         <div class="bubbleOption dashed" data-style= "dashed"> </div>
       </div>
     </div>
@@ -2080,9 +2086,7 @@ function applyBubbleStyle() {
     preview.style.borderStyle = "dashed";
   }
 
-  if (style === "light") {
-    preview.style.background = "#e5e7eb";
-  }
+
 
   // ✅ REAPPLY COLOR AFTER RESET
   preview.style.borderColor = color;
@@ -2105,12 +2109,7 @@ function applyBubbleStyle() {
     preview.style.borderStyle = "dashed";
   }
 
-  else if (style === "light") {
-    preview.style.background = "#e5e7eb";
-  }
-
-
-
+ 
 
 }
 
@@ -2203,26 +2202,20 @@ decors.forEach(d => {
     decors.forEach(x => x.classList.remove("active"));
     d.classList.add("active");
 
-    // apply to preview
     const value = d.dataset.decor;
-    decorSpan.textContent = value;
-    syncChatPreview();
 
+    // ✅ CENTER PREVIEW
+    const decorSpan = preview.querySelector(".bubbleDecor");
+    if (decorSpan) decorSpan.textContent = value;
 
+    // ✅ RIGHT PANEL PREVIEW (THIS WAS BROKEN)
     const decorPreviews = document.querySelectorAll(".previewSender .bubbleDecor");
+    decorPreviews.forEach(el => {
+      el.textContent = value;
+    });
 
-decorPreviews.forEach(d => {
-  d.textContent = value;
-
-const decorPreviews = document.querySelectorAll(".previewSender .bubbleDecor");
-
-decorPreviews.forEach(d => {
-  d.textContent = value;
-});
-
+    syncChatPreview();
   });
-});
-
 });
 
 
