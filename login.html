@@ -279,9 +279,17 @@ function login() {
   error.innerText = "Login successful!";
   error.style.display = "block";
 
-  setTimeout(() => {
-    window.location = "chat.html";
-  }, 1000);
+ setTimeout(() => {
+
+  localStorage.setItem(
+    "username",
+    user
+  );
+
+  window.location =
+  "chat_v2.html";
+
+}, 1000);
 }
 
 

@@ -743,7 +743,9 @@ document.getElementById("messages");
 
 
 const username =
-localStorage.getItem("username") || "Guest";
+localStorage.getItem("currentUser") ||
+localStorage.getItem("username") ||
+"Guest";
 
 document.getElementById("userName")
 .textContent = username;
