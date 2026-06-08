@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+rel="stylesheet">
+
+<meta charset="UTF-8">
+<title>Auralis Chat V2</title>
+
+<style>
+
+body{
+  margin:0;
+  height:100vh;
+
+  background:#020617;
+  color:white;
+  font-family:Arial,sans-serif;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+#app{
+  width:90%;
+  height:90%;
+
+  display:flex;
+
+  background:#0f172a;
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+#sidebar{
+  width:280px;
+  background:#020617;
+  border-right:1px solid rgba(255,255,255,.1);
+
+  display:flex;
+  flex-direction:column;
+}
+
+#sidebarTop{
+  padding:20px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+#searchInput{
+  width:100%;
+  box-sizing:border-box;
+
+  padding:12px;
+
+  border:none;
+  border-radius:12px;
+
+  background:#0f172a;
+  color:white;
+
+  outline:none;
+}
+
+#searchInput::placeholder{
+  color:#94a3b8;
+}
+
+#searchContainer{
+  width:100%;
+}
+
+#sidebarTop h2{
+  margin:0 0 16px 0;
+}
+
+#chatList{
+  flex:1;
+  padding:10px;
+}
+
+.channel{
+  padding:14px;
+
+  border-radius:14px;
+
+  margin-bottom:10px;
+
+  transition:.2s;
+
+  cursor:pointer;
+
+  color:#cbd5e1;
+}
+
+.channel:hover{
+  background:#1e293b;
+  transform:translateX(4px);
+}
+
+.channel.active{
+  background:#334155;
+  color:white;
+}
+
+.channel:hover{
+  background:#1e293b;
+}
+
+.channel.active{
+  background:#334155;
+  color:white;
+}
+
+#sidebarBottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+#userCard{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+#userAvatar{
+  width:40px;
+  height:40px;
+
+  border-radius:50%;
+
+  background:#5865f2;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-weight:bold;
+}
+
+#userInfo{
+  flex:1;
+}
+
+#userName{
+  font-size:14px;
+  font-weight:bold;
+}
+
+#userStatus{
+  font-size:12px;
+  color:#94a3b8;
+}
+
+#chatArea{
+  flex:1;
+
+  display:flex;
+  flex-direction:column;
+}
+
+#header{
+  padding:20px;
+
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+
+#messages{
+  flex:1;
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  overflow-y:auto;
+  min-height:0;
+}
+
+#inputBar{
+  padding:16px;
+
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+#msgInput{
+  flex:1;
+
+  padding:14px;
+
+  border:none;
+  border-radius:14px;
+
+  background:#1e293b;
+
+  color:white;
+
+  outline:none;
+}
+
+.inputIcon{
+  width:42px;
+  height:42px;
+
+  border:none;
+  border-radius:12px;
+
+  background:#1e293b;
+
+  color:white;
+
+  cursor:pointer;
+}
+
+#sendBtn{
+  width:46px;
+  height:46px;
+
+  border:none;
+  border-radius:12px;
+
+  background:#5865f2;
+
+  color:white;
+
+  cursor:pointer;
+
+  font-size:18px;
+}
+
+.inputIcon:hover,
+#sendBtn:hover{
+  transform:scale(1.05);
+}
+
+.inputIcon,
+#sendBtn{
+  transition:.2s;
+}
+
+#chatArea{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+}
+
+.bubble{
+  width:fit-content;
+  position:relative;
+
+  max-width:70%;
+
+  padding:12px 16px;
+
+  border-radius:18px;
+backdrop-filter:blur(10px);
+
+  background:#5865f2;
+   box-shadow:
+  0 4px 12px rgba(0,0,0,.25);
+
+  color:white;
+}
+
+.bubble{
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+.bubble.other{
+  background:#1e293b;
+}
+
+.bubble.me{
+  background:#5865f2;
+  align-self:flex-end;
+}
+
+.decor{
+  position:absolute;
+
+  right:-8px;
+  top:-8px;
+
+  font-size:20px;
+}
+
+/*new chat button CSS */
+#newChatBtn{
+  margin:12px;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  border:1px solid #5865f2;
+
+  background:transparent;
+
+  color:#5865f2;
+
+  cursor:pointer;
+
+  font-size:16px;
+}
+
+#sidebarBottom{
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+
+#userCard{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+#userAvatar{
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+
+  background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #A78BFA
+  );
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-weight:bold;
+  color:white;
+}
+
+#userInfo{
+  flex:1;
+}
+
+#userStatus{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  font-size:12px;
+  color:#94a3b8;
+}
+
+.statusDot{
+  width:8px;
+  height:8px;
+
+  border-radius:50%;
+
+  background:#22c55e;
+}
+
+#userActions{
+  display:flex;
+  gap:4px;
+}
+
+#userActions button{
+  background:transparent;
+  border:none;
+
+  color:white;
+
+  cursor:pointer;
+
+  font-size:18px;
+}
+
+.chatCard{
+  display:flex;
+  align-items:center;
+
+  gap:12px;
+
+  padding:12px;
+
+  margin-bottom:10px;
+
+  border-radius:14px;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.chatCard:hover{
+  background:#1e293b;
+}
+
+.chatCard.active{
+  background:#334155;
+}
+
+.chatAvatar{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  background:#5865f2;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-weight:bold;
+}
+
+.chatInfo{
+  flex:1;
+}
+
+.chatName{
+  font-weight:bold;
+  color:white;
+}
+
+.chatPreview{
+  font-size:12px;
+  color:#94a3b8;
+
+  margin-top:3px;
+}
+
+.chatMeta{
+  text-align:right;
+}
+
+.chatTime{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+.unreadBadge{
+  margin-top:6px;
+
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  background:#5865f2;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-size:11px;
+}
+
+
+#header{
+  padding:16px 20px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+#headerLeft{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+#headerAvatar{
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+
+  background:#5865f2;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-weight:bold;
+}
+
+#headerName{
+  font-weight:bold;
+  color:white;
+}
+
+#headerStatus{
+  font-size:12px;
+  color:#22c55e;
+}
+
+#headerActions{
+  display:flex;
+  gap:8px;
+}
+
+#headerActions button{
+  width:38px;
+  height:38px;
+
+  border:none;
+  border-radius:10px;
+
+  background:#1e293b;
+  color:white;
+
+  cursor:pointer;
+}
+
+#headerActions button:hover{
+  background:#334155;
+}
+
+.msgHeader{
+  display:flex;
+  gap:10px;
+
+  margin-bottom:6px;
+
+  align-items:center;
+}
+
+.msgUser{
+  font-weight:bold;
+  font-size:13px;
+}
+
+.msgTime{
+  font-size:11px;
+  opacity:.7;
+}
+
+.msgText{
+  line-height:1.5;
+}
+
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- side bar section-->
+
+ <div id="sidebar">
+
+  <div id="sidebarTop">
+
+  <h2>Auralis</h2>
+
+  <div id="searchContainer">
+    <input
+      id="searchInput"
+      placeholder="🔍 Search chats..."
+    >
+  </div>
+
+</div>
+
+ <div id="chatList">
+
+  <div class="chatCard active">
+
+    <div class="chatAvatar">L</div>
+
+    <div class="chatInfo">
+      <div class="chatName">Lilith</div>
+      <div class="chatPreview">
+        Last message...
+      </div>
+    </div>
+
+    <div class="chatMeta">
+      <div class="chatTime">2m</div>
+      <div class="unreadBadge">3</div>
+    </div>
+
+  </div>
+
+  <div id="chatList">
+
+  <div class="chatCard active">
+
+    <div class="chatAvatar">L</div>
+
+    <div class="chatInfo">
+      <div class="chatName">Saal</div>
+      <div class="chatPreview">
+        Last message...
+      </div>
+    </div>
+
+    <div class="chatMeta">
+      <div class="chatTime">2m</div>
+      <div class="unreadBadge">3</div>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+   <button id="newChatBtn">
+  + New Chat
+</button>
+
+ <div id="sidebarBottom">
+
+  <div id="userCard">
+
+    <div id="userAvatar">L</div>
+
+    <div id="userInfo">
+      <div id="userName"></div>
+      <div id="userStatus">
+        <span class="statusDot"></span>
+        Online
+      </div>
+    </div>
+
+    <div id="userActions">
+      <button id="profileBtn">👤</button>
+      <button id="settingsBtn">⚙️</button>
+      <button id="themeBtn">🌙</button>
+    </div>
+
+  </div>
+
+</div>
+
+</div> <!-- end of sidebar sec-->
+
+  <div id="chatArea">
+
+ <div id="header">
+
+  <div id="headerLeft">
+
+    <div id="headerAvatar">L</div>
+
+    <div>
+      <div id="headerName">Lilith</div>
+      <div id="headerStatus">Online</div>
+    </div>
+
+  </div>
+
+  <div id="headerActions">
+    <button>🔍</button>
+    <button>📞</button>
+    <button>📹</button>
+    <button>⋯</button>
+  </div>
+
+</div>
+
+
+    <!-- messages here -->
+
+    <div id="messages">
+
+
+
+</div> <!-- end of the messages-->
+
+   <div id="inputBar">
+
+  <button class="inputIcon">➕</button>
+
+  <input
+    id="msgInput"
+    placeholder="Type a message..."
+  >
+
+  <button class="inputIcon">😊</button>
+
+  <button class="inputIcon">🎤</button>
+
+  <button id="sendBtn">➤</button>
+
+</div>
+
+  </div>
+
+</div> <!-- end of chatarea-->
+
+<!-- firebase script-->
+ <script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
+  authDomain: "auralis-web-app.firebaseapp.com",
+  projectId: "auralis-web-app",
+  storageBucket: "auralis-web-app.firebasestorage.app",
+  messagingSenderId: "817840303664",
+  appId: "1:817840303664:web:cc89d235f2ce1adcb307f5",
+  measurementId: "G-N117VGDYMG"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+const messagesDiv =
+document.getElementById("messages");
+
+
+const username =
+localStorage.getItem("username") || "Guest";
+
+document.getElementById("userName")
+.textContent = username;
+
+document.getElementById("userAvatar")
+.textContent =
+username.charAt(0).toUpperCase();
+
+
+let userStyles = {};
+
+
+
+db.collection("users")
+.onSnapshot(snapshot => {
+
+  snapshot.forEach(doc => {
+
+    userStyles[doc.id] = doc.data();
+
+  });
+
+  console.log("username =", username);
+console.log("userStyles =", userStyles);
+console.log("currentStyle =", userStyles[username]);
+
+  const currentStyle = userStyles[username];
+
+if(currentStyle?.chatBackground){
+
+  messagesDiv.style.backgroundImage =
+    `url(${currentStyle.chatBackground})`;
+
+  messagesDiv.style.backgroundSize = "cover";
+
+  messagesDiv.style.backgroundPosition = "center";
+
+}
+
+
+db.collection("messages")
+.orderBy("time")
+.onSnapshot(snapshot => {
+
+  messagesDiv.innerHTML = "";
+
+  snapshot.forEach(doc => {
+
+    const msg = doc.data();
+
+    const style = userStyles[msg.user];
+
+    
+
+    const bubble = document.createElement("div");
+
+    if(msg.user === username){
+      bubble.className = "bubble me";
+    }else{
+      bubble.className = "bubble other";
+    }
+
+   bubble.innerHTML = `
+  <div class="msgHeader">
+    <span class="msgUser">${msg.user}</span>
+    <span class="msgTime">
+      ${new Date(msg.time).toLocaleTimeString([], {
+        hour:'2-digit',
+        minute:'2-digit'
+      })}
+    </span>
+  </div>
+
+  <div class="msgText">
+    ${msg.text}
+  </div>
+
+  <span class="decor"></span>
+`;
+
+const decor =
+bubble.querySelector(".decor");
+
+const icons = {
+  none: "",
+  sparkle: "✨",
+  heart: "💖",
+  star: "⭐",
+  flower: "🌸"
+};
+
+decor.textContent =
+  icons[style?.bubbleDecoration] || "";
+
+   if(style){
+
+  if(style.bubbleColor === "purple"){
+    bubble.style.background =
+    "linear-gradient(135deg,#8B5CF6,#A78BFA)";
+  }
+
+  if(style.bubbleColor === "pink"){
+    bubble.style.background =
+    "linear-gradient(135deg,#FF4FA3,#FF85C2)";
+  }
+
+  if(style.bubbleColor === "blue"){
+    bubble.style.background =
+    "linear-gradient(135deg,#3B82F6,#60A5FA)";
+  }
+
+  if(style.bubbleColor === "green"){
+    bubble.style.background =
+    "linear-gradient(135deg,#10B981,#34D399)";
+  }
+
+  if(style.bubbleColor === "orange"){
+    bubble.style.background =
+    "linear-gradient(135deg,#F97316,#FB923C)";
+  }
+
+}
+
+   if(style?.fontStyle === "arial"){
+  bubble.style.fontFamily =
+  "Arial, sans-serif";
+}
+
+if(style?.fontStyle === "georgia"){
+  bubble.style.fontFamily =
+  "Georgia, serif";
+}
+
+if(style?.fontStyle === "monospace"){
+  bubble.style.fontFamily =
+  "monospace";
+}
+
+
+
+if(style?.bubbleStyle === "rounded"){
+  bubble.style.borderRadius = "16px";
+}
+
+if(style?.bubbleStyle === "compact"){
+  bubble.style.borderRadius = "8px";
+}
+
+if(style?.bubbleStyle === "modern"){
+  bubble.style.borderRadius = "24px";
+}
+
+if(style?.bubbleOpacity){
+  bubble.style.opacity =
+    Number(style.bubbleOpacity) / 100;
+}
+
+if(style?.bubbleOutline === "solid"){
+  bubble.style.border =
+    "2px solid rgba(255,255,255,.35)";
+}
+
+if(style?.bubbleOutline === "dashed"){
+  bubble.style.border =
+    "2px dashed rgba(255,255,255,.35)";
+}
+
+if(style?.bubbleOutline === "glow"){
+  bubble.style.boxShadow =
+    "0 0 12px rgba(255,255,255,.45)";
+}
+
+if(style?.fontStyle === "pixel"){
+  bubble.style.fontFamily =
+  "'Press Start 2P', cursive";
+
+  bubble.style.fontSize = "8px";
+  bubble.style.lineHeight = "1.6";
+  bubble.style.letterSpacing = "1.5px";
+}
+
+    messagesDiv.appendChild(bubble);
+
+  });
+
+  
+messagesDiv.scrollTop =
+messagesDiv.scrollHeight;
+
+});
+
+  if(userStyles[username].fontStyle === "pixel"){
+
+ 
+
+}
+
+if(userStyles[username].bubbleDecoration === "star"){
+
+
+}
+
+});
+
+
+
+
+document.getElementById("sendBtn")
+.addEventListener("click", () => {
+
+  const text =
+document.getElementById("msgInput").value;
+
+db.collection("messages").add({
+
+  user: username,
+
+  text: text,
+
+  time: Date.now()
+
+});
+
+document.getElementById("msgInput").value = "";
+
+});
+
+
+
+document.getElementById("settingsBtn")
+.addEventListener("click", () => {
+
+  window.location.href =
+  "Setting_v2.html";
+
+});
+
+
+</script> <!-- end of the firebase script-->
+
+</body>
+</html>
