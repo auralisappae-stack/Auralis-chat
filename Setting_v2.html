@@ -1,0 +1,2838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;600&display=swap">
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Settings</title>
+
+  <style>
+
+/* makes the accent in the code workds and change its color */
+:root{
+  --accent:#8B5CF6;
+}
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Inter, sans-serif;
+    }
+
+  body{
+  overflow-x: hidden;  
+  margin:0;
+  background:#020617;
+  color:white;
+  font-family:Inter,sans-serif;}
+
+  .settingsLayout{
+  display:grid;
+  grid-template-columns:260px 1fr 420px;
+  width:100%;
+  min-height:100vh;
+}
+
+
+
+  .sidebar{
+  padding:24px;
+  border-right:1px solid rgba(255,255,255,.08);}
+
+  .content{
+  padding:40px;}
+
+.rightPanel{
+  padding:32px;
+}
+
+.card{
+  background:#081028;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  padding:24px;
+  margin-bottom:24px;
+}
+
+
+
+    .settingsPage{
+      display:flex;
+      gap:20px;
+      height:100%;}
+
+    .settingsSidebar{
+      width:240px;
+      background:#0f172a;
+      border-radius:16px;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .settingsContent{
+      flex:1;
+      background:#0f172a;
+      border-radius:16px;
+      padding:24px;
+    }
+
+    .settingsTab{
+      background:transparent;
+      border:none;
+      color:white;
+      text-align:left;
+      padding:12px;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .settingsTab:hover{
+      background:rgba(255,255,255,.05);
+    }
+
+    .settingsTab.active{
+    background:var(--accent);
+    }
+
+
+
+.sidebarTitle{
+  margin-top:28px;
+  margin-bottom:10px;
+  font-size:14px;
+  font-weight:700;
+  color:white;
+}
+
+/* add a box around the buttons */
+.navItem{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  padding:12px 14px;
+
+  background:transparent;
+  border:none;
+  border-radius:10px;
+
+  color:#cbd5e1;
+  font-size:14px;
+  text-align:left;
+
+  cursor:pointer;
+
+  margin-bottom:4px;
+}
+
+/* Hover for the buttons */
+
+.navItem:hover{
+  background:rgba(255,255,255,.05);
+  color:white;
+}
+
+
+.navItem.active{
+  background:rgba(139,92,246,.2);
+  color:white;
+
+  border:1px solid rgba(139,92,246,.4);
+}
+
+.pageTitle{
+  color:white;
+  font-size:36px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.pageSubTitle{
+  color:#94a3b8;
+  font-size:15px;
+  margin-bottom:30px;
+}
+
+
+.settingsCard{
+  background:#141c33;
+  border:1px solid #27304a;
+  border-radius:16px;
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+
+.settingsCard h2{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.cardSubText{
+  color:#94a3b8;
+  font-size:14px;
+  margin-bottom:20px;
+}
+
+
+.friendMessage,
+.myMessage{
+  max-width:75%;
+  width:fit-content;
+}
+
+.settingRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:18px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+
+  color:white;
+}
+
+.settingRow:first-of-type{
+  border-top:none;
+}
+
+.settingRow span:last-child{
+  color:#cbd5e1;
+}
+.settingRow:last-child{
+  border-bottom:none;
+}
+
+.switch{
+  position:relative;
+  display:inline-block;
+  width:50px;
+  height:28px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  cursor:pointer;
+
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+
+  background:#2a3248;
+
+  border-radius:999px;
+
+  transition:.2s;
+}
+
+.slider:before{
+  content:"";
+
+  position:absolute;
+
+  width:22px;
+  height:22px;
+
+  left:3px;
+  top:3px;
+
+  background:white;
+
+  border-radius:50%;
+
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:var(--accent);
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(22px);
+}
+
+.sidebar{
+  padding:24px;
+  border-right:1px solid rgba(255,255,255,.08);
+  background:#0b1220;
+}
+
+.navItem{
+  width:100%;
+  padding:12px 14px;
+  margin-bottom:6px;
+
+  background:transparent;
+  border:none;
+  border-radius:10px;
+
+  color:#cbd5e1;
+  text-align:left;
+  cursor:pointer;
+}
+
+.navItem:hover{
+  background:rgba(255,255,255,.05);
+}
+
+.navItem.active{
+  background:#7c3aed;
+  color:white;
+}
+
+.sidebarTitle{
+  margin-top:20px;
+  margin-bottom:10px;
+
+  color:#64748b;
+  font-size:12px;
+  font-weight:700;
+
+  text-transform:uppercase;
+}
+
+.settingValue{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+
+  padding:8px 14px;
+
+  color:#e2e8f0;
+  font-size:14px;
+
+  cursor:pointer;
+  transition:.2s;
+}
+
+.settingValue:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.15);
+}
+
+.profileCard{
+  display:flex;
+  flex-direction:column;
+
+  padding:24px;
+
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+}
+
+.profileAvatar{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+ background:var(--accent);
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.profileName{
+  color:white;
+  font-weight:600;
+}
+
+.profileTag{
+  color:#94a3b8;
+  font-size:13px;
+}
+
+
+.welcomeCard{
+  padding:24px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+}
+
+.welcomeCard h2{
+  color:white;
+  margin-bottom:10px;
+}
+
+.welcomeCard p{
+  color:#94a3b8;
+  line-height:1.6;
+}
+
+.profileHeader{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+}
+
+.avatarPreview img{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.profileLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uploadBtn{
+  padding:10px 16px;
+
+  background:#141c33;
+
+  border:1px solid #27304a;
+
+  border-radius:10px;
+
+  color:white;
+
+  cursor:pointer;
+}
+
+.uploadBtn:hover{
+  background:#1a2440;
+  border-color:#34405f;
+}
+
+.avatarSection{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  gap:12px;
+}
+
+
+.accountFields{
+  flex:1;
+ 
+}
+
+.fieldRow{
+  display:flex;
+  align-items:center;
+
+  gap: 16px;
+
+  margin-bottom: 16px;
+  margin-left: 30px;
+}
+
+.fieldRow label{
+  width:130px;
+  color:white;
+}
+
+.accountInput{
+  width: 340px;
+  min-width: 340px;
+  max-width: 340px;
+
+
+  padding: 12px 16px;
+
+  background: #081633;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+
+  color: white;
+}
+
+.accountInput::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+.accountInput[type="date"]{
+    color: white;
+    background: #081633;
+    border: 1px solid rgba(255,255,255,.15);
+}
+
+.accountInput[type="date"]::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+    opacity: 1;
+    cursor: pointer;
+}
+
+.actionBtn{
+  width:90px;
+  height:44px;
+
+  background:#141c33;
+
+  border:1px solid #27304a;
+
+  border-radius:10px;
+
+  color:white;
+}
+
+.actionBtn:hover{
+  background:rgba(255,255,255,.08);
+
+  border-color:rgba(255,255,255,.15);
+}
+
+.actionBtn:active{
+  transform:scale(.98);
+}
+
+
+/*bio card CSS */
+
+.bioCard{
+  margin-top:24px;
+
+  padding:24px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:16px;
+}
+
+.bioInput{
+  width:100%;
+
+  min-height:150px;
+
+  margin-top:16px;
+
+  padding:16px;
+
+  background:#0f172a;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:10px;
+
+  color:white;
+
+  resize:vertical;
+}
+
+
+.saveBioBtn{
+  margin-top:16px;
+
+  margin-left:auto;
+
+  width:100px;
+  height:44px;
+
+  background:#141c33;
+
+  border:1px solid #27304a;
+
+  border-radius:10px;
+
+  color:white;
+}
+
+.saveBioBtn:hover{
+  background:#1a2440;
+  border-color:#34405f;
+}
+
+.bioActions{
+  display:flex;
+  justify-content:flex-end;
+}
+
+
+/* personal info card CSS*/
+
+.personalInfoCard{
+  margin-top:24px;
+  padding:24px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:16px;
+}
+
+.personalInfoCard h2{
+  margin-bottom:20px;
+}
+
+.personalInfoCard .fieldRow{
+  padding-left: 30px;
+}
+
+.saveBtn{
+  width:120px;
+  height:44px;
+
+  background:#141c33;
+
+  border:1px solid #27304a;
+
+  border-radius:10px;
+
+  color:white;
+
+  font-weight:500;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.saveBtn:hover{
+  background:#1a2440;
+  border-color:#34405f;
+}
+
+.personalActions{
+  display:flex;
+  justify-content:flex-end;
+
+  margin-top:20px;
+}
+
+.sectionTitle{
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+
+  margin: 40px 0 20px 30px;
+}
+
+
+/* theme dark and light CSS */
+.themeSelect{
+  background:#141c33;
+
+  color:white;
+
+  border:1px solid #27304a;
+
+  border-radius:10px;
+
+  padding:8px 12px;
+
+  cursor:pointer;
+}
+
+
+body.lightTheme{
+  background:#f5f7fb;
+  color:#111827;
+}
+
+body.lightTheme .profileCard,
+body.lightTheme .bioCard,
+body.lightTheme .personalInfoCard,
+body.lightTheme .settingsCard{
+  background:white;
+
+  border:1px solid #e5e7eb;
+}
+
+body.lightTheme input,
+body.lightTheme textarea,
+body.lightTheme select{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid #d1d5db;
+}
+
+body.lightTheme .actionBtn,
+body.lightTheme .uploadBtn{
+  background:#f3f4f6;
+
+  color:#111827;
+
+  border:1px solid #d1d5db;
+}
+
+/* email section CSS*/
+.emailInput {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* scroll CSS vertically */ 
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2f3a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4250;
+}
+
+
+/* bio CSS */
+
+.bioCounter {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+
+  font-size: 12px;
+  color: #9ca3af;
+
+  pointer-events: none;
+}
+
+.bioWrapper {
+  position: relative;
+}
+
+.bioInput {
+  width: 100%;
+  padding-bottom: 28px; /* room for counter */
+}
+
+/* profile button CSS */
+.profileActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+
+/* Chat Preview CSS*/ 
+
+
+.previewCard{
+
+  background-color:#141c33;
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  
+  border-radius:16px;
+  padding:24px;
+
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+
+  min-height:450px;
+}
+
+.previewMessage{
+  padding:12px 16px;
+  margin-bottom:12px;
+  border-radius:16px;
+  max-width:260px;
+  position:relative;
+  overflow:visible;
+
+}
+
+.bubbleDecor{
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  font-size:18px;
+  z-index:2;
+}
+
+.friendMessage{
+  background:#1e293b;
+  color:white;
+  align-self:flex-start;
+   max-width:70%;
+}
+
+.myMessage{
+  background:var(--accent);
+  color:white;
+  margin-left:auto;
+  align-self:flex-end;
+   max-width:70%;
+}
+
+#appearancePreview .settingsCard{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  min-height:260px;
+  padding:20px;
+  width:420px;
+}
+
+
+/* appearance setting row buttons */
+
+.appearanceSettingRow{
+  display:grid;
+  grid-template-columns: 1fr 220px;
+  align-items:center;
+  gap:16px;
+  margin-top:12px;
+  
+}
+
+.appearanceSettingRow span{
+  display:flex;
+  align-items:center;
+  height:100%;
+}
+
+#appearancePage .themeSelect{
+  width:180px;
+  height:40px;
+  text-align:center;
+}
+
+#appearancePage .themeSelect{
+  width:180px;
+}
+
+/* background chat CSS */
+
+.uploadBackgroundBtn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:42px;
+}
+
+
+/* bar input CSS for the previewchat*/
+
+.previewInputBar{
+  margin-top:auto;
+
+   display:flex;
+  gap:10px;
+}
+
+.previewInputBar input{
+  width:100%;
+
+  background:#0f162b;
+  color:white;
+
+  border:1px solid #27304a;
+  border-radius:12px;
+
+  padding:12px 14px;
+
+  box-sizing:border-box;
+}
+
+
+.previewInputBar button{
+  width:48px;
+  height:48px;
+
+  background:#141c33;
+  color:#8b5cf6;
+
+  border:1px solid #27304a;
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* save btn for the appearance page*/
+#saveAppearanceBtn{
+  width:100%;
+
+  margin-top:20px;
+  padding:14px;
+
+  background:#141c33;
+  color:white;
+
+  border:1px solid #27304a;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+/* decoration CSS*/
+
+.decorPicker{
+  display:flex;
+  gap:10px;
+}
+
+
+.decorBtn{
+  width:36px;
+  height:36px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+
+  border:1px solid transparent;
+  background:transparent;
+
+  font-size:18px;
+  cursor:pointer;
+  transition:.2s;
+
+  opacity:.55;
+}
+
+.decorBtn:hover{
+  opacity:1;
+  background:rgba(139,92,246,.15);
+}
+
+
+.decorBtn.active{
+  width:36px;
+  height:36px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:50%;
+  opacity:1;
+
+  background:rgba(139,92,246,.25);
+  border:2px solid #8B5CF6;
+  box-shadow:0 0 12px rgba(139,92,246,.45);
+}
+
+
+/* bubble color CSS */
+
+.colorBtn{
+  width:28px;
+  min-width:28px;
+
+  height:28px;
+  min-height:28px;
+
+  border:none;
+  border-radius:50%;
+
+  cursor:pointer;
+
+  flex-shrink:0;
+
+  display:block;
+}
+
+.colorPicker{
+   display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:nowrap;
+}
+
+/* hex color circle CSS*/
+
+.customColorBtn{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+
+  background:
+    conic-gradient(
+      red,
+      yellow,
+      lime,
+      cyan,
+      blue,
+      magenta,
+      red
+    );
+
+  border:2px solid #ffffff20;
+}
+
+/* hexa circle btn CSS*/
+.customColorWrapper{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+#applyCustomColorBtn{
+  padding:6px 10px;
+
+  background:#141c33;
+  color:white;
+
+  border:1px solid #27304a;
+  border-radius:8px;
+
+  cursor:pointer;
+}
+
+/* back button from setting to chat page */
+#saveBtn,
+#backBtn{
+  width:100%;
+
+  padding:12px;
+
+  border:none;
+  border-radius:10px;
+
+  color:white;
+
+  cursor:pointer;
+}
+
+#saveBtn{
+  background:#5865f2;
+}
+
+#backBtn{
+  background:#1e293b;
+  margin-top:10px;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+
+<div class="settingsLayout">
+
+  <!-- LEFT SIDEBAR -->
+ <aside class="sidebar">
+
+    <!-- USER CARD -->
+  <div class="profileCard">
+    
+    <div class="profileAvatar">L</div>
+
+    <div>
+      <div class="profileName">Lilith</div>
+      <div class="profileTag">@auralis.app.ae</div>
+    </div>
+  </div>
+
+<!-- Overview Button -->
+  <div class="sidebarSection">
+    <button class="navItem active">
+      🏠 Overview
+    </button>
+
+  </div>
+
+  <div class="sidebarTitle">
+    Account
+  </div>
+
+  <button class="navItem">👤 My Account</button>
+
+<button class="navItem" id="profileBtn">
+  👤 Profile
+</button>
+  <button class="navItem" id="securityBtn">
+  🛡️ Security
+</button>
+
+  <div class="sidebarTitle">
+    App Settings
+  </div>
+
+  <button class="navItem" id="generalBtn">
+  ⚙️ General
+</button>
+
+  <button class="navItem">🎙️ Voice & Audio</button>
+  <button class="navItem">🔔 Notifications</button>
+
+  <button class="navItem" id="appearanceBtn">
+  🎨 Appearance
+</button>
+
+  <button class="navItem">📺 Streamer Mode</button>
+  <button class="navItem">⌨️ Keybinds</button>
+
+  <div class="sidebarTitle">
+    Social
+  </div>
+
+  <button class="navItem">🔗 Connections</button>
+
+</aside>
+
+
+
+  <!-- CENTER -->
+
+<div class="content">
+
+  <div id="profilePage">
+
+  <h1 class="pageTitle">Profile</h1>
+
+  <p class="pageSubTitle">
+    Manage your profile information.
+  </p>
+
+ <div class="profileCard">
+
+
+
+<div class="profileHeader">
+
+
+    <!-- LEFT SIDE -->
+
+  <div class="avatarSection">
+
+    <div class="avatarPreview">
+
+  <img
+    id="avatarImage"
+    src="https://placehold.co/100x100"
+    alt="avatar">
+
+</div>
+
+<input
+  type="file"
+  id="avatarInput"
+  accept="image/*"
+  style="display:none;">
+
+<button
+  class="uploadBtn"
+  onclick="document.getElementById('avatarInput').click()">
+
+  Change Avatar
+
+</button>
+
+  </div>
+
+
+ <!-- RIGHT SIDE -->
+
+<!-- account fields in profile section -->
+  <div class="accountFields">
+
+    <div class="fieldRow">
+    <label>Display Name</label>
+
+      <input
+  type="text"
+  class="accountInput"
+  id="usernameInput">
+
+  
+
+    </div>
+
+    <div class="fieldRow">
+  <label>Username</label>
+  <input
+    type="text"
+    class="accountInput"
+    id="usernameHandleInput"
+    readonly>
+</div>
+
+    <div class="fieldRow">
+      <label>Email</label>
+
+<input
+  type="email"
+  class="accountInput"
+  id="emailInput"
+  readonly>
+
+    </div>
+
+
+
+   <div class="fieldRow">
+  <label>User ID</label>
+
+  <input
+    type="text"
+    class="accountInput"
+    id="userIdInput"
+    readonly>
+
+    <!-- make the copy button works -->
+
+</div>
+
+<!--save profile button -->
+
+<div class="profileActions">
+  <button
+    class="saveBtn"
+    id="saveProfileBtn">
+    Save Profile
+  </button>
+<!--End of the save profile button -->
+</div>
+
+  </div>
+
+<!-- end of the user account-->
+</div>
+
+
+</div>
+
+
+<!-- ADD BIO CARD HERE -->
+
+<h2 class="sectionTitle">
+  About Me
+</h2>
+
+<div class="bioCard">
+
+ 
+  <!-- bio code -->
+<div class="bioWrapper">
+
+
+<textarea
+  id="bioInput"
+  class="bioInput"
+  placeholder="Write something about yourself..."
+></textarea>
+
+<!-- we are adding a limit for the Bio -->
+ <div
+  class="bioCounter"
+  id="bioCounter">
+  0 / 250
+</div>
+
+</div> <!-- end of the bio wrap-->
+
+
+<div class="bioActions">
+
+ <button
+  class="saveBioBtn"
+  id="saveBioBtn">
+  Save Bio
+</button>
+
+  </div>
+  
+
+
+  <!-- end of the bio card-->
+</div>
+
+
+
+<!-- the start of the personal info Card-->
+<h2 class="sectionTitle">
+  Personal Information
+</h2>
+<div class="personalInfoCard">
+
+ 
+
+<div class="fieldRow">
+  <label>First Name</label>
+
+  <input
+    type="text"
+    class="accountInput"
+    id="firstNameInput">
+</div>
+<!----------------------------------->
+  <div class="fieldRow">
+    <label>Last Name</label>
+    <input type="text"
+    class="accountInput"
+    id="lastNameInput">
+  </div>
+<!----------------------------------->
+
+<div class="fieldRow">
+  <label>Date of Birth</label>
+  <input
+    type="date"
+    class="accountInput"
+    id="dateOfBirthInput">
+</div>
+
+  <!----------------------------------->
+
+  <div class="fieldRow">
+  <label>Location</label>
+  <input
+    type="text"
+    class="accountInput"
+    id="locationInput">
+</div>
+
+    <!----------------------------------->
+    <div class="personalActions">
+  <button
+    class="saveBtn"
+    id="savePersonalInfoBtn">
+    Save Changes
+  </button>
+</div>
+
+  <!-- closing of the personal info card-->
+</div>
+
+<!-- here is the end of the profile setting -->
+
+<!-- here is the start of the appearance setting -->
+
+</div> <!-- profilePage -->
+
+
+
+<!-- appearance  page in the setting-->
+
+<div id="appearancePage" style="display:none;">
+
+  <h1 class="pageTitle">Appearance</h1>
+
+  <p class="pageSubTitle">
+    Customize the look and feel of your chat experience.
+  </p>
+
+  <div class="settingsCard">
+
+    <h2>Appearance Settings</h2>
+
+    <p class="cardSubText">
+      Choose how messages appear in chat.
+    </p>
+
+    <div class="appearanceSettingRow">
+
+      <span>Bubble Style</span>
+
+      <select
+        class="themeSelect"
+        id="bubbleStyleSelect">
+
+        <option value="rounded">
+          Rounded
+        </option>
+
+        <option value="compact">
+          Compact
+        </option>
+
+        <option value="modern">
+          Modern
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- font style -->
+    <div class="appearanceSettingRow">
+
+  <span>Font Style</span>
+
+<select
+  class="themeSelect"
+  id="fontStyleSelect">
+
+  <option value="arial">Arial</option>
+  <option value="georgia">Georgia</option>
+  <option value="monospace">Monospace</option>
+  <option value="pixel">Pixel Font</option>
+
+</select>
+
+</div> <!--end of the font style -->
+
+<!--start of the bubble decoration -->
+
+<div class="appearanceSettingRow">
+
+  <span>Bubble Decoration</span>
+
+ <div class="decorPicker">
+
+  <button class="decorBtn" data-decor="none">
+    ✖
+  </button>
+
+  <button class="decorBtn" data-decor="sparkle">
+    ✨
+  </button>
+
+  <button class="decorBtn" data-decor="heart">
+    💖
+  </button>
+
+  <button class="decorBtn" data-decor="star">
+    ⭐
+  </button>
+
+  <button class="decorBtn" data-decor="flower">
+    🌸
+  </button>
+
+</div>
+
+</div>
+
+<!-- bubble color setting in appearance card-->
+ <div class="appearanceSettingRow">
+
+  <span>Bubble Color</span>
+
+<div class="colorPicker">
+
+  <button class="colorBtn active"
+          data-color="purple"
+          style="background:#8B5CF6;">
+  </button>
+
+  <button class="colorBtn"
+          data-color="pink"
+          style="background:#FF4FA3;">
+  </button>
+
+  <button class="colorBtn"
+          data-color="blue"
+          style="background:#3B82F6;">
+  </button>
+
+  <button class="colorBtn"
+          data-color="green"
+          style="background:#10B981;">
+  </button>
+
+  <button class="colorBtn"
+          data-color="orange"
+          style="background:#F97316;">
+  </button>
+
+ <div class="customColorWrapper">
+
+  <label class="colorBtn customColorBtn">
+    <input
+      type="color"
+      id="customColorInput"
+      hidden>
+  </label>
+
+ 
+
+</div>
+
+</div>
+</div>
+
+
+
+<!-- bubble outline decor-->
+ <div class="appearanceSettingRow">
+
+  <span>Bubble Outline</span>
+
+  <select
+    class="themeSelect"
+    id="bubbleOutlineSelect">
+
+    <option value="none">None</option>
+    <option value="solid">Solid</option>
+    <option value="dashed">Dashed</option>
+    <option value="glow">Glow</option>
+
+  </select>
+
+</div>
+
+<!-- glossy bubble color -->
+
+<div class="appearanceSettingRow">
+
+  <span>Bubble Opacity</span>
+
+  <select
+    class="themeSelect"
+    id="bubbleOpacitySelect">
+
+    <option value="100">100%</option>
+    <option value="90">90%</option>
+    <option value="80">80%</option>
+    <option value="70">70%</option>
+
+  </select>
+
+</div>
+
+<!-- chat background option-->
+<div class="appearanceSettingRow">
+
+  <span>Chat Background</span>
+
+   <label
+  for="chatBackgroundUpload"
+  class="themeSelect uploadBackgroundBtn">
+  Upload Image
+</label>
+
+<input
+  type="file"
+  id="chatBackgroundUpload"
+  hidden>
+
+  </div>
+
+  </div>
+
+</div> <!-- appearancePage -->
+
+
+<div id="securityPage" style="display:none;">
+
+  <h1 class="pageTitle">Security</h1>
+
+  <p class="pageSubTitle">
+    Manage your account security.
+  </p>
+
+</div> <!-- securityPage -->
+
+
+<div id="generalPage" style="display:none;">
+
+  <h1 class="pageTitle">General</h1>
+
+  <p class="pageSubTitle">
+    General settings coming soon.
+  </p>
+
+</div> <!-- generalPage -->
+
+
+
+
+
+
+
+<!-- closing of the overview -->
+</div>
+
+  <!-- RIGHT -->
+<aside class="rightPanel" id="rightPanel">
+
+  <div id="appSettingsPanel"> 
+
+  <h2>App Settings</h2>
+  <p class="panelSubtitle">Customize your Auralis experience.</p>
+
+  <div class="settingsCard">
+
+    <div class="settingRow">
+      <span>Theme</span>
+      <select class="themeSelect" id="themeSelect">
+  <option>Dark</option>
+  <option>Light</option>
+</select>
+    </div>
+
+    <div class="settingRow">
+      <span>Accent Color</span>
+     <select class="themeSelect" id="accentSelect">
+  <option value="purple">Purple</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+  <option value="pink">Pink</option>
+</select>
+    </div>
+
+    <div class="settingRow">
+      <span>Language</span>
+      <select class="themeSelect" id="languageSelect">
+  <option>English</option>
+  <option>Arabic</option>
+</select>
+    </div>
+
+
+    <div class="settingRow">
+  <span>Startup Behavior</span>
+  <select class="themeSelect">
+    <option>Open Auralis</option>
+    <option>Minimized</option>
+  </select>
+</div>
+
+<div class="settingRow">
+  <span>Close Button Behavior</span>
+  <select class="themeSelect">
+    <option>Minimize</option>
+    <option>Exit</option>
+  </select>
+</div>
+
+  </div>
+
+
+  <h2 class="sectionTitle">
+  Content & Privacy
+</h2>
+
+<p class="panelSubtitle">
+  Control what you see and share.
+</p>
+
+<div class="settingsCard">
+
+  <div class="settingRow">
+    <span>Content Filtering</span>
+    <span>Moderate ▼</span>
+  </div>
+
+  <div class="settingRow">
+    <span>Allow Direct Messages</span>
+    <label class="switch">
+  <input type="checkbox" checked>
+  <span class="slider"></span>
+</label>
+  </div>
+
+
+  </div>
+  
+
+</div>
+
+<!-- adding a hidden chat preview-->
+<div id="chatPreviewSection" style="display:none;">
+
+  <h2 class="sectionTitle">
+    Chat Preview
+  </h2>
+
+  <div id="appearancePreview">
+
+
+  <div class="previewCard">
+
+    <div
+      id="previewFriend"
+      class="previewMessage friendMessage">
+
+      
+
+      <span class="bubbleDecor" id="friendDecor"></span>
+
+      
+
+      Hey Lilith! How are you?
+    </div>
+
+    <div
+      id="previewMe"
+      class="previewMessage myMessage">
+
+      <span class="bubbleDecor" id="myDecor"></span>
+
+      I'm doing great. Working on Auralis.
+    </div>
+
+
+
+   <div
+  id="previewFriend2"
+  class="previewMessage friendMessage">
+
+ <span
+  class="bubbleDecor"
+  id="friendDecor2"></span>
+
+  That's awesome! How's it coming along?
+
+</div>
+
+
+<div
+  id="previewMe2"
+  class="previewMessage myMessage">
+
+  <span
+  class="bubbleDecor"
+  id="myDecor2"></span>
+
+  Pretty well. I'm customizing the appearance page now.
+
+</div>
+
+    <!-- input bar of the chat preview -->
+
+<div class="previewInputBar">
+
+  <input
+    type="text"
+    placeholder="Type a message..."
+    disabled>
+
+  <button disabled>➤</button>
+
+</div>
+
+  </div>
+  
+
+  </div>
+
+  <button id="saveAppearanceBtn">
+  Save Changes
+</button>
+
+</div>
+
+</aside>
+
+</div>
+
+<!-- its for the firebase only-->
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+console.log(ref);
+console.log(uploadBytes);
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
+  authDomain: "auralis-web-app.firebaseapp.com",
+  projectId: "auralis-web-app",
+  storageBucket: "auralis-web-app.firebasestorage.app",
+  messagingSenderId: "817840303664",
+  appId: "1:817840303664:web:cc89d235f2ce1adcb307f5",
+  measurementId: "G-N117VGDYMG"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const storage = getStorage(app);
+const db = getFirestore(app);
+
+function generateUserId() {
+
+  return "AUR-" +
+    Math.random()
+      .toString(36)
+      .substring(2, 10)
+      .toUpperCase();
+
+}
+
+const avatarInput =
+  document.getElementById("avatarInput");
+
+  const userIdInput =
+  document.getElementById("userIdInput");
+
+  const usernameInput =
+  document.getElementById("usernameInput");
+
+  const usernameHandleInput =
+  document.getElementById("usernameHandleInput");
+
+  const emailInput =
+  document.getElementById("emailInput");
+
+
+  const bioInput =
+  document.getElementById("bioInput");
+
+const saveBioBtn =
+  document.getElementById("saveBioBtn");
+
+  const savePersonalInfoBtn =
+  document.getElementById("savePersonalInfoBtn");
+
+  const saveProfileBtn =
+  document.getElementById("saveProfileBtn");
+
+  console.log(saveProfileBtn);
+
+
+const avatarImage =
+  document.getElementById("avatarImage");
+
+
+  const firstNameInput =
+  document.getElementById("firstNameInput");
+
+const lastNameInput =
+  document.getElementById("lastNameInput");
+
+const dateOfBirthInput =
+  document.getElementById("dateOfBirthInput");
+
+const locationInput =
+  document.getElementById("locationInput");
+
+  const bioCounter =
+  document.getElementById("bioCounter");
+
+  const currentUser =
+  localStorage.getItem("currentUser");
+
+  console.log("Current User:", currentUser);
+
+
+  const saveAppearanceBtn =
+  document.getElementById("saveAppearanceBtn");
+
+ saveAppearanceBtn.addEventListener(
+  "click",
+  async () => {
+
+    console.log("currentUser =", currentUser);
+    console.log("bubbleStyle =", bubbleStyleSelect.value);
+    console.log("fontStyle =", fontStyleSelect.value);
+
+    // ✅ Save font locally for chat.html
+    localStorage.setItem(
+      "bubbleFont",
+      fontStyleSelect.value
+    );
+
+    await setDoc(
+      doc(db, "users", currentUser),
+      {
+        appearanceSaved: true,
+
+        bubbleStyle: bubbleStyleSelect.value,
+        fontStyle: fontStyleSelect.value,
+
+        bubbleOutline: bubbleOutlineSelect.value,
+        bubbleOpacity: bubbleOpacitySelect.value,
+
+        bubbleColor: selectedBubbleColor,
+        bubbleDecoration: selectedDecoration
+      },
+      { merge: true }
+    );
+
+    alert("Appearance saved!");
+
+  }
+);
+
+  
+
+
+window.uploadAvatar = async function(file){
+
+  const storageRef = ref(
+    storage,
+    "avatars/" + file.name
+  );
+
+  await uploadBytes(storageRef, file);
+
+  const url =
+    await getDownloadURL(storageRef);
+
+  
+
+  return url;
+};
+
+
+avatarInput.addEventListener("change", async (e) => {
+
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  const url = await uploadAvatar(file);
+
+  avatarImage.src = url;
+
+  await setDoc(
+     doc(db, "users", currentUser),
+    {
+      avatarURL: url
+    },
+    { merge: true }
+  );
+
+  
+
+});
+
+
+
+async function loadAvatar() {
+
+  const userDoc = await getDoc(
+    doc(db, "users", currentUser)
+  );
+
+  if (userDoc.exists()) {
+
+    const data = userDoc.data();
+
+  if (data.fontStyle) {
+  fontStyleSelect.value = data.fontStyle;
+
+  const font = data.fontStyle;
+
+  if (font === "arial") {
+    previewFriend.style.fontFamily = "Arial, sans-serif";
+    previewMe.style.fontFamily = "Arial, sans-serif";
+    previewFriend2.style.fontFamily = "Arial, sans-serif";
+    previewMe2.style.fontFamily = "Arial, sans-serif";
+  }
+
+  if (font === "georgia") {
+    previewFriend.style.fontFamily = "Georgia, serif";
+    previewMe.style.fontFamily = "Georgia, serif";
+    previewFriend2.style.fontFamily = "Georgia, serif";
+    previewMe2.style.fontFamily = "Georgia, serif";
+  }
+
+  if (font === "monospace") {
+    previewFriend.style.fontFamily = "monospace";
+    previewMe.style.fontFamily = "monospace";
+    previewFriend2.style.fontFamily = "monospace";
+    previewMe2.style.fontFamily = "monospace";
+  }
+
+  if (font === "pixel") {
+    previewFriend.style.fontFamily = "'Press Start 2P', cursive";
+    previewMe.style.fontFamily = "'Press Start 2P', cursive";
+    previewFriend2.style.fontFamily = "'Press Start 2P', cursive";
+    previewMe2.style.fontFamily = "'Press Start 2P', cursive";
+
+
+     previewFriend.style.fontSize = "8px";
+  previewMe.style.fontSize = "8px";
+  previewFriend2.style.fontSize = "8px";
+  previewMe2.style.fontSize = "8px";
+  
+previewFriend.style.letterSpacing = "1.5px";
+previewMe.style.letterSpacing = "1.5px";
+previewFriend2.style.letterSpacing = "1.5px";
+previewMe2.style.letterSpacing = "1.5px";
+
+previewFriend.style.lineHeight = "1.6";
+previewMe.style.lineHeight = "1.6";
+previewFriend2.style.lineHeight = "1.6";
+previewMe2.style.lineHeight = "1.6";
+  }
+}
+
+console.log(data.fontStyle);
+
+    if (data.avatarURL) {
+      avatarImage.src = data.avatarURL;
+    }
+
+    if (data.userId) {
+      userIdInput.value = data.userId;
+    }
+
+    if (data.username) {
+  usernameInput.value = data.username;
+}
+
+if (data.usernameHandle) {
+  usernameHandleInput.value = data.usernameHandle;
+}
+
+if (data.bio) {
+  bioInput.value = data.bio;
+}
+
+bioCounter.textContent =
+  `${bioInput.value.length} / 250`;
+
+if (data.firstName) {
+  firstNameInput.value = data.firstName;
+}
+
+if (data.lastName) {
+  lastNameInput.value = data.lastName;
+}
+
+if (data.dateOfBirth) {
+  dateOfBirthInput.value = data.dateOfBirth;
+}
+
+if (data.location) {
+  locationInput.value = data.location;
+}
+
+
+if (data.email) {
+  emailInput.value = data.email;
+  console.log("Email Input Value After Set:", emailInput.value);
+  
+}
+
+console.log("Email Input:", emailInput);
+console.log("Email Loaded:", data.email);
+
+  } else {
+
+    const randomUserId = generateUserId();
+
+    userIdInput.value = randomUserId;
+
+    await setDoc(
+      doc(db, "users", currentUser),
+      {
+        userId: randomUserId
+      }
+    );
+
+  }
+}
+
+loadAvatar();
+
+
+const userDoc = await getDoc(
+  doc(db, "users", currentUser)
+);
+
+console.log("Document exists:", userDoc.exists());
+
+if (userDoc.exists()) {
+
+  console.log("User data:", userDoc.data());
+
+  const userData = userDoc.data();
+
+  //load the bubbleColor
+
+  if (userData.bubbleColor) {
+  selectedBubbleColor = userData.bubbleColor;
+}
+
+if (selectedBubbleColor === "purple") {
+  previewMe.style.background =
+    "linear-gradient(135deg,#8B5CF6,#A78BFA)";
+  previewMe2.style.background =
+    "linear-gradient(135deg,#8B5CF6,#A78BFA)";
+}
+
+if (selectedBubbleColor === "pink") {
+  previewMe.style.background =
+    "linear-gradient(135deg,#FF4FA3,#FF85C2)";
+  previewMe2.style.background =
+    "linear-gradient(135deg,#FF4FA3,#FF85C2)";
+}
+
+if (selectedBubbleColor === "blue") {
+  previewMe.style.background =
+    "linear-gradient(135deg,#3B82F6,#60A5FA)";
+  previewMe2.style.background =
+    "linear-gradient(135deg,#3B82F6,#60A5FA)";
+}
+
+if (selectedBubbleColor === "green") {
+  previewMe.style.background =
+    "linear-gradient(135deg,#10B981,#34D399)";
+  previewMe2.style.background =
+    "linear-gradient(135deg,#10B981,#34D399)";
+}
+
+if (selectedBubbleColor === "orange") {
+  previewMe.style.background =
+    "linear-gradient(135deg,#F97316,#FB923C)";
+  previewMe2.style.background =
+    "linear-gradient(135deg,#F97316,#FB923C)";
+}
+
+  // Load saved appearance settings
+  if (userData.bubbleStyle) {
+    bubbleStyleSelect.value = userData.bubbleStyle;
+  }
+
+  if (userData.fontStyle) {
+    fontStyleSelect.value = userData.fontStyle;
+  }
+
+  if (userData.bubbleOutline) {
+    bubbleOutlineSelect.value = userData.bubbleOutline;
+  }
+
+  if (userData.bubbleOpacity) {
+    bubbleOpacitySelect.value = userData.bubbleOpacity;
+  }
+
+  //load the bubble decoration after refresh
+
+  if (userData.bubbleDecoration) {
+  selectedDecoration = userData.bubbleDecoration;
+}
+if (userData.bubbleDecoration) {
+  selectedDecoration = userData.bubbleDecoration;
+}
+
+const icons = {
+  none: "",
+  sparkle: "✨",
+  heart: "💖",
+  star: "⭐",
+  flower: "🌸"
+};
+
+friendDecor.textContent =
+  icons[selectedDecoration];
+
+myDecor.textContent =
+  icons[selectedDecoration];
+
+friendDecor2.textContent =
+  icons[selectedDecoration];
+
+myDecor2.textContent =
+  icons[selectedDecoration];
+
+decorButtons.forEach((btn) => {
+
+  btn.classList.remove("active");
+
+  if (
+    btn.dataset.decor === selectedDecoration
+  ) {
+    btn.classList.add("active");
+  }
+
+});
+  // Load chat background
+  if (userData.chatBackground) {
+
+    document.querySelector(".previewCard")
+      .style.backgroundImage =
+      `url(${userData.chatBackground})`;
+
+    appearancePreview.style.backgroundSize = "cover";
+    appearancePreview.style.backgroundPosition = "center";
+
+  }
+
+}
+
+
+if (!userDoc.exists() || !userDoc.data().usernameHandle) {
+
+  usernameHandleInput.value = "@Lilithyne";
+
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      usernameHandle: usernameHandleInput.value
+    },
+    { merge: true }
+  );
+
+}
+
+
+console.log("Current User:", currentUser);
+console.log("Document Exists:", userDoc.exists());
+
+if (userDoc.exists()) {
+  console.log("User Data:", userDoc.data());
+}
+
+
+
+
+
+// Bio Save Buttons
+
+saveBioBtn.addEventListener("click", async () => {
+
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      bio: bioInput.value
+    },
+    { merge: true }
+  );
+
+  saveBioBtn.textContent = "Saved!";
+
+  setTimeout(() => {
+    saveBioBtn.textContent = "Save Bio";
+  }, 1500);
+
+});
+
+
+// saves button of the four fields of the personal info 
+savePersonalInfoBtn.addEventListener("click", async () => {
+
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      firstName: firstNameInput.value,
+      lastName: lastNameInput.value,
+      dateOfBirth: dateOfBirthInput.value,
+      location: locationInput.value
+    },
+    { merge: true }
+  );
+
+  savePersonalInfoBtn.textContent = "Saved!";
+
+  setTimeout(() => {
+    savePersonalInfoBtn.textContent = "Save Changes";
+  }, 1500);
+
+});
+
+
+
+
+console.log("saveProfileBtn =", saveProfileBtn);
+console.log("usernameInput =", usernameInput);
+console.log("usernameHandleInput =", usernameHandleInput);
+
+
+
+//save profile buttons here 
+saveProfileBtn.addEventListener("click", async () => {
+
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      username: usernameInput.value,
+      usernameHandle: usernameHandleInput.value
+    },
+    { merge: true }
+  );
+
+  saveProfileBtn.textContent = "Saved!";
+
+  setTimeout(() => {
+    saveProfileBtn.textContent = "Save Profile";
+  }, 1500);
+
+});
+
+
+
+//we are adding Listener for the bio limits
+bioInput.addEventListener("input", () => {
+
+  const count = bioInput.value.length;
+
+  bioCounter.textContent =
+    `${count} / 250`;
+
+});
+
+
+
+  // start of the background listener
+  chatBackgroundUpload.addEventListener("change", (e) => {
+
+  const file = e.target.files[0];
+
+  if(!file) return;
+
+
+const storageRef = ref(
+  storage,
+  `chat-backgrounds/${currentUser}`
+);
+
+uploadBytes(storageRef, file)
+  .then(() => getDownloadURL(storageRef))
+  .then(async (downloadURL) => {
+
+
+  const previewCard =
+  document.querySelector(".previewCard");
+
+previewCard.style.backgroundImage =
+  `url(${downloadURL})`;
+
+previewCard.style.backgroundSize =
+  "cover";
+
+previewCard.style.backgroundPosition =
+  "center";
+
+
+
+    await setDoc(
+      doc(db, "users", currentUser),
+      {
+        chatBackground: downloadURL
+      },
+      { merge: true }
+    );
+
+    console.log("Background saved!");
+    console.log("Uploaded:", downloadURL);
+
+  })
+  .catch((error) => {
+
+    console.error(error);
+
+  });
+
+    console.log("Uploaded:", downloadURL);
+
+  })
+  .catch((error) => {
+
+    console.error(error);
+
+  });
+
+
+
+
+
+
+
+
+
+</script> <!-- end of the firebase only-->
+
+
+<script>
+
+const customColorInput =
+  document.getElementById("customColorInput");
+
+customColorInput.addEventListener("input", () => {
+
+  const customColor = customColorInput.value;
+
+  previewMe.style.background = customColor;
+  previewMe2.style.background = customColor;
+
+});
+
+
+
+const appearanceBtn =
+  document.getElementById("appearanceBtn");
+
+const appSettingsPanel =
+  document.getElementById("appSettingsPanel");
+
+const appearancePreview =
+  document.getElementById("appearancePreview");
+
+const profilePage =
+  document.getElementById("profilePage");
+
+const appearancePage =
+  document.getElementById("appearancePage");
+
+appearanceBtn.addEventListener("click", () => {
+
+  profilePage.style.display = "none";
+  appearancePage.style.display = "block";
+
+  securityPage.style.display = "none";
+  generalPage.style.display = "none";
+
+  appSettingsPanel.style.display = "none";
+
+  document.getElementById(
+    "chatPreviewSection"
+  ).style.display = "block";
+
+  appearancePreview.style.display = "block";
+
+});
+
+
+
+const profileBtn =
+  document.getElementById("profileBtn");
+
+const securityBtn =
+  document.getElementById("securityBtn");
+
+const securityPage =
+  document.getElementById("securityPage");
+
+const generalPage =
+  document.getElementById("generalPage");
+
+
+const generalBtn =
+  document.getElementById("generalBtn");
+
+
+generalBtn.addEventListener("click", () => {
+
+  profilePage.style.display = "none";
+  appearancePage.style.display = "none";
+  securityPage.style.display = "none";
+  generalPage.style.display = "block";
+
+  appSettingsPanel.style.display = "block";
+  appearancePreview.style.display = "none";
+
+  document.getElementById(
+  "chatPreviewSection"
+).style.display = "none";
+
+});
+
+securityBtn.addEventListener("click", () => {
+
+  profilePage.style.display = "none";
+  appearancePage.style.display = "none";
+  securityPage.style.display = "block";
+  generalPage.style.display = "none";
+
+  appSettingsPanel.style.display = "block";
+  appearancePreview.style.display = "none";
+
+  document.getElementById(
+  "chatPreviewSection"
+).style.display = "none";
+
+});
+
+profileBtn.addEventListener("click", () => {
+
+  profilePage.style.display = "block";
+
+  appearancePage.style.display = "none";
+
+  securityPage.style.display = "none";
+
+  generalPage.style.display = "none";
+
+  appSettingsPanel.style.display = "block";
+
+  appearancePreview.style.display = "none";
+
+   document.getElementById(
+    "chatPreviewSection"
+  ).style.display = "none";
+
+});
+
+
+//  make the light theme works
+const themeSelect = document.getElementById("themeSelect");
+
+themeSelect.addEventListener("change", () => {
+
+  if(themeSelect.value === "Light"){
+    document.body.classList.add("lightTheme");
+  } else {
+    document.body.classList.remove("lightTheme");
+  }
+
+}); // end of the theme light 
+
+const bubbleStyleSelect =
+  document.getElementById("bubbleStyleSelect");
+
+
+const friendDecor =
+  document.getElementById("friendDecor");
+
+const myDecor =
+  document.getElementById("myDecor");
+
+  const friendDecor2 =
+  document.getElementById("friendDecor2");
+
+const myDecor2 =
+  document.getElementById("myDecor2");
+
+
+const decorButtons =
+  document.querySelectorAll(".decorBtn");
+
+decorButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+
+    decorButtons.forEach((b) =>
+      b.classList.remove("active")
+    );
+
+    btn.classList.add("active");
+
+    const decor = btn.dataset.decor;
+
+    selectedDecoration = decor;
+
+    const icons = {
+      none: "",
+      sparkle: "✨",
+      heart: "💖",
+      star: "⭐",
+      flower: "🌸"
+    };
+
+    friendDecor.textContent = icons[decor];
+    myDecor.textContent = icons[decor];
+    friendDecor2.textContent = icons[decor];
+    myDecor2.textContent = icons[decor];
+
+  });
+});
+
+  const fontStyleSelect =
+  document.getElementById("fontStyleSelect");
+
+const previewFriend =
+  document.getElementById("previewFriend");
+
+const previewMe =
+  document.getElementById("previewMe");
+
+  const previewFriend2 =
+  document.getElementById("previewFriend2");
+
+const previewMe2 =
+  document.getElementById("previewMe2");
+
+  const bubbleOpacitySelect =
+  document.getElementById("bubbleOpacitySelect");
+
+  const bubbleColorSelect =
+  document.getElementById("bubbleColorSelect");
+
+  const bubbleOutlineSelect =
+  document.getElementById("bubbleOutlineSelect");
+
+  const chatBackgroundUpload =
+  document.getElementById("chatBackgroundUpload");
+
+  console.log(previewFriend);
+console.log(previewMe);
+console.log(fontStyleSelect);
+
+  bubbleStyleSelect.addEventListener("change", () => {
+
+  const style = bubbleStyleSelect.value;
+
+  if(style === "rounded"){
+  previewFriend.style.borderRadius = "16px";
+  previewMe.style.borderRadius = "16px";
+  previewFriend2.style.borderRadius = "16px";
+  previewMe2.style.borderRadius = "16px";
+}
+
+ if(style === "compact"){
+  previewFriend.style.borderRadius = "8px";
+  previewMe.style.borderRadius = "8px";
+  previewFriend2.style.borderRadius = "8px";
+  previewMe2.style.borderRadius = "8px";
+}
+
+ if(style === "modern"){
+  previewFriend.style.borderRadius = "24px";
+  previewMe.style.borderRadius = "24px";
+  previewFriend2.style.borderRadius = "24px";
+  previewMe2.style.borderRadius = "24px";
+}
+
+});
+
+fontStyleSelect.addEventListener("change", () => {
+
+  const font = fontStyleSelect.value;
+
+  if(font === "arial"){
+    previewFriend.style.fontFamily = "Arial, sans-serif";
+    previewMe.style.fontFamily = "Arial, sans-serif";
+    previewFriend2.style.fontFamily = "Arial, sans-serif";
+    previewMe2.style.fontFamily = "Arial, sans-serif";
+
+     previewFriend.style.fontSize = "14px";
+     previewMe.style.fontSize = "14px";
+     previewFriend2.style.fontSize = "14px";
+     previewMe2.style.fontSize = "14px";
+  }
+
+  if(font === "georgia"){
+    previewFriend.style.fontFamily = "Georgia, serif";
+    previewMe.style.fontFamily = "Georgia, serif";
+    previewFriend2.style.fontFamily = "Georgia, serif";
+    previewMe2.style.fontFamily = "Georgia, serif";
+
+   previewFriend.style.fontSize = "14px";
+   previewMe.style.fontSize = "14px";
+   previewFriend2.style.fontSize = "14px";
+   previewMe2.style.fontSize = "14px";
+  }
+
+if(font === "monospace"){
+  previewFriend.style.fontFamily = "monospace";
+  previewMe.style.fontFamily = "monospace";
+  previewFriend2.style.fontFamily = "monospace";
+  previewMe2.style.fontFamily = "monospace";
+
+  previewFriend.style.fontSize = "14px";
+  previewMe.style.fontSize = "14px";
+  previewFriend2.style.fontSize = "14px";
+  previewMe2.style.fontSize = "14px";
+}
+
+if(font === "pixel"){
+  previewFriend.style.fontFamily =
+    "'Press Start 2P', cursive";
+  previewMe.style.fontFamily =
+    "'Press Start 2P', cursive";
+  previewFriend2.style.fontFamily =
+    "'Press Start 2P', cursive";
+  previewMe2.style.fontFamily =
+    "'Press Start 2P', cursive";
+
+  previewFriend.style.fontSize = "8px";
+  previewMe.style.fontSize = "8px";
+  previewFriend2.style.fontSize = "8px";
+  previewMe2.style.fontSize = "8px";
+}
+
+});
+
+let selectedBubbleColor = "purple";
+let selectedDecoration = "none";
+
+const colorButtons =
+  document.querySelectorAll(".colorBtn");
+
+colorButtons.forEach((btn) => {
+
+  btn.addEventListener("click", () => {
+
+    colorButtons.forEach((b) =>
+      b.classList.remove("active")
+    );
+
+    btn.classList.add("active");
+
+    const color = btn.dataset.color;
+
+    selectedBubbleColor = color;
+
+    if(color === "purple"){
+      previewMe.style.background =
+        "linear-gradient(135deg,#8B5CF6,#A78BFA)";
+      previewMe2.style.background =
+        "linear-gradient(135deg,#8B5CF6,#A78BFA)";
+    }
+
+    if(color === "pink"){
+      previewMe.style.background =
+        "linear-gradient(135deg,#FF4FA3,#FF85C2)";
+      previewMe2.style.background =
+        "linear-gradient(135deg,#FF4FA3,#FF85C2)";
+    }
+
+    if(color === "blue"){
+      previewMe.style.background =
+        "linear-gradient(135deg,#3B82F6,#60A5FA)";
+      previewMe2.style.background =
+        "linear-gradient(135deg,#3B82F6,#60A5FA)";
+    }
+
+    if(color === "green"){
+      previewMe.style.background =
+        "linear-gradient(135deg,#10B981,#34D399)";
+      previewMe2.style.background =
+        "linear-gradient(135deg,#10B981,#34D399)";
+    }
+
+    if(color === "orange"){
+      previewMe.style.background =
+        "linear-gradient(135deg,#F97316,#FB923C)";
+      previewMe2.style.background =
+        "linear-gradient(135deg,#F97316,#FB923C)";
+    }
+
+  });
+
+});
+
+
+
+
+bubbleOpacitySelect.addEventListener("change", () => {
+
+  const opacity =
+    bubbleOpacitySelect.value / 100;
+
+  previewMe.style.opacity = opacity;
+  previewMe2.style.opacity = opacity;
+
+});
+
+bubbleOutlineSelect.addEventListener("change", () => {
+
+  const outline =
+    bubbleOutlineSelect.value;
+
+if(outline === "none"){
+  previewMe.style.border = "none";
+  previewMe.style.boxShadow = "none";
+
+  previewMe2.style.border = "none";
+  previewMe2.style.boxShadow = "none";
+}
+
+if(outline === "solid"){
+  previewMe.style.border =
+    "2px solid rgba(255,255,255,.35)";
+  previewMe.style.boxShadow = "none";
+
+  previewMe2.style.border =
+    "2px solid rgba(255,255,255,.35)";
+  previewMe2.style.boxShadow = "none";
+}
+
+if(outline === "dashed"){
+  previewMe.style.border =
+    "2px dashed rgba(255,255,255,.35)";
+  previewMe.style.boxShadow = "none";
+
+  previewMe2.style.border =
+    "2px dashed rgba(255,255,255,.35)";
+  previewMe2.style.boxShadow = "none";
+}
+
+if(outline === "glow"){
+  previewMe.style.border = "none";
+  previewMe.style.boxShadow =
+    "0 0 12px rgba(255,255,255,.45)";
+
+  previewMe2.style.border = "none";
+  previewMe2.style.boxShadow =
+    "0 0 12px rgba(255,255,255,.45)";
+}
+
+});
+
+
+// start of the accent color changes 
+
+const accentSelect = document.getElementById("accentSelect");
+
+accentSelect.addEventListener("change", () => {
+
+  const colors = {
+    purple: "#8B5CF6",
+    blue: "#3B82F6",
+    green: "#22C55E",
+    pink: "#EC4899"
+  };
+
+  document.documentElement.style.setProperty(
+    "--accent",
+    colors[accentSelect.value]
+  );
+  });// end of the accent color changes 
+
+
+console.log(document.getElementById("backBtn"));
+  
+window.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("backBtn")
+  .addEventListener("click", () => {
+
+    window.location.href =
+    "chat_v2.html";
+
+  });
+
+});
+
+</script>
+  <button id="backBtn">
+    Back to Chat
+  </button>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!-- chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aurails Chat</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial,sans-serif}
+body{height:100vh;background:#050714;color:white;display:flex;justify-content:center}
+.app{width:100%;max-width:1024px;height:100vh;display:flex;background:#050714;overflow:hidden}
+.sidebar{width:330px;background:#050714;border-right:1px solid #241a45;padding:22px;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:15px;margin-bottom:25px}
+.logo{width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#763cff,#b16cff);display:grid;place-items:center;font-size:34px;font-weight:800}
+.online{color:#16e28a;font-size:14px}.muted{color:#9b9bb0}
+.search{background:#101426;border:1px solid #222944;border-radius:14px;padding:15px;color:white;margin-bottom:18px}
+.chat{display:flex;align-items:center;gap:14px;padding:14px;border-radius:16px;cursor:pointer;margin-bottom:8px}
+.chat:hover,.chat.active{background:linear-gradient(90deg,#251650,#15102f)}
+.avatar{width:55px;height:55px;border-radius:50%;background:radial-gradient(circle,#a86cff,#16162d 65%)}
+.chat h3{font-size:19px}.chat p{font-size:15px;color:#aaa}
+.new{margin-top:auto;border:2px solid #8b50ff;border-radius:15px;padding:17px;text-align:center;color:#b17cff;cursor:pointer}
+.main{flex:1;display:flex;flex-direction:column;background:linear-gradient(#0b0a24aa,#050714),radial-gradient(circle at 50% 0,#541aa8,transparent 45%),#08051b;position:relative}
+.main:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:85px 85px;opacity:.23}
+.header{height:85px;background:#070817dd;border-bottom:1px solid #241a45;display:flex;align-items:center;gap:16px;padding:0 22px;z-index:1}
+.header button{margin-left:auto;background:none;border:0;color:white;font-size:25px;cursor:pointer}
+.header button:hover{color:#b17cff}
+.messages{flex:1;padding:35px;overflow-y:auto;z-index:1}
+.msg{max-width:390px;padding:17px 20px;border-radius:18px;margin-bottom:22px;border:1px solid #8b7bc6;background:#0d1024cc;font-size:20px;line-height:1.35}
+.me{margin-left:auto;background:linear-gradient(135deg,#281061,#833ce2);border-color:#9f63ff}
+.msg small{display:block;text-align:right;color:#c7c2d6;margin-top:8px;font-size:14px}
+.inputbar{height:90px;background:#070817ee;border-top:1px solid #241a45;display:flex;align-items:center;gap:14px;padding:18px;z-index:2}
+.inputbar input{flex:1;height:56px;border-radius:16px;border:1px solid #242b45;background:#101426;color:white;padding:0 18px;font-size:18px}
+.inputbar button{height:56px;border:0;border-radius:16px;background:#7d3cff;color:white;padding:0 20px;font-size:18px;cursor:pointer}
+.inputbar button:hover{background:#9a5cff}
+.callScreen{position:absolute;inset:0;background:rgba(5,7,20,.96);z-index:9;display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px}
+.callScreen.show{display:flex}
+.callScreen .big{width:130px;height:130px}
+.end{background:#ff3b5c!important;border-radius:50%!important;width:70px;height:70px}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="top">
+      <div class="logo">A</div>
+      <div>
+        <h2>Aurails</h2>
+        <p class="muted"><span class="online">●</span> Online</p>
+      </div>
+    </div>
+
+    <input class="search" placeholder="🔍 Search chats..." />
+
+    <div class="chat active" onclick="openChat('Luna 💜')"><div class="avatar"></div><div><h3>Luna 💜</h3><p>Loving the new look! ✨</p></div></div>
+    <div class="chat" onclick="openChat('Ethan ⭐')"><div class="avatar"></div><div><h3>Ethan ⭐</h3><p>See you tomorrow!</p></div></div>
+    <div class="chat" onclick="openChat('Nova')"><div class="avatar"></div><div><h3>Nova</h3><p>Photo</p></div></div>
+    <div class="chat" onclick="openChat('Starlight Squad')"><div class="avatar"></div><div><h3>Starlight Squad</h3><p>That was epic 👏</p></div></div>
+
+    <div class="new" onclick="newChat()">＋ New Chat</div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="avatar"></div>
+      <div>
+        <h2 id="chatName">Luna 💜</h2>
+        <p class="muted"><span class="online">●</span> Online</p>
+      </div>
+      <button onclick="startCall()">☎</button>
+      <button onclick="alert('Video call coming soon')">▣</button>
+      <button onclick="alert('More options')">⋯</button>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg me">Hey! How’s it going?<small>12:30 PM</small></div>
+      <div class="msg">Pretty good! How about you?<small>12:31 PM</small></div>
+      <div class="msg me">Loving the new look! ✨<small>12:32 PM</small></div>
+      <div class="msg">Me too! This is awesome 💜<small>12:32 PM</small></div>
+    </div>
+
+    <div class="inputbar">
+      <button onclick="alert('Attach file')">＋</button>
+      <input id="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()" />
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="startCall()">🎙</button>
+    </div>
+
+    <div class="callScreen" id="callScreen">
+      <div class="avatar big"></div>
+      <h1 id="callingName">Calling Luna 💜...</h1>
+      <p class="muted" id="timer">00:00</p>
+      <button class="end" onclick="endCall()">✕</button>
+    </div>
+  </main>
+</div>
+
+<script>
+let seconds = 0;
+let callTimer;
+
+function timeNow(){
+  return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+}
+
+function sendMessage(){
+  const input = document.getElementById("text");
+  const text = input.value.trim();
+  if(!text) return;
+
+  const box = document.getElementById("messages");
+  box.innerHTML += `<div class="msg me">${text}<small>${timeNow()}</small></div>`;
+  input.value = "";
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(() => {
+    box.innerHTML += `<div class="msg">Typing response... 💜<small>${timeNow()}</small></div>`;
+    box.scrollTop = box.scrollHeight;
+  }, 700);
+}
+
+function openChat(name){
+  document.getElementById("chatName").textContent = name;
+  document.getElementById("callingName").textContent = "Calling " + name + "...";
+  document.querySelectorAll(".chat").forEach(c=>c.classList.remove("active"));
+  event.currentTarget.classList.add("active");
+}
+
+function newChat(){
+  const name = prompt("Enter chat name:");
+  if(name) openChat(name);
+}
+
+function startCall(){
+  seconds = 0;
+  document.getElementById("callScreen").classList.add("show");
+  callTimer = setInterval(() => {
+    seconds++;
+    let m = String(Math.floor(seconds/60)).padStart(2,"0");
+    let s = String(seconds%60).padStart(2,"0");
+    document.getElementById("timer").textContent = `${m}:${s}`;
+  },1000);
+}
+
+function endCall(){
+  clearInterval(callTimer);
+  document.getElementById("callScreen").classList.remove("show");
+}
+</script>
+</body>
+</html>

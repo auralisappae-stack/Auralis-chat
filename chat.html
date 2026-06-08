@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link
+  href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+  rel="stylesheet">
+
 <meta charset="UTF-8">
 <title>Auralis Final</title>
 
@@ -122,7 +126,21 @@ body{
   line-height:1.4;
 
   word-break:break-word;
+
+  position: relative;
 }
+
+.bubbleDecor{
+
+  position: absolute;
+  top: -8px;
+  right: -8px;
+
+  font-size: 14px;
+  pointer-events: none;
+}
+
+
 
 
 
@@ -1636,6 +1654,7 @@ body{
 
 
 
+
 </style>
 
 
@@ -2209,9 +2228,14 @@ db.collection("messages").orderBy("time")
 
 
     const isMe = msg.user === username;
-   
-  
-const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
+
+
+ const bubbleColor =
+  msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
+
+const finalBg = isMe
+  ? (localStorage.getItem("bubbleBg") || bubbleColor)
+  : "rgba(255,255,255,0.08)";
 
 
 
@@ -2241,6 +2265,10 @@ const bubbleColor = msg.color || (isMe ? "#5865f2" : "rgba(255,255,255,0.08)");
 
 
 
+   
+const savedBorderColor = localStorage.getItem("bubbleBorderColor");
+const savedBorderStyle = localStorage.getItem("bubbleBorderStyle");
+const savedRadius = localStorage.getItem("bubbleRadius");
  
 
 el.innerHTML = `
@@ -2249,10 +2277,21 @@ el.innerHTML = `
   <div class="bubbleWrap">
     ${!isGrouped && !isMe ? `<div class="name">${msg.user}</div>` : ``}
 
-    <div class="bubble" style="background:${bubbleColor}">
-      ${msg.text}
-    </div>
-  </div>
+<div
+  class="bubble"
+  style="
+   background:${finalBg};
+    border:2px ${savedBorderStyle || "solid"} ${savedBorderColor || "transparent"};
+    border-radius:${savedRadius || "18px"};
+  "
+>
+  ${msg.text}
+  ${
+    localStorage.getItem("bubbleDecor")
+      ? `<span class="bubbleDecor">${localStorage.getItem("bubbleDecor")}</span>`
+      : ""
+  }
+</div>
 `;
 
 
@@ -2280,9 +2319,10 @@ el.innerHTML = `
 
 
   /* ✅ FORCE RENDER THEN SCROLL */
-  requestAnimationFrame(() => {
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  });
+requestAnimationFrame(() => {
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+  applySavedChatStyle();
 });
 
 
@@ -2600,7 +2640,87 @@ if (avatarInput) {
 
 
 
+<script>
 
+function applySavedChatStyle(){
+
+  console.log("applySavedChatStyle running");
+console.log("Font =", localStorage.getItem("bubbleFont"));
+
+  const senders = document.querySelectorAll(".msg.me .bubble");
+
+  const bg = localStorage.getItem("bubbleBg");
+  const borderColor = localStorage.getItem("bubbleBorderColor");
+  const borderStyle = localStorage.getItem("bubbleBorderStyle");
+  const radius = localStorage.getItem("bubbleRadius");
+  const font = localStorage.getItem("bubbleFont");
+  const decor = localStorage.getItem("bubbleDecor");
+
+  senders.forEach(msg => {
+
+    // background
+    if (bg) msg.style.background = bg;
+
+    // border
+    if (borderColor) msg.style.borderColor = borderColor;
+    if (borderStyle) msg.style.borderStyle = borderStyle;
+
+    // radius
+    if (radius) msg.style.borderRadius = radius;
+
+    // font
+    if (font === "arial") {
+  msg.style.fontFamily = "Arial, sans-serif";
+}
+
+if (font === "georgia") {
+  msg.style.fontFamily = "Georgia, serif";
+}
+
+if (font === "monospace") {
+  msg.style.fontFamily = "monospace";
+}
+
+if (font === "pixel") {
+
+  console.log("Applying pixel font");
+
+  msg.style.fontFamily = "'Press Start 2P', cursive";
+  msg.style.fontSize = "10px";
+  msg.style.letterSpacing = "1px";
+
+  
+}
+
+
+    // decor
+    let decorEl = msg.querySelector(".bubbleDecor");
+
+    if (!decorEl && decor){
+      decorEl = document.createElement("span");
+      decorEl.className = "bubbleDecor";
+      msg.appendChild(decorEl);
+    }
+
+    if (decorEl && decor){
+      decorEl.textContent = decor;
+    }
+
+  });
+}
+
+// run on load
+applySavedChatStyle();
+
+
+
+
+
+window.addEventListener("storage", () => {
+  applySavedChatStyle();
+});
+
+</script>
 </body>
 </html>
 

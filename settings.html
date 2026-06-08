@@ -1361,6 +1361,12 @@ padding: 2px 6px;
   margin-top: 15px;
 }
 
+/* save button under preview*/ 
+
+#savePreviewBtn{
+  margin-top: 8px;
+}
+
 
 
 
@@ -2211,21 +2217,15 @@ function syncChatPreview() {
   if (!preview || senders.length === 0) return;
 
   senders.forEach(sender => {
-    // background
     sender.style.background = preview.style.background;
 
-    // border
     sender.style.border = preview.style.border;
     sender.style.borderStyle = preview.style.borderStyle;
     sender.style.borderColor = preview.style.borderColor;
 
-    // text color
     sender.style.color = preview.style.color;
-
-    // shape
     sender.style.borderRadius = preview.style.borderRadius;
 
-    // font sync
     const previewText = preview.querySelector(".bubbleText");
     const senderText = sender.querySelector(".bubbleText");
 
@@ -2234,29 +2234,8 @@ function syncChatPreview() {
     }
   });
 
-  if (!preview || !sender) return;
 
-  // background (color / glossy)
-  sender.style.background = preview.style.background;
-
-  // border
-  sender.style.border = preview.style.border;
-  sender.style.borderStyle = preview.style.borderStyle;
-  sender.style.borderColor = preview.style.borderColor;
-
-  // text color
-  sender.style.color = preview.style.color;
-
-  // radius (shape)
-  sender.style.borderRadius = preview.style.borderRadius;
-
-  // font
-  const previewText = preview.querySelector(".bubbleText");
-  const senderText = sender.querySelector(".bubbleText");
-
-  if (previewText && senderText) {
-    senderText.style.fontFamily = previewText.style.fontFamily;
-  }
+  
 
 
 
@@ -2283,6 +2262,59 @@ if (bgInput && chatPreview){
 
     reader.readAsDataURL(file);
   });
+
+  const saveBtn = document.getElementById("savePreviewBtn");
+
+if (saveBtn){
+
+  saveBtn.onclick = () => {
+
+    console.log("save button clicked");
+
+    const preview = document.getElementById("bubblePreview");
+    if (!preview) return;
+
+    const text = preview.querySelector(".bubbleText");
+    const decor = preview.querySelector(".bubbleDecor");
+
+    // ✅ SAVE EVERYTHING IMPORTANT
+    localStorage.setItem("bubbleBg", preview.style.background);
+    localStorage.setItem("bubbleBorderColor", preview.style.borderColor);
+    localStorage.setItem("bubbleBorderStyle", preview.style.borderStyle);
+    localStorage.setItem("bubbleRadius", preview.style.borderRadius);
+
+    // font
+    if (text){
+      localStorage.setItem("bubbleFont", text.style.fontFamily);
+    }
+
+    // decor
+    if (decor){
+      localStorage.setItem("bubbleDecor", decor.textContent);
+    }
+
+    alert("Saved ✅");
+  };
+
+}
+
+const preview = document.getElementById("bubblePreview");
+
+if (preview){
+
+  const savedBg = localStorage.getItem("bubbleBg");
+  const savedBorderColor = localStorage.getItem("bubbleBorderColor");
+
+  if (savedBg){
+    preview.style.background = savedBg;
+  }
+
+  if (savedBorderColor){
+    preview.style.borderColor = savedBorderColor;
+  }
+
+  
+}
 }
 
 
@@ -2401,7 +2433,15 @@ decors.forEach(d => {
   Reset to Default
 </button>
 
+<button id="savePreviewBtn" class="uploadBtn">
+  Save Changes
+</button>
+
 `;
+
+setTimeout(() => {
+  syncChatPreview();
+}, 0);
 
 // ✅ BACKGROUND IMAGE LOGIC (PUT HERE)
 setTimeout(() => {
@@ -2562,6 +2602,9 @@ function applyAccent(){
     el.textContent = "● " + accent.name + " ▾";
   }
 }
+
+
+
 
 
 
