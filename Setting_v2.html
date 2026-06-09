@@ -337,34 +337,43 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pop
   border-color:rgba(255,255,255,.15);
 }
 
+
 .profileCard{
   display:flex;
   flex-direction:column;
+  align-items:center;
+  text-align:center;
 
   padding:24px;
 
   background:rgba(255,255,255,.03);
   border:1px solid rgba(255,255,255,.08);
   border-radius:16px;
+
+   margin-bottom:20px;
 }
 
-.profileAvatar{
-  width:48px;
-  height:48px;
 
+.profileAvatar{
+  width:64px;
+  height:64px;
   border-radius:50%;
 
- background:var(--accent);
+  background:var(--accent);
   color:white;
 
   display:flex;
   align-items:center;
   justify-content:center;
+
+  font-size:22px;
+  margin-bottom:12px;
 }
 
 .profileName{
-  color:white;
+  font-size:18px;
   font-weight:600;
+  margin-bottom:6px;
 }
 
 .profileTag{
@@ -629,13 +638,7 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pop
   margin-top:20px;
 }
 
-.sectionTitle{
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
 
-  margin: 40px 0 20px 30px;
-}
 
 
 /* theme dark and light CSS */
@@ -1047,6 +1050,71 @@ body.lightTheme .uploadBtn{
   margin-top:10px;
 }
 
+ /*avatar status CSS */
+#userStatusDropdown{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:8px;
+  margin-bottom:6px;
+}
+
+
+
+
+#statusSelect{
+  background:#0f172a;
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:4px 8px;
+}
+
+#statusSelect option{
+  background:#0f172a;
+  color:white;
+}
+
+.statusDot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#43b581;
+  display:inline-block;
+
+   position: relative;
+  left: 12px;
+}
+
+
+
+.settingsSection{
+  width: 100%;
+  max-width: 445px;
+  margin: 0 auto 28px auto;
+
+  
+}
+
+.settingsSection .sectionTitle,
+.settingsSection .panelSubtitle{
+  margin-left: 0;
+}
+
+.settingsSection .settingsCard{
+  width: 100%;
+  margin-top: 12px;
+}
+
+.settingsCard{
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 24px;
+
+  margin-bottom: 32px;
+}
+
 
   </style>
 </head>
@@ -1060,15 +1128,34 @@ body.lightTheme .uploadBtn{
  <aside class="sidebar">
 
     <!-- USER CARD -->
-  <div class="profileCard">
-    
-    <div class="profileAvatar">L</div>
+ <div class="profileCard">
 
-    <div>
-      <div class="profileName">Lilith</div>
-      <div class="profileTag">@auralis.app.ae</div>
+  <div class="profileAvatar">L</div>
+
+  <div>
+
+   
+
+    <div id="userStatusDropdown">
+
+      <span class="statusDot"></span>
+
+      <select id="statusSelect">
+        <option value="online"> Online</option>
+        <option value="away"> Away</option>
+        <option value="busy"> Busy</option>
+        <option value="gaming">Gaming</option>
+        <option value="listening"> Listening</option>
+        <option value="offline"> Offline</option>
+      </select>
+
     </div>
+
+    <div class="profileTag">@auralis.app.ae</div>
+
   </div>
+
+</div>
 
 <!-- Overview Button -->
   <div class="sidebarSection">
@@ -1637,32 +1724,33 @@ body.lightTheme .uploadBtn{
   </div>
 
 
+<div class="settingsSection">
+
   <h2 class="sectionTitle">
-  Content & Privacy
-</h2>
+    Content & Privacy
+  </h2>
 
-<p class="panelSubtitle">
-  Control what you see and share.
-</p>
+  <p class="panelSubtitle">
+    Control what you see and share.
+  </p>
 
-<div class="settingsCard">
+  <div class="settingsCard">
 
-  <div class="settingRow">
-    <span>Content Filtering</span>
-    <span>Moderate ▼</span>
+    <div class="settingRow">
+      <span>Content Filtering</span>
+      <span>Moderate ▼</span>
+    </div>
+
+    <div class="settingRow">
+      <span>Allow Direct Messages</span>
+
+      <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
   </div>
-
-  <div class="settingRow">
-    <span>Allow Direct Messages</span>
-    <label class="switch">
-  <input type="checkbox" checked>
-  <span class="slider"></span>
-</label>
-  </div>
-
-
-  </div>
-  
 
 </div>
 
@@ -1810,6 +1898,9 @@ const avatarInput =
   const usernameInput =
   document.getElementById("usernameInput");
 
+  const statusSelect =
+  document.getElementById("statusSelect");
+
   const usernameHandleInput =
   document.getElementById("usernameHandleInput");
 
@@ -1950,6 +2041,10 @@ async function loadAvatar() {
   if (userDoc.exists()) {
 
     const data = userDoc.data();
+
+    if (data.status) {
+  statusSelect.value = data.status;
+}
 
   if (data.fontStyle) {
   fontStyleSelect.value = data.fontStyle;
@@ -2291,6 +2386,63 @@ saveProfileBtn.addEventListener("click", async () => {
   setTimeout(() => {
     saveProfileBtn.textContent = "Save Profile";
   }, 1500);
+
+});
+
+//listner for the avatar status in setting 
+
+statusSelect.addEventListener(
+  "change",
+  async () => {
+
+    await setDoc(
+      doc(db, "users", currentUser),
+      {
+        status: statusSelect.value
+      },
+      { merge: true }
+    );
+
+    console.log(
+      "Status saved:",
+      statusSelect.value
+    );
+
+  }
+);
+
+const statusDot =
+  document.querySelector(
+    "#userStatusDropdown .statusDot"
+  );
+
+statusSelect.addEventListener("change", () => {
+
+  const status = statusSelect.value;
+
+  if(status === "online"){
+    statusDot.style.background = "#43b581";
+  }
+
+  if(status === "away"){
+    statusDot.style.background = "#faa61a";
+  }
+
+  if(status === "busy"){
+    statusDot.style.background = "#ed4245";
+  }
+
+  if(status === "gaming"){
+    statusDot.style.background = "#9146ff";
+  }
+
+  if(status === "listening"){
+    statusDot.style.background = "#1db954";
+  }
+
+  if(status === "offline"){
+    statusDot.style.background = "#747f8d";
+  }
 
 });
 

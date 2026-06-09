@@ -38,17 +38,21 @@ body{
 
 #sidebar{
   width:280px;
-  background:#020617;
+   background:#0b1120;
   border-right:1px solid rgba(255,255,255,.1);
 
   display:flex;
   flex-direction:column;
+
+  border-right:1px solid rgba(255,255,255,0.08);
 }
 
 #sidebarTop{
   padding:20px;
   font-size:20px;
   font-weight:bold;
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 #searchInput{
@@ -75,20 +79,22 @@ body{
 }
 
 #sidebarTop h2{
-  margin:0 0 16px 0;
+    margin:0;
+  color:#5865f2;
 }
 
 #chatList{
   flex:1;
   padding:10px;
+  overflow-y:auto;
 }
 
 .channel{
-  padding:14px;
+  padding:12px;
 
-  border-radius:14px;
+  border-radius:10px;
 
-  margin-bottom:10px;
+  margin-bottom:5px;
 
   transition:.2s;
 
@@ -100,6 +106,8 @@ body{
 .channel:hover{
   background:#1e293b;
   transform:translateX(4px);
+
+  background:rgba(255,255,255,0.08);
 }
 
 .channel.active{
@@ -117,8 +125,17 @@ body{
 }
 
 #sidebarBottom{
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,.1);
+  padding:15px;
+  border-top:1px solid rgba(255,255,255,0.08);
+
+  display:flex;
+  justify-content:space-around;
+}
+
+#sidebarBottom button{
+  width:45px;
+  height:45px;
+  border-radius:12px;
 }
 
 #userCard{
@@ -164,7 +181,13 @@ body{
 }
 
 #header{
-  padding:20px;
+   height:70px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 20px;
 
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
@@ -273,6 +296,10 @@ backdrop-filter:blur(10px);
 }
 
 .bubble{
+
+box-shadow:
+  0 4px 12px rgba(0,0,0,0.25);
+
   animation:fadeIn .25s ease;
 }
 
@@ -647,13 +674,14 @@ backdrop-filter:blur(10px);
 
     <div id="userAvatar">L</div>
 
-    <div id="userInfo">
-      <div id="userName"></div>
-      <div id="userStatus">
-        <span class="statusDot"></span>
-        Online
-      </div>
-    </div>
+   <div id="userInfo">
+  <div id="userName"></div>
+
+  <div id="userStatus">
+    <span class="statusDot"></span>
+    <span id="statusText"></span>
+  </div>
+</div>
 
     <div id="userActions">
       <button id="profileBtn">👤</button>
@@ -750,6 +778,10 @@ localStorage.getItem("username") ||
 document.getElementById("userName")
 .textContent = username;
 
+
+
+
+
 document.getElementById("userAvatar")
 .textContent =
 username.charAt(0).toUpperCase();
@@ -760,6 +792,7 @@ let userStyles = {};
 
 
 db.collection("users")
+
 .onSnapshot(snapshot => {
 
   snapshot.forEach(doc => {
@@ -768,11 +801,11 @@ db.collection("users")
 
   });
 
-  console.log("username =", username);
-console.log("userStyles =", userStyles);
-console.log("currentStyle =", userStyles[username]);
 
-  const currentStyle = userStyles[username];
+ const currentStyle = userStyles[username];
+
+  document.getElementById("userName").textContent =
+username;
 
 if(currentStyle?.chatBackground){
 
@@ -784,6 +817,67 @@ if(currentStyle?.chatBackground){
   messagesDiv.style.backgroundPosition = "center";
 
 }
+
+const status =
+currentStyle?.status || "online";
+
+document.getElementById("statusText").textContent =
+status;
+
+
+const dot =
+document.querySelector("#userStatus .statusDot");
+
+
+
+console.log("DOT =", dot);
+
+
+if(status === "online"){
+  dot.style.background = "#43b581";
+}
+
+if(status === "away"){
+  dot.style.background = "#faa61a";
+}
+
+if(status === "busy"){
+  dot.style.background = "#ed4245";
+}
+
+
+if(status === "gaming"){
+  dot.style.background = "#9146ff";
+}
+
+console.log("Applying status color:", status);
+
+if(status === "listening"){
+  dot.style.background = "#1db954";
+}
+
+if(status === "offline"){
+  dot.style.background = "#747f8d";
+}
+
+console.log("Applied status:", status);
+console.log("Dot color:", dot.style.background);
+  console.log(userStyles);
+  console.log(userStyles[username]);
+  console.log(
+    "Status =",
+    userStyles[username]?.status
+  );
+
+});
+
+  console.log("username =", username);
+console.log("userStyles =", userStyles);
+console.log("currentStyle =", userStyles[username]);
+
+
+
+
 
 
 db.collection("messages")
@@ -937,18 +1031,14 @@ messagesDiv.scrollHeight;
 
 });
 
-  if(userStyles[username].fontStyle === "pixel"){
-
  
-
+if(userStyles[username]?.fontStyle === "pixel"){
 }
 
-if(userStyles[username].bubbleDecoration === "star"){
-
-
+if(userStyles[username]?.bubbleDecoration === "star"){
 }
 
-});
+
 
 
 
