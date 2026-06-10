@@ -1012,10 +1012,10 @@ decor.textContent =
     "linear-gradient(135deg,#FF4FA3,#FF85C2)";
   }
 
-  if(style.bubbleColor === "blue"){
-    bubble.style.background =
-    "linear-gradient(135deg,#3B82F6,#60A5FA)";
-  }
+ if (style?.bubbleColor?.startsWith("#")) {
+  bubble.style.background =
+    style.bubbleColor;
+}
 
   if(style.bubbleColor === "green"){
     bubble.style.background =

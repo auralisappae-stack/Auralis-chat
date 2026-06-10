@@ -1567,7 +1567,10 @@ body.lightTheme .uploadBtn{
       type="color"
       id="customColorInput"
       hidden>
+      
   </label>
+
+  
 
  
 
@@ -2543,10 +2546,14 @@ const customColorInput =
 
 customColorInput.addEventListener("input", () => {
 
-  const customColor = customColorInput.value;
+  selectedBubbleColor =
+    customColorInput.value;
 
-  previewMe.style.background = customColor;
-  previewMe2.style.background = customColor;
+  previewMe.style.background =
+    selectedBubbleColor;
+
+  previewMe2.style.background =
+    selectedBubbleColor;
 
 });
 
@@ -2837,6 +2844,7 @@ if(font === "pixel"){
 
 let selectedBubbleColor = "purple";
 let selectedDecoration = "none";
+let selectedCustomColor = null;
 
 const colorButtons =
   document.querySelectorAll(".colorBtn");
