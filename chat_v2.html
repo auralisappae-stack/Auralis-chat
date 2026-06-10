@@ -1282,7 +1282,10 @@ requestsList.innerHTML += `
 
     //listener 
 
-    const chatId = [
+    console.log("Username:", window.currentUsername);
+console.log("Current Chat User:", window.currentChatUser);
+
+  const chatId = [
   window.currentUsername,
   window.currentChatUser
 ].sort().join("_");
