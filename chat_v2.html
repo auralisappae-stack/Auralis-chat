@@ -1737,6 +1737,14 @@ const request = requestDoc.data();
 
 console.log("Accepting:", request);
 
+await db
+  .collection("users")
+  .doc(user.uid)
+  .collection("friends")
+  .add({
+    username: request.from
+  });
+
 });
 
 
