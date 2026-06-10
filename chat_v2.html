@@ -1131,164 +1131,6 @@ friendDiv.addEventListener("click", () => {
 
 });
 
-function openChat(username) {
-
-  console.log("Opened chat:", username);
-
- window.currentChatUser = username;
-
-  document.getElementById("headerName").textContent =
-    username;
-
-    console.log("typeof loadMessages =", typeof loadMessages);
-
-    loadMessages();
-
-  document
-    .querySelectorAll(".chat-item")
-    .forEach(chat => {
-      chat.classList.remove("active");
-    });
-
-  const selectedChat =
-  document.querySelector(
-    `[data-user="${username}"]`
-  );
-
-  if (selectedChat) {
-    selectedChat.classList.add("active");
-  }
-
-  console.log(
-  "Current chat user:",
-  window.currentChatUser
-);
-
-}
-
-console.log("Auth object:", auth);
-console.log("Current user:", auth.currentUser);
-
-
-const messagesDiv =
-document.getElementById("messages");
-
-let userStyles = {};
-
-auth.onAuthStateChanged(async user => {
-
-
-
-
-  if (!user) return;
-    const doc = await db
-    .collection("users")
-    .doc(user.uid)
-    .get();
-
-  if (!doc.exists) return;
-
-  const profile = doc.data();
-
-  window.currentUsername = profile.username;
-
-  db.collection("friendRequests")
-  .where("to", "==", window.currentUsername)
-  .where("status", "==", "pending")
-  .onSnapshot(snapshot => {
-
-  const requestsList =
-  document.getElementById("requestsList");
-
-requestsList.innerHTML = "";
-
-snapshot.forEach(doc => {
-
-  const request = doc.data();
-
-   console.log("Request from:", request.from);
-
-requestsList.innerHTML += `
-  <div class="requestItem">
-    <div class="requestAvatar">
-      ${request.from[0].toUpperCase()}
-    </div>
-
-    <div class="requestInfo">
-      <div class="requestName">${request.from}</div>
-      <div class="requestText">wants to be your friend</div>
-    </div>
-
-   <button class="acceptBtn" data-id="${doc.id}">✓</button>
-<button class="declineBtn" data-id="${doc.id}">×</button>
-  </div>
-`;
-
-
-});
-
-  });
-
-  db.collection("users")
-  .doc(user.uid)
-  .collection("chats")
-  .onSnapshot(snapshot => {
-
-    const chatList =
-      document.getElementById("chatList");
-
-    chatList.innerHTML = "";
-
-    snapshot.forEach(doc => {
-
-      const chat = doc.data();
-
-      chatList.innerHTML += `
-        <div
-          class="chat-item"
-          data-user="${chat.username}"
-          onclick="openChat('${chat.username}')"
-        >
-          <div class="chat-avatar">
-            ${chat.username[0].toUpperCase()}
-          </div>
-
-          <div class="chat-info">
-            <div class="chat-name">
-              ${chat.username}
-            </div>
-
-            <div class="chat-preview">
-              Start chatting...
-            </div>
-          </div>
-        </div>
-      `;
-      
-    });
-    
-  
-  });
-
-
-
-  document.getElementById("userName").textContent =
-    profile.username;
-
-  document.getElementById("userAvatar").textContent =
-    profile.username.charAt(0).toUpperCase();
-
-    console.log(
-  "Messages listener started with:",
-  window.currentUsername
-);
-
-
-
-    //listener 
-
-console.log("Username:", window.currentUsername);
-console.log("Current Chat User:", window.currentChatUser);
 
 function loadMessages() {
     console.log("loadMessages started");
@@ -1508,6 +1350,167 @@ messagesDiv.scrollHeight;
 });
 
 }
+
+function openChat(username) {
+
+  console.log("Opened chat:", username);
+
+ window.currentChatUser = username;
+
+  document.getElementById("headerName").textContent =
+    username;
+
+    console.log("typeof loadMessages =", typeof loadMessages);
+
+    loadMessages();
+
+  document
+    .querySelectorAll(".chat-item")
+    .forEach(chat => {
+      chat.classList.remove("active");
+    });
+
+  const selectedChat =
+  document.querySelector(
+    `[data-user="${username}"]`
+  );
+
+  if (selectedChat) {
+    selectedChat.classList.add("active");
+  }
+
+  console.log(
+  "Current chat user:",
+  window.currentChatUser
+);
+
+}
+
+console.log("Auth object:", auth);
+console.log("Current user:", auth.currentUser);
+
+
+const messagesDiv =
+document.getElementById("messages");
+
+let userStyles = {};
+
+auth.onAuthStateChanged(async user => {
+
+
+
+
+  if (!user) return;
+    const doc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
+
+  if (!doc.exists) return;
+
+  const profile = doc.data();
+
+  window.currentUsername = profile.username;
+
+  db.collection("friendRequests")
+  .where("to", "==", window.currentUsername)
+  .where("status", "==", "pending")
+  .onSnapshot(snapshot => {
+
+  const requestsList =
+  document.getElementById("requestsList");
+
+requestsList.innerHTML = "";
+
+snapshot.forEach(doc => {
+
+  const request = doc.data();
+
+   console.log("Request from:", request.from);
+
+requestsList.innerHTML += `
+  <div class="requestItem">
+    <div class="requestAvatar">
+      ${request.from[0].toUpperCase()}
+    </div>
+
+    <div class="requestInfo">
+      <div class="requestName">${request.from}</div>
+      <div class="requestText">wants to be your friend</div>
+    </div>
+
+   <button class="acceptBtn" data-id="${doc.id}">✓</button>
+<button class="declineBtn" data-id="${doc.id}">×</button>
+  </div>
+`;
+
+
+});
+
+  });
+
+  db.collection("users")
+  .doc(user.uid)
+  .collection("chats")
+  .onSnapshot(snapshot => {
+
+    const chatList =
+      document.getElementById("chatList");
+
+    chatList.innerHTML = "";
+
+    snapshot.forEach(doc => {
+
+      const chat = doc.data();
+
+      chatList.innerHTML += `
+        <div
+          class="chat-item"
+          data-user="${chat.username}"
+          onclick="openChat('${chat.username}')"
+        >
+          <div class="chat-avatar">
+            ${chat.username[0].toUpperCase()}
+          </div>
+
+          <div class="chat-info">
+            <div class="chat-name">
+              ${chat.username}
+            </div>
+
+            <div class="chat-preview">
+              Start chatting...
+            </div>
+          </div>
+        </div>
+      `;
+      
+    });
+    
+  
+  });
+
+
+
+  document.getElementById("userName").textContent =
+    profile.username;
+
+  document.getElementById("userAvatar").textContent =
+    profile.username.charAt(0).toUpperCase();
+
+    console.log(
+  "Messages listener started with:",
+  window.currentUsername
+);
+
+
+
+    //listener 
+
+console.log("Username:", window.currentUsername);
+console.log("Current Chat User:", window.currentChatUser);
+
+
 });
 
 
