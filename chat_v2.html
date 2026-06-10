@@ -1282,8 +1282,13 @@ requestsList.innerHTML += `
 
     //listener 
 
- db.collection("users")
-.doc(auth.currentUser.uid)
+    const chatId = [
+  window.currentUsername,
+  window.currentChatUser
+].sort().join("_");
+
+db.collection("chats")
+.doc(chatId)
 .collection("messages")
 .orderBy("time")
 .onSnapshot(snapshot => {
@@ -1772,8 +1777,15 @@ document.getElementById("msgInput").value;
 
 console.log("Saving to UID:", auth.currentUser.uid);
 
-db.collection("users")
-.doc(auth.currentUser.uid)
+
+const chatId = [
+  window.currentUsername,
+  window.currentChatUser
+].sort().join("_");
+
+
+db.collection("chats")
+.doc(chatId)
 .collection("messages")
 
 .add({
