@@ -28,6 +28,7 @@ body{
   height:90%;
 
   display:flex;
+  height:100vh;
 
   background:#0f172a;
   border-radius:20px;
@@ -127,7 +128,11 @@ body{
   background: rgba(138,111,255,.08);
 }
 
- .chat-item.active { background: var(--sidebar-item-active); }
+ .chat-item.active { 
+  background: var(--sidebar-item-active);
+ background: #2a2d44;
+  border-left: 3px solid #8b5cf6;
+}
 
  .sidebar-footer {
     padding: 12px 16px;
@@ -204,13 +209,14 @@ body{
 }
 
 #header{
-   height:70px;
+  height:70px;
 
   display:flex;
   align-items:center;
   justify-content:space-between;
 
   padding:0 20px;
+  background:#0f172a;
 
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
@@ -543,16 +549,6 @@ box-shadow:
 }
 
 
-#header{
-  padding:16px 20px;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-
 #headerLeft{
   display:flex;
   align-items:center;
@@ -675,6 +671,59 @@ box-shadow:
   font-size:14px;
 }
 
+
+.headerIcon{
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  object-fit:contain;
+}
+/*Friend List Panel */
+#friendsPanel{
+  width:320px;
+  min-width:320px;
+  height:100vh;
+  background:#0f172a;
+  color:white;
+  display:none;
+  flex-direction:column;
+  border-left:1px solid #222;
+}
+
+#friendsHeader{
+  padding:20px;
+  font-size:20px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+}
+
+#friendsList{
+  padding:12px;
+}
+
+.friend-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:12px;
+  color:white;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.friend-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -795,14 +844,27 @@ box-shadow:
       <div id="headerStatus">Online</div>
     </div>
 
-  </div>
+
+
+    
+</div> <!-- closing of the app -->
+
+
+
+  
 
   <div id="headerActions">
-    <button>🔍</button>
-    <button>📞</button>
-    <button>📹</button>
-    <button>⋯</button>
-  </div>
+  
+    <img src="searchIcon.png" class="headerIcon">
+
+    <img src="callIcon.png" class="headerIcon">
+
+    <img src="AddIcon.png" class="headerIcon" id="addFriendBtn">
+
+  <img
+    src="FriendListIcon.png" class="headerIcon" id="friendsPanelBtn">
+  
+</div>
 
 </div>
 
@@ -836,6 +898,20 @@ box-shadow:
 
 </div> <!-- end of chatarea-->
 
+<div id="friendsPanel">
+
+  <div id="friendsHeader">
+    <span>Friends</span>
+
+    <button id="closeFriendsBtn">✕</button>
+  </div>
+
+  <div id="friendsList"></div>
+
+</div>
+
+</div> <!-- end of app -->
+
 <!-- firebase script-->
  <script>
 
@@ -862,9 +938,136 @@ const auth = firebase.auth();
 });
 
 auth.onAuthStateChanged(user => {
+
   console.log("Logged in user:", user);
   console.log("UID:", user?.uid);
+
+  if (!user) return;
+
+  db.collection("users")
+    .doc(user.uid)
+    .collection("friends")
+    .onSnapshot(snapshot => {
+
+      console.log(
+        "Friends count:",
+        snapshot.size
+      );
+
+      const friendsList =
+      document.getElementById("friendsList");
+
+      friendsList.innerHTML = "";
+
+      snapshot.forEach(doc => {
+
+  const friend = doc.data();
+
+  const friendDiv = document.createElement("div");
+
+  friendDiv.className = "friend-item";
+
+  friendDiv.innerHTML = `
+    <div class="chat-avatar">
+      ${friend.username[0].toUpperCase()}
+    </div>
+
+    <div>
+      ${friend.username}
+    </div>
+  `;
+
+friendDiv.addEventListener("click", () => {
+
+  console.log("Clicked friend:", friend.username);
+
+   db.collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("chats")
+    .doc(friend.username)
+    .set({
+      username: friend.username
+    });
+
+  document.getElementById("headerName").textContent =
+    friend.username;
+
+  const existingChat =
+  document.querySelector(
+    `[data-user="${friend.username}"]`
+  );
+
+  if (existingChat) return;
+
+  const chatList =
+  document.getElementById("chatList");
+
+ chatList.innerHTML += `
+  <div
+    class="chat-item"
+    data-user="${friend.username}"
+    onclick="openChat('${friend.username}')"
+  >
+
+      <div class="chat-avatar">
+        ${friend.username[0].toUpperCase()}
+      </div>
+
+      <div class="chat-info">
+        <div class="chat-name">
+          ${friend.username}
+        </div>
+
+        <div class="chat-preview">
+          Start chatting...
+        </div>
+      </div>
+
+    </div>
+  `;
+
 });
+
+  friendsList.appendChild(friendDiv);
+
+});
+
+    });
+
+});
+
+function openChat(username) {
+
+  console.log("Opened chat:", username);
+
+ window.currentChatUser = username;
+
+console.log("Chat clicked:", username);
+
+  document.getElementById("headerName").textContent =
+    username;
+
+  document
+    .querySelectorAll(".chat-item")
+    .forEach(chat => {
+      chat.classList.remove("active");
+    });
+
+  const selectedChat =
+  document.querySelector(
+    `[data-user="${username}"]`
+  );
+
+  if (selectedChat) {
+    selectedChat.classList.add("active");
+  }
+
+  console.log(
+  "Current chat user:",
+  window.currentChatUser
+);
+
+}
 
 console.log("Auth object:", auth);
 console.log("Current user:", auth.currentUser);
@@ -877,7 +1080,61 @@ let userStyles = {};
 
 auth.onAuthStateChanged(async user => {
 
+
+
+
   if (!user) return;
+
+  db.collection("friendRequests")
+  .where("to", "==", window.currentUsername)
+  .where("status", "==", "pending")
+  .onSnapshot(snapshot => {
+
+    console.log(
+      "Pending requests:",
+      snapshot.size
+    );
+
+  });
+
+  db.collection("users")
+  .doc(user.uid)
+  .collection("chats")
+  .onSnapshot(snapshot => {
+
+    const chatList =
+      document.getElementById("chatList");
+
+    chatList.innerHTML = "";
+
+    snapshot.forEach(doc => {
+
+      const chat = doc.data();
+
+      chatList.innerHTML += `
+        <div
+          class="chat-item"
+          data-user="${chat.username}"
+          onclick="openChat('${chat.username}')"
+        >
+          <div class="chat-avatar">
+            ${chat.username[0].toUpperCase()}
+          </div>
+
+          <div class="chat-info">
+            <div class="chat-name">
+              ${chat.username}
+            </div>
+
+            <div class="chat-preview">
+              Start chatting...
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+  });
 
   const doc = await db
     .collection("users")
@@ -934,14 +1191,21 @@ if (myStyle?.chatBackground) {
 
     const msg = doc.data();
 
-    document.getElementById("chatPreview").textContent =
-  msg.text;
+     console.log(
+    "MSG CHAT:",
+    msg.chatUser,
+    "CURRENT:",
+    window.currentChatUser
+  );
 
-document.getElementById("chatTime").textContent =
-  new Date(msg.time).toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+  if (
+  window.currentChatUser &&
+  msg.chatUser !== window.currentChatUser
+) {
+  return;
+}
+
+  
 
     const style = userStyles[msg.user];
 
@@ -1129,6 +1393,73 @@ document.getElementById("settingsBtn")
   window.location.href = "Setting_v2.html";
 });
 
+
+document
+.getElementById("addFriendBtn")
+.addEventListener("click", async () => {
+
+  const friendUsername =
+  prompt("Enter username:");
+
+  if(!friendUsername) return;
+
+  //search the firebase for the username to add 
+
+const snapshot = await db
+  .collection("users")
+  .where("username", "==", friendUsername)
+  .get();
+
+if(snapshot.empty){
+  alert("User not found");
+  return;
+}
+
+await db.collection("friendRequests").add({
+
+  from: window.currentUsername,
+  to: friendUsername,
+  status: "pending",
+  time: Date.now()
+
+});
+
+alert("Friend request sent!");
+
+const friendDoc = snapshot.docs[0];
+
+const friendData = friendDoc.data();
+
+
+console.log(
+  "Saving friend to:",
+  window.currentUsername
+);
+
+
+console.log("Saving friend to UID:", auth.currentUser.uid);
+console.log("Friend data:", friendData);
+
+await db
+  .collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .doc(friendData.authUid)
+  .set({
+    username: friendData.username,
+    authUid: friendData.authUid
+  });
+
+  console.log("Friend saved!");
+
+alert("Friend added!");
+
+console.log(
+  "Found:",
+  friendDoc.data()
+);
+});
+
 document.getElementById("userName")
 .textContent = window.currentUsername;
 
@@ -1235,6 +1566,21 @@ if(userStyles[username]?.bubbleDecoration === "star"){
 }
 
 
+//friendlist button Listener
+
+document
+.getElementById("friendsPanelBtn")
+.addEventListener("click", () => {
+
+  console.log("clicked");
+
+  document
+  .getElementById("friendsPanel")
+  .style.display = "flex";
+
+});
+
+
 
 
 
@@ -1250,13 +1596,16 @@ console.log("Saving to UID:", auth.currentUser.uid);
 db.collection("users")
 .doc(auth.currentUser.uid)
 .collection("messages")
+
 .add({
 
   user: window.currentUsername,
+  chatUser: window.currentChatUser,
   text: text,
   time: Date.now()
 
 })
+
 .then(() => {
   console.log("Message saved!");
 });
@@ -1264,6 +1613,9 @@ db.collection("users")
 document.getElementById("msgInput").value = "";
 
 });
+
+
+
 
 
 
