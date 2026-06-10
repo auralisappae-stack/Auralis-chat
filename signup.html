@@ -258,6 +258,12 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
@@ -270,10 +276,16 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
 
 window.db = db;
 window.doc = doc;
 window.setDoc = setDoc;
+window.auth = auth;
+window.createUserWithEmailAndPassword =
+
+createUserWithEmailAndPassword;
 
 </script>
 
@@ -305,13 +317,19 @@ function togglePassword(id, el) {
 
 /* SIGNUP */
 
+
 async function signup() {
   const user = document.getElementById("username").value.trim();
-  const pass = document.getElementById("password").value.trim();
-  const confirm = document.getElementById("confirmPassword").value.trim();
+  const password = document.getElementById("password").value.trim();  const confirm = document.getElementById("confirmPassword").value.trim();
   const email = document.getElementById("email").value.trim();
   const error = document.getElementById("error");
 
+
+  const cred = await createUserWithEmailAndPassword(
+  auth,
+  email,
+  password
+);
 
 
 
@@ -335,28 +353,28 @@ const server = {
 localStorage.setItem("server", JSON.stringify(server));
 
   // REQUIRED
-  if (user === "" || pass === "" || confirm === "") {
+  if (user === "" || password === "" || confirm === "") {
     error.innerText = "Username and password are required!";
     error.style.display = "block";
     return;
   }
 
   // MATCH
-  if (pass !== confirm) {
+  if (password !== confirm) {
     error.innerText = "Passwords do not match!";
     error.style.display = "block";
     return;
   }
 
   // LENGTH
-  if (pass.length < 8) {
+  if (password.length < 8) {
     error.innerText = "Password must be at least 8 characters";
     error.style.display = "block";
     return;
   }
 
   // CAPITAL LETTER
-  if (!/[A-Z]/.test(pass)) {
+  if (!/[A-Z]/.test(password)) {
     error.innerText = "Must include a capital letter";
     error.style.display = "block";
     return;
@@ -370,26 +388,33 @@ localStorage.setItem("server", JSON.stringify(server));
   localStorage.setItem("username", user);
   localStorage.setItem("currentUser", user);
   console.log("Saved currentUser:", user);
-  localStorage.setItem("password", pass);
+  localStorage.setItem("password", password);
   localStorage.setItem("email", email);
 
 
 
   
 try {
+
+
+
 await setDoc(
-  doc(db, "users", user),
+  doc(db, "users", cred.user.uid),
   {
     username: user,
     email: email,
-    userId: "AUR-" + Math.random().toString(36).substring(2, 10).toUpperCase(),
-    createdAt: new Date().toISOString()
+    authUid: cred.user.uid,
+    createdAt: new Date().toISOString(),
+    status: "online"
   }
 );
 
    console.log("User saved to Firestore");
 } catch (err) {
-  console.error(err);
+  console.error("SIGNUP ERROR FULL:", err);
+  console.error("CODE:", err.code);
+  console.error("MESSAGE:", err.message);
+  alert(err.message);
 }
 
  setTimeout(() => {

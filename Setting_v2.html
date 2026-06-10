@@ -1753,6 +1753,7 @@ body.lightTheme .uploadBtn{
   </div>
 
 </div>
+</div>
 
 <!-- adding a hidden chat preview-->
 <div id="chatPreviewSection" style="display:none;">
@@ -1861,6 +1862,10 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
 console.log(ref);
 console.log(uploadBytes);
 
@@ -1876,8 +1881,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
 const storage = getStorage(app);
 const db = getFirestore(app);
+
+console.log("AUTH:", auth);
+console.log("CURRENT USER:", auth.currentUser);
+
 
 function generateUserId() {
 
@@ -1943,7 +1953,7 @@ const locationInput =
   document.getElementById("bioCounter");
 
   const currentUser =
-  localStorage.getItem("currentUser");
+   localStorage.getItem("currentUser");
 
   console.log("Current User:", currentUser);
 
@@ -2034,6 +2044,7 @@ avatarInput.addEventListener("change", async (e) => {
 
 async function loadAvatar() {
 
+console.log("currentUser before getDoc =", currentUser);
   const userDoc = await getDoc(
     doc(db, "users", currentUser)
   );
@@ -2162,10 +2173,11 @@ console.log("Email Loaded:", data.email);
 
   }
 }
+console.log("currentUser before loadAvatar =", currentUser);
 
 loadAvatar();
 
-
+console.log("currentUser before getDoc =", currentUser);
 const userDoc = await getDoc(
   doc(db, "users", currentUser)
 );
@@ -2512,20 +2524,8 @@ previewCard.style.backgroundPosition =
 
     console.log("Uploaded:", downloadURL);
 
-  })
-  .catch((error) => {
 
-    console.error(error);
-
-  });
-
-
-
-
-
-
-
-
+ });
 
 </script> <!-- end of the firebase only-->
 

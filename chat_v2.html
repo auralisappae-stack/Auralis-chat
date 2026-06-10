@@ -20,8 +20,7 @@ body{
   font-family:Arial,sans-serif;
 
   display:flex;
-  justify-content:center;
-  align-items:center;
+
 }
 
 #app{
@@ -36,107 +35,131 @@ body{
   overflow:hidden;
 }
 
-#sidebar{
-  width:280px;
-   background:#0b1120;
-  border-right:1px solid rgba(255,255,255,.1);
 
+.search-wrap{
+  padding: 0 14px;
   display:flex;
-  flex-direction:column;
-
-  border-right:1px solid rgba(255,255,255,0.08);
+  
 }
 
-#sidebarTop{
-  padding:20px;
-  font-size:20px;
-  font-weight:bold;
-
-  border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-#searchInput{
+.search-box{
   width:100%;
-  box-sizing:border-box;
+  height:42px;
 
-  padding:12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
 
-  border:none;
-  border-radius:12px;
-
-  background:#0f172a;
+  background:rgba(255,255,255,.06);
   color:white;
 
+  padding:0 14px 0 42px;
+
+  font-size:16px;
   outline:none;
 }
 
-#searchInput::placeholder{
-  color:#94a3b8;
+.search-box::placeholder{
+  color:#8f83b8;
 }
 
-#searchContainer{
-  width:100%;
+.search-inner{
+  position:relative;
+  width:70%;
 }
 
-#sidebarTop h2{
-    margin:0;
-  color:#5865f2;
+.search-icon{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#8f83b8;
+  font-size:18px;
+  z-index:1;
 }
 
-#chatList{
-  flex:1;
-  padding:10px;
-  overflow-y:auto;
+  .chat-list { 
+    flex: 1; 
+    overflow-y: 
+    auto; padding: 4px 0; 
 }
 
-.channel{
-  padding:12px;
+.search-input {
+  width: 100%;
+  height: 42px;
 
-  border-radius:10px;
+  border-radius: 18px;
 
-  margin-bottom:5px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
 
-  transition:.2s;
-
-  cursor:pointer;
-
-  color:#cbd5e1;
+  color: white;
+  padding: 0 16px;
 }
 
-.channel:hover{
-  background:#1e293b;
-  transform:translateX(4px);
+  .chat-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin: 2px 8px;
+    transition: background 0.15s;
+    position: relative;
+  }
 
-  background:rgba(255,255,255,0.08);
+  .chat-avatar {
+    width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+    flex-shrink: 0; background: var(--sidebar-item-active);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; position: relative;
+  }
+
+   .badge {
+    background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 700;
+    border-radius: 10px; padding: 2px 6px;
+    min-width: 18px; text-align: center;
+    margin-left: auto;
+  }
+
+  .chat-info { flex: 1; min-width: 0; }
+
+.chat-item:hover {
+  background: rgba(138,111,255,.08);
 }
 
-.channel.active{
-  background:#334155;
-  color:white;
-}
+ .chat-item.active { background: var(--sidebar-item-active); }
 
-.channel:hover{
-  background:#1e293b;
-}
+ .sidebar-footer {
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-around;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
 
-.channel.active{
-  background:#334155;
-  color:white;
-}
+ .new-chat-btn {
+    margin: 12px; padding: 12px;
+    background: none;
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    color: var(--accent);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background 0.15s;
+  }
 
-#sidebarBottom{
-  padding:15px;
-  border-top:1px solid rgba(255,255,255,0.08);
+   .icon-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-secondary); padding: 6px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
 
-  display:flex;
-  justify-content:space-around;
-}
 
-#sidebarBottom button{
-  width:45px;
-  height:45px;
-  border-radius:12px;
-}
+
+
+
+
+
 
 #userCard{
   display:flex;
@@ -338,26 +361,40 @@ box-shadow:
 /*new chat button CSS */
 #newChatBtn{
   margin:12px;
-
+  height:50px;
+  width:calc(100% - 24px);
   padding:14px;
-
   border-radius:14px;
-
   border:1px solid #5865f2;
-
   background:transparent;
-
   color:#5865f2;
-
   cursor:pointer;
-
   font-size:16px;
 }
 
-#sidebarBottom{
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,.1);
+ .sidebar {
+    width: 320px;
+    min-width: 320px;
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    height: 100%;
+  }
+
+  #sidebarBottom{
+  width:100%;
+  box-sizing:border-box;
 }
+
+  .sidebar-header {
+    padding: 18px 16px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+
 
 #userCard{
   display:flex;
@@ -423,65 +460,65 @@ box-shadow:
   font-size:18px;
 }
 
-.chatCard{
+.chat-item{
   display:flex;
   align-items:center;
-
   gap:12px;
-
   padding:12px;
-
-  margin-bottom:10px;
-
+  margin:8px 12px;
   border-radius:14px;
-
   cursor:pointer;
-
-  transition:.2s;
 }
 
-.chatCard:hover{
-  background:#1e293b;
+.chat-item.active{
+  background:rgba(138,111,255,.12);
 }
 
-.chatCard.active{
-  background:#334155;
-}
-
-.chatAvatar{
-  width:48px;
-  height:48px;
-
+.chat-avatar{
+  width:44px;
+  height:44px;
   border-radius:50%;
-
-  background:#5865f2;
-
+  background:#5a3fc0;
   display:flex;
-  justify-content:center;
   align-items:center;
-
+  justify-content:center;
   font-weight:bold;
+  flex-shrink:0;
 }
 
-.chatInfo{
+.chat-info{
   flex:1;
 }
 
-.chatName{
-  font-weight:bold;
-  color:white;
+.chat-name{
+  font-weight:600;
 }
 
-.chatPreview{
-  font-size:12px;
-  color:#94a3b8;
-
-  margin-top:3px;
+.chat-preview{
+  color:#a89ec0;
+  font-size:13px;
 }
 
-.chatMeta{
+.chat-meta{
   text-align:right;
 }
+
+.chat-time{
+  font-size:12px;
+  color:#a89ec0;
+}
+
+.badge{
+  margin-top:4px;
+  background:#8a6fff;
+  color:white;
+  border-radius:10px;
+  padding:2px 6px;
+  font-size:11px;
+  display:inline-block;
+}
+
+
 
 .chatTime{
   font-size:11px;
@@ -592,10 +629,58 @@ box-shadow:
   line-height:1.5;
 }
 
+.avatar-circle{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#5a3fc0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.sidebar-header{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:18px 16px;
+}
+
+.header-name-wrap{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  margin-top:2px;
+}
+
+.status-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:4px;
+}
+
+.status-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#4ade80;
+}
+
+.status-text{
+  color:#4ade80;
+  font-size:14px;
+}
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 </head>
 
@@ -605,64 +690,64 @@ box-shadow:
 
     <!-- side bar section-->
 
- <div id="sidebar">
+ <div class="sidebar">
 
-  <div id="sidebarTop">
+  <div class="sidebar-header">
 
-  <h2>Auralis</h2>
+    <!-- adding the avatar left of the Auralis title-->
+ <div class="avatar-circle">A</div>
 
-  <div id="searchContainer">
+  <div class="header-name-wrap">
+  <span class="header-name">Auralis</span>
+
+  <div class="status-row">
+    <span class="status-dot"></span>
+    <span class="status-text">Online</span>
+  </div>
+</div>
+
+</div>
+
+
+<div class="search-wrap">
+  <div class="search-inner">
+    <span class="search-icon">⌕</span>
+
     <input
       id="searchInput"
-      placeholder="🔍 Search chats..."
+      class="search-box"
+      placeholder="Search chats..."
     >
   </div>
-
 </div>
 
- <div id="chatList">
 
-  <div class="chatCard active">
+ <div class="chat-list" id="chatList">
 
-    <div class="chatAvatar">L</div>
+  <div class="chat-item active">
 
-    <div class="chatInfo">
-      <div class="chatName">Lilith</div>
-      <div class="chatPreview">
+    <div class="chat-avatar">L</div>
+
+    <div class="chat-info">
+
+    
+      <div class="chat-name"> Lilith </div>
+      <div class="chat-preview">
         Last message...
       </div>
     </div>
 
-    <div class="chatMeta">
-      <div class="chatTime">2m</div>
-      <div class="unreadBadge">3</div>
-    </div>
+    <div class="chat-meta">
 
-  </div>
+      <div class="chat-time">2m</div>
+      <div class="badge">3</div>
 
-  <div id="chatList">
+    
+    </div> <!-- chat-meta -->
+</div> <!-- chat-item -->
 
-  <div class="chatCard active">
+</div> <!-- chat-list -->
 
-    <div class="chatAvatar">L</div>
-
-    <div class="chatInfo">
-      <div class="chatName">Saal</div>
-      <div class="chatPreview">
-        Last message...
-      </div>
-    </div>
-
-    <div class="chatMeta">
-      <div class="chatTime">2m</div>
-      <div class="unreadBadge">3</div>
-    </div>
-
-  </div>
-
-</div>
-
-</div>
 
    <button id="newChatBtn">
   + New Chat
@@ -752,6 +837,8 @@ box-shadow:
 <!-- firebase script-->
  <script>
 
+    window.currentUsername = "Guest";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
   authDomain: "auralis-web-app.firebaseapp.com",
@@ -765,124 +852,64 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
+//to make the users unique and perms
+const auth = firebase.auth();
+
+  auth.onAuthStateChanged(user => {
+  console.log("UID =", user?.uid);
+});
+
+auth.onAuthStateChanged(user => {
+  console.log("Logged in user:", user);
+  console.log("UID:", user?.uid);
+});
+
+console.log("Auth object:", auth);
+console.log("Current user:", auth.currentUser);
+
 
 const messagesDiv =
 document.getElementById("messages");
 
-
-const username =
-localStorage.getItem("currentUser") ||
-localStorage.getItem("username") ||
-"Guest";
-
-document.getElementById("userName")
-.textContent = username;
-
-
-
-
-
-document.getElementById("userAvatar")
-.textContent =
-username.charAt(0).toUpperCase();
-
-
 let userStyles = {};
 
+auth.onAuthStateChanged(async user => {
 
+  if (!user) return;
 
-db.collection("users")
+  const doc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
 
-.onSnapshot(snapshot => {
+  if (!doc.exists) return;
 
-  snapshot.forEach(doc => {
+  const profile = doc.data();
 
-    userStyles[doc.id] = doc.data();
-
-  });
-
-
- const currentStyle = userStyles[username];
+  window.currentUsername = profile.username;
 
   document.getElementById("userName").textContent =
-username;
+    profile.username;
 
-if(currentStyle?.chatBackground){
+  document.getElementById("userAvatar").textContent =
+    profile.username.charAt(0).toUpperCase();
 
-  messagesDiv.style.backgroundImage =
-    `url(${currentStyle.chatBackground})`;
-
-  messagesDiv.style.backgroundSize = "cover";
-
-  messagesDiv.style.backgroundPosition = "center";
-
-}
-
-const status =
-currentStyle?.status || "online";
-
-document.getElementById("statusText").textContent =
-status;
-
-
-const dot =
-document.querySelector("#userStatus .statusDot");
+    console.log(
+  "Messages listener started with:",
+  window.currentUsername
+);
 
 
 
-console.log("DOT =", dot);
+    //listener 
 
-
-if(status === "online"){
-  dot.style.background = "#43b581";
-}
-
-if(status === "away"){
-  dot.style.background = "#faa61a";
-}
-
-if(status === "busy"){
-  dot.style.background = "#ed4245";
-}
-
-
-if(status === "gaming"){
-  dot.style.background = "#9146ff";
-}
-
-console.log("Applying status color:", status);
-
-if(status === "listening"){
-  dot.style.background = "#1db954";
-}
-
-if(status === "offline"){
-  dot.style.background = "#747f8d";
-}
-
-console.log("Applied status:", status);
-console.log("Dot color:", dot.style.background);
-  console.log(userStyles);
-  console.log(userStyles[username]);
-  console.log(
-    "Status =",
-    userStyles[username]?.status
-  );
-
-});
-
-  console.log("username =", username);
-console.log("userStyles =", userStyles);
-console.log("currentStyle =", userStyles[username]);
-
-
-
-
-
-
-db.collection("messages")
+ db.collection("users")
+.doc(auth.currentUser.uid)
+.collection("messages")
 .orderBy("time")
 .onSnapshot(snapshot => {
+
+  
 
   messagesDiv.innerHTML = "";
 
@@ -896,7 +923,13 @@ db.collection("messages")
 
     const bubble = document.createElement("div");
 
-    if(msg.user === username){
+    console.log(
+  "Comparing:",
+  msg.user,
+  window.currentUsername
+);
+
+    if(msg.user === window.currentUsername){
       bubble.className = "bubble me";
     }else{
       bubble.className = "bubble other";
@@ -1026,10 +1059,140 @@ if(style?.fontStyle === "pixel"){
   });
 
   
+
 messagesDiv.scrollTop =
 messagesDiv.scrollHeight;
 
+
 });
+
+});
+
+
+
+
+console.log("Auth loaded:", auth);
+
+
+
+const username =
+localStorage.getItem("currentUser") ||
+localStorage.getItem("username") ||
+"Guest";
+
+db.collection("users")
+.onSnapshot(snapshot => {
+
+  snapshot.forEach(doc => {
+    userStyles[doc.id] = doc.data();
+  });
+
+
+  });
+
+
+document.getElementById("settingsBtn")
+.addEventListener("click", () => {
+  window.location.href = "Setting_v2.html";
+});
+
+document.getElementById("userName")
+.textContent = window.currentUsername;
+
+
+
+
+
+document.getElementById("userAvatar")
+.textContent =
+(window.currentUsername || "G")
+.charAt(0)
+.toUpperCase();
+
+
+
+
+db.collection("users")
+
+.onSnapshot(snapshot => {
+
+  snapshot.forEach(doc => {
+
+    userStyles[doc.id] = doc.data();
+
+  });
+
+
+ const currentStyle =
+ userStyles[window.currentUsername] ||
+ userStyles[username];
+
+  document.getElementById("userName").textContent =
+window.currentUsername || username;
+
+
+
+const status =
+currentStyle?.status || "online";
+
+document.getElementById("statusText").textContent =
+status;
+
+
+const dot =
+document.querySelector("#userStatus .statusDot");
+
+
+
+console.log("DOT =", dot);
+
+
+if(status === "online"){
+  dot.style.background = "#43b581";
+}
+
+if(status === "away"){
+  dot.style.background = "#faa61a";
+}
+
+if(status === "busy"){
+  dot.style.background = "#ed4245";
+}
+
+
+if(status === "gaming"){
+  dot.style.background = "#9146ff";
+}
+
+console.log("Applying status color:", status);
+
+if(status === "listening"){
+  dot.style.background = "#1db954";
+}
+
+if(status === "offline"){
+  dot.style.background = "#747f8d";
+}
+
+console.log("Applied status:", status);
+console.log("Dot color:", dot.style.background);
+  console.log(userStyles);
+  console.log(userStyles[username]);
+  console.log(
+    "Status =",
+    userStyles[username]?.status
+  );
+
+});
+
+
+
+  console.log("username =", username);
+console.log("userStyles =", userStyles);
+console.log("currentStyle =", userStyles[username]);
+
+
+
 
  
 if(userStyles[username]?.fontStyle === "pixel"){
@@ -1049,14 +1212,20 @@ document.getElementById("sendBtn")
   const text =
 document.getElementById("msgInput").value;
 
-db.collection("messages").add({
+console.log("Saving to UID:", auth.currentUser.uid);
 
-  user: username,
+db.collection("users")
+.doc(auth.currentUser.uid)
+.collection("messages")
+.add({
 
+  user: window.currentUsername,
   text: text,
-
   time: Date.now()
 
+})
+.then(() => {
+  console.log("Message saved!");
 });
 
 document.getElementById("msgInput").value = "";
@@ -1072,6 +1241,7 @@ document.getElementById("settingsBtn")
   "Setting_v2.html";
 
 });
+
 
 
 </script> <!-- end of the firebase script-->
