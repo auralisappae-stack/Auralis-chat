@@ -1727,7 +1727,14 @@ document.addEventListener("click", async (e) => {
   const requestId =
     e.target.dataset.id;
 
-  alert("Accept clicked");
+  const requestDoc = await db
+  .collection("friendRequests")
+  .doc(requestId)
+  .get();
+
+const request = requestDoc.data();
+
+console.log("Accepting:", request);
 
 });
 
