@@ -1752,6 +1752,11 @@ await db
     username: request.from
   });
 
+  await db
+  .collection("friendRequests")
+  .doc(requestId)
+  .delete();
+
 });
 
 
