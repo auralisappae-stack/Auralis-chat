@@ -232,6 +232,13 @@ body{
 
   overflow-y:auto;
   min-height:0;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+#messages::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 #inputBar{
@@ -724,6 +731,27 @@ box-shadow:
   background: rgba(255,255,255,0.08);
 }
 
+/* pending re btn*/
+#pendingBtn img {
+  width: 24px;
+  height: 24px;
+}
+
+/*  pending req panel  */
+
+#requestsPanel {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 14px;
+  background: #151c2e;
+  color: white;
+}
+
+#requestsPanel h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -903,10 +931,20 @@ box-shadow:
   <div id="friendsHeader">
     <span>Friends</span>
 
-    <button id="closeFriendsBtn">✕</button>
+       <img src="AddIcon.png" class="headerIcon" id="requestBtn">
+
   </div>
 
-  <div id="friendsList"></div>
+  <div id="requestsPanel" style="display:none;">
+  <h3>Friend Requests</h3>
+
+  <div id="requestsList">
+    TEST REQUEST
+  </div>
+</div>
+
+  
+
 
 </div>
 
@@ -1084,16 +1122,40 @@ auth.onAuthStateChanged(async user => {
 
 
   if (!user) return;
+    const doc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
+
+  if (!doc.exists) return;
+
+  const profile = doc.data();
+
+  window.currentUsername = profile.username;
 
   db.collection("friendRequests")
   .where("to", "==", window.currentUsername)
   .where("status", "==", "pending")
   .onSnapshot(snapshot => {
 
-    console.log(
-      "Pending requests:",
-      snapshot.size
-    );
+  const requestsList =
+  document.getElementById("requestsList");
+
+requestsList.innerHTML = "";
+
+snapshot.forEach(doc => {
+
+  const request = doc.data();
+
+   console.log("Request from:", request.from);
+
+  requestsList.innerHTML += `
+    <div>
+      ${request.from}
+    </div>
+  `;
+
+});
 
   });
 
@@ -1136,16 +1198,7 @@ auth.onAuthStateChanged(async user => {
 
   });
 
-  const doc = await db
-    .collection("users")
-    .doc(user.uid)
-    .get();
 
-  if (!doc.exists) return;
-
-  const profile = doc.data();
-
-  window.currentUsername = profile.username;
 
   document.getElementById("userName").textContent =
     profile.username;
@@ -1431,6 +1484,7 @@ const friendDoc = snapshot.docs[0];
 const friendData = friendDoc.data();
 
 
+
 console.log(
   "Saving friend to:",
   window.currentUsername
@@ -1459,6 +1513,15 @@ console.log(
   friendDoc.data()
 );
 });
+
+document
+  .getElementById("requestBtn")
+  .addEventListener("click", () => {
+
+   document.getElementById("requestsPanel")
+  .style.display = "block";
+
+  });
 
 document.getElementById("userName")
 .textContent = window.currentUsername;
