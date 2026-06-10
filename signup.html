@@ -325,11 +325,34 @@ async function signup() {
   const error = document.getElementById("error");
 
 
-  const cred = await createUserWithEmailAndPassword(
-  auth,
-  email,
-  password
-);
+ let cred;
+
+try {
+
+  cred = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+
+} catch (err) {
+
+  console.error(err);
+
+  if (err.code === "auth/email-already-in-use") {
+
+    error.innerText =
+      "This email already has an account.";
+
+  } else {
+
+    error.innerText = err.message;
+
+  }
+
+  error.style.display = "block";
+  return;
+}
 
 
 
@@ -345,10 +368,6 @@ async function signup() {
   error.innerText = "";
 
   // 🏠 CREATE DEFAULT SERVER
-const server = {
-  name: user + "'s Server",
-  icon: user.charAt(0).toUpperCase()
-};
 
 localStorage.setItem("server", JSON.stringify(server));
 
@@ -395,6 +414,12 @@ localStorage.setItem("server", JSON.stringify(server));
 
   
 try {
+
+
+  const server = {
+  name: user + "'s Server",
+  icon: user.charAt(0).toUpperCase()
+};
 
 
 
