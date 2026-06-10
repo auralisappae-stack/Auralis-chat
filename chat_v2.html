@@ -1137,10 +1137,10 @@ function openChat(username) {
 
  window.currentChatUser = username;
 
-console.log("Chat clicked:", username);
-
   document.getElementById("headerName").textContent =
     username;
+
+    loadMessages();
 
   document
     .querySelectorAll(".chat-item")
@@ -1222,6 +1222,7 @@ requestsList.innerHTML += `
   </div>
 `;
 
+
 });
 
   });
@@ -1261,8 +1262,10 @@ requestsList.innerHTML += `
           </div>
         </div>
       `;
+      
     });
-
+    
+  
   });
 
 
@@ -1282,14 +1285,18 @@ requestsList.innerHTML += `
 
     //listener 
 
-    console.log("Username:", window.currentUsername);
+console.log("Username:", window.currentUsername);
 console.log("Current Chat User:", window.currentChatUser);
 
-if (!window.currentChatUser) {
-  console.log("No chat selected yet");
-  return;
-}
+function loadMessages() {
+  
 
+    if (!window.currentChatUser) {
+    console.log("No chat selected yet");
+    return;
+  }
+
+  
   const chatId = [
   window.currentUsername,
   window.currentChatUser
@@ -1487,6 +1494,7 @@ if(style?.fontStyle === "pixel"){
     messagesDiv.appendChild(bubble);
 
   });
+  
 
   
 
@@ -1496,6 +1504,7 @@ messagesDiv.scrollHeight;
 
 });
 
+}
 });
 
 
