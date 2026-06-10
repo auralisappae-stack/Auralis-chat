@@ -732,14 +732,16 @@ box-shadow:
 
     
       <div class="chat-name"> Lilith </div>
-      <div class="chat-preview">
-        Last message...
-      </div>
+
+      <div class="chat-preview" id="chatPreview">
+  No messages yet
+</div>
+
     </div>
 
     <div class="chat-meta">
 
-      <div class="chat-time">2m</div>
+      <div class="chat-time" id="chatTime">--</div>
       <div class="badge">3</div>
 
     
@@ -913,11 +915,42 @@ auth.onAuthStateChanged(async user => {
 
   messagesDiv.innerHTML = "";
 
+  const myStyle = userStyles[window.currentUsername];
+
+console.log("My Style =", myStyle);
+
+if (myStyle?.chatBackground) {
+  const chatArea = document.getElementById("chatArea");
+
+  chatArea.style.backgroundImage =
+    `url(${myStyle.chatBackground})`;
+
+  chatArea.style.backgroundSize = "cover";
+  chatArea.style.backgroundPosition = "center";
+  chatArea.style.backgroundRepeat = "no-repeat";
+}
+
   snapshot.forEach(doc => {
 
     const msg = doc.data();
 
+    document.getElementById("chatPreview").textContent =
+  msg.text;
+
+document.getElementById("chatTime").textContent =
+  new Date(msg.time).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
     const style = userStyles[msg.user];
+
+ 
+    console.log("bubbleColor =", style?.bubbleColor);
+    console.log("fontStyle =", style?.fontStyle);
+    console.log("bubbleStyle =", style?.bubbleStyle);
+    console.log("bubbleDecoration =", style?.bubbleDecoration);
+    console.log("msg.user =", msg.user);
 
     
 
@@ -1234,13 +1267,6 @@ document.getElementById("msgInput").value = "";
 
 
 
-document.getElementById("settingsBtn")
-.addEventListener("click", () => {
-
-  window.location.href =
-  "Setting_v2.html";
-
-});
 
 
 

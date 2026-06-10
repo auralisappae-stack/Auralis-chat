@@ -1968,12 +1968,18 @@ const locationInput =
     console.log("currentUser =", currentUser);
     console.log("bubbleStyle =", bubbleStyleSelect.value);
     console.log("fontStyle =", fontStyleSelect.value);
+    console.log(
+  "selectedBubbleColor =",
+  selectedBubbleColor
+);
 
     // ✅ Save font locally for chat.html
     localStorage.setItem(
       "bubbleFont",
       fontStyleSelect.value
     );
+
+
 
     await setDoc(
       doc(db, "users", currentUser),
