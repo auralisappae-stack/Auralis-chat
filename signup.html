@@ -6,50 +6,36 @@
 <style>
 
 body {
-  margin:0;
-  height:100vh;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  color:white;
+  margin: 0;
+  height: 100vh;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: white;
 
-  background:
-    linear-gradient(rgba(2,6,23,0.75), rgba(2,6,23,0.95)),
-    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
-
+  background-image: url("MainBG.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 /* 🎬 ORBS */
 .orb {
-  position:absolute;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:0.4;
-   pointer-events: none; /* 👈 THIS fixes clicking */
+  filter: blur(140px);
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 .orb1 {
-  width:400px;
-  height:400px;
-  background:#5865f2;
-  top:-100px;
-  left:-100px;
+  background: #8B5CF6;
 }
 
 .orb2 {
-  width:400px;
-  height:400px;
-  background:#7289da;
-  bottom:-100px;
-  right:-100px;
+  background: #FF7EDB;
 }
 
-body {
-  animation: zoom 25s infinite alternate;
-}
+
 
 @keyframes zoom {
   from { background-size: 100%; }
@@ -62,26 +48,31 @@ body {
   padding: 30px;
   border-radius: 20px;
 
-  display: flex;              /* 🔥 add this */
-  flex-direction: column;     /* 🔥 stack items */
-  align-items: center;        /* 🔥 CENTER everything */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   text-align: center;
 
-  background: rgba(15, 17, 25, 0.75);
+  background: rgba(22, 16, 51, 0.88);
+
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
+
+  border: 1px solid rgba(215, 184, 255, 0.15);
 
   box-shadow:
-    0 0 40px rgba(88, 101, 242, 0.15),
-    0 0 80px rgba(88, 101, 242, 0.05);
+    0 0 25px rgba(139, 92, 246, 0.25),
+    0 0 50px rgba(255, 126, 219, 0.12);
 }
 
 #box:hover {
   box-shadow:
-    0 0 60px rgba(88, 101, 242, 0.25),
-    0 0 120px rgba(88, 101, 242, 0.1);
-  transition: 0.3s;
+    0 0 35px rgba(139, 92, 246, 0.4),
+    0 0 70px rgba(255, 126, 219, 0.2);
+
+  border-color: rgba(215, 184, 255, 0.25);
+
+  transition: all 0.3s ease;
 }
 
 /* INPUT */
@@ -94,9 +85,16 @@ body {
   margin:8px 0;
   border:none;
   border-radius:8px;
-  background:#1e1f22;
-  color:white;
-  outline:none;
+ background: #24184A;
+border: 1px solid rgba(215, 184, 255, 0.1);
+color: white;
+}
+
+h2 {
+  color: #D7B8FF;
+
+  text-shadow:
+    0 0 10px rgba(161, 92, 255, 0.4);
 }
 
 .brand-glow {
@@ -120,28 +118,49 @@ padding-right: 20px;
 .password-box input {
   width: 100%;
   padding: 10px;
-  padding-right: 35px; /* space for eye */
-  border: none;
+  padding-right: 35px;
+
+  border: 1px solid rgba(215, 184, 255, 0.1);
   border-radius: 8px;
-  background: #1e1f22;
+
+  background: #24184A;
   color: white;
+
   outline: none;
 }
 
 /* BUTTON */
+
 button {
-  width:100%;
-  padding:10px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  background:#5865f2;
-  color:white;
-  cursor:pointer;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color: white;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+
+  box-shadow:
+    0 0 15px rgba(139, 92, 246, 0.35),
+    0 0 30px rgba(255, 126, 219, 0.15);
 }
 
 button:hover {
-  background:#4752c4;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 25px rgba(139, 92, 246, 0.5),
+    0 0 50px rgba(255, 126, 219, 0.3);
 }
 
 .toggle {

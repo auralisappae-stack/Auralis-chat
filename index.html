@@ -4,46 +4,88 @@
 <title>Auralis</title>
 
 <style>
+
+  :root {
+
+  /* Main */
+  --bg-dark: #0B0620;
+  --bg-card: #161033;
+  --bg-card-hover: #24184A;
+
+  /* Purple */
+  --purple: #8B5CF6;
+  --purple-light: #A15CFF;
+  --purple-glow: #B56CFF;
+
+  /* Pink */
+  --pink: #FF7EDB;
+  --pink-light: #FF9FEA;
+
+  /* Text */
+  --white: #FFFFFF;
+  --text-soft: #D7B8FF;
+  --text-muted: #C5C0E8;
+
+  /* Status */
+  --online: #39D98A;
+
+  /* Main Gradient */
+  --main-gradient:
+    linear-gradient(
+      135deg,
+      #8B5CF6,
+      #FF7EDB
+    );
+}
+
 body {
-  margin:0;
-  height:100vh;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  color:white;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
 
-  background: 
-    linear-gradient(rgba(2,6,23,0.7), rgba(2,6,23,0.9)),
-    url("https://images.unsplash.com/photo-1446776811953-b23d57bd21aa");
+   background-color: var(--bg-dark);
 
+  background-image: url("MainBG.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+
+  font-family: Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 🎬 ORBS */
 .orb {
-  position:absolute;
-  border-radius:50%;
-  filter:blur(120px);
-  opacity:0.4;
+  position: absolute;
+  border-radius: 50%;
+
+  filter: blur(140px);
+  opacity: 0.25;
+
+  pointer-events: none;
 }
 
 .orb1 {
-  width:400px;
-  height:400px;
-  background:#5865f2;
-  top:-100px;
-  left:-100px;
+  width: 400px;
+  height: 400px;
+
+  background: #8B5CF6;
+
+  top: -100px;
+  left: -100px;
 }
 
 .orb2 {
-  width:300px;
-  height:300px;
-  background:#7289da;
-  bottom:-100px;
-  right:-100px;
+  width: 300px;
+  height: 300px;
+
+  background: #FF7EDB;
+
+  bottom: -100px;
+  right: -100px;
 }
 
 /* 💎 MAIN BOX */
@@ -56,46 +98,65 @@ body {
   border-radius: 20px;
   text-align: center;
 
-  background: rgba(15, 17, 25, 0.75); /* darker */
+  background: rgba(22, 16, 51, 0.88);
+
   backdrop-filter: blur(20px);
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(215, 184, 255, 0.15);
 
-  box-shadow: 
-    0 0 40px rgba(88, 101, 242, 0.15),
-    0 0 80px rgba(88, 101, 242, 0.05);
+  box-shadow:
+    0 0 25px rgba(139, 92, 246, 0.25),
+    0 0 50px rgba(255, 126, 219, 0.12);
 }
 
 #box:hover {
-  box-shadow: 
-    0 0 60px rgba(88, 101, 242, 0.25),
-    0 0 120px rgba(88, 101, 242, 0.1);
-  transition: 0.3s;
+  box-shadow:
+    0 0 35px rgba(139, 92, 246, 0.4),
+    0 0 70px rgba(255, 126, 219, 0.2);
+
+  border-color: rgba(215, 184, 255, 0.25);
+
+  transition: all 0.3s ease;
 }
 
 
 button {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
 
-  background: linear-gradient(135deg, #5865f2, #6c7bff);
-  color:white;
-  cursor:pointer;
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color: white;
+  cursor: pointer;
 
   transition: all 0.25s ease;
 
-  box-shadow: 0 0 20px rgba(88, 101, 242, 0.25);
+  box-shadow:
+    0 0 15px rgba(139, 92, 246, 0.35),
+    0 0 30px rgba(255, 126, 219, 0.15);
 }
 
 button:hover {
-  box-shadow: 
-    0 0 40px rgba(88, 101, 242, 0.5),
-    0 0 80px rgba(88, 101, 242, 0.2);
 
   transform: translateY(-2px);
+
+  box-shadow:
+    0 0 25px rgba(139, 92, 246, 0.5),
+    0 0 50px rgba(255, 126, 219, 0.3);
+
+}
+
+h1 {
+  color: #D7B8FF;
+  text-shadow: 0 0 15px rgba(161, 92, 255, 0.4);
 }
 
 </style>
