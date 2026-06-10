@@ -1719,6 +1719,19 @@ document.addEventListener("click", async (e) => {
 });
 
 
+document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("acceptBtn"))
+    return;
+
+  const requestId =
+    e.target.dataset.id;
+
+  alert("Accept clicked");
+
+});
+
+
 
 
 
