@@ -207,7 +207,7 @@ button:hover {
 
   <h2>Welcome Back</h2>
 
-  <input id="username" placeholder="Username">
+  <input id="email" placeholder="Email Address">
 
   <!-- PASSWORD -->
   <div class="password-box">
@@ -228,6 +228,36 @@ button:hover {
   <button class="backBtn" onclick="goBack()">Go Back</button>
 
 </div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
+  authDomain: "auralis-web-app.firebaseapp.com",
+  projectId: "auralis-web-app",
+  storageBucket: "auralis-web-app.firebasestorage.app",
+  messagingSenderId: "817840303664",
+  appId: "1:817840303664:web:cc89d235f2ce1adcb307f5",
+  measurementId: "G-N117VGDYMG"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.auth = auth;
+window.signInWithEmailAndPassword =
+  signInWithEmailAndPassword;
+
+</script> <!-- firebase scriot ending-->
 
 <script>
 
@@ -252,27 +282,28 @@ function togglePassword(id, el) {
 }
 
 /* 🔐 LOGIN FUNCTION */
-function login() {
-  const user = document.getElementById("username").value.trim();
+async function login() {
+  const email = document.getElementById("email").value.trim();
   const pass = document.getElementById("password").value.trim();
   const error = document.getElementById("error");
 
   error.style.display = "none";
 
-  const savedUser = localStorage.getItem("username");
-  const savedPass = localStorage.getItem("password");
+try {
 
-  if (user === "" || pass === "") {
-    error.innerText = "Please enter username and password";
-    error.style.display = "block";
-    return;
-  }
+  await signInWithEmailAndPassword(
+    auth,
+    email,
+    pass
+  );
 
-  if (user !== savedUser || pass !== savedPass) {
-    error.innerText = "Invalid login credentials";
-    error.style.display = "block";
-    return;
-  }
+} catch (err) {
+
+  error.innerText = err.message;
+  error.style.display = "block";
+  return;
+
+}
 
   // ✅ SUCCESS
   error.style.color = "#4CAF50";
@@ -281,10 +312,10 @@ function login() {
 
  setTimeout(() => {
 
-  localStorage.setItem(
-    "username",
-    user
-  );
+  //localStorage.setItem(
+    //"username",
+    //user
+  //);
 
   window.location =
   "chat_v2.html";
