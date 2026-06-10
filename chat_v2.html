@@ -1703,6 +1703,22 @@ document
 });
 
 
+document.addEventListener("click", async (e) => {
+
+  if (!e.target.classList.contains("declineBtn"))
+    return;
+
+  const requestId =
+    e.target.dataset.id;
+
+  await db
+    .collection("friendRequests")
+    .doc(requestId)
+    .delete();
+
+});
+
+
 
 
 
