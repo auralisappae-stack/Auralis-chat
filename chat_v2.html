@@ -1147,6 +1147,8 @@ function loadMessages() {
   window.currentChatUser
 ].sort().join("_");
 
+console.log("CHAT ID =", chatId);
+
 db.collection("chats")
 .doc(chatId)
 .collection("messages")
@@ -1802,6 +1804,9 @@ const chatId = [
   window.currentUsername,
   window.currentChatUser
 ].sort().join("_");
+
+console.log("CHAT ID =", chatId);
+
 
 
 db.collection("chats")
