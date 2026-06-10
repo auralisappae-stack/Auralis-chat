@@ -1285,6 +1285,11 @@ requestsList.innerHTML += `
     console.log("Username:", window.currentUsername);
 console.log("Current Chat User:", window.currentChatUser);
 
+if (!window.currentChatUser) {
+  console.log("No chat selected yet");
+  return;
+}
+
   const chatId = [
   window.currentUsername,
   window.currentChatUser
