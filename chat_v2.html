@@ -801,6 +801,13 @@ box-shadow:
   background: #25283a;
 }
 
+.acceptBtn,
+.declineBtn {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1739,7 +1746,7 @@ console.log("Accepting:", request);
 
 await db
   .collection("users")
-  .doc(user.uid)
+ .doc(auth.currentUser.uid)
   .collection("friends")
   .add({
     username: request.from
