@@ -337,6 +337,9 @@ try {
 
 } catch (err) {
 
+  console.log("CODE:", err.code);
+  console.log("MESSAGE:", err.message);
+
   console.error(err);
 
   if (err.code === "auth/email-already-in-use") {
@@ -368,6 +371,11 @@ try {
   error.innerText = "";
 
   // 🏠 CREATE DEFAULT SERVER
+
+  const server = {
+  name: user + "'s Server",
+  icon: user.charAt(0).toUpperCase()
+};
 
 localStorage.setItem("server", JSON.stringify(server));
 
@@ -415,11 +423,6 @@ localStorage.setItem("server", JSON.stringify(server));
   
 try {
 
-
-  const server = {
-  name: user + "'s Server",
-  icon: user.charAt(0).toUpperCase()
-};
 
 
 
