@@ -752,6 +752,55 @@ box-shadow:
   margin-bottom: 12px;
 }
 
+.requestItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.requestAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #6b4cff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.requestInfo {
+  flex: 1;
+}
+
+.requestName {
+  font-weight: bold;
+}
+
+.requestText {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.acceptBtn,
+.declineBtn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.acceptBtn {
+  background: #6b4cff;
+}
+
+.declineBtn {
+  background: #25283a;
+}
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1149,11 +1198,21 @@ snapshot.forEach(doc => {
 
    console.log("Request from:", request.from);
 
-  requestsList.innerHTML += `
-    <div>
-      ${request.from}
+requestsList.innerHTML += `
+  <div class="requestItem">
+    <div class="requestAvatar">
+      ${request.from[0].toUpperCase()}
     </div>
-  `;
+
+    <div class="requestInfo">
+      <div class="requestName">${request.from}</div>
+      <div class="requestText">wants to be your friend</div>
+    </div>
+
+    <button class="acceptBtn">✓</button>
+    <button class="declineBtn">×</button>
+  </div>
+`;
 
 });
 
