@@ -1460,9 +1460,9 @@ backdrop-filter:blur(10px);
     All
   </button>
 
-  <button class="filter-btn">
-    DMs
-  </button>
+  <button class="filter-btn" id="dmsBtn">
+  DMs
+ </button>
 
   <button class="filter-btn">
     Groups
@@ -1480,7 +1480,7 @@ backdrop-filter:blur(10px);
 
  <div class="chat-list" id="chatList">
 
-  <div class="chat-item active">
+  <div class="chat-item active" data-type="dm">
 
     <div class="chat-avatar">L</div>
 
@@ -1720,12 +1720,14 @@ friendDiv.addEventListener("click", () => {
   const chatList =
   document.getElementById("chatList");
 
- chatList.innerHTML += `
+chatList.innerHTML += `
   <div
     class="chat-item"
     data-user="${friend.username}"
+    data-type="dm"
     onclick="openChat('${friend.username}')"
   >
+
 
       <div class="chat-avatar">
         ${friend.username[0].toUpperCase()}
@@ -2411,9 +2413,24 @@ await db
 
 });
 
+const dmsBtn = document.getElementById("dmsBtn");
 
 
+dmsBtn.addEventListener("click", () => {
 
+  const chats = document.querySelectorAll(".chat-item");
+
+  chats.forEach(chat => {
+
+    if (chat.dataset.type === "dm") {
+      chat.style.display = "flex";
+    } else {
+      chat.style.display = "none";
+    }
+
+  });
+
+});//end of the clicked listener
 
 
 document.getElementById("sendBtn")
