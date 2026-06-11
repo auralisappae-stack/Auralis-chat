@@ -1464,9 +1464,9 @@ backdrop-filter:blur(10px);
   DMs
 </button>
 
-  <button class="filter-btn">
-    Groups
-  </button>
+  <button class="filter-btn" id="groupsBtn">
+  Groups
+</button>
 
   <button class="filter-btn">
     Unread
@@ -1478,33 +1478,42 @@ backdrop-filter:blur(10px);
 
 
 
- <div class="chat-list" id="chatList">
+<div class="chat-list" id="chatList">
 
+  <!-- Lilith DM -->
   <div class="chat-item active" data-type="dm">
 
     <div class="chat-avatar">L</div>
 
     <div class="chat-info">
-
-    
-      <div class="chat-name"> Lilith </div>
-
+      <div class="chat-name">Lilith</div>
       <div class="chat-preview" id="chatPreview">
-  No messages yet
-</div>
-
+        No messages yet
+      </div>
     </div>
 
     <div class="chat-meta">
-
       <div class="chat-time" id="chatTime">--</div>
       <div class="badge">3</div>
+    </div>
 
-    
-    </div> <!-- chat-meta -->
-</div> <!-- chat-item -->
+  </div>
 
-</div> <!-- chat-list -->
+  <!-- Test Group -->
+  <div class="chat-item" data-type="group">
+
+    <div class="chat-avatar">G</div>
+
+    <div class="chat-info">
+      <div class="chat-name">Test Group</div>
+      <div class="chat-preview">Group chat</div>
+    </div>
+
+  </div>
+
+</div>
+
+
 
 
    <button id="newChatBtn">
@@ -2090,11 +2099,12 @@ requestsList.innerHTML += `
       const chat = doc.data();
 
       chatList.innerHTML += `
-        <div
-          class="chat-item"
-          data-user="${chat.username}"
-          onclick="openChat('${chat.username}')"
-        >
+  <div
+    class="chat-item"
+    data-user="${chat.username}"
+    data-type="dm"
+    onclick="openChat('${chat.username}')"
+  >
           <div class="chat-avatar">
             ${chat.username[0].toUpperCase()}
           </div>
@@ -2112,6 +2122,20 @@ requestsList.innerHTML += `
       `;
       
     });
+
+
+    chatList.innerHTML += `
+  <div class="chat-item" data-type="group">
+
+    <div class="chat-avatar">G</div>
+
+    <div class="chat-info">
+      <div class="chat-name">Test Group</div>
+      <div class="chat-preview">Group chat</div>
+    </div>
+
+  </div>
+`;
     
   
   });
@@ -2426,7 +2450,30 @@ filterBtns.forEach(btn => {
     btn.classList.add("active");
 
   });
-});
+});//end of the filterbtns
+
+
+
+const groupsBtn = document.getElementById("groupsBtn");
+
+
+groupsBtn.addEventListener("click", () => {
+
+  const chats = document.querySelectorAll(".chat-item");
+
+  chats.forEach(chat => {
+
+    console.log("Type =", chat.dataset.type);
+
+    if (chat.dataset.type === "group") {
+      chat.style.display = "flex";
+    } else {
+      chat.style.display = "none";
+    }
+
+  });
+
+});  //end of the group btn listener
 
 
 const allBtn = document.getElementById("allBtn");
