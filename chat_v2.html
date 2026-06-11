@@ -1456,13 +1456,13 @@ backdrop-filter:blur(10px);
 
     <div class="chat-filters">
 
-  <button class="filter-btn active">
-    All
-  </button>
+  <button class="filter-btn active" id="allBtn">
+  All
+</button>
 
-  <button class="filter-btn" id="dmsBtn">
+ <button class="filter-btn" id="dmsBtn">
   DMs
- </button>
+</button>
 
   <button class="filter-btn">
     Groups
@@ -2413,21 +2413,43 @@ await db
 
 });
 
-const dmsBtn = document.getElementById("dmsBtn");
 
+const filterBtns = document.querySelectorAll(".filter-btn");
+
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    filterBtns.forEach(b => {
+      b.classList.remove("active");
+    });
+
+    btn.classList.add("active");
+
+  });
+});
+
+
+const allBtn = document.getElementById("allBtn");
+
+allBtn.addEventListener("click", () => {
+  const chats = document.querySelectorAll(".chat-item");
+
+  chats.forEach(chat => {
+    chat.style.display = "flex";
+  });
+});
+
+
+const dmsBtn = document.getElementById("dmsBtn");
 
 dmsBtn.addEventListener("click", () => {
 
   const chats = document.querySelectorAll(".chat-item");
 
+  console.log("Total chats:", chats.length);
+
   chats.forEach(chat => {
-
-    if (chat.dataset.type === "dm") {
-      chat.style.display = "flex";
-    } else {
-      chat.style.display = "none";
-    }
-
+    console.log(chat.dataset.type);
   });
 
 });//end of the clicked listener
