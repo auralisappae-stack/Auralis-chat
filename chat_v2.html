@@ -1132,7 +1132,6 @@ friendDiv.addEventListener("click", () => {
 });
 
 
-console.log("OPEN CHAT ID =", chatId);
 
 
 function loadMessages() {
@@ -1359,9 +1358,16 @@ function openChat(username) {
   document.getElementById("headerName").textContent =
     username;
 
-    console.log("typeof loadMessages =", typeof loadMessages);
+   console.log("typeof loadMessages =", typeof loadMessages);
 
-    loadMessages();
+const chatId = [
+  window.currentUsername,
+  username
+].sort().join("_");
+
+console.log("OPEN CHAT ID =", chatId);
+
+loadMessages();
 
   document
     .querySelectorAll(".chat-item")
