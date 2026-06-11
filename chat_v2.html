@@ -301,37 +301,22 @@ body{
   border-top:1px solid rgba(215,184,255,.10);
 }
 
- .new-chat-btn{
-  margin:12px;
-  padding:12px;
 
-  background:linear-gradient(
-    135deg,
-    #8B5CF6,
-    #FF7EDB
-  );
-
-  border:none;
-
-  border-radius:14px;
-
-  color:#FFFFFF;
-
-  font-size:14px;
-  font-weight:600;
-
-  cursor:pointer;
-
+.chat-actions{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-
-  transition:.25s;
-
-  box-shadow:
-    0 0 18px rgba(139,92,246,.25);
+  flex-direction:row;
+  gap:16px;
 }
+
+
+.new-chat-btn,
+.create-group-btn{
+  width:170px;
+  height:56px;
+  border-radius:16px;
+}
+
+
 
 .new-chat-btn:hover{
   transform:translateY(-1px);
@@ -716,18 +701,6 @@ backdrop-filter:blur(10px);
 }
 
 /*new chat button CSS */
-#newChatBtn{
-  margin:12px;
-  height:50px;
-  width:calc(100% - 24px);
-  padding:14px;
-  border-radius:14px;
-  border:1px solid #5865f2;
-  background:transparent;
-  color:#5865f2;
-  cursor:pointer;
-  font-size:16px;
-}
 
  .sidebar {
     width: 320px;
@@ -1380,10 +1353,10 @@ backdrop-filter:blur(10px);
 
 /* chat filter CSS*/
 .chat-filters{
-  display:flex;
-  gap:8px;
-
-  width:100%;
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  flex-wrap: wrap;
 }
 
 .filter-btn{
@@ -1424,6 +1397,388 @@ backdrop-filter:blur(10px);
     0 0 12px rgba(139,92,246,.25);
 }
 
+
+.new-chat-btn {
+  background: rgba(22,16,51,.85);
+  border: 1px solid rgba(139,92,246,.35);
+
+  color: #D7B8FF;
+
+  border-radius: 16px;
+  padding: 14px 24px;
+
+  font-weight: 600;
+  font-size: 15px;
+
+  transition: .25s ease;
+}
+
+.new-chat-btn:hover {
+  background: rgba(36,24,74,.95);
+  border-color: #8B5CF6;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 15px rgba(139,92,246,.25);
+}
+.create-group-btn {
+  background: linear-gradient(
+    135deg,
+    #8B5CF6,
+    #A15CFF,
+    #FF7EDB
+  );
+
+  border: none;
+
+  color: white;
+
+  border-radius: 16px;
+  padding: 0 18px;
+
+  font-weight: 700;
+  font-size: 15px;
+
+  box-shadow:
+    0 0 20px rgba(255,126,219,.25);
+
+  transition: .25s ease;
+}
+
+.create-group-btn:hover {
+  transform:
+    translateY(-2px)
+    scale(1.02);
+
+  box-shadow:
+    0 0 25px rgba(181,108,255,.45),
+    0 0 40px rgba(255,126,219,.25);
+}
+
+
+/*  CSS of the group btn page */
+
+.group-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;
+}
+
+.group-modal-content{
+  width:600px;
+  max-width:90%;
+  max-height:85vh;
+
+  overflow-y:auto;
+
+  background:#130b2d;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+
+  padding:30px;
+  color:white;
+}
+
+.group-modal-content::-webkit-scrollbar{
+  width:0;
+  display:none;
+}
+
+.close-modal-btn{
+  float:right;
+  background:none;
+  border:none;
+  color:white;
+  font-size:22px;
+  cursor:pointer;
+}
+
+#closeGroupModal{
+  background:none;
+  border:none;
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+  float:right;
+}
+
+#groupNameInput{
+  width:calc(100% - 260px);
+  padding:14px;
+  margin-top:20px;
+  margin-bottom:22px;
+
+
+  border:none;
+  border-radius:12px;
+
+  background:#24194b;
+  color:white;
+}
+
+/*  add group modal CSS*/
+.group-modal-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.group-icon{
+  width:48px;
+  height:48px;
+
+  border-radius:50%;
+
+  background:linear-gradient(
+    135deg,
+    #7B3FF2,
+    #B44BFF
+  );
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+}
+
+.group-modal-header h2{
+  margin:0;
+  color:white;
+  font-size:22px;
+}
+
+.group-modal-header p{
+  margin:4px 0 0;
+  color:#A8A8C0;
+  font-size:14px;
+}
+
+#closeGroupModal{
+  margin-left:auto;
+
+  background:none;
+  border:none;
+
+  color:#A8A8C0;
+  font-size:24px;
+
+  cursor:pointer;
+}
+
+/* group info section CSS */
+
+.group-info-section input,
+#memberSearchInput{
+  box-sizing:border-box;
+  width:100%;
+  height:52px;
+}
+
+.group-info-section h3{
+  margin-bottom:20px;
+  color:white;
+  box-sizing:border-box;
+
+}
+
+.group-info-section label{
+  display:block;
+  margin-bottom:8px;
+  color:#C9C9E8;
+  font-size:14px;
+}
+
+#groupNameInput{
+  width:100%;
+  height:48px;
+
+  padding:0 14px;
+
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:12px;
+
+  color:white;
+  outline:none;
+}
+
+#groupNameInput::placeholder{
+  color:#7F7F9E;
+}
+
+#groupDescriptionInput{
+  width:100%;
+  height:100px;
+
+  padding:16px;
+  margin-top:8px;
+
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:12px;
+
+  color:white;
+  resize:none;
+  outline:none;
+  flex:1;
+}
+
+#groupDescriptionInput::placeholder{
+  color:#7F7F9E;
+}
+
+.group-description-row{
+  display:flex;
+  gap:28px;
+  align-items:flex-start;
+}
+
+
+
+.upload-group-photo{
+  width:120px;
+  height:120px;
+
+  border-radius:50%;
+
+  border:2px dashed rgba(180,75,255,0.4);
+  flex-shrink:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position: relative;
+  top:40px;
+
+  background:rgba(255,255,255,0.02);
+
+  flex-shrink:0;
+  cursor:pointer;
+}
+
+.upload-group-photo span{
+  margin-top:8px;
+  font-size:12px;
+  text-align:center;
+}
+
+.group-actions{
+  margin-top:24px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+#createGroupSubmitBtn{
+  background:linear-gradient(135deg,#7B3FF2,#B44BFF);
+  color:white;
+  border:none;
+  border-radius:12px;
+
+  padding:12px 24px;
+
+  font-weight:600;
+  cursor:pointer;
+}
+
+.add-members-section{
+  margin-top:24px;
+}
+
+.add-members-section h3{
+  color:white;
+  margin-bottom:12px;
+}
+
+#memberSearchInput{
+  width:100%;
+  height:44px;
+  padding:0 16px;
+  box-sizing:border-box;
+
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03);
+  color:white;
+  outline:none;
+}
+
+
+#membersList{
+  margin-top:12px;
+
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+
+  max-height:250px;
+  overflow-y:auto;
+
+  padding:8px;
+}
+
+
+
+
+#membersList::-webkit-scrollbar{
+  width:8px;
+}
+
+#membersList::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+#membersList::-webkit-scrollbar-thumb{
+  background:#8B5CF6;
+  border-radius:999px;
+}
+
+#membersList::-webkit-scrollbar-thumb:hover{
+  background:#A15CFF;
+}
+
+
+.group-name-row{
+  display:flex;
+  gap:28px;
+  align-items:center;
+}
+
+.group-name-input{
+  flex:1;
+}
+
+.member-item{
+  padding:12px 14px;
+  border-radius:10px;
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.member-item:hover{
+  background:#24184A;
+}
+
+.member-item.selected{
+  background:#8B5CF6;
+  color:white;
+  border-radius:10px;
+}
+
+
 </style>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -1454,7 +1809,22 @@ backdrop-filter:blur(10px);
       >
     </div>
 
-    <div class="chat-filters">
+      <!-- Action Buttons -->
+  <div class="chat-actions">
+
+    <button id="new-chat-btn" class="new-chat-btn">
+      + New Chat
+    </button>
+
+    <button id="createGroupBtn" class="action-btn create-group-btn">
+      👥 Create Group
+    </button>
+  </div>
+
+
+  </div>
+
+     <div class="chat-filters">
 
   <button class="filter-btn active" id="allBtn">
   All
@@ -1473,8 +1843,6 @@ backdrop-filter:blur(10px);
   </button>
 
 </div>
-
-  </div>
 
 
 
@@ -1513,12 +1881,6 @@ backdrop-filter:blur(10px);
 
 </div>
 
-
-
-
-   <button id="newChatBtn">
-  + New Chat
-</button>
 
  <div id="sidebarBottom">
 
@@ -2029,6 +2391,8 @@ const messagesDiv =
 document.getElementById("messages");
 
 let userStyles = {};
+let selectedMembers = [];
+window.selectedMembers = selectedMembers;
 
 auth.onAuthStateChanged(async user => {
 
@@ -2137,8 +2501,39 @@ requestsList.innerHTML += `
   </div>
 `;
     
-  
+
   });
+
+  db.collection("groups")
+.onSnapshot(groupSnapshot => {
+
+  groupSnapshot.forEach(groupDoc => {
+
+    const group = groupDoc.data();
+
+    if (!group.members.includes(window.currentUsername))
+      return;
+
+    chatList.innerHTML += `
+      <div class="chat-item" data-type="group">
+
+        <div class="chat-avatar">👥</div>
+
+        <div class="chat-info">
+          <div class="chat-name">
+            ${group.name}
+          </div>
+
+          <div class="chat-preview">
+            ${group.members.length} members
+          </div>
+        </div>
+
+      </div>
+    `;
+  });
+
+});
 
 
 
@@ -2285,14 +2680,89 @@ document.getElementById("userAvatar")
 
 
 db.collection("users")
-
 .onSnapshot(snapshot => {
+
+  console.log("Docs found:", snapshot.size);
+
+  console.log("USERS SNAPSHOT FIRED");
+
+
+  const membersList =
+    document.getElementById("membersList");
+
+  membersList.innerHTML = "";
 
   snapshot.forEach(doc => {
 
+    const user = doc.data();
+console.log("USERNAME =", user.username);
+    if (!user.username) return;
+
+
     userStyles[doc.id] = doc.data();
 
+    const memberItem =
+      document.createElement("div");
+
+    memberItem.className =
+      "member-item";
+
+    memberItem.dataset.user =
+      user.username || doc.id;
+
+    memberItem.textContent =
+      user.username || doc.id;
+
+   memberItem.addEventListener("click", () => {
+
+  const username = memberItem.dataset.user;
+
+if (!selectedMembers.includes(username)) {
+  selectedMembers.push(username);
+} else {
+  selectedMembers = selectedMembers.filter(
+    user => user !== username
+  );
+}
+  memberItem.classList.toggle("selected");
+
+  document.getElementById("selectedCount").textContent =
+    `${selectedMembers.length} members selected`;
+
+  console.log(selectedMembers);
+
+});
+
+membersList.appendChild(memberItem);
+
   });
+
+  /* create group btn makes it work */
+document.getElementById("createGroupSubmitBtn")
+.addEventListener("click", async () => {
+
+  const groupName =
+    document.getElementById("groupNameInput").value.trim();
+
+  if (!groupName) {
+    alert("Enter a group name");
+    return;
+  }
+
+await db.collection("groups").add({
+  name: groupName,
+  members: [...selectedMembers, window.currentUsername],
+  createdBy: window.currentUsername,
+  createdAt: Date.now()
+});
+
+console.log("GROUP SAVED");
+
+  alert("Group created!");
+
+});
+
+
 
 
  const currentStyle =
@@ -2484,7 +2954,8 @@ allBtn.addEventListener("click", () => {
   chats.forEach(chat => {
     chat.style.display = "flex";
   });
-});
+});//end of the allbtn listener
+
 
 
 const dmsBtn = document.getElementById("dmsBtn");
@@ -2540,17 +3011,193 @@ db.collection("chats")
 
 document.getElementById("msgInput").value = "";
 
+});// end of the listener
+
+setTimeout(() => {
+
+  const closeGroupModal =
+    document.getElementById("closeGroupModal");
+
+  console.log(closeGroupModal);
+
+  closeGroupModal.addEventListener("click", () => {
+
+    createGroupModal.style.display = "none";
+
+  });
+
+}, 100);
+
+const createGroupBtn =
+  document.getElementById("createGroupBtn");
+
+
+
+createGroupBtn.addEventListener("click", () => {
+
+  console.log("Create Group clicked");
+
+  
+
+  createGroupModal.style.display = "flex";
+
+}); // end of the create group btn 
+
+
+setTimeout(() => {
+
+  const uploadGroupPhoto =
+    document.querySelector(".upload-group-photo");
+
+  const groupPhotoInput =
+    document.getElementById("groupPhotoInput");
+
+  console.log(uploadGroupPhoto);
+  console.log(groupPhotoInput);
+
+  uploadGroupPhoto.addEventListener("click", () => {
+
+    groupPhotoInput.click();
+
+   groupPhotoInput.addEventListener("change", () => {
+
+  const file = groupPhotoInput.files[0];
+
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+
+    uploadGroupPhoto.innerHTML = `
+    <img
+    src="${e.target.result}"
+    style="
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
+    "
+  >
+`;
+
+  };
+
+  reader.readAsDataURL(file);
+
 });
 
+  });
+
+}, 100);//end of the uploadgroup phtoto listener
 
 
+setTimeout(() => {
 
+  const membersList =
+    document.getElementById("membersList");
 
+  console.log(membersList);
 
-
-
+}, 100);
 
 </script> <!-- end of the firebase script-->
+
+
+<div id="createGroupModal" class="group-modal">
+
+<div class="group-modal-content">
+
+
+<div class="group-modal-header">
+
+  <div class="group-icon">👥</div>
+
+  <div>
+    <h2>Create a Group</h2>
+
+    <p>Add people and create a group chat</p>
+  </div>
+  
+
+  <button id="closeGroupModal">×</button>
+
+</div>
+
+<div class="group-info-section">
+
+  <h3>1. Group Info</h3>
+
+<div class="group-name-row">
+
+  <div class="group-name-input">
+
+    
+
+    <label>Group Name</label>
+
+    <input
+      type="text"
+      id="groupNameInput"
+      placeholder="e.g. Study Buddies"
+    >
+
+    <label>Group Description (Optional)</label>
+
+<div class="group-description-row">
+
+  <textarea
+    id="groupDescriptionInput"
+    placeholder="What is this group about?"
+  ></textarea>
+
+</div>
+
+  </div>
+
+  <div class="upload-group-photo">
+    📷
+    <span>Upload Group Photo</span>
+
+    <input
+      type="file"
+      id="groupPhotoInput"
+      accept="image/*"
+      hidden
+    >
+  </div>
+
+</div>
+
+
+
+</div><!-- group-info-section -->
+<div class="add-members-section">
+  <h3>2. Add Members</h3>
+
+  <input
+    id="memberSearchInput"
+    placeholder="Search users..."
+  >
+
+  <div id="selectedCount">
+  0 members selected
+</div>
+
+<div id="membersList">
+
+
+</div>
+
+<div class="group-actions">
+
+  <button id="createGroupSubmitBtn">
+    Create Group
+  </button>
+
+</div>
+
+</div> <!-- end of the add group modal head-->
 
 </body>
 </html>
