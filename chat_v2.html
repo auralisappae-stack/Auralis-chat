@@ -2441,6 +2441,8 @@ document.getElementById("messages");
 
 let userStyles = {};
 let selectedMembers = [];
+let selectedGroupPhoto = "";
+
 window.selectedMembers = selectedMembers;
 
 auth.onAuthStateChanged(async user => {
@@ -2577,7 +2579,13 @@ console.log("GROUP FOUND:", group);
     onclick="openGroup('${groupDoc.id}')"
   >
 
-    <div class="chat-avatar">👥</div>
+    <div class="chat-avatar">
+  ${
+    group.photoURL
+      ? `<img src="${group.photoURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+      : "👥"
+  }
+</div>
 
     <div class="chat-info">
       <div class="chat-name">
@@ -2809,19 +2817,25 @@ document.getElementById("createGroupSubmitBtn")
     return;
   }
 
-await db.collection("groups").add({
+const groupRef = await db.collection("groups").add({
   name: groupName,
-  members: [...selectedMembers, window.currentUsername],
+  members: [...new Set([
+  ...selectedMembers,
+  window.currentUsername
+])],
   createdBy: window.currentUsername,
   createdAt: Date.now(),
-  type: "group"
+  type: "group",
+  photoURL: selectedGroupPhoto || ""
 });
+
+console.log("GROUP ID =", groupRef.id);
 
 console.log("GROUP SAVED");
 
   alert("Group created!");
 
-});
+});  // end of the group creation listener
 
 
 
@@ -3140,6 +3154,9 @@ setTimeout(() => {
   const reader = new FileReader();
 
   reader.onload = (e) => {
+
+selectedGroupPhoto = e.target.result;
+
 
     uploadGroupPhoto.innerHTML = `
     <img
