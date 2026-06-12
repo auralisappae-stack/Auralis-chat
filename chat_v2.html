@@ -1463,31 +1463,41 @@ backdrop-filter:blur(10px);
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.7);
+
+  background:rgba(0,0,0,0.55);
 
   justify-content:center;
   align-items:center;
 
   z-index:9999;
 }
-
 .group-modal-content{
-  width:600px;
-  max-width:90%;
+  width:620px;
+  max-width:90vw;
   max-height:85vh;
 
   overflow-y:auto;
 
-  background:#130b2d;
-  border:1px solid rgba(255,255,255,0.08);
+  background:linear-gradient(
+    180deg,
+    #171033,
+    #100a24
+  );
+
+  border:1px solid rgba(139,92,246,.35);
   border-radius:24px;
 
-  padding:30px;
+  padding:28px;
   color:white;
+
+  box-shadow:
+    0 0 40px rgba(139,92,246,.25),
+    0 20px 70px rgba(0,0,0,.55);
+
+  scrollbar-width:none;
 }
 
 .group-modal-content::-webkit-scrollbar{
-  width:0;
   display:none;
 }
 
@@ -1649,8 +1659,8 @@ backdrop-filter:blur(10px);
 
 
 .upload-group-photo{
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
 
   border-radius:50%;
 
@@ -1662,7 +1672,6 @@ backdrop-filter:blur(10px);
   align-items:center;
   justify-content:center;
   position: relative;
-  top:40px;
 
   background:rgba(255,255,255,0.02);
 
@@ -1764,6 +1773,8 @@ backdrop-filter:blur(10px);
   padding:12px 14px;
   border-radius:10px;
   cursor:pointer;
+  margin-bottom:8px;
+
 
   transition:.2s;
 }
@@ -1773,10 +1784,29 @@ backdrop-filter:blur(10px);
 }
 
 .member-item.selected{
-  background:#8B5CF6;
-  color:white;
+  background:#24184A;
+  border:1px solid #8B5CF6;
+
+  color:#FF7EDB;
+
+  box-shadow:
+    0 0 15px rgba(139,92,246,.35);
+
   border-radius:10px;
 }
+
+#selectedCount{
+  margin-top:10px;
+
+  color:#B56CFF;
+  font-size:13px;
+  font-weight:500;
+
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
 
 
 </style>
@@ -3180,11 +3210,12 @@ setTimeout(() => {
     placeholder="Search users..."
   >
 
-  <div id="selectedCount">
+
+
+<div id="membersList"> </div>
+    <div id="selectedCount">
   0 members selected
 </div>
-
-<div id="membersList">
 
 
 </div>
