@@ -2105,8 +2105,12 @@ friendDiv.addEventListener("click", () => {
     .collection("chats")
     .doc(friend.username)
     .set({
-      username: friend.username
+      username: friend.username,
+      type: "dm"
     });
+
+    console.log("CHAT DATA:", chat);
+console.log("CHAT TYPE:", chat.type);
 
   document.getElementById("headerName").textContent =
     friend.username;
@@ -2176,6 +2180,8 @@ function loadMessages() {
 ].sort().join("_");
 
 console.log("CHAT ID =", chatId);
+
+
 
 db.collection("chats")
 .doc(chatId)
@@ -2413,6 +2419,19 @@ loadMessages();
 
 }
 
+function openGroup(groupId){
+
+  console.log("Opened group:", groupId);
+
+  window.currentGroupId = groupId;
+
+  console.log(
+    "Current Group ID:",
+    window.currentGroupId
+  );
+
+}
+
 console.log("Auth object:", auth);
 console.log("Current user:", auth.currentUser);
 
@@ -2492,6 +2511,12 @@ requestsList.innerHTML += `
 
       const chat = doc.data();
 
+        console.log("CHAT DATA:", chat);
+        console.log("CHAT TYPE:", chat.type);
+
+  if (chat.type !== "dm") return;
+
+
       chatList.innerHTML += `
   <div
     class="chat-item"
@@ -2540,27 +2565,32 @@ requestsList.innerHTML += `
   groupSnapshot.forEach(groupDoc => {
 
     const group = groupDoc.data();
+console.log("GROUP FOUND:", group);
 
     if (!group.members.includes(window.currentUsername))
       return;
 
-    chatList.innerHTML += `
-      <div class="chat-item" data-type="group">
+   chatList.innerHTML += `
+  <div
+    class="chat-item"
+    data-type="group"
+    onclick="openGroup('${groupDoc.id}')"
+  >
 
-        <div class="chat-avatar">👥</div>
+    <div class="chat-avatar">👥</div>
 
-        <div class="chat-info">
-          <div class="chat-name">
-            ${group.name}
-          </div>
-
-          <div class="chat-preview">
-            ${group.members.length} members
-          </div>
-        </div>
-
+    <div class="chat-info">
+      <div class="chat-name">
+        ${group.name}
       </div>
-    `;
+
+      <div class="chat-preview">
+        ${group.members.length} members
+      </div>
+    </div>
+
+  </div>
+`;
   });
 
 });
@@ -2783,7 +2813,8 @@ await db.collection("groups").add({
   name: groupName,
   members: [...selectedMembers, window.currentUsername],
   createdBy: window.currentUsername,
-  createdAt: Date.now()
+  createdAt: Date.now(),
+  type: "group"
 });
 
 console.log("GROUP SAVED");
@@ -2994,10 +3025,12 @@ dmsBtn.addEventListener("click", () => {
 
   const chats = document.querySelectorAll(".chat-item");
 
-  console.log("Total chats:", chats.length);
-
   chats.forEach(chat => {
-    console.log(chat.dataset.type);
+    if (chat.dataset.type === "dm") {
+      chat.style.display = "flex";
+    } else {
+      chat.style.display = "none";
+    }
   });
 
 });//end of the clicked listener
@@ -3009,35 +3042,44 @@ document.getElementById("sendBtn")
   const text =
 document.getElementById("msgInput").value;
 
-console.log("Saving to UID:", auth.currentUser.uid);
-
-
-console.log("My username:", window.currentUsername);
-console.log("Chat user:", window.currentChatUser);
-
-const chatId = [
-  window.currentUsername,
-  window.currentChatUser
-].sort().join("_");
+console.log("currentChatUser =", window.currentChatUser);
+console.log("currentGroupId =", window.currentGroupId);
 
 
 
-db.collection("chats")
-.doc(chatId)
-.collection("messages")
 
-.add({
+if(window.currentGroupId){
 
-  user: window.currentUsername,
-  chatUser: window.currentChatUser,
-  text: text,
-  time: Date.now()
+  db.collection("groups")
+    .doc(window.currentGroupId)
+    .collection("messages")
+    .add({
+      user: window.currentUsername,
+      text: text,
+      time: Date.now()
+    });
 
-})
+} else {
 
-.then(() => {
-  console.log("Message saved!");
-});
+    const chatId = [
+    window.currentUsername,
+    window.currentChatUser
+  ].sort().join("_");
+
+  db.collection("chats")
+    .doc(chatId)
+    .collection("messages")
+    .add({
+      user: window.currentUsername,
+      chatUser: window.currentChatUser,
+      text: text,
+      time: Date.now()
+    });
+
+}
+
+
+
 
 document.getElementById("msgInput").value = "";
 
