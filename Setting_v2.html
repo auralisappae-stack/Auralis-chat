@@ -1700,6 +1700,67 @@ body.lightTheme .previewInputBar input::placeholder{
   margin-bottom: 32px;
 }
 
+/* reset buttonf or the apperance chat  */
+
+.appearance-actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:20px;
+}
+
+#saveAppearanceBtn{
+  height:52px;
+  border:none;
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+
+  box-shadow:
+    0 0 20px rgba(139,92,246,.25);
+
+  transition:.25s;
+}
+
+#saveAppearanceBtn:hover{
+  transform:translateY(-2px);
+}
+
+#resetAppearanceBtn{
+  height:52px;
+  width:100%;
+  margin-top:14px;
+
+  border-radius:14px;
+
+  background:#24184A;
+
+  border:1px solid rgba(215,184,255,.12);
+
+  color:#D7B8FF;
+
+  font-weight:600;
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+#resetAppearanceBtn:hover{
+  background:#161033;
+
+  border-color:#FF7EDB;
+
+  color:white;
+}
+
 
   </style>
 </head>
@@ -2427,6 +2488,10 @@ body.lightTheme .previewInputBar input::placeholder{
   Save Changes
 </button>
 
+<button id="resetAppearanceBtn">
+    Reset Appearance
+  </button>
+
 </div>
 
 </aside>
@@ -2634,6 +2699,82 @@ avatarInput.addEventListener("change", async (e) => {
   
 
 });
+
+const resetBtn = document.getElementById("resetAppearanceBtn");
+console.log("Reset button:", resetBtn);
+
+// reset button listener starts here 
+document.getElementById("resetAppearanceBtn")
+.addEventListener("click", async () => {
+
+document.getElementById("fontStyleSelect").value = "arial";
+document.getElementById("fontStyleSelect")
+  .dispatchEvent(new Event("change"));
+
+document.getElementById("bubbleStyleSelect").value = "rounded";
+document.getElementById("bubbleStyleSelect")
+  .dispatchEvent(new Event("change"));
+
+document.getElementById("bubbleOutlineSelect").value = "solid";
+document.getElementById("bubbleOutlineSelect")
+  .dispatchEvent(new Event("change"));
+
+document.getElementById("bubbleOpacitySelect").value = "100";
+document.getElementById("bubbleOpacitySelect")
+  .dispatchEvent(new Event("change"));
+
+  
+
+document.querySelectorAll(".colorBtn").forEach(btn => {
+  btn.classList.remove("active");
+});
+document.querySelector('[data-color="purple"]')?.classList.add("active");
+
+document.querySelectorAll(".decorBtn").forEach(btn => {
+  btn.classList.remove("active");
+});
+document.querySelector('[data-decor="none"]')?.classList.add("active");
+
+document
+  .querySelector('[data-color="purple"]')
+  ?.click();
+
+  document
+  .querySelector('[data-decor="none"]')
+  ?.click();
+
+  document.querySelector(".previewCard")
+  .style.backgroundImage = "";
+  
+  
+
+document
+  .querySelector('[data-decor="none"]')
+  ?.classList.add("active");
+
+
+    await db
+    .collection("users")
+    .doc(auth.currentUser.uid)
+    .update({
+      bubbleColor: "purple",
+      fontStyle: "arial",
+      bubbleStyle: "rounded",
+      bubbleDecoration: "none",
+      bubbleOpacity: 100,
+      bubbleOutline: "solid",
+      chatBackground: "",
+      status: "online"
+    });
+
+  alert("Appearance reset!");
+});
+
+console.log("selectedBubbleColor:", selectedBubbleColor);
+console.log("selectedDecoration:", selectedDecoration);
+
+
+// reset btn listener ends here 
 
 
 
@@ -3090,6 +3231,8 @@ uploadBytes(storageRef, file)
 
 previewCard.style.backgroundImage =
   `url(${downloadURL})`;
+
+  console.log(previewCard.style.backgroundImage);
 
 previewCard.style.backgroundSize =
   "cover";
