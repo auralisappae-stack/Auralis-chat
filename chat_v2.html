@@ -441,12 +441,21 @@ body{
 #chatArea{
   flex:1;
 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   background:#161033;
 
   display:flex;
   flex-direction:column;
 
   position:relative;
+
+   flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
 }
 
 #header{
@@ -472,9 +481,11 @@ body{
 
 
 #messages{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+    
   flex:1;
-
-  padding:24px;
 
   display:flex;
   flex-direction:column;
@@ -483,13 +494,6 @@ body{
 
   overflow-y:auto;
   min-height:0;
-
-  background:
-    linear-gradient(
-      180deg,
-      #161033 0%,
-      #120C2A 100%
-    );
 
   scrollbar-width:none;
   -ms-overflow-style:none;
@@ -607,12 +611,6 @@ body{
 }
 
 
-#chatArea{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
-}
 
 .bubble{
   width:fit-content;
@@ -655,10 +653,14 @@ backdrop-filter:blur(10px);
   transition:.25s;
 }
 
+
+
 .bubble.other{
   background:#24184A;
 
   border:1px solid rgba(255,126,219,.10);
+
+   align-self:flex-start;
 }
 
 .bubble.me{
@@ -670,6 +672,8 @@ backdrop-filter:blur(10px);
 
   box-shadow:
     0 0 18px rgba(139,92,246,.25);
+
+    align-self:flex-end;
 }
 
 .bubble:hover{
@@ -725,37 +729,6 @@ backdrop-filter:blur(10px);
   }
 
 
-
-#userCard{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-#userAvatar{
-  width:42px;
-  height:42px;
-
-  border-radius:50%;
-
-  background:linear-gradient(
-    135deg,
-    #8B5CF6,
-    #A78BFA
-  );
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-weight:bold;
-  color:white;
-}
-
-#userInfo{
-  flex:1;
-}
-
 #userStatus{
   display:flex;
   align-items:center;
@@ -783,47 +756,13 @@ backdrop-filter:blur(10px);
   font-size:18px;
 }
 
-.chat-item{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  margin:8px 12px;
-  border-radius:14px;
-  cursor:pointer;
-  background:#161033;
-
-}
 
 .chat-item.active{
   background:#24184A;
   border-left:3px solid #8B5CF6;
 }
 
-.chat-avatar{
-  width:44px;
-  height:44px;
-  border-radius:50%;
 
-  background:linear-gradient(
-    135deg,
-    #8B5CF6,
-    #FF7EDB
-  );
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  font-weight:bold;
-  color:white;
-
-  flex-shrink:0;
-
-  box-shadow:
-    0 0 12px rgba(139,92,246,.35),
-    0 0 24px rgba(255,126,219,.15);
-}
 
 .chat-info{
   flex:1;
@@ -847,15 +786,6 @@ backdrop-filter:blur(10px);
   color:#a89ec0;
 }
 
-.badge{
-  margin-top:4px;
-  background:#8a6fff;
-  color:white;
-  border-radius:10px;
-  padding:2px 6px;
-  font-size:11px;
-  display:inline-block;
-}
 
 
 
@@ -1807,6 +1737,31 @@ backdrop-filter:blur(10px);
   gap:6px;
 }
 
+#cancelGroupBtn{
+  background:#24184A;
+  color:white;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+
+  padding:12px 24px;
+
+  margin-right:12px;
+
+  cursor:pointer;
+}
+
+#cancelGroupBtn:hover{
+  background:#322063;
+}
+
+.messages.sent {
+  align-self: flex-end;   /* right side */
+}
+
+.messages.received {
+  align-self: flex-start; /* left side */
+}
+
 
 
 </style>
@@ -2504,6 +2459,12 @@ requestsList.innerHTML += `
   .collection("chats")
   .onSnapshot(snapshot => {
 
+     console.log("CHATS FOUND:", snapshot.size);
+
+    snapshot.forEach(doc => {
+      console.log("CHAT DOC:", doc.id, doc.data());
+    });
+
     const chatList =
       document.getElementById("chatList");
 
@@ -2516,7 +2477,7 @@ requestsList.innerHTML += `
         console.log("CHAT DATA:", chat);
         console.log("CHAT TYPE:", chat.type);
 
-  if (chat.type !== "dm") return;
+  if (chat.type && chat.type !== "dm") return;
 
 
       chatList.innerHTML += `
@@ -2653,6 +2614,8 @@ document.getElementById("settingsBtn")
 .addEventListener("click", () => {
   window.location.href = "Setting_v2.html";
 });
+
+
 
 
 document
@@ -2806,8 +2769,11 @@ membersList.appendChild(memberItem);
   });
 
   /* create group btn makes it work */
+
 document.getElementById("createGroupSubmitBtn")
 .addEventListener("click", async () => {
+
+  console.log("CREATE GROUP CLICKED");
 
   const groupName =
     document.getElementById("groupNameInput").value.trim();
@@ -2831,7 +2797,7 @@ const groupRef = await db.collection("groups").add({
 
 console.log("GROUP ID =", groupRef.id);
 
-console.log("GROUP SAVED");
+console.log("GROUP SAVED", groupName);
 
   alert("Group created!");
 
@@ -3190,10 +3156,61 @@ setTimeout(() => {
 
 }, 100);
 
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cancelBtn = document.getElementById("cancelGroupBtn");
+
+  cancelBtn.addEventListener("click", () => {
+
+    console.log("ORIGINAL CANCEL RUNNING");
+
+    document.getElementById("createGroupModal").style.display = "none";
+
+    selectedGroupPhoto = "";
+
+    document.querySelector(".upload-group-photo").innerHTML = `
+      📷
+      <span>Upload Group Photo</span>
+      <input
+        type="file"
+        id="groupPhotoInput"
+        accept="image/*"
+        hidden
+      >
+    `;
+  });
+
+});
+
+//start of the membersearchinput listener
+
+document.addEventListener("DOMContentLoaded", () => {
+  const memberSearchInput =
+    document.getElementById("memberSearchInput");
+
+  memberSearchInput.addEventListener("input", () => {
+    const search = memberSearchInput.value.toLowerCase();
+
+    document.querySelectorAll(".member-item")
+      .forEach(member => {
+        member.style.display =
+          member.dataset.user
+            .toLowerCase()
+            .includes(search)
+            ? "block"
+            : "none";
+      });
+  });
+}); // of the membersearch listener
+
+
+
+
 </script> <!-- end of the firebase script-->
 
 
-<div id="createGroupModal" class="group-modal">
+  <div id="createGroupModal" class="group-modal">
 
 <div class="group-modal-content">
 
@@ -3281,13 +3298,19 @@ setTimeout(() => {
 
 <div class="group-actions">
 
-  <button id="createGroupSubmitBtn">
+ <button id="cancelGroupBtn">
+  Cancel
+</button>
+
+    <button id="createGroupSubmitBtn">
     Create Group
   </button>
 
 </div>
 
 </div> <!-- end of the add group modal head-->
+
+
 
 </body>
 </html>
