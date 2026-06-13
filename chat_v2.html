@@ -3083,17 +3083,27 @@ setTimeout(() => {
 const createGroupBtn =
   document.getElementById("createGroupBtn");
 
-
-
 createGroupBtn.addEventListener("click", () => {
 
   console.log("Create Group clicked");
 
-  
+
 
   createGroupModal.style.display = "flex";
 
 }); // end of the create group btn 
+
+// new chat btn listener 
+const newChatBtn =
+  document.getElementById("new-chat-btn");
+
+  newChatBtn.addEventListener("click", () => {
+
+  console.log("New Chat clicked");
+
+});
+
+// end of the new chat btn listenercreateGroupModal
 
 
 setTimeout(() => {
@@ -3206,9 +3216,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
 </script> <!-- end of the firebase script-->
 
+<!-- start of the new chat modal -->
+
+<div id="newChatModal" class="group-modal">
+
+  <div class="group-modal-content">
+
+    <div class="group-modal-header">
+
+      <div class="group-icon">💬</div>
+
+      <div>
+        <h2>Start a Chat</h2>
+        <p>Choose someone to chat with</p>
+      </div>
+
+      <button id="closeNewChatModal">×</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script> 
+
+  //start of the new chat btn listener 
+
+const newChatModal =
+  document.getElementById("newChatModal");
+
+  console.log(newChatModal);
+  console.log("newChatModal =", newChatModal);
+
+const closeNewChatModal =
+  document.getElementById("closeNewChatModal");
+
+
+  console.log(newChatModal);
+console.log(closeNewChatModal);
+
+newChatBtn.addEventListener("click", () => {
+
+  console.log("New Chat clicked!");
+
+  newChatModal.style.display = "flex";
+
+});
+
+closeNewChatModal.addEventListener("click", () => {
+
+  newChatModal.style.display = "none";
+
+});
+
+</script>
+
+
+<!-- start  of the groupsetting modal -->
 
   <div id="createGroupModal" class="group-modal">
 
@@ -3275,9 +3342,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
+</div>
 
-
-</div><!-- group-info-section -->
+<!-- group-info-section -->
 <div class="add-members-section">
   <h3>2. Add Members</h3>
 
