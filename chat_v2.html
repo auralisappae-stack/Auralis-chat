@@ -2622,13 +2622,30 @@ console.log("GROUP FOUND:", group);
   document.getElementById("userName").textContent =
     profile.username;
 
-  document.getElementById("userAvatar").textContent =
+  const userAvatar =
+  document.getElementById("userAvatar");
+
+if (profile.avatarURL) {
+
+  userAvatar.innerHTML = `
+    <img
+      src="${profile.avatarURL}"
+      style="
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        border-radius:50%;
+      "
+    >`;
+
+} else {
+
+  userAvatar.textContent =
     profile.username.charAt(0).toUpperCase();
 
-    console.log(
-  "Messages listener started with:",
-  window.currentUsername
-);
+}
+
+
 
 
 
@@ -2908,14 +2925,6 @@ if (dot) {
 });
 
 
-
-
-console.log("UID =", auth.currentUser.uid);
-console.log("currentStyle =", currentStyle);
-console.log("status =", currentStyle?.status);
-
-
-
  
 if(userStyles[username]?.fontStyle === "pixel"){
 }
@@ -3132,18 +3141,6 @@ createGroupBtn.addEventListener("click", () => {
 
 }); // end of the create group btn 
 
-// new chat btn listener 
-const newChatBtn =
-  document.getElementById("new-chat-btn");
-
-  newChatBtn.addEventListener("click", () => {
-
-  console.log("New Chat clicked");
-
-});
-
-// end of the new chat btn listenercreateGroupModal
-
 
 setTimeout(() => {
 
@@ -3284,18 +3281,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //start of the new chat btn listener 
 
+const newChatBtn =
+  document.getElementById("new-chat-btn");
+
 const newChatModal =
   document.getElementById("newChatModal");
-
-  console.log(newChatModal);
-  console.log("newChatModal =", newChatModal);
 
 const closeNewChatModal =
   document.getElementById("closeNewChatModal");
 
-
-  console.log(newChatModal);
-console.log(closeNewChatModal);
+console.log("newChatBtn =", newChatBtn);
+console.log("newChatModal =", newChatModal);
+console.log("closeNewChatModal =", closeNewChatModal);
 
 newChatBtn.addEventListener("click", () => {
 
