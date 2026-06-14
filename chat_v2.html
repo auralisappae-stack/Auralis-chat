@@ -1836,8 +1836,13 @@ body{
 
     <div class="chat-meta">
       <div class="chat-time" id="chatTime">--</div>
-      <div class="badge">3</div>
-    </div>
+<div
+  class="badge"
+  id="unreadCount"
+  style="display:none;"
+>
+  0
+</div>    </div>
 
   </div>
 
@@ -2132,49 +2137,6 @@ function loadMessages() {
 
 console.log("CHAT ID =", chatId);
 
-db.collection("chats")
-  .doc(chatId)
-  .collection("messages")
-  .get()
-  .then(snapshot => {
-
-    let unreadCount = 0;
-
-    snapshot.forEach(doc => {
-
-      const msg = doc.data();
-
-      if (msg.user !== window.currentUsername) {
-        unreadCount++;
-      }
-
-    });
-
-    console.log(
-      "UNREAD COUNT =",
-      unreadCount
-    );
-
-    chatList.innerHTML += `
-  <div class="chat-item">
-    ${chat.username}
-    ${
-      unreadCount > 0
-        ? `<span style="
-            background:red;
-            color:white;
-            border-radius:10px;
-            padding:2px 6px;
-            margin-left:8px;
-          ">${unreadCount}</span>`
-        : ""
-    }
-  </div>
-`;
-
-
-  });
-
 
 
 db.collection("chats")
@@ -2200,8 +2162,17 @@ if (myStyle?.chatBackground) {
   chatArea.style.backgroundRepeat = "no-repeat";
 }
 
+    let unreadCount = 0;
+
   snapshot.forEach(doc => {
     const msg = doc.data();
+
+     if (
+  msg.user !== window.currentUsername &&
+  !msg.readBy?.includes(window.currentUsername)
+) {
+  unreadCount++;
+}
 
      console.log(
     "MSG CHAT:",
@@ -2371,9 +2342,17 @@ if(style?.fontStyle === "pixel"){
   
 );
 
-console.log("Bubble width =", bubble.offsetWidth);
-console.log("Messages width =", messagesDiv.offsetWidth);
+const unreadBadge = document.getElementById("unreadCount");
 
+if (unreadBadge) {
+  unreadBadge.textContent = unreadCount;
+
+  if (unreadCount > 0) {
+    unreadBadge.style.display = "flex";
+  } else {
+    unreadBadge.style.display = "none";
+  }
+}
 
   });
   
@@ -2432,15 +2411,11 @@ db.collection("chats")
 
     const friendData = snapshot.docs[0].data();
 
-    console.log(friendData);
-console.log(Object.keys(friendData));
+  
 
       if (!snapshot.empty) {
 
-console.log(friendData);
-console.log(Object.keys(friendData));
 
-  
 
 
   if (friendData.avatarURL) {
@@ -2601,13 +2576,8 @@ requestsList.innerHTML += `
 
       const chat = doc.data();
 
-      const chatId = [
-  window.currentUsername,
-  chat.username
-].sort().join("_");
-
-
-        
+        console.log("CHAT DATA:", chat);
+        console.log("CHAT TYPE:", chat.type);
 
   if (chat.type && chat.type !== "dm") return;
 
@@ -2952,24 +2922,7 @@ const groupRef = await db.collection("groups").add({
 
 // start of the unreadBTn 
 
-const unreadBtn =
-  document.getElementById("unreadBtn");
 
-unreadBtn.addEventListener("click", () => {
-  const chats =
-    document.querySelectorAll(".chat-item");
-
-  chats.forEach(chat => {
-    const badge =
-      chat.querySelector(".badge");
-
-    if (badge && badge.textContent !== "0") {
-      chat.style.display = "flex";
-    } else {
-      chat.style.display = "none";
-    }
-  });
-});
 
 //end of the unreadBTn
 
@@ -3194,7 +3147,7 @@ if(window.currentGroupId){
     window.currentChatUser
   ].sort().join("_");
 
- db.collection("chats")
+db.collection("chats")
   .doc(chatId)
   .collection("messages")
   .add({
@@ -3203,7 +3156,7 @@ if(window.currentGroupId){
     text: text,
     time: Date.now(),
     readBy: [window.currentUsername]
-  });
+});
 
 }
 
