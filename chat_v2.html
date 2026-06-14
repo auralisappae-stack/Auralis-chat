@@ -819,6 +819,17 @@ body{
   align-items:center;
 
   font-weight:bold;
+
+    overflow:hidden;
+
+}
+
+#headerAvatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
 }
 
 #headerName{
@@ -2052,6 +2063,8 @@ friendDiv.addEventListener("click", () => {
     
    openChat(friend.username);
 
+  
+
 
   document.getElementById("headerName").textContent =
     friend.username;
@@ -2348,9 +2361,10 @@ function openChat(username) {
 
     const friendData = snapshot.docs[0].data();
 
-      if (!snapshot.empty) {
+    console.log(friendData);
+console.log(Object.keys(friendData));
 
-        const friendData = snapshot.docs[0].data();
+      if (!snapshot.empty) {
 
 console.log(friendData);
 console.log(Object.keys(friendData));
@@ -2358,12 +2372,18 @@ console.log(Object.keys(friendData));
         console.log("Friend data:", friendData);
         console.log("Avatar URL:", friendData.avatar);
 
+console.log("Avatar URL:", friendData.avatar);
+
+console.log("Avatar URL:", friendData.avatar);
+
+
         if (friendData.avatar) {
 
           document.getElementById("headerAvatar").innerHTML =
             `<img src="${friendData.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
 
-        } else {
+        } 
+        else {
 
           document.getElementById("headerAvatar").textContent =
             username.charAt(0).toUpperCase();
