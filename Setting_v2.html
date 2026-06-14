@@ -2691,7 +2691,7 @@ avatarInput.addEventListener("change", async (e) => {
   await setDoc(
      doc(db, "users", currentUser),
     {
-      avatarURL: url
+  avatar: url
     },
     { merge: true }
   );
