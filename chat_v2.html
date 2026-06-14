@@ -2132,6 +2132,49 @@ function loadMessages() {
 
 console.log("CHAT ID =", chatId);
 
+db.collection("chats")
+  .doc(chatId)
+  .collection("messages")
+  .get()
+  .then(snapshot => {
+
+    let unreadCount = 0;
+
+    snapshot.forEach(doc => {
+
+      const msg = doc.data();
+
+      if (msg.user !== window.currentUsername) {
+        unreadCount++;
+      }
+
+    });
+
+    console.log(
+      "UNREAD COUNT =",
+      unreadCount
+    );
+
+    chatList.innerHTML += `
+  <div class="chat-item">
+    ${chat.username}
+    ${
+      unreadCount > 0
+        ? `<span style="
+            background:red;
+            color:white;
+            border-radius:10px;
+            padding:2px 6px;
+            margin-left:8px;
+          ">${unreadCount}</span>`
+        : ""
+    }
+  </div>
+`;
+
+
+  });
+
 
 
 db.collection("chats")
@@ -2347,9 +2390,40 @@ messagesDiv.scrollHeight;
 
 function openChat(username) {
 
-  console.log("Opened chat:", username);
 
   window.currentChatUser = username;
+
+  const chatId = [
+  window.currentUsername,
+  username
+].sort().join("_");
+
+db.collection("chats")
+  .doc(chatId)
+  .collection("messages")
+  .get()
+  .then(snapshot => {
+
+    snapshot.forEach(doc => {
+
+      const msg = doc.data();
+
+      if (
+        !msg.readBy?.includes(window.currentUsername)
+      ) {
+
+        doc.ref.update({
+          readBy: firebase.firestore.FieldValue.arrayUnion(
+            window.currentUsername
+          )
+        });
+
+      }
+
+    });
+
+  });
+
 
   db.collection("users")
     .where("username", "==", username)
@@ -2527,8 +2601,13 @@ requestsList.innerHTML += `
 
       const chat = doc.data();
 
-        console.log("CHAT DATA:", chat);
-        console.log("CHAT TYPE:", chat.type);
+      const chatId = [
+  window.currentUsername,
+  chat.username
+].sort().join("_");
+
+
+        
 
   if (chat.type && chat.type !== "dm") return;
 
@@ -3097,6 +3176,8 @@ console.log("currentGroupId =", window.currentGroupId);
 
 if(window.currentGroupId){
 
+  
+
   db.collection("groups")
     .doc(window.currentGroupId)
     .collection("messages")
@@ -3113,15 +3194,16 @@ if(window.currentGroupId){
     window.currentChatUser
   ].sort().join("_");
 
-  db.collection("chats")
-    .doc(chatId)
-    .collection("messages")
-    .add({
-      user: window.currentUsername,
-      chatUser: window.currentChatUser,
-      text: text,
-      time: Date.now()
-    });
+ db.collection("chats")
+  .doc(chatId)
+  .collection("messages")
+  .add({
+    user: window.currentUsername,
+    chatUser: window.currentChatUser,
+    text: text,
+    time: Date.now(),
+    readBy: [window.currentUsername]
+  });
 
 }
 
