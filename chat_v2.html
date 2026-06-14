@@ -2339,7 +2339,9 @@ function openChat(username) {
   document.getElementById("headerName").textContent =
     username;
 
-   console.log("typeof loadMessages =", typeof loadMessages);
+  document.getElementById("headerAvatar").textContent =
+    username.charAt(0).toUpperCase();
+
 
 const chatId = [
   window.currentUsername,
