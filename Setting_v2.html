@@ -2792,14 +2792,11 @@ async function loadAvatar() {
   doc(db, "users", currentUser)
 );
 
- 
   if (userDoc.exists()) {
 
     const data = userDoc.data();
 
-    if (data.status) {
-  statusSelect.value = data.status;
-}
+
 
   if (data.fontStyle) {
   fontStyleSelect.value = data.fontStyle;
@@ -2899,8 +2896,6 @@ if (data.email) {
   
 }
 
-console.log("Email Input:", emailInput);
-console.log("Email Loaded:", data.email);
 
   } else {
 
@@ -2917,6 +2912,7 @@ console.log("Email Loaded:", data.email);
 
   }
 }
+
 
 
 
