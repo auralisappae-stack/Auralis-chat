@@ -2517,7 +2517,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 import {
-  getAuth
+  getAuth,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
 console.log(ref);
@@ -2536,11 +2537,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    console.log("No user logged in");
+    return;
+  }
+
+  currentUser = user.uid;
+  console.log("currentUser =", currentUser);
+
+  await loadAvatar();
+});
+
 const storage = getStorage(app);
 const db = getFirestore(app);
 
-console.log("AUTH:", auth);
-console.log("CURRENT USER:", auth.currentUser);
+
 
 
 function generateUserId() {
@@ -2606,8 +2619,7 @@ const locationInput =
   const bioCounter =
   document.getElementById("bioCounter");
 
-  const currentUser =
-   localStorage.getItem("currentUser");
+  let currentUser = null;
 
   console.log("Current User:", currentUser);
 
@@ -2770,8 +2782,6 @@ document
   alert("Appearance reset!");
 });
 
-console.log("selectedBubbleColor:", selectedBubbleColor);
-console.log("selectedDecoration:", selectedDecoration);
 
 
 // reset btn listener ends here 
@@ -2780,11 +2790,11 @@ console.log("selectedDecoration:", selectedDecoration);
 
 async function loadAvatar() {
 
-console.log("currentUser before getDoc =", currentUser);
   const userDoc = await getDoc(
-    doc(db, "users", currentUser)
-  );
+  doc(db, "users", currentUser)
+);
 
+ 
   if (userDoc.exists()) {
 
     const data = userDoc.data();
@@ -2909,14 +2919,7 @@ console.log("Email Loaded:", data.email);
 
   }
 }
-console.log("currentUser before loadAvatar =", currentUser);
 
-loadAvatar();
-
-console.log("currentUser before getDoc =", currentUser);
-const userDoc = await getDoc(
-  doc(db, "users", currentUser)
-);
 
 console.log("Document exists:", userDoc.exists());
 
