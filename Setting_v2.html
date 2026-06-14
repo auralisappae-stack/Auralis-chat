@@ -2703,8 +2703,9 @@ avatarInput.addEventListener("change", async (e) => {
   await setDoc(
      doc(db, "users", currentUser),
     {
-  avatar: url
+      avatarURL: url
     },
+    
     { merge: true }
   );
 
@@ -2910,8 +2911,8 @@ if (data.email) {
       }
     );
 
-  }
-}
+  } // closes if (userDoc.exists())
+} // closes loadAvatar()
 
 
 
