@@ -809,19 +809,14 @@ body{
 #headerAvatar{
   width:42px;
   height:42px;
-
   border-radius:50%;
-
   background:#5865f2;
-
   display:flex;
   justify-content:center;
   align-items:center;
-
   font-weight:bold;
-
-    overflow:hidden;
-
+  padding:0;
+  overflow:hidden;
 }
 
 #headerAvatar img{
@@ -1894,7 +1889,9 @@ body{
 
   <div id="headerLeft">
 
-    <div id="headerAvatar">L</div>
+  <div id="headerAvatar">
+   <img src="https://i.pravatar.cc/300" ...>
+</div>
 
     <div>
       <div id="headerName">Lilith</div>
@@ -2378,9 +2375,10 @@ console.log("Avatar URL:", friendData.avatar);
 
 
         if (friendData.avatar) {
+          
 
-          document.getElementById("headerAvatar").innerHTML =
-            `<img src="${friendData.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+         document.getElementById("headerAvatar").innerHTML =
+         `<img src="${friendData.avatar}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;display:block;">`;
 
         } 
         else {
