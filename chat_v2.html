@@ -1747,6 +1747,8 @@ body{
 
 </style>
 
+
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -1969,6 +1971,8 @@ body{
 
 <!-- firebase script-->
  <script>
+  console.log("NEW CHAT SCRIPT RUNNING");
+
 
     window.currentUsername = "Guest";
 
@@ -2045,8 +2049,9 @@ friendDiv.addEventListener("click", () => {
       type: "dm"
     });
 
-    console.log("CHAT DATA:", chat);
-console.log("CHAT TYPE:", chat.type);
+    
+   openChat(friend.username);
+
 
   document.getElementById("headerName").textContent =
     friend.username;
@@ -2334,43 +2339,80 @@ function openChat(username) {
 
   console.log("Opened chat:", username);
 
- window.currentChatUser = username;
+  window.currentChatUser = username;
 
-  document.getElementById("headerName").textContent =
-    username;
+  db.collection("users")
+    .where("username", "==", username)
+    .get()
+    .then(snapshot => {
 
-  document.getElementById("headerAvatar").textContent =
-    username.charAt(0).toUpperCase();
+    const friendData = snapshot.docs[0].data();
 
+      if (!snapshot.empty) {
 
-const chatId = [
-  window.currentUsername,
-  username
-].sort().join("_");
+        const friendData = snapshot.docs[0].data();
 
-console.log("OPEN CHAT ID =", chatId);
+console.log(friendData);
+console.log(Object.keys(friendData));
 
-loadMessages();
+        console.log("Friend data:", friendData);
+        console.log("Avatar URL:", friendData.avatar);
 
-  document
-    .querySelectorAll(".chat-item")
-    .forEach(chat => {
-      chat.classList.remove("active");
+        if (friendData.avatar) {
+
+          document.getElementById("headerAvatar").innerHTML =
+            `<img src="${friendData.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+
+        } else {
+
+          document.getElementById("headerAvatar").textContent =
+            username.charAt(0).toUpperCase();
+
+          document.getElementById("headerAvatar").innerHTML =
+            username.charAt(0).toUpperCase();
+
+        }
+
+      } else {
+
+        document.getElementById("headerAvatar").textContent =
+          username.charAt(0).toUpperCase();
+
+      }
+
+      document.getElementById("headerName").textContent =
+        username;
+
+      const chatId = [
+        window.currentUsername,
+        username
+      ].sort().join("_");
+
+      console.log("OPEN CHAT ID =", chatId);
+
+      loadMessages();
+
+      document
+        .querySelectorAll(".chat-item")
+        .forEach(chat => {
+          chat.classList.remove("active");
+        });
+
+      const selectedChat =
+        document.querySelector(
+          `[data-user="${username}"]`
+        );
+
+      if (selectedChat) {
+        selectedChat.classList.add("active");
+      }
+
+      console.log(
+        "Current chat user:",
+        window.currentChatUser
+      );
+
     });
-
-  const selectedChat =
-  document.querySelector(
-    `[data-user="${username}"]`
-  );
-
-  if (selectedChat) {
-    selectedChat.classList.add("active");
-  }
-
-  console.log(
-  "Current chat user:",
-  window.currentChatUser
-);
 
 }
 
