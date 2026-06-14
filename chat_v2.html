@@ -1812,9 +1812,9 @@ body{
   Groups
 </button>
 
-  <button class="filter-btn">
-    Unread
-  </button>
+  <button class="filter-btn" id="unreadBtn">
+  Unread
+</button>
 
 </div>
 
@@ -2867,13 +2867,32 @@ const groupRef = await db.collection("groups").add({
   photoURL: selectedGroupPhoto || ""
 });
 
-console.log("GROUP ID =", groupRef.id);
-
-console.log("GROUP SAVED", groupName);
-
   alert("Group created!");
 
 });  // end of the group creation listener
+
+// start of the unreadBTn 
+
+const unreadBtn =
+  document.getElementById("unreadBtn");
+
+unreadBtn.addEventListener("click", () => {
+  const chats =
+    document.querySelectorAll(".chat-item");
+
+  chats.forEach(chat => {
+    const badge =
+      chat.querySelector(".badge");
+
+    if (badge && badge.textContent !== "0") {
+      chat.style.display = "flex";
+    } else {
+      chat.style.display = "none";
+    }
+  });
+});
+
+//end of the unreadBTn
 
 });
 
