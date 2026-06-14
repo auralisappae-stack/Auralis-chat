@@ -2821,7 +2821,7 @@ if (!selectedMembers.includes(username)) {
 
 membersList.appendChild(memberItem);
 
-  });
+  
 
   /* create group btn makes it work */
 
@@ -2858,77 +2858,61 @@ console.log("GROUP SAVED", groupName);
 
 });  // end of the group creation listener
 
+});
 
+let currentStyle = {};
 
+if (auth.currentUser) {
+  currentStyle =
+    userStyles[auth.currentUser.uid] || {};
+}
 
- const currentStyle =
- userStyles[window.currentUsername] ||
- userStyles[username];
-
-  document.getElementById("userName").textContent =
-window.currentUsername || username;
-
-
+document.getElementById("userName").textContent =
+  window.currentUsername || username;
 
 const status =
-currentStyle?.status || "online";
+  currentStyle.status || "online";
 
 document.getElementById("statusText").textContent =
-status;
-
+  status;
 
 const dot =
-document.querySelector("#userStatus .statusDot");
+  document.querySelector("#userStatus .statusDot");
 
+if (dot) {
 
+  if (status === "online") {
+    dot.style.background = "#43b581";
+  }
 
-console.log("DOT =", dot);
+  else if (status === "away") {
+    dot.style.background = "#faa61a";
+  }
 
+  else if (status === "busy") {
+    dot.style.background = "#ed4245";
+  }
 
-if(status === "online"){
-  dot.style.background = "#43b581";
+  else if (status === "gaming") {
+    dot.style.background = "#9146ff";
+  }
+
+  else if (status === "listening") {
+    dot.style.background = "#1db954";
+  }
+
+  else if (status === "offline") {
+    dot.style.background = "#747f8d";
+  }
 }
-
-if(status === "away"){
-  dot.style.background = "#faa61a";
-}
-
-if(status === "busy"){
-  dot.style.background = "#ed4245";
-}
-
-
-if(status === "gaming"){
-  dot.style.background = "#9146ff";
-}
-
-console.log("Applying status color:", status);
-
-if(status === "listening"){
-  dot.style.background = "#1db954";
-}
-
-if(status === "offline"){
-  dot.style.background = "#747f8d";
-}
-
-console.log("Applied status:", status);
-console.log("Dot color:", dot.style.background);
-  console.log(userStyles);
-  console.log(userStyles[username]);
-  console.log(
-    "Status =",
-    userStyles[username]?.status
-  );
-
 });
 
 
 
-  console.log("username =", username);
-console.log("userStyles =", userStyles);
-console.log("currentStyle =", userStyles[username]);
 
+console.log("UID =", auth.currentUser.uid);
+console.log("currentStyle =", currentStyle);
+console.log("status =", currentStyle?.status);
 
 
 
