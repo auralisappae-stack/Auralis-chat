@@ -2145,6 +2145,9 @@ db.collection("chats")
 .orderBy("time")
 .onSnapshot(snapshot => {
 
+  console.log("MESSAGES SNAPSHOT FIRED");
+console.log("MESSAGE DOC COUNT =", snapshot.size);
+
   messagesDiv.innerHTML = "";
 
   const myStyle = userStyles[window.currentUsername];
@@ -2166,6 +2169,13 @@ if (myStyle?.chatBackground) {
 
   snapshot.forEach(doc => {
     const msg = doc.data();
+
+if (msg.user !== window.currentUsername) {
+  console.log("OTHER USER MESSAGE FOUND");
+  console.log("MSG USER =", msg.user);
+  console.log("CURRENT USER =", window.currentUsername);
+  console.log("READ BY =", msg.readBy);
+}
 
      if (
   msg.user !== window.currentUsername &&
