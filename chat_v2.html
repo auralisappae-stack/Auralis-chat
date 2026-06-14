@@ -2172,6 +2172,13 @@ if (myStyle?.chatBackground) {
   !msg.readBy?.includes(window.currentUsername)
 ) {
   unreadCount++;
+
+  console.log(
+  "Unread check:",
+  msg.user,
+  msg.readBy,
+  window.currentUsername
+);
 }
 
      console.log(
@@ -2582,28 +2589,37 @@ requestsList.innerHTML += `
   if (chat.type && chat.type !== "dm") return;
 
 
-      chatList.innerHTML += `
+chatList.innerHTML += `
   <div
     class="chat-item"
     data-user="${chat.username}"
     data-type="dm"
     onclick="openChat('${chat.username}')"
   >
-          <div class="chat-avatar">
-            ${chat.username[0].toUpperCase()}
-          </div>
+    <div class="chat-avatar">
+      ${chat.username[0].toUpperCase()}
+    </div>
 
-          <div class="chat-info">
-            <div class="chat-name">
-              ${chat.username}
-            </div>
+    <div class="chat-info">
+      <div class="chat-name">
+        ${chat.username}
+      </div>
 
-            <div class="chat-preview">
-              Start chatting...
-            </div>
-          </div>
-        </div>
-      `;
+      <div class="chat-preview">
+        Start chatting...
+      </div>
+    </div>
+
+    <div
+      class="badge"
+      id="unreadCount"
+      style="display:none;"
+    >
+      0
+    </div>
+
+  </div>
+`;
       
     });
 
