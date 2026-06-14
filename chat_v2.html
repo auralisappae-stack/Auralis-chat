@@ -2170,12 +2170,10 @@ if (myStyle?.chatBackground) {
   snapshot.forEach(doc => {
     const msg = doc.data();
 
-if (msg.user !== window.currentUsername) {
-  console.log("OTHER USER MESSAGE FOUND");
-  console.log("MSG USER =", msg.user);
-  console.log("CURRENT USER =", window.currentUsername);
-  console.log("READ BY =", msg.readBy);
-}
+console.log(
+  "CURRENT USER =",
+  window.currentUsername
+);
 
      if (
   msg.user !== window.currentUsername &&
@@ -2372,6 +2370,30 @@ if (unreadBadge) {
 }
 
   });
+
+  snapshot.forEach(doc => {
+  const msg = doc.data();
+
+  console.log(
+    "MSG:",
+    msg.text,
+    "USER:",
+    msg.user,
+    "READBY:",
+    msg.readBy
+  );
+});
+
+  console.log("FINAL UNREAD COUNT =", unreadCount);
+
+const unreadBadge =
+  document.getElementById("unreadCount");
+
+if (unreadBadge) {
+  unreadBadge.textContent = unreadCount;
+  unreadBadge.style.display =
+    unreadCount > 0 ? "flex" : "none";
+}
   
 
   
@@ -2381,6 +2403,7 @@ messagesDiv.scrollHeight;
 
 
 });
+
 
 }
 
@@ -2407,12 +2430,6 @@ db.collection("chats")
       if (
         !msg.readBy?.includes(window.currentUsername)
       ) {
-
-        doc.ref.update({
-          readBy: firebase.firestore.FieldValue.arrayUnion(
-            window.currentUsername
-          )
-        });
 
       }
 
@@ -2535,6 +2552,10 @@ auth.onAuthStateChanged(async user => {
   const profile = doc.data();
 
   window.currentUsername = profile.username;
+  console.log(
+  "LOGGED IN AS:",
+  profile.username
+);
 
   db.collection("friendRequests")
   .where("to", "==", window.currentUsername)
