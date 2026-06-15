@@ -338,7 +338,11 @@ function togglePassword(id, el) {
 
 
 async function signup() {
-  const user = document.getElementById("username").value.trim();
+const user = document
+  .getElementById("username")
+  .value
+  .trim()
+  .toLowerCase();
   const password = document.getElementById("password").value.trim();  const confirm = document.getElementById("confirmPassword").value.trim();
   const email = document.getElementById("email").value.trim();
   const error = document.getElementById("error");
@@ -384,6 +388,16 @@ try {
     alert("Error element missing!");
     return;
   }
+
+  const usernameCheck = await getDoc(
+  doc(db, "usernames", user)
+);
+
+if (usernameCheck.exists()) {
+  error.innerText = "Username already taken";
+  error.style.display = "block";
+  return;
+}
 
   // reset message
   error.style.display = "none";
