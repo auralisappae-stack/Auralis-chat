@@ -1834,12 +1834,25 @@ body{
     <div class="chat-meta">
       <div class="chat-time" id="chatTime">--</div>
 
-
+<div class="badge unreadCount" style="display:none;">
+  0
+</div> 
 
 </div>
 
   </div>
 
+  <!-- Test Group -->
+  <div class="chat-item" data-type="group">
+
+    <div class="chat-avatar">G</div>
+
+    <div class="chat-info">
+      <div class="chat-name">Test Group</div>
+      <div class="chat-preview">Group chat</div>
+    </div>
+
+  </div>
 
 </div>
 
@@ -2158,18 +2171,18 @@ console.log(
   window.currentUsername
 );
 
-console.log(
-  "CHECK FULL:",
-  JSON.stringify(msg)
-);
-
-if (
+     if (
   msg.user !== window.currentUsername &&
   !msg.readBy?.includes(window.currentUsername)
 ) {
   unreadCount++;
 
-  console.log("UNREAD MESSAGE FOUND");
+  console.log(
+  "Unread check:",
+  msg.user,
+  msg.readBy,
+  window.currentUsername
+);
 }
 
      console.log(
@@ -2340,6 +2353,22 @@ if(style?.fontStyle === "pixel"){
   
 );
 
+const chatItem = document.querySelector(
+  `[data-user="${otherUser}"]`
+);
+
+const unreadBadge =
+  chatItem?.querySelector(".unreadCount");
+
+if (unreadBadge) {
+  unreadBadge.textContent = unreadCount;
+
+  if (unreadCount > 0) {
+    unreadBadge.style.display = "flex";
+  } else {
+    unreadBadge.style.display = "none";
+  }
+}
 
   });
 
@@ -2347,37 +2376,19 @@ if(style?.fontStyle === "pixel"){
   const msg = doc.data();
 
   console.log(
-  "MSG:",
-  msg.text,
-  "USER:",
-  msg.user,
-  "READBY:",
-  JSON.stringify(msg.readBy)
-)
-
+    "MSG:",
+    msg.text,
+    "USER:",
+    msg.user,
+    "READBY:",
+    msg.readBy
+  );
 });
 
   console.log("FINAL UNREAD COUNT =", unreadCount);
 
-const badge = document.getElementById(
-  `badge-${window.currentChatUser}`
-);
-
-console.log(
-  "LOOKING FOR BADGE:",
-  `badge-${window.currentChatUser}`
-);
-
-console.log("BADGE FOUND =", badge);
-
-
-if (badge) {
-  badge.textContent = unreadCount;
-
-  badge.style.display =
-    unreadCount > 0 ? "flex" : "none";
-}
   
+
 
 messagesDiv.scrollTop =
 messagesDiv.scrollHeight;
@@ -2387,8 +2398,6 @@ messagesDiv.scrollHeight;
 
 
 }
-
-console.log("OPEN CHAT CALLED:", username);
 
 function openChat(username) {
 
@@ -2631,9 +2640,8 @@ chatList.innerHTML += `
       </div>
     </div>
 
-<div
-  id="badge-${chat.username}"
-  class="badge"
+ <div
+  class="badge unreadCount"
   style="display:none;"
 >
   0
