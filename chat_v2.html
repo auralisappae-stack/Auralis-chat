@@ -1834,10 +1834,6 @@ body{
     <div class="chat-meta">
       <div class="chat-time" id="chatTime">--</div>
 
-<div class="badge unreadCount" style="display:none;">
-  0
-</div> 
-
 </div>
 
   </div>
@@ -2160,17 +2156,10 @@ if (myStyle?.chatBackground) {
   chatArea.style.backgroundRepeat = "no-repeat";
 }
 
-    let unreadCount = 0;
 
   snapshot.forEach(doc => {
     const msg = doc.data();
 
-    if (
-  msg.user !== window.currentUsername &&
-  !msg.readBy?.includes(window.currentUsername)
-) {
-  unreadCount++;
-}
 
 console.log(
   "CURRENT USER =",
@@ -2353,36 +2342,8 @@ if(style?.fontStyle === "pixel"){
   );
 });
 
-  console.log("FINAL UNREAD COUNT =", unreadCount);
-
-  console.log(
-  "CURRENT CHAT USER =",
-  window.currentChatUser
-);
-
-console.log(
-  "TRYING TO FIND =",
-  `badge-${window.currentChatUser}`
-);
-
-  const badge =
-  document.getElementById(
-    `badge-${window.currentChatUser}`
-  );
-
-  console.log("BADGE =", badge);
 
 
-if (badge) {
-  badge.textContent = unreadCount;
-
-  badge.style.display =
-    unreadCount > 0
-      ? "flex"
-      : "none";
-}
-
-console.log("FINAL UNREAD COUNT =", unreadCount);
 
 messagesDiv.scrollTop =
 messagesDiv.scrollHeight;
@@ -2609,15 +2570,6 @@ chatList.innerHTML += `
       </div>
     </div>
 
-<div
-  class="badge"
-  id="badge-${chat.username}"
-  style="display:none;"
->
-  0
-</div>
-
-  </div>
 `;
       
     });
@@ -3159,8 +3111,6 @@ db.collection("chats")
     chatUser: window.currentChatUser,
     text: text,
     time: Date.now(),
-    readBy: [window.currentUsername]
-
   });
 
 }
