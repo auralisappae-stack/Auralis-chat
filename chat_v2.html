@@ -2347,13 +2347,14 @@ if(style?.fontStyle === "pixel"){
   const msg = doc.data();
 
   console.log(
-    "MSG:",
-    msg.text,
-    "USER:",
-    msg.user,
-    "READBY:",
-    msg.readBy
-  );
+  "MSG:",
+  msg.text,
+  "USER:",
+  msg.user,
+  "READBY:",
+  JSON.stringify(msg.readBy)
+)
+
 });
 
   console.log("FINAL UNREAD COUNT =", unreadCount);
@@ -2386,6 +2387,8 @@ messagesDiv.scrollHeight;
 
 
 }
+
+console.log("OPEN CHAT CALLED:", username);
 
 function openChat(username) {
 
