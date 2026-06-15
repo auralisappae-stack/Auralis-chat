@@ -3123,22 +3123,19 @@ dmsBtn.addEventListener("click", () => {
 });//end of the clicked listener
 
 
-document.getElementById("sendBtn")
-.addEventListener("click", () => {
+setTimeout(() => {
 
+  document.getElementById("sendBtn")
+  .addEventListener("click", () => {
+
+
+    
   const text =
 document.getElementById("msgInput").value;
-
-console.log("currentChatUser =", window.currentChatUser);
-console.log("currentGroupId =", window.currentGroupId);
-
-
-
 
 if(window.currentGroupId){
 
   
-
   db.collection("groups")
     .doc(window.currentGroupId)
     .collection("messages")
@@ -3168,13 +3165,14 @@ db.collection("chats")
   });
 
 }
-
-
-
-
 document.getElementById("msgInput").value = "";
 
-});// end of the listener
+
+});
+}, 100);
+
+
+
 
 setTimeout(() => {
 
