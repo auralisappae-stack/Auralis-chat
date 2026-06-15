@@ -1812,9 +1812,6 @@ body{
   Groups
 </button>
 
-  <button class="filter-btn" id="unreadBtn">
-  Unread
-</button>
 
 </div>
 
@@ -2423,17 +2420,24 @@ db.collection("chats")
   .get()
   .then(snapshot => {
 
-    snapshot.forEach(doc => {
+  snapshot.forEach(doc => {
 
-      const msg = doc.data();
+  const msg = doc.data();
 
-      if (
-        !msg.readBy?.includes(window.currentUsername)
-      ) {
+  if (
+    msg.user !== window.currentUsername &&
+    !msg.readBy?.includes(window.currentUsername)
+  ) {
 
-      }
-
+    doc.ref.update({
+      readBy: firebase.firestore.FieldValue.arrayUnion(
+        window.currentUsername
+      )
     });
+
+  }
+
+});
 
   });
 
