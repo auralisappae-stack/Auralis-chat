@@ -317,11 +317,13 @@ async function login() {
 
 try {
 
-  await signInWithEmailAndPassword(
-    auth,
-    email,
-    pass
-  );
+const cred = await signInWithEmailAndPassword(
+  auth,
+  email,
+  pass
+);
+
+console.log(cred.user.uid);
 
 } catch (err) {
 
