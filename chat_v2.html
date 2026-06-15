@@ -533,11 +533,11 @@ body{
 
 
 #inputBar{
-  padding:16px;
+  padding: 14px 18px;
 
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
 
   background:#0B0620;
 
@@ -549,11 +549,12 @@ body{
 #msgInput{
   flex:1;
 
-  padding:14px 18px;
+  padding:0 18px;
 
   border:1px solid rgba(215,184,255,.12);
 
-  border-radius:16px;
+  height: 44px;
+  border-radius: 22px;
 
   background:#161033;
 
@@ -584,7 +585,7 @@ body{
   border:none;
   border-radius:12px;
 
-  background:#1e293b;
+  background:transparent;
 
   color:white;
 
@@ -593,18 +594,34 @@ body{
 
 .inputIcon,
 #sendBtn{
-  width:46px;
-  height:46px;
+   width: 42px;
+  height: 42px;
+  border-radius: 18px;
 
   border:none;
-
-  border-radius:14px;
-
   cursor:pointer;
 
   transition:.25s;
+    background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+  color:white;
 }
 
+#sendBtn{
+  background: linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color: white;
+
+  box-shadow:
+    0 0 15px rgba(139,92,246,.35);
+}
 
 .inputIcon:hover,
 #sendBtn:hover{
