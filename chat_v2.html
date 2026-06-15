@@ -2158,18 +2158,20 @@ console.log(
   window.currentUsername
 );
 
-     if (
+console.log(
+  "CHECK:",
+  msg.user,
+  window.currentUsername,
+  msg.readBy
+);
+
+if (
   msg.user !== window.currentUsername &&
   !msg.readBy?.includes(window.currentUsername)
 ) {
   unreadCount++;
 
-  console.log(
-  "Unread check:",
-  msg.user,
-  msg.readBy,
-  window.currentUsername
-);
+  console.log("UNREAD MESSAGE FOUND");
 }
 
      console.log(
