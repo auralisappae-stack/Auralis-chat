@@ -2171,29 +2171,7 @@ console.log(
   window.currentUsername
 );
 
-     if (
-  msg.user !== window.currentUsername &&
-  !msg.readBy?.includes(window.currentUsername)
-) {
-  unreadCount++;
 
-  console.log(
-  "Unread check:",
-  msg.user,
-  msg.readBy,
-  window.currentUsername
-);
-}
-
-     console.log(
-    "MSG CHAT:",
-    msg.chatUser,
-    "CURRENT:",
-    window.currentChatUser
-  );
-
-
-  
 
     const style = userStyles[msg.user];
 
@@ -2408,34 +2386,6 @@ function openChat(username) {
   window.currentUsername,
   username
 ].sort().join("_");
-
-db.collection("chats")
-  .doc(chatId)
-  .collection("messages")
-  .get()
-  .then(snapshot => {
-
-  snapshot.forEach(doc => {
-
-  const msg = doc.data();
-
-  if (
-    msg.user !== window.currentUsername &&
-    !msg.readBy?.includes(window.currentUsername)
-  ) {
-
-    doc.ref.update({
-      readBy: firebase.firestore.FieldValue.arrayUnion(
-        window.currentUsername
-      )
-    });
-
-  }
-
-});
-
-  });
-
 
   db.collection("users")
     .where("username", "==", username)
@@ -3200,8 +3150,7 @@ db.collection("chats")
     chatUser: window.currentChatUser,
     text: text,
     time: Date.now(),
-    readBy: [window.currentUsername]
-});
+  });
 
 }
 
