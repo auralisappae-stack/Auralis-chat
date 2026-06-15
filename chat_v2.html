@@ -2117,7 +2117,6 @@ chatList.innerHTML += `
 
 
 function loadMessages() {
-    console.log("loadMessages started");
 
 
     if (!window.currentChatUser) {
@@ -2165,6 +2164,13 @@ if (myStyle?.chatBackground) {
 
   snapshot.forEach(doc => {
     const msg = doc.data();
+
+    if (
+  msg.user !== window.currentUsername &&
+  !msg.readBy?.includes(window.currentUsername)
+) {
+  unreadCount++;
+}
 
 console.log(
   "CURRENT USER =",
@@ -2349,7 +2355,34 @@ if(style?.fontStyle === "pixel"){
 
   console.log("FINAL UNREAD COUNT =", unreadCount);
 
-  
+  console.log(
+  "CURRENT CHAT USER =",
+  window.currentChatUser
+);
+
+console.log(
+  "TRYING TO FIND =",
+  `badge-${window.currentChatUser}`
+);
+
+  const badge =
+  document.getElementById(
+    `badge-${window.currentChatUser}`
+  );
+
+  console.log("BADGE =", badge);
+
+
+if (badge) {
+  badge.textContent = unreadCount;
+
+  badge.style.display =
+    unreadCount > 0
+      ? "flex"
+      : "none";
+}
+
+alert("Unread count = " + unreadCount);
 
 
 messagesDiv.scrollTop =
@@ -2370,6 +2403,32 @@ function openChat(username) {
   window.currentUsername,
   username
 ].sort().join("_");
+
+db.collection("chats")
+  .doc(chatId)
+  .collection("messages")
+  .get()
+  .then(snapshot => {
+
+    snapshot.forEach(doc => {
+
+      const msg = doc.data();
+
+      if (
+        !msg.readBy?.includes(window.currentUsername)
+      ) {
+
+        doc.ref.update({
+          readBy: firebase.firestore.FieldValue.arrayUnion(
+            window.currentUsername
+          )
+        });
+
+      }
+
+    });
+
+  });
 
 
   db.collection("users")
@@ -2576,8 +2635,9 @@ chatList.innerHTML += `
       </div>
     </div>
 
- <div
-  class="badge unreadCount"
+<div
+  class="badge"
+  id="badge-${chat.username}"
   style="display:none;"
 >
   0
@@ -2868,9 +2928,9 @@ if (!selectedMembers.includes(username)) {
 
 membersList.appendChild(memberItem);
 
-  
+});
 
-  /* create group btn makes it work */
+});  // users snapshot end here 
 
 document.getElementById("createGroupSubmitBtn")
 .addEventListener("click", async () => {
@@ -2901,13 +2961,6 @@ const groupRef = await db.collection("groups").add({
 
 });  // end of the group creation listener
 
-// start of the unreadBTn 
-
-
-
-//end of the unreadBTn
-
-});
 
 let currentStyle = {};
 
@@ -2954,10 +3007,9 @@ if (dot) {
     dot.style.background = "#747f8d";
   }
 }
-});
 
 
- 
+
 if(userStyles[username]?.fontStyle === "pixel"){
 }
 
@@ -3136,6 +3188,8 @@ db.collection("chats")
     chatUser: window.currentChatUser,
     text: text,
     time: Date.now(),
+    readBy: [window.currentUsername]
+
   });
 
 }
@@ -3347,6 +3401,8 @@ closeNewChatModal.addEventListener("click", () => {
   newChatModal.style.display = "none";
 
 });
+
+
 
 </script>
 
