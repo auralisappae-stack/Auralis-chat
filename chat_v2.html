@@ -2331,22 +2331,6 @@ if(style?.fontStyle === "pixel"){
   
 );
 
-const chatItem = document.querySelector(
-  `[data-user="${otherUser}"]`
-);
-
-const unreadBadge =
-  chatItem?.querySelector(".unreadCount");
-
-if (unreadBadge) {
-  unreadBadge.textContent = unreadCount;
-
-  if (unreadCount > 0) {
-    unreadBadge.style.display = "flex";
-  } else {
-    unreadBadge.style.display = "none";
-  }
-}
 
   });
 
@@ -2386,6 +2370,7 @@ function openChat(username) {
   window.currentUsername,
   username
 ].sort().join("_");
+
 
   db.collection("users")
     .where("username", "==", username)
@@ -2482,6 +2467,7 @@ document.getElementById("messages");
 let userStyles = {};
 let selectedMembers = [];
 let selectedGroupPhoto = "";
+let createGroupModal;
 
 window.selectedMembers = selectedMembers;
 
@@ -3183,7 +3169,10 @@ createGroupBtn.addEventListener("click", () => {
 
   console.log("Create Group clicked");
 
+  const createGroupModal =
+    document.getElementById("createGroupModal");
 
+  console.log(createGroupModal);
 
   createGroupModal.style.display = "flex";
 
