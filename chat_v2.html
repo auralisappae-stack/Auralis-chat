@@ -1779,7 +1779,7 @@ body{
   height: 100%;
   object-fit: cover;
 
-  opacity: 0.8; /* adjust this */
+  opacity: 0.20; /* adjust this */
 
   position: relative;
   z-index: 1;
@@ -1817,6 +1817,20 @@ body{
   font-size: 22px;
 
   text-align: center;
+}
+
+#welcomeOverlay{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  z-index:2;
+
+  background:rgba(0,0,0,0.15);
 }
 
 
