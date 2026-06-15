@@ -2858,34 +2858,37 @@ membersList.appendChild(memberItem);
 
 });  // users snapshot end here 
 
-document.getElementById("createGroupSubmitBtn")
-.addEventListener("click", async () => {
 
-  console.log("CREATE GROUP CLICKED");
+setTimeout(() => {
+  document
+    .getElementById("createGroupSubmitBtn")
+    .addEventListener("click", async () => {
 
-  const groupName =
-    document.getElementById("groupNameInput").value.trim();
+      console.log("CREATE GROUP CLICKED");
 
-  if (!groupName) {
-    alert("Enter a group name");
-    return;
-  }
+      const groupName =
+        document.getElementById("groupNameInput").value.trim();
 
-const groupRef = await db.collection("groups").add({
-  name: groupName,
-  members: [...new Set([
-  ...selectedMembers,
-  window.currentUsername
-])],
-  createdBy: window.currentUsername,
-  createdAt: Date.now(),
-  type: "group",
-  photoURL: selectedGroupPhoto || ""
-});
+      if (!groupName) {
+        alert("Enter a group name");
+        return;
+      }
 
-  alert("Group created!");
+      await db.collection("groups").add({
+        name: groupName,
+        members: [...new Set([
+          ...selectedMembers,
+          window.currentUsername
+        ])],
+        createdBy: window.currentUsername,
+        createdAt: Date.now(),
+        type: "group",
+        photoURL: selectedGroupPhoto || ""
+      });
 
-});  // end of the group creation listener
+      alert("Group created!");
+    });
+}, 100); // end of the group creation listener
 
 
 let currentStyle = {};
