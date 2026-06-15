@@ -1833,27 +1833,13 @@ body{
 
     <div class="chat-meta">
       <div class="chat-time" id="chatTime">--</div>
-<div
-  class="badge"
-  id="unreadCount"
-  style="display:none;"
->
-  0
-</div>    </div>
+
+
+
+</div>
 
   </div>
 
-  <!-- Test Group -->
-  <div class="chat-item" data-type="group">
-
-    <div class="chat-avatar">G</div>
-
-    <div class="chat-info">
-      <div class="chat-name">Test Group</div>
-      <div class="chat-preview">Group chat</div>
-    </div>
-
-  </div>
 
 </div>
 
@@ -2354,17 +2340,6 @@ if(style?.fontStyle === "pixel"){
   
 );
 
-const unreadBadge = document.getElementById("unreadCount");
-
-if (unreadBadge) {
-  unreadBadge.textContent = unreadCount;
-
-  if (unreadCount > 0) {
-    unreadBadge.style.display = "flex";
-  } else {
-    unreadBadge.style.display = "none";
-  }
-}
 
   });
 
@@ -2383,16 +2358,24 @@ if (unreadBadge) {
 
   console.log("FINAL UNREAD COUNT =", unreadCount);
 
-const unreadBadge =
-  document.getElementById("unreadCount");
+const badge = document.getElementById(
+  `badge-${window.currentChatUser}`
+);
 
-if (unreadBadge) {
-  unreadBadge.textContent = unreadCount;
-  unreadBadge.style.display =
+console.log(
+  "LOOKING FOR BADGE:",
+  `badge-${window.currentChatUser}`
+);
+
+console.log("BADGE FOUND =", badge);
+
+
+if (badge) {
+  badge.textContent = unreadCount;
+
+  badge.style.display =
     unreadCount > 0 ? "flex" : "none";
 }
-  
-
   
 
 messagesDiv.scrollTop =
@@ -2645,13 +2628,13 @@ chatList.innerHTML += `
       </div>
     </div>
 
-    <div
-      class="badge"
-      id="unreadCount"
-      style="display:none;"
-    >
-      0
-    </div>
+<div
+  id="badge-${chat.username}"
+  class="badge"
+  style="display:none;"
+>
+  0
+</div>
 
   </div>
 `;
