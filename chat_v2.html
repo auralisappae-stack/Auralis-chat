@@ -1857,6 +1857,74 @@ body{
   color:#CDBBFF;
 }
 
+/*  add new friend CSS */
+
+.friend-modal{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.55);
+
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;
+}
+
+.friend-modal-content{
+  width:700px;
+  max-width:90vw;
+
+  background:linear-gradient(
+    180deg,
+    #171033,
+    #100a24
+  );
+
+  border-radius:24px;
+
+  padding:28px;
+
+  color:white;
+
+  border:1px solid rgba(139,92,246,.35);
+
+  box-shadow:
+    0 0 40px rgba(139,92,246,.25),
+    0 20px 70px rgba(0,0,0,.55);
+}
+
+#closeFriendModal{
+  float:right;
+
+  background:none;
+  border:none;
+
+  color:white;
+  font-size:22px;
+
+  cursor:pointer;
+}
+
+#friendSearchInput{
+  width:100%;
+  height:52px;
+
+  margin-top:20px;
+
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+
+  background:#24184A;
+
+  color:white;
+
+  padding:0 16px;
+  box-sizing:border-box;
+}
+
 
 
 </style>
@@ -2825,8 +2893,8 @@ document
 .getElementById("addFriendBtn")
 .addEventListener("click", async () => {
 
-  const friendUsername =
-  prompt("Enter username:");
+  openAddFriendModal();
+return;
 
   if(!friendUsername) return;
 
@@ -3413,6 +3481,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
+
+<div id="addFriendModal" class="friend-modal">
+
+  <div class="friend-modal-content">
+
+    <button id="closeFriendModal">✕</button>
+
+    <h2>👥 Add Friends</h2>
+
+    <input
+      type="text"
+      id="friendSearchInput"
+      placeholder="Search users..."
+    >
+
+    <div id="friendResults"></div>
+
+  </div>
+
+</div>
+
 <script> 
 
   //start of the new chat btn listener 
@@ -3445,10 +3534,31 @@ closeNewChatModal.addEventListener("click", () => {
 });
 
 
+function openAddFriendModal() {
+    console.log("OPENING MODAL");
+
+  document.getElementById("addFriendModal").style.display = "flex";
+}
+
+const closeFriendModal =
+  document.getElementById("closeFriendModal");
+
+console.log("closeFriendModal =", closeFriendModal);
+
+document
+.getElementById("closeFriendModal")
+.addEventListener("click", () => {
+
+  document.getElementById("addFriendModal")
+    .style.display = "none";
+
+});
+
+
 
 </script>
 
-
+<!-- ----------------------------------------------------->
 <!-- start  of the groupsetting modal -->
 
   <div id="createGroupModal" class="group-modal">
@@ -3550,6 +3660,7 @@ closeNewChatModal.addEventListener("click", () => {
 </div>
 
 </div> <!-- end of the add group modal head-->
+<!-- ----------------------------------------------------->
 
 
 
