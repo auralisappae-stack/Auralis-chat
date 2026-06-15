@@ -2404,31 +2404,6 @@ function openChat(username) {
   username
 ].sort().join("_");
 
-db.collection("chats")
-  .doc(chatId)
-  .collection("messages")
-  .get()
-  .then(snapshot => {
-
-    snapshot.forEach(doc => {
-
-      const msg = doc.data();
-
-      if (
-        !msg.readBy?.includes(window.currentUsername)
-      ) {
-
-        doc.ref.update({
-          readBy: firebase.firestore.FieldValue.arrayUnion(
-            window.currentUsername
-          )
-        });
-
-      }
-
-    });
-
-  });
 
 
   db.collection("users")
