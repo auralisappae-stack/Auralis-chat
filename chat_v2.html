@@ -477,6 +477,9 @@ body{
 
   box-shadow:
     0 2px 20px rgba(0,0,0,.25);
+
+  position: relative;
+  z-index: 10;
 }
 
 
@@ -1749,6 +1752,80 @@ body{
 }
 
 
+/*  welcome image CSS */
+#welcomeScreen{
+  position: relative;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url("Welcome Image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  z-index: 1;
+}
+
+#welcomeImage{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+#welcomeTitle{
+  position: absolute;
+  position: absolute;
+  z-index: 2;
+
+  bottom: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 140px;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #f3a6ff;
+
+  font-size: 48px;
+
+  font-weight: 700;
+
+  text-align: center;
+
+  text-shadow: 0 0 20px rgba(243,166,255,.4);
+}
+
+#welcomeSubtitle{
+  position: absolute;
+  z-index: 2;
+
+  bottom: 90px;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #b8b8d9;
+
+  font-size: 22px;
+
+  text-align: center;
+}
+
 
 
 </style>
@@ -1888,7 +1965,31 @@ body{
 
     <!-- messages here -->
 
-    <div id="messages">
+<div id="messages">
+
+  <div id="welcomeScreen">
+
+    <img
+      src="Welcome Image.png"
+      alt="Welcome"
+      id="welcomeImage"
+    >
+
+    <div id="welcomeOverlay">
+
+      <h1 id="welcomeTitle">
+        Welcome Back ✨
+      </h1>
+
+      <p id="welcomeSubtitle">
+        Your conversations are waiting.
+      </p>
+
+    </div>
+
+  </div> <!-- welcome screen image closer-->
+
+  
 
 
 
@@ -2322,6 +2423,13 @@ messagesDiv.scrollHeight;
 
 function openChat(username) {
 
+    const welcome =
+  document.getElementById("welcomeScreen");
+
+  if (welcome) {
+    welcome.style.display = "none";
+  }
+
 
   window.currentChatUser = username;
 
@@ -2406,6 +2514,13 @@ function openChat(username) {
 
 function openGroup(groupId){
 
+  const welcome =
+document.getElementById("welcomeScreen");
+
+if (welcome) {
+  welcome.style.display = "none";
+}
+
   console.log("Opened group:", groupId);
 
   window.currentGroupId = groupId;
@@ -2447,18 +2562,17 @@ auth.onAuthStateChanged(async user => {
   const profile = doc.data();
 
   window.currentUsername = profile.username;
-  console.log(
-  "LOGGED IN AS:",
-  profile.username
-);
+
+  document.getElementById("welcomeTitle").textContent =
+  `Welcome Back, ${profile.username} ✨`;
+
+
 
   db.collection("friendRequests")
   .where("to", "==", window.currentUsername)
   .where("status", "==", "pending")
   .onSnapshot(snapshot => {
 
-  const requestsList =
-  document.getElementById("requestsList");
 
 requestsList.innerHTML = "";
 
