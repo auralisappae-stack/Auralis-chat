@@ -2402,6 +2402,13 @@ transition:0.2s ease;
   cursor:pointer;
 }
 
+.acceptBtn:disabled{
+  background:#4B5563;
+  cursor:not-allowed;
+  opacity:.8;
+}
+
+
 
 
 
@@ -3996,11 +4003,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-    <input
-      type="text"
-      id="friendSearchInput"
-      placeholder="Search users..."
-    >
+  <input
+  type="text"
+  id="friendSearchInput"
+  placeholder="Search users or paste a friend's invite link..."
+>
 
 <div class="modal-layout">
 
@@ -4069,15 +4076,28 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
 
-    <div id="requestsSection" style="display:none;">
+<div id="requestsSection" style="display:none;">
 
-      <h3>Friend Requests</h3>
+  <h3>Friend Requests</h3>
 
-      <p>No pending requests.</p>
+  <div class="friend-card">
 
-  
+    <div class="friend-avatar">L</div>
 
+    <div class="friend-info">
+      <div class="friend-name">Lilith</div>
+      <div class="friend-meta">
+        Wants to be your friend
+      </div>
     </div>
+
+    <button class="acceptBtn">
+      Accept
+    </button>
+
+  </div>
+
+</div>
 
   </div>
 
@@ -4175,6 +4195,22 @@ const inviteTab =
 const requestsTab =
   document.getElementById("requestsTab");
 
+const friendSearchInput =
+  document.getElementById("friendSearchInput");
+
+  friendSearchInput.addEventListener("input", () => {
+
+  let value = friendSearchInput.value.trim();
+
+  if (value.includes("/invite/")) {
+
+    value = value.split("/invite/")[1];
+
+friendSearchInput.value = value;
+  }
+
+});
+
   
 
 console.log(friendsTab);
@@ -4192,6 +4228,9 @@ inviteTab.addEventListener("click", () => {
   requestsSection.style.display = "none";
 
   inviteRightContent.style.display = "block";
+
+  friendSearchInput.placeholder =
+  "Paste a friend's invite link...";
 
 
 });
@@ -4222,9 +4261,20 @@ friendsTab.addEventListener("click", () => {
   requestsSection.style.display = "none";
 
   inviteRightContent.style.display = "none";
+  friendSearchInput.placeholder =
+  "Search users...";
 
 
 });
+
+document.querySelector(".acceptBtn")
+  .addEventListener("click", () => {
+
+document.querySelector(".acceptBtn").textContent =
+  "Accepted";
+
+document.querySelector(".acceptBtn").disabled = true;
+  });
 
 const friendsSection =
   document.getElementById("friendsSection");
