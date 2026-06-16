@@ -1071,8 +1071,21 @@ body{
 
 #friendsList{
   padding:12px;
-
+  display:flex;
+  flex-direction:column;
+  gap:12px;
   overflow-y:auto;
+  max-height:300px;
+
+}
+
+#friendsList::-webkit-scrollbar{
+  width:6px;
+}
+
+#friendsList::-webkit-scrollbar-thumb{
+  background:#4C1D95;
+  border-radius:10px;
 }
 
 .friend-item{
@@ -1865,7 +1878,8 @@ body{
   position:fixed;
   inset:0;
 
-  background:rgba(0,0,0,.55);
+  z-index:9999;
+  background:rgba(5, 2, 15, 0.85);
 
   justify-content:center;
   align-items:center;
@@ -1874,27 +1888,47 @@ body{
 }
 
 .friend-modal-content{
-  width:700px;
+  scrollbar-width:none; /* Firefox */
+  -ms-overflow-style:none; /* IE/Edge */
+
+   width:760px;
   max-width:90vw;
 
-  background:linear-gradient(
+   height:85vh;      /* important */
+  max-height:85vh;  /* important */
+
+  overflow-y:auto;
+
+  background: linear-gradient(
     180deg,
     #171033,
     #100a24
   );
 
-  border-radius:24px;
+  border: 1px solid rgba(139,92,246,.35);
+  border-radius: 24px;
 
-  padding:28px;
-
-  color:white;
-
-  border:1px solid rgba(139,92,246,.35);
+  padding: 28px;
 
   box-shadow:
     0 0 40px rgba(139,92,246,.25),
     0 20px 70px rgba(0,0,0,.55);
 }
+
+
+.friend-modal-content::-webkit-scrollbar{
+  display:none; /* Chrome, Safari */
+}
+
+.friend-modal-content::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+.friend-modal-content::-webkit-scrollbar-thumb{
+  background:#8B5CF6;
+  border-radius:999px;
+}
+
 
 #closeFriendModal{
   float:right;
@@ -1914,8 +1948,10 @@ body{
 
   margin-top:20px;
 
+  margin:0 24px 24px 24px;
+  width:calc(100% - 48px);
+
   border-radius:14px;
-  border:1px solid rgba(255,255,255,.08);
 
   background:#24184A;
 
@@ -1924,6 +1960,448 @@ body{
   padding:0 16px;
   box-sizing:border-box;
 }
+
+
+.friend-tabs{
+  display:flex;
+  gap:20px;
+  margin:20px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  padding-bottom:12px;
+}
+
+.friend-tabs button{
+  flex:1;
+  background:none;
+  border:none;
+  color:#9CA3AF;
+  padding:14px 0;
+  cursor:pointer;
+  position:relative;
+}
+
+.friend-tabs button.active-tab{
+  color:#C084FC;
+}
+
+.friend-tabs button.active-tab::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  width:100%;
+  height:2px;
+  background:#A855F7;
+}
+
+.active-tab{
+  color:#d46cff;
+  border-bottom:3px solid #d46cff;
+  border-radius:0;
+}
+
+
+#inviteLinkInput{
+  width:300px;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  padding:0 12px;
+  background:#24184A;
+  color:white;
+}
+
+#copyInviteBtn{
+  height:42px;
+  border:none;
+  border-radius:10px;
+  padding:0 16px;
+  background:linear-gradient(135deg,#8B5CF6,#FF7EDB);
+  color:white;
+  cursor:pointer;
+}
+
+.friend-avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#A855F7;
+  color:white;
+  font-weight:bold;
+}
+
+.friend-card:hover{
+  background:#27224A;
+}
+
+.friend-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:12px;
+  background:#1E1B3A;
+  border-radius:12px;
+  border:1px solid #2F2A5A;
+
+  transition:0.2s ease;
+
+}
+
+.friend-info{
+  flex:1;
+}
+
+.add-friend-btn{
+  border:none;
+  border-radius:20px;
+  padding:8px 16px;
+
+  background:#A855F7;
+  color:white;
+
+  cursor:pointer;
+
+transition:0.2s ease;
+
+}
+
+.add-friend-btn:hover{
+  opacity:0.9;
+
+  transform:scale(1.05);
+
+}
+
+.friend-name{
+  color:white;
+  font-weight:600;
+}
+
+.friend-meta{
+  color:#9CA3AF;
+  font-size:12px;
+  margin-top:2px;
+}
+
+#friendsSection h3{
+  color:white;
+  margin-bottom:16px;
+}
+.friends-layout{
+  display:flex;
+  gap:20px;
+}
+
+#friendsSection{
+  flex:1;
+}
+
+
+
+.friends-right-panel span{
+  color:#C084FC;
+}
+
+.friends-right-panel p{
+  color:#9CA3AF;
+  margin:12px 0 20px;
+}
+
+.invite-with-link-btn{
+  background:#A855F7;
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:12px 20px;
+  cursor:pointer;
+}
+
+.modal-layout{
+  display:flex;
+ min-height:500px;
+  height:auto;
+  padding-top:24px;
+
+}
+
+.modal-left{
+  flex:1;
+  overflow:hidden;
+}
+
+.friends-right-panel{
+ width:320px;
+  min-width:320px;
+  overflow:hidden;
+  padding-left:40px;
+  overflow:hidden;
+  max-width:300px;
+
+
+   display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:0;
+
+  transform:translateY(-35px);
+
+
+}
+
+#inviteRightContent{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
+#inviteSection{
+  padding-right:40px;
+}
+
+
+.friends-image{
+  max-width:240px;
+  width:100%;
+  margin-bottom:10px;
+}
+
+.friends-right-panel span{
+  color:#C084FC;
+}
+
+.friends-right-panel p{
+  color:#9CA3AF;
+}
+
+.invite-step{
+  margin-bottom:14px;
+}
+
+.invite-steps h4{
+  color:#fff;
+  margin-bottom:16px;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:.8;
+}
+
+.invite-steps p{
+  color:#9CA3AF;
+  line-height:1.5;
+  margin-bottom:16px;
+}
+
+.invite-steps b{
+  color:white;
+}
+
+.invite-steps{
+  width:100%;
+  text-align:left;
+  margin-top:12px;
+
+  padding-left:30px;
+
+}
+
+.invite-steps h4{
+  color:#fff;
+  margin-bottom:20px;
+  font-size:18px;
+
+  margin-left:40px;
+
+}
+
+.invite-steps p{
+  color:#B8B8C7;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.invite-steps b{
+  color:#fff;
+}
+
+.invite-timeline{
+  position:relative;
+}
+
+.invite-timeline::before{
+  content:"";
+  position:absolute;
+  left:22px;
+  top:45px;
+  width:2px;
+  height:130px;
+  background:#B56CFF;
+}
+
+.invite-step{
+  display:flex;
+  gap:16px;
+  margin-bottom:22px;
+  position:relative;
+}
+
+.step-icon{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#221542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  position:relative;
+  z-index:2;
+}
+
+.step-text b{
+  color:#fff;
+  display:block;
+  margin-bottom:4px;
+  font-size:16px;
+  font-weight:600;
+}
+
+
+.step-text p{
+  margin-top:2px;
+  font-size:13px;
+  line-height:1.4;
+  color:#B8B8C7;
+}
+
+.invite-info-card{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  width:fit-content;
+  max-width:260px;
+
+  padding:12px 16px;
+
+  background:#24184A;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+
+  color:#D7D7E8;
+  font-size:14px;
+}
+
+.invite-link-box{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px;
+
+  background:#24184A;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+}
+
+.invite-note{
+  margin-top:10px;
+  color:#9CA3AF;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.link-setting{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:14px;
+
+  margin-top:10px;
+
+  background:#1A1338;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+}
+
+.share-invite-btn{
+  width:100%;
+  height:48px;
+
+  margin-top:20px;
+
+  border:none;
+  border-radius:12px;
+
+  background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color:white;
+  font-weight:600;
+}
+
+.share-invite-btn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(139,92,246,.35),
+    0 0 35px rgba(255,126,219,.25);
+}
+
+#inviteSection h3{
+  font-size:32px;
+  margin-bottom:10px;
+  color:white;
+}
+
+#inviteSection p{
+  color:#A8A8C0;
+  line-height:1.6;
+}
+
+#inviteSection h4{
+  margin-top:28px;
+  margin-bottom:12px;
+
+  color:white;
+  font-size:15px;
+}
+
+.invite-link-box span{
+  color:#D7D7E8;
+  font-size:14px;
+}
+
+#copyInviteBtn{
+  border:none;
+
+  padding:10px 18px;
+
+  border-radius:10px;
+
+  background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #FF7EDB
+  );
+
+  color:white;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
 
 
 
@@ -2193,6 +2671,18 @@ auth.onAuthStateChanged(user => {
   console.log("UID:", user?.uid);
 
   if (!user) return;
+
+  db.collection("users")
+  .doc(user.uid)
+  .get()
+  .then(doc => {
+
+    const userData = doc.data();
+
+    document.getElementById("inviteLinkText").textContent =
+      `auralis.app/invite/${userData.username}`;
+
+  });
 
   db.collection("users")
     .doc(user.uid)
@@ -3490,21 +3980,268 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <h2>👥 Add Friends</h2>
 
+    <div class="friend-tabs">
+
+  <button id="friendsTab" class="active-tab">
+  Friends
+ </button>
+
+  <button id="inviteTab">
+    Invite Link
+  </button>
+
+  <button id="requestsTab">
+    Requests
+  </button>
+
+</div>
+
     <input
       type="text"
       id="friendSearchInput"
       placeholder="Search users..."
     >
 
-    <div id="friendResults"></div>
+<div class="modal-layout">
+
+  <div class="modal-left">
+
+    <div id="friendsSection">
+
+      <h3>Your Friends</h3>
+
+      <div id="friendsList"></div>
+
+    </div>
+
+    <div id="inviteSection" style="display:none;">
+
+  <div class="invite-left-card">
+
+  <h3>Invite your friends</h3>
+
+  <p>
+    Share your personal invite link<br>
+    and bring more people to Auralis ✨
+  </p>
+
+</div>
+
+<h4>Your Invite Link</h4>
+
+<div class="invite-link-box">
+
+<span id="inviteLinkText"></span>
+
+  <button id="copyInviteBtn">
+    Copy
+  </button>
+
+</div>
+
+<p class="invite-note">
+  Anyone with this link can join and
+  start chatting with you.
+</p>
+
+<h4>Link Settings</h4>
+
+<div class="link-setting">
+
+  <span>🕒 Link expires</span>
+
+  <span>Never ▾</span>
+
+</div>
+
+<div class="link-setting">
+
+  <span>👥 Max uses</span>
+
+  <span>Unlimited ▾</span>
+
+</div>
+
+<button class="share-invite-btn">
+  Share Invite Link
+</button>
+
+    </div>
+
+
+    <div id="requestsSection" style="display:none;">
+
+      <h3>Friend Requests</h3>
+
+      <p>No pending requests.</p>
+
+  
+
+    </div>
+
+  </div>
+
+  <div class="friends-right-panel">
+
+    <img
+      src="addfriends.png"
+      class="friends-image"
+      alt="Friends illustration"
+    >
+
+<div id="inviteRightContent" style="display:none;">
+
+  <div class="invite-steps">
+
+    <h4>How it works</h4>
+
+    <div class="invite-timeline">
+
+      <div class="invite-step">
+        <div class="step-icon">🔗</div>
+
+        <div class="step-text">
+          <b>Share your link</b>
+          <p>Send it to friends however you like.</p>
+        </div>
+      </div>
+
+      <div class="invite-step">
+        <div class="step-icon">👥</div>
+
+        <div class="step-text">
+          <b>They join Auralis</b>
+          <p>Anyone with the link can create an account and join.</p>
+        </div>
+      </div>
+
+      <div class="invite-step">
+        <div class="step-icon">💬</div>
+
+        <div class="step-text">
+          <b>Start chatting</b>
+          <p>You’ll be able to chat right away.</p>
+        </div>
+      </div>
+
+    </div>
+
+        <div class="invite-info-card">
+      🛡️ You can change or disable the link anytime.
+    </div>
+
 
   </div>
 
 </div>
 
+  </div> <!-- friends-right-panel -->
+
+</div> <!-- modal-layout -->
+
+  </div> <!-- friend-modal-content -->
+
+</div> <!-- addFriendModal --> 
 <script> 
 
   //start of the new chat btn listener 
+
+  const copyInviteBtn = document.getElementById("copyInviteBtn");
+
+copyInviteBtn.addEventListener("click", async () => {
+
+  const link =
+    document.getElementById("inviteLinkText").textContent.trim();
+
+  await navigator.clipboard.writeText(link);
+
+  copyInviteBtn.textContent = "Copied!";
+
+  setTimeout(() => {
+    copyInviteBtn.textContent = "Copy";
+  }, 2000);
+
+});
+
+  const friendsTab =
+  document.getElementById("friendsTab");
+
+  const inviteRightContent =
+   document.getElementById("inviteRightContent");
+
+const inviteTab =
+  document.getElementById("inviteTab");
+
+const requestsTab =
+  document.getElementById("requestsTab");
+
+  
+
+console.log(friendsTab);
+console.log(inviteTab);
+console.log(requestsTab);
+
+inviteTab.addEventListener("click", () => {
+
+  inviteTab.classList.add("active-tab");
+  friendsTab.classList.remove("active-tab");
+  requestsTab.classList.remove("active-tab");
+
+  friendsSection.style.display = "none";
+  inviteSection.style.display = "block";
+  requestsSection.style.display = "none";
+
+  inviteRightContent.style.display = "block";
+
+
+});
+
+requestsTab.addEventListener("click", () => {
+
+  requestsTab.classList.add("active-tab");
+  friendsTab.classList.remove("active-tab");
+  inviteTab.classList.remove("active-tab");
+
+  friendsSection.style.display = "none";
+  inviteSection.style.display = "none";
+  requestsSection.style.display = "block";
+
+  inviteRightContent.style.display = "none";
+
+
+});
+
+friendsTab.addEventListener("click", () => {
+
+  friendsTab.classList.add("active-tab");
+  inviteTab.classList.remove("active-tab");
+  requestsTab.classList.remove("active-tab");
+
+  friendsSection.style.display = "block";
+  inviteSection.style.display = "none";
+  requestsSection.style.display = "none";
+
+  inviteRightContent.style.display = "none";
+
+
+});
+
+const friendsSection =
+  document.getElementById("friendsSection");
+
+const inviteSection =
+  document.getElementById("inviteSection");
+
+const requestsSection =
+  document.getElementById("requestsSection");
+
+
+console.log("friendsSection =", friendsSection);
+console.log("inviteSection =", inviteSection);
+console.log("requestsSection =", requestsSection);
+
+
+
 
 const newChatBtn =
   document.getElementById("new-chat-btn");
