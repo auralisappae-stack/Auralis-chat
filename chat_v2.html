@@ -1995,36 +1995,25 @@ body{
 
 
 .friend-avatar{
-  width:48px;
-  height:48px;
+  width:52px;
+  height:52px;
   border-radius:50%;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  background:#A855F7;
+  background:linear-gradient(135deg,#8b5cf6,#d946ef);
   color:white;
-  font-weight:bold;
+  font-size:20px;
+  font-weight:700;
 }
 
-.friend-card:hover{
-  background:#27224A;
-}
 
 .friend-card{
   display:flex;
   align-items:center;
-  gap:12px;
-  justify-content: space-between;
-
-  padding:12px;
-  background:#1E1B3A;
-  border-radius:12px;
-  border:1px solid #2F2A5A;
-
-  transition:0.2s ease;
-
+  gap:14px;
 }
 
 .friend-info{
@@ -2052,15 +2041,14 @@ transition:0.2s ease;
 
 }
 
+
 .friend-name{
-  color:white;
+  font-size:16px;
   font-weight:600;
 }
 
 .friend-meta{
-  color:#9CA3AF;
-  font-size:12px;
-  margin-top:2px;
+  font-size:13px;
 }
 
 #friendsSection h3{
@@ -2491,6 +2479,71 @@ transition:0.2s ease;
   padding: 10px 14px;
 }
 
+.messageFriendBtn,
+.viewProfileBtn{
+  height:36px;
+  padding:0 14px;
+  font-size:13px;
+  border-radius:10px;
+  border:1px solid rgba(168,85,247,.35);
+  background:transparent;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
+.viewProfileBtn{
+  color:#c084fc;
+}
+
+.messageFriendBtn:hover,
+.viewProfileBtn:hover{
+  background: rgba(168, 85, 247, 0.12);
+}
+
+.friend-actions{
+  display:flex;
+  gap:8px;
+  margin-left:auto;
+}
+
+
+.friendship-corner{
+  width:100%;
+  box-sizing:border-box;
+  margin-top:10px;
+  padding:18px;
+  background:#161033;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  text-align:center;
+}
+.friendship-stats{
+  display:flex;
+  justify-content:space-around;
+  padding:18px;
+  margin-top:16px;
+  background:#24184A;
+  border-radius:14px;
+}
+
+.friendship-stats span{
+  display:block;
+  color:#C084FC;
+  font-size:24px;
+  font-weight:700;
+}
+
+.friendship-stats small{
+  color:#A8A8C0;
+  display:block;
+  margin-top:4px;
+}
+
+
+
 </style>
 
 
@@ -2770,6 +2823,8 @@ friendDiv.innerHTML = `
     <div class="friend-meta">@${friend.username}</div>
   </div>
 
+  <div class="friend-actions">
+
   <button class="messageFriendBtn" data-user="${friend.username}">
     💬 Message
   </button>
@@ -2777,6 +2832,7 @@ friendDiv.innerHTML = `
   <button class="viewProfileBtn" data-user="${friend.username}">
     👤 View Profile
   </button>
+  </div>
 `;
 
 friendDiv.addEventListener("click", () => {
@@ -4091,62 +4147,77 @@ document.addEventListener("DOMContentLoaded", () => {
 </div>
 
   </div>
+<div class="friends-right-panel">
 
-  <div class="friends-right-panel">
-
+  <div id="friendsRightPanel">
     <img
       src="addfriends.png"
       class="friends-image"
       alt="Friends illustration"
     >
 
-<div id="inviteRightContent" style="display:none;">
+    <div class="friendship-corner">
+      <h3>Friendship Corner ✨</h3>
+      <p>Cherish your connections.</p>
 
-  <div class="invite-steps">
+      <div class="friendship-stats">
+        <div>
+          <span id="friendsCount">0</span>
+          <small>Friends</small>
+        </div>
 
-    <h4>How it works</h4>
-
-    <div class="invite-timeline">
-
-      <div class="invite-step">
-        <div class="step-icon">🔗</div>
-
-        <div class="step-text">
-          <b>Share your link</b>
-          <p>Send it to friends however you like.</p>
+        <div>
+          <span id="onlineFriendsCount">0</span>
+          <small>Online</small>
         </div>
       </div>
-
-      <div class="invite-step">
-        <div class="step-icon">👥</div>
-
-        <div class="step-text">
-          <b>They join Auralis</b>
-          <p>Anyone with the link can create an account and join.</p>
-        </div>
-      </div>
-
-      <div class="invite-step">
-        <div class="step-icon">💬</div>
-
-        <div class="step-text">
-          <b>Start chatting</b>
-          <p>You’ll be able to chat right away.</p>
-        </div>
-      </div>
-
     </div>
+  </div>
 
-        <div class="invite-info-card">
-      🛡️ You can change or disable the link anytime.
+  <div id="inviteRightContent" style="display:none;">
+
+      <img
+    src="addfriends.png"
+    class="friends-image"
+    alt="Invite illustration"
+  >
+
+    <div class="invite-steps">
+      <h4>How it works</h4>
+
+      <div class="invite-timeline">
+        <div class="invite-step">
+          <div class="step-icon">🔗</div>
+          <div class="step-text">
+            <b>Share your link</b>
+            <p>Send it to friends however you like.</p>
+          </div>
+        </div>
+
+        <div class="invite-step">
+          <div class="step-icon">👥</div>
+          <div class="step-text">
+            <b>They join Auralis</b>
+            <p>Anyone with the link can create an account and join.</p>
+          </div>
+        </div>
+
+        <div class="invite-step">
+          <div class="step-icon">💬</div>
+          <div class="step-text">
+            <b>Start chatting</b>
+            <p>You’ll be able to chat right away.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="invite-info-card">
+        🛡️ You can change or disable the link anytime.
+      </div>
     </div>
-
-
   </div>
 
 </div>
-
-  </div> <!-- friends-right-panel -->
 
 </div> <!-- modal-layout -->
 
@@ -4276,7 +4347,7 @@ friendSearchInput.value = value;
   
 
 
-
+// invite tap
 inviteTab.addEventListener("click", () => {
   inviteTab.classList.add("active-tab");
   friendsTab.classList.remove("active-tab");
@@ -4289,8 +4360,12 @@ inviteTab.addEventListener("click", () => {
   document.querySelector(".friends-right-panel").style.display = "flex";
   inviteRightContent.style.display = "block";
 
+ document.getElementById("friendsRightPanel").style.display = "none";
+ inviteRightContent.style.display = "block";
+
 });
 
+//request tap 
 requestsTab.addEventListener("click", () => {
   requestsTab.classList.add("active-tab");
   friendsTab.classList.remove("active-tab");
@@ -4301,9 +4376,11 @@ requestsTab.addEventListener("click", () => {
   requestsSection.style.display = "block";
 
   document.querySelector(".friends-right-panel").style.display = "none";
+
 });
 
 
+// friends tab 
 friendsTab.addEventListener("click", () => {
   friendsTab.classList.add("active-tab");
   inviteTab.classList.remove("active-tab");
@@ -4314,6 +4391,9 @@ friendsTab.addEventListener("click", () => {
   requestsSection.style.display = "none";
 
   document.querySelector(".friends-right-panel").style.display = "flex";
+  inviteRightContent.style.display = "none";
+
+  document.getElementById("friendsRightPanel").style.display = "block";
   inviteRightContent.style.display = "none";
 
 });
@@ -4378,7 +4458,6 @@ document.addEventListener("click", async (e) => {
 });
 
 // View Profile button
-
 
 document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("viewProfileBtn")) return;
