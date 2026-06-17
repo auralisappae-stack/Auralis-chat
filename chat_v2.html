@@ -1942,24 +1942,6 @@ body{
   cursor:pointer;
 }
 
-#friendSearchInput{
-  width:100%;
-  height:52px;
-
-  margin-top:20px;
-
-  margin:0 24px 24px 24px;
-  width:calc(100% - 48px);
-
-  border-radius:14px;
-
-  background:#24184A;
-
-  color:white;
-
-  padding:0 16px;
-  box-sizing:border-box;
-}
 
 
 .friend-tabs{
@@ -2011,15 +1993,6 @@ body{
   color:white;
 }
 
-#copyInviteBtn{
-  height:42px;
-  border:none;
-  border-radius:10px;
-  padding:0 16px;
-  background:linear-gradient(135deg,#8B5CF6,#FF7EDB);
-  color:white;
-  cursor:pointer;
-}
 
 .friend-avatar{
   width:48px;
@@ -2043,6 +2016,7 @@ body{
   display:flex;
   align-items:center;
   gap:12px;
+  justify-content: space-between;
 
   padding:12px;
   background:#1E1B3A;
@@ -2383,6 +2357,7 @@ transition:0.2s ease;
   font-size:14px;
 }
 
+#sendInviteBtn,
 #copyInviteBtn{
   border:none;
 
@@ -2410,7 +2385,111 @@ transition:0.2s ease;
 
 
 
+.friend-search-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
 
+.friend-search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  background: #121026;
+  border: 1px solid #7b4dff;
+
+  border-radius: 16px;
+  padding: 0 18px;
+  height: 50px;
+  width: 750px;
+
+}
+
+.search-icon {
+  font-size: 24px;
+  color: #a88cff;
+  margin-right: 12px;
+}
+
+.friend-search-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+
+  color: white;
+  font-size: 18px;
+}
+
+#sendInviteBtn {
+  width: 50px;
+  height: 50px;
+}
+
+.request-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+
+}
+
+.ignoreBtn {
+    background: transparent;
+    border: 1px solid #555;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.acceptBtn,
+.ignoreBtn {
+    width: 90px;
+    height: 40px;
+}
+
+.requests-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.requests-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#requestsCount {
+  background: #3B2A6A;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.requests-header p {
+  margin-top: 6px;
+  color: #A8A8C0;
+}
+
+.sort-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #A8A8C0;
+}
+
+#requestSort {
+  background: #120C2A;
+  color: white;
+  border: 1px solid #2F2A5A;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
 
 </style>
 
@@ -2435,7 +2514,6 @@ transition:0.2s ease;
 
   
     <div class="search-inner">
-      <span class="search-icon">⌕</span>
 
       <input
         id="searchInput"
@@ -2539,9 +2617,6 @@ transition:0.2s ease;
 
     <img src="AddIcon.png" class="headerIcon" id="addFriendBtn">
 
-  <img
-    src="FriendListIcon.png" class="headerIcon" id="friendsPanelBtn">
-  
 </div>
 
 </div>
@@ -2625,21 +2700,6 @@ transition:0.2s ease;
   <div id="friendsHeader">
     <span>Friends</span>
 
-    <img src="AddIcon.png" class="headerIcon" id="requestBtn">
-  </div>
-
-  <div id="friendsList"></div>
-
-  <div id="requestsPanel" style="display:none;">
-    <h3>Friend Requests</h3>
-
-    <div id="requestsList"></div>
-  </div>
-
-</div>
-
-  
-
 
 </div>
 
@@ -2647,7 +2707,6 @@ transition:0.2s ease;
 
 <!-- firebase script-->
  <script>
-  console.log("NEW CHAT SCRIPT RUNNING");
 
 
     window.currentUsername = "Guest";
@@ -2669,13 +2728,12 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 
   auth.onAuthStateChanged(user => {
-  console.log("UID =", user?.uid);
+
 });
 
 auth.onAuthStateChanged(user => {
 
-  console.log("Logged in user:", user);
-  console.log("UID:", user?.uid);
+  
 
   if (!user) return;
 
@@ -2696,10 +2754,7 @@ auth.onAuthStateChanged(user => {
     .collection("friends")
     .onSnapshot(snapshot => {
 
-      console.log(
-        "Friends count:",
-        snapshot.size
-      );
+    
 
       const friendsList =
       document.getElementById("friendsList");
@@ -2726,7 +2781,6 @@ auth.onAuthStateChanged(user => {
 
 friendDiv.addEventListener("click", () => {
 
-  console.log("Clicked friend:", friend.username);
 
    db.collection("users")
     .doc(auth.currentUser.uid)
@@ -2799,7 +2853,7 @@ function loadMessages() {
 
 
     if (!window.currentChatUser) {
-    console.log("No chat selected yet");
+
     return;
   }
 
@@ -2809,7 +2863,6 @@ function loadMessages() {
   window.currentChatUser
 ].sort().join("_");
 
-console.log("CHAT ID =", chatId);
 
 
 
@@ -2819,14 +2872,12 @@ db.collection("chats")
 .orderBy("time")
 .onSnapshot(snapshot => {
 
-  console.log("MESSAGES SNAPSHOT FIRED");
-console.log("MESSAGE DOC COUNT =", snapshot.size);
+
 
   messagesDiv.innerHTML = "";
 
   const myStyle = userStyles[window.currentUsername];
 
-console.log("My Style =", myStyle);
 
 if (myStyle?.chatBackground) {
   const chatArea = document.getElementById("chatArea");
@@ -2844,31 +2895,17 @@ if (myStyle?.chatBackground) {
     const msg = doc.data();
 
 
-console.log(
-  "CURRENT USER =",
-  window.currentUsername
-);
+
 
 
 
     const style = userStyles[msg.user];
 
  
-    console.log("bubbleColor =", style?.bubbleColor);
-    console.log("fontStyle =", style?.fontStyle);
-    console.log("bubbleStyle =", style?.bubbleStyle);
-    console.log("bubbleDecoration =", style?.bubbleDecoration);
-    console.log("msg.user =", msg.user);
 
-    
 
     const bubble = document.createElement("div");
 
-    console.log(
-  "Comparing:",
-  msg.user,
-  window.currentUsername
-);
 
 if(msg.user === window.currentUsername){
   bubble.className = "bubble me";
@@ -2878,9 +2915,6 @@ if(msg.user === window.currentUsername){
   bubble.style.marginRight = "auto";
 }
 
-console.log("CLASS =", bubble.className);
-
-console.log(bubble.className);
 
    bubble.innerHTML = `
   <div class="msgHeader">
@@ -3148,8 +3182,6 @@ if (welcome) {
 
 }
 
-console.log("Auth object:", auth);
-console.log("Current user:", auth.currentUser);
 
 
 const messagesDiv =
@@ -3159,11 +3191,53 @@ let userStyles = {};
 let selectedMembers = [];
 let selectedGroupPhoto = "";
 let createGroupModal;
+let friendRequests = [];
+
+// function of the friend requests
+function renderFriendRequests() {
+    const container = document.getElementById("friendRequestsList");
+
+    if (!container) return;
+
+    container.innerHTML = friendRequests.map(request => `
+        <div class="friend-card">
+
+            <div class="friend-avatar">
+                ${request.username.charAt(0)}
+            </div>
+
+            <div class="friend-info">
+                <div class="friend-name">
+                    ${request.username}
+                </div>
+
+                <div class="friend-meta">
+                    ${request.mutualFriends} mutual friends
+                </div>
+            </div>
+
+            <div class="request-actions">
+
+    <button class="acceptBtn">
+        Accept
+    </button>
+
+    <button class="ignoreBtn">
+        Ignore
+    </button>
+
+</div>
+
+        </div>
+    `).join('');
+} 
+// end of the funtion of the friend request
 
 window.selectedMembers = selectedMembers;
 
 auth.onAuthStateChanged(async user => {
 
+renderFriendRequests();
 
 
 
@@ -3189,33 +3263,23 @@ auth.onAuthStateChanged(async user => {
   .where("status", "==", "pending")
   .onSnapshot(snapshot => {
 
+     friendRequests = [];
 
-requestsList.innerHTML = "";
+  snapshot.forEach(doc => {
+    const request = doc.data();
 
-snapshot.forEach(doc => {
+    friendRequests.push({
+      id: doc.id,
+      username: request.from,
+      handle: "@" + request.from,
+      mutualFriends: 0,
+      time: "now"
+    });
+  });
 
-  const request = doc.data();
-
-   console.log("Request from:", request.from);
-
-requestsList.innerHTML += `
-  <div class="requestItem">
-    <div class="requestAvatar">
-      ${request.from[0].toUpperCase()}
-    </div>
-
-    <div class="requestInfo">
-      <div class="requestName">${request.from}</div>
-      <div class="requestText">wants to be your friend</div>
-    </div>
-
-   <button class="acceptBtn" data-id="${doc.id}">✓</button>
-<button class="declineBtn" data-id="${doc.id}">×</button>
-  </div>
-`;
+  renderFriendRequests();
 
 
-});
 
   });
 
@@ -3455,14 +3519,7 @@ console.log(
 );
 });
 
-document
-  .getElementById("requestBtn")
-  .addEventListener("click", () => {
 
-   document.getElementById("requestsPanel")
-  .style.display = "block";
-
-  });
 
 document.getElementById("userName")
 .textContent = window.currentUsername;
@@ -3628,70 +3685,9 @@ if(userStyles[username]?.bubbleDecoration === "star"){
 }
 
 
-//friendlist button Listener
-
-document
-.getElementById("friendsPanelBtn")
-.addEventListener("click", () => {
-
-  console.log("clicked");
-
-  document
-  .getElementById("friendsPanel")
-  .style.display = "flex";
-
-});
 
 
-document.addEventListener("click", async (e) => {
-
-  if (!e.target.classList.contains("declineBtn"))
-    return;
-
-  const requestId =
-    e.target.dataset.id;
-
-  await db
-    .collection("friendRequests")
-    .doc(requestId)
-    .delete();
-
-});
-
-
-document.addEventListener("click", async (e) => {
-
-  if (!e.target.classList.contains("acceptBtn"))
-    return;
-
-  const requestId =
-    e.target.dataset.id;
-
-  const requestDoc = await db
-  .collection("friendRequests")
-  .doc(requestId)
-  .get();
-
-const request = requestDoc.data();
-
-console.log("Accepting:", request);
-
-await db
-  .collection("users")
- .doc(auth.currentUser.uid)
-  .collection("friends")
-  .add({
-    username: request.from
-  });
-
-  await db
-  .collection("friendRequests")
-  .doc(requestId)
-  .delete();
-
-});
-
-
+// start of the filter btns 
 const filterBtns = document.querySelectorAll(".filter-btn");
 
 filterBtns.forEach(btn => {
@@ -4003,11 +3999,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-  <input
-  type="text"
-  id="friendSearchInput"
-  placeholder="Search users or paste a friend's invite link..."
->
+<div class="friend-search-row">
+
+  <div class="friend-search-box">
+    <input
+      id="friendSearchInput"
+      type="text"
+      placeholder="Enter username or Auralis ID..."
+    >
+  </div>
+
+  <button id="sendInviteBtn">
+     ➜
+  </button>
+
+</div>
 
 <div class="modal-layout">
 
@@ -4078,24 +4084,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <div id="requestsSection" style="display:none;">
 
-  <h3>Friend Requests</h3>
-
-  <div class="friend-card">
-
-    <div class="friend-avatar">L</div>
-
-    <div class="friend-info">
-      <div class="friend-name">Lilith</div>
-      <div class="friend-meta">
-        Wants to be your friend
-      </div>
-    </div>
-
-    <button class="acceptBtn">
-      Accept
-    </button>
-
+<div class="requests-header">
+  <div>
+    <h3>
+      Friend Requests
+      <span id="requestsCount">0</span>
+    </h3>
+    <p>People who want to be your friend</p>
   </div>
+
+  <div class="sort-box">
+    <span>Sort by:</span>
+    <select id="requestSort">
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+      <option value="mutual">Most Mutual</option>
+    </select>
+  </div>
+</div>
+  <div id="friendRequestsList"></div>
+
 
 </div>
 
@@ -4183,6 +4191,42 @@ copyInviteBtn.addEventListener("click", async () => {
 
 });
 
+const friends = [];
+const friendsList = 
+document.getElementById("friendsList");
+
+
+function addFriend(username) {
+
+  if (friends.includes(username)) {
+    alert("This friend is already added");
+    return;
+  }
+
+  friends.push(username);
+
+  const friendItem = document.createElement("div");
+  friendItem.textContent = username;
+
+  friendsList.appendChild(friendItem);
+}
+
+document.addEventListener("click", (e) => {
+
+  if (e.target.id !== "sendInviteBtn") return;
+
+  const value =
+    friendSearchInput.value.trim();
+
+  if (!value) {
+    alert("Paste an invite link first");
+    return;
+  }
+
+addFriend(value);
+
+});
+
   const friendsTab =
   document.getElementById("friendsTab");
 
@@ -4195,8 +4239,17 @@ const inviteTab =
 const requestsTab =
   document.getElementById("requestsTab");
 
-const friendSearchInput =
-  document.getElementById("friendSearchInput");
+  const friendsSection =
+  document.getElementById("friendsSection");
+
+const inviteSection =
+  document.getElementById("inviteSection");
+
+const requestsSection =
+  document.getElementById("requestsSection");
+
+
+
 
   friendSearchInput.addEventListener("input", () => {
 
@@ -4213,12 +4266,9 @@ friendSearchInput.value = value;
 
   
 
-console.log(friendsTab);
-console.log(inviteTab);
-console.log(requestsTab);
+
 
 inviteTab.addEventListener("click", () => {
-
   inviteTab.classList.add("active-tab");
   friendsTab.classList.remove("active-tab");
   requestsTab.classList.remove("active-tab");
@@ -4227,16 +4277,12 @@ inviteTab.addEventListener("click", () => {
   inviteSection.style.display = "block";
   requestsSection.style.display = "none";
 
+  document.querySelector(".friends-right-panel").style.display = "flex";
   inviteRightContent.style.display = "block";
-
-  friendSearchInput.placeholder =
-  "Paste a friend's invite link...";
-
 
 });
 
 requestsTab.addEventListener("click", () => {
-
   requestsTab.classList.add("active-tab");
   friendsTab.classList.remove("active-tab");
   inviteTab.classList.remove("active-tab");
@@ -4245,13 +4291,11 @@ requestsTab.addEventListener("click", () => {
   inviteSection.style.display = "none";
   requestsSection.style.display = "block";
 
-  inviteRightContent.style.display = "none";
-
-
+  document.querySelector(".friends-right-panel").style.display = "none";
 });
 
-friendsTab.addEventListener("click", () => {
 
+friendsTab.addEventListener("click", () => {
   friendsTab.classList.add("active-tab");
   inviteTab.classList.remove("active-tab");
   requestsTab.classList.remove("active-tab");
@@ -4260,36 +4304,31 @@ friendsTab.addEventListener("click", () => {
   inviteSection.style.display = "none";
   requestsSection.style.display = "none";
 
+  document.querySelector(".friends-right-panel").style.display = "flex";
   inviteRightContent.style.display = "none";
-  friendSearchInput.placeholder =
-  "Search users...";
-
 
 });
 
-document.querySelector(".acceptBtn")
-  .addEventListener("click", () => {
-
-document.querySelector(".acceptBtn").textContent =
-  "Accepted";
-
-document.querySelector(".acceptBtn").disabled = true;
-  });
-
-const friendsSection =
-  document.getElementById("friendsSection");
-
-const inviteSection =
-  document.getElementById("inviteSection");
-
-const requestsSection =
-  document.getElementById("requestsSection");
 
 
-console.log("friendsSection =", friendsSection);
-console.log("inviteSection =", inviteSection);
-console.log("requestsSection =", requestsSection);
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("acceptBtn")) return;
 
+  e.target.textContent = "Accepted";
+  e.target.disabled = true;
+});
+
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("ignoreBtn")) return;
+
+  console.log("IGNORE CLICKED");
+
+  const friendCard = e.target.closest(".friend-card");
+
+  if (friendCard) {
+    friendCard.remove();
+  }
+});
 
 
 
@@ -4302,9 +4341,6 @@ const newChatModal =
 const closeNewChatModal =
   document.getElementById("closeNewChatModal");
 
-console.log("newChatBtn =", newChatBtn);
-console.log("newChatModal =", newChatModal);
-console.log("closeNewChatModal =", closeNewChatModal);
 
 newChatBtn.addEventListener("click", () => {
 
