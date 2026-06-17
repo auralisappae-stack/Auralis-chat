@@ -2726,6 +2726,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 //to make the users unique and perms
 const auth = firebase.auth();
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 
   auth.onAuthStateChanged(user => {
 
@@ -2737,17 +2739,6 @@ auth.onAuthStateChanged(user => {
 
   if (!user) return;
 
-  db.collection("users")
-  .doc(user.uid)
-  .get()
-  .then(doc => {
-
-    const userData = doc.data();
-
-    document.getElementById("inviteLinkText").textContent =
-      `auralis.app/invite/${userData.username}`;
-
-  });
 
   db.collection("users")
     .doc(user.uid)
@@ -2767,17 +2758,26 @@ auth.onAuthStateChanged(user => {
 
   const friendDiv = document.createElement("div");
 
-  friendDiv.className = "friend-item";
+  friendDiv.className = "friend-card";
 
-  friendDiv.innerHTML = `
-    <div class="chat-avatar">
-      ${friend.username[0].toUpperCase()}
-    </div>
+friendDiv.innerHTML = `
+  <div class="friend-avatar">
+    ${friend.username[0].toUpperCase()}
+  </div>
 
-    <div>
-      ${friend.username}
-    </div>
-  `;
+  <div class="friend-info">
+    <div class="friend-name">${friend.username}</div>
+    <div class="friend-meta">@${friend.username}</div>
+  </div>
+
+  <button class="messageFriendBtn" data-user="${friend.username}">
+    💬 Message
+  </button>
+
+  <button class="viewProfileBtn" data-user="${friend.username}">
+    👤 View Profile
+  </button>
+`;
 
 friendDiv.addEventListener("click", () => {
 
@@ -3218,13 +3218,13 @@ function renderFriendRequests() {
 
             <div class="request-actions">
 
-    <button class="acceptBtn">
-        Accept
-    </button>
+    <button class="acceptBtn" data-id="${request.id}">
+  Accept
+</button>
 
-    <button class="ignoreBtn">
-        Ignore
-    </button>
+  <button class="ignoreBtn" data-id="${request.id}">
+  Ignore
+</button>
 
 </div>
 
@@ -3276,6 +3276,10 @@ renderFriendRequests();
       time: "now"
     });
   });
+
+   // UPDATE COUNTER
+    document.getElementById("requestsCount").textContent =
+      friendRequests.length;
 
   renderFriendRequests();
 
@@ -3496,30 +3500,7 @@ console.log(
 );
 
 
-console.log("Saving friend to UID:", auth.currentUser.uid);
-console.log("Friend data:", friendData);
-
-await db
-  .collection("users")
-  .doc(auth.currentUser.uid)
-  .collection("friends")
-  .doc(friendData.authUid)
-  .set({
-    username: friendData.username,
-    authUid: friendData.authUid
-  });
-
-  console.log("Friend saved!");
-
-alert("Friend added!");
-
-console.log(
-  "Found:",
-  friendDoc.data()
-);
 });
-
-
 
 document.getElementById("userName")
 .textContent = window.currentUsername;
@@ -4021,7 +4002,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <div id="friendsSection">
 
-      <h3>Your Friends</h3>
+     <h3>Friends</h3>
+
+<p class="friend-meta">People you have added</p>
 
       <div id="friendsList"></div>
 
@@ -4175,6 +4158,27 @@ document.addEventListener("DOMContentLoaded", () => {
   //start of the new chat btn listener 
 
   const copyInviteBtn = document.getElementById("copyInviteBtn");
+  auth.onAuthStateChanged(async user => {
+      console.log("AUTH CHECK RUNNING");
+  console.log("USER =", user);
+  if (!user) return;
+
+  const doc = await db
+    .collection("users")
+    .doc(user.uid)
+    .get();
+
+  if (!doc.exists) return;
+
+  const userData = doc.data();
+
+  
+const inviteText = document.getElementById("inviteLinkText");
+console.log("inviteText element =", inviteText);
+
+  inviteText.textContent =
+  `auralis.app/invite/${userData.username}`;
+});
 
 copyInviteBtn.addEventListener("click", async () => {
 
@@ -4211,20 +4215,25 @@ function addFriend(username) {
   friendsList.appendChild(friendItem);
 }
 
-document.addEventListener("click", (e) => {
-
+document.addEventListener("click", async (e) => {
   if (e.target.id !== "sendInviteBtn") return;
 
-  const value =
-    friendSearchInput.value.trim();
+  const friendUsername = friendSearchInput.value.trim();
 
-  if (!value) {
-    alert("Paste an invite link first");
+  if (!friendUsername) {
+    alert("Enter a username first");
     return;
   }
 
-addFriend(value);
+  await db.collection("friendRequests").add({
+    from: window.currentUsername,
+    to: friendUsername,
+    status: "pending",
+    time: Date.now()
+  });
 
+  alert("Friend request sent!");
+  friendSearchInput.value = "";
 });
 
   const friendsTab =
@@ -4311,23 +4320,72 @@ friendsTab.addEventListener("click", () => {
 
 
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("acceptBtn")) return;
 
-  e.target.textContent = "Accepted";
-  e.target.disabled = true;
+  const requestId = e.target.dataset.id;
+  if (!requestId) return;
+
+  const request = friendRequests.find(r => r.id === requestId);
+  if (!request) return;
+
+  await db.collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("friends")
+    .doc(request.username)
+    .set({
+      username: request.username,
+      addedAt: Date.now()
+    });
+
+  await db.collection("friendRequests")
+    .doc(requestId)
+    .update({
+      status: "accepted"
+    });
 });
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
   if (!e.target.classList.contains("ignoreBtn")) return;
 
-  console.log("IGNORE CLICKED");
+  const requestId = e.target.dataset.id;
+  if (!requestId) return;
 
-  const friendCard = e.target.closest(".friend-card");
+  await db.collection("friendRequests")
+    .doc(requestId)
+    .update({
+      status: "ignored"
+    });
+});
 
-  if (friendCard) {
-    friendCard.remove();
-  }
+// Message button
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("messageFriendBtn")) return;
+
+  const username = e.target.dataset.user;
+
+  document.getElementById("addFriendModal").style.display = "none";
+
+  openChat(username);
+});
+
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("viewProfileBtn")) return;
+
+  const username = e.target.dataset.user;
+
+  console.log("VIEW PROFILE:", username);
+});
+
+// View Profile button
+
+
+document.addEventListener("click", async (e) => {
+  if (!e.target.classList.contains("viewProfileBtn")) return;
+
+  const username = e.target.dataset.user;
+
+  console.log("VIEW PROFILE:", username);
 });
 
 
