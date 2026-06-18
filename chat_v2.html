@@ -2662,6 +2662,148 @@ transition:0.2s ease;
   color:#ff8fa3;
 }
 
+.new-chat-content{
+  width:640px;
+}
+
+.new-chat-section{
+  margin-top:22px;
+}
+
+.new-chat-section h3{
+  color:white;
+  margin-bottom:12px;
+}
+
+#newChatSearchInput{
+  width:100%;
+  height:48px;
+  border-radius:14px;
+  border:1px solid rgba(139,92,246,.35);
+  background:#120C2A;
+  color:white;
+  padding:0 16px;
+  box-sizing:border-box;
+  outline:none;
+}
+
+#newChatSearchInput::placeholder{
+  color:#A8A8C0;
+}
+
+#newChatFriendsList{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.new-chat-friend{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:14px;
+  background:#161033;
+  border:1px solid rgba(255,255,255,.08);
+  cursor:pointer;
+}
+
+.new-chat-friend:hover,
+.new-chat-friend.selected{
+  background:#24184A;
+  border-color:#8B5CF6;
+}
+
+.new-chat-actions{
+  margin-top:24px;
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+}
+
+#cancelNewChatBtn,
+#startNewChatBtn{
+  height:46px;
+  padding:0 24px;
+  border-radius:12px;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+
+#cancelNewChatBtn{
+  background:#161033;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+#startNewChatBtn{
+  background:linear-gradient(135deg,#8B5CF6,#FF7EDB);
+  font-weight:700;
+}
+
+.new-chat-select-circle{
+  margin-left:auto;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  border:2px solid #7C6BB8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+}
+
+.new-chat-friend.selected .new-chat-select-circle{
+  background:linear-gradient(135deg,#8B5CF6,#FF7EDB);
+  border:none;
+}
+
+.new-chat-friend.selected .new-chat-select-circle::after{
+  content:"✓";
+  font-size:13px;
+  font-weight:bold;
+}
+
+#closeNewChatModal{
+  margin-left:auto;
+
+  width:40px;
+  height:40px;
+
+  border:none;
+  border-radius:12px;
+
+  background:transparent;
+  color:#A8A8C0;
+
+  font-size:24px;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.25s;
+}
+
+#closeNewChatModal:hover{
+  background:#24184A;
+  color:white;
+
+  transform:scale(1.05);
+
+  box-shadow:
+    0 0 12px rgba(139,92,246,.25);
+}
+
+.friends-section-title{
+  color:#C084FC;
+  font-size:18px;
+  font-weight:700;
+  margin:20px 0 12px;
+}
+
 
 /*  to fit all screens CSS  */
 
@@ -2938,9 +3080,6 @@ body{
 <!-- chat drop down code starts here -->
 
 <div id="chatContextMenu">
-  <div class="menu-item" id="userInfoOption">
-    👤 User Info
-  </div>
 
   <div class="menu-item" id="deleteChatOption">
     🗑 Delete Chat
@@ -3009,10 +3148,15 @@ friendDiv.innerHTML = `
     ${friend.username[0].toUpperCase()}
   </div>
 
-  <div class="friend-info">
-    <div class="friend-name">${friend.username}</div>
-    <div class="friend-meta">@${friend.username}</div>
-  </div>
+<div class="friend-info">
+  <div class="friend-name">${friend.username}</div>
+  <div class="friend-meta">@${friend.username}</div>
+
+</div>
+
+  <div class="new-chat-select-circle"></div>
+
+
 
   <div class="friend-actions">
 
@@ -4217,24 +4361,46 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- start of the new chat modal -->
 
 <div id="newChatModal" class="group-modal">
-
-  <div class="group-modal-content">
+  <div class="group-modal-content new-chat-content">
 
     <div class="group-modal-header">
-
       <div class="group-icon">💬</div>
-
       <div>
-        <h2>Start a Chat</h2>
-        <p>Choose someone to chat with</p>
+        <h2>New Chat</h2>
+        <p>Start a new conversation</p>
       </div>
-
       <button id="closeNewChatModal">×</button>
+    </div>
 
+  
+
+<div class="new-chat-section">
+
+  <input
+    id="newChatSearchInput"
+    placeholder="Search friends..."
+  >
+
+  <h3 class="friends-section-title">
+    ⭐ Recent
+  </h3>
+
+  <div id="recentFriendsList"></div>
+
+  <h3 class="friends-section-title">
+    👥 All Friends
+  </h3>
+
+  <div id="newChatFriendsList"></div>
+
+</div>
+
+    <div class="new-chat-actions">
+      <button id="cancelNewChatBtn">Cancel</button>
+      <button id="startNewChatBtn">Start Chat</button>
     </div>
 
   </div>
-
 </div>
 
 
@@ -4677,6 +4843,7 @@ const menu =
 document.getElementById("chatContextMenu");
 
 let selectedChatToDelete = null;
+let selectedNewChatUser = null;
 
 const deleteChatOption =
 document.getElementById("deleteChatOption");
@@ -5025,21 +5192,168 @@ const newChatBtn =
 const newChatModal =
   document.getElementById("newChatModal");
 
+const cancelNewChatBtn =
+  document.getElementById("cancelNewChatBtn");
+
 const closeNewChatModal =
   document.getElementById("closeNewChatModal");
 
 
-newChatBtn.addEventListener("click", () => {
-
-  console.log("New Chat clicked!");
-
+newChatBtn.addEventListener("click", async () => {
   newChatModal.style.display = "flex";
+
+  const list = document.getElementById("newChatFriendsList");
+  list.innerHTML = "";
+
+  const recentList =
+  document.getElementById("recentFriendsList");
+
+recentList.innerHTML = "";
+
+const recentSnapshot = await db
+  .collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("chats")
+  .get();
+
+  recentSnapshot.forEach(doc => {
+  const chat = doc.data();
+
+  recentList.innerHTML += `
+  <div class="new-chat-friend" data-user="${chat.username}">
+    <div class="friend-avatar">
+      ${chat.username[0].toUpperCase()}
+    </div>
+
+    <div class="friend-info">
+      <div class="friend-name">${chat.username}</div>
+      <div class="friend-meta">@${chat.username}</div>
+    </div>
+
+    <div class="new-chat-select-circle"></div>
+  </div>
+`;
+
+});
+
+
+  const snapshot = await db.collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("friends")
+    .get();
+
+  snapshot.forEach(doc => {
+    const friend = doc.data();
+
+    list.innerHTML += `
+      <div class="new-chat-friend" data-user="${friend.username}">
+        <div class="friend-avatar">
+          ${friend.username[0].toUpperCase()}
+        </div>
+        <div class="friend-info">
+          <div class="friend-name">${friend.username}</div>
+          <div class="friend-meta">@${friend.username}</div>
+        </div>
+        <div class="new-chat-select-circle"></div>
+      </div>
+    `;
+  });
+
+  document
+  .querySelectorAll(".new-chat-friend")
+  .forEach(friend => {
+
+    friend.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".new-chat-friend")
+        .forEach(f =>
+          f.classList.remove("selected")
+        );
+
+      friend.classList.add("selected");
+
+      selectedNewChatUser =
+        friend.dataset.user;
+
+      console.log(
+        "Selected:",
+        selectedNewChatUser
+      );
+    });
+
+  });
 
 });
 
 closeNewChatModal.addEventListener("click", () => {
 
   newChatModal.style.display = "none";
+
+});
+
+// starts cancel listener 
+
+document.getElementById("cancelNewChatBtn")
+.addEventListener("click", () => {
+
+  selectedNewChatUser = null;
+
+  document
+    .querySelectorAll(".new-chat-friend")
+    .forEach(friend => {
+      friend.classList.remove("selected");
+    });
+
+  newChatModal.style.display = "none";
+
+});
+
+// end of the cancel listener
+
+
+// start of the newchat search input 
+document.getElementById("newChatSearchInput")
+.addEventListener("input", () => {
+  const search =
+    document.getElementById("newChatSearchInput")
+      .value
+      .toLowerCase();
+
+  document
+    .querySelectorAll(".new-chat-friend")
+    .forEach(friend => {
+      const username =
+        friend.dataset.user.toLowerCase();
+
+      friend.style.display =
+        username.includes(search)
+          ? "flex"
+          : "none";
+    });
+});
+// end of the newchat  search input listener
+
+document.getElementById("startNewChatBtn")
+.addEventListener("click", async () => {
+
+  if (!selectedNewChatUser) {
+    alert("Select a friend first");
+    return;
+  }
+
+  await db.collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("chats")
+    .doc(selectedNewChatUser)
+    .set({
+      username: selectedNewChatUser,
+      type: "dm"
+    });
+
+  newChatModal.style.display = "none";
+
+  openChat(selectedNewChatUser);
 
 });
 
