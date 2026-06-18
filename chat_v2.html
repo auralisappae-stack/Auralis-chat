@@ -176,6 +176,29 @@ body{
   transition:.25s;
 }
 
+.chat-menu-btn{
+  margin-left:auto;
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:8px;
+  background:transparent;
+  color:#C5C0E8;
+  font-size:18px;
+  cursor:pointer;
+  opacity:0;
+  transition:.2s;
+}
+
+.chat-item:hover .chat-menu-btn{
+  opacity:1;
+}
+
+.chat-menu-btn:hover{
+  background:#24184A;
+  color:white;
+}
+
 .chat-item:hover{
   background:#24184A;
 
@@ -2610,6 +2633,36 @@ transition:0.2s ease;
 }
 
 
+/*  the Chat Menu CSS */
+
+#chatContextMenu{
+  display:none;
+  position:fixed;
+  background:#161033;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  min-width:180px;
+  overflow:hidden;
+  z-index:99999;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.menu-item{
+  padding:12px 14px;
+  cursor:pointer;
+  color:white;
+  transition:.2s;
+}
+
+.menu-item:hover{
+  background:#24184A;
+}
+
+#deleteChatOption{
+  color:#ff8fa3;
+}
+
+
 /*  to fit all screens CSS  */
 
 @media (max-width: 768px){
@@ -2881,6 +2934,21 @@ body{
 
 </div> <!-- end of app -->
 
+<!-- ------------------------------------------------- -->
+<!-- chat drop down code starts here -->
+
+<div id="chatContextMenu">
+  <div class="menu-item" id="userInfoOption">
+    👤 User Info
+  </div>
+
+  <div class="menu-item" id="deleteChatOption">
+    🗑 Delete Chat
+  </div>
+</div>
+
+
+
 <!-- firebase script-->
  <script>
 
@@ -3011,7 +3079,7 @@ chatList.innerHTML += `
           Start chatting...
         </div>
       </div>
-
+<button class="chat-menu-btn">⋮</button>
     </div>
   `;
 
@@ -3379,6 +3447,7 @@ let selectedGroupPhoto = "";
 let createGroupModal;
 let friendRequests = [];
 
+
 // function of the friend requests
 function renderFriendRequests() {
     const container = document.getElementById("friendRequestsList");
@@ -3523,6 +3592,8 @@ chatList.innerHTML += `
         Start chatting...
       </div>
     </div>
+<button class="chat-menu-btn">⋮</button>
+
     </div>
 
 `;
@@ -3566,6 +3637,7 @@ console.log("GROUP FOUND:", group);
         ${group.members.length} members
       </div>
     </div>
+    <button class="chat-menu-btn">⋮</button>
 
   </div>
 `;
@@ -4601,6 +4673,81 @@ document.getElementById("resetInviteBtn");
 const cancelInviteBtn =
 document.getElementById("cancelInviteBtn");
 
+const menu =
+document.getElementById("chatContextMenu");
+
+let selectedChatToDelete = null;
+
+const deleteChatOption =
+document.getElementById("deleteChatOption");
+
+
+document.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("chat-menu-btn"))
+    return;
+
+  e.stopPropagation();
+
+  selectedChatToDelete =
+  e.target.closest(".chat-item").dataset.user;
+
+  menu.style.display = "block";
+  menu.style.left = e.pageX + "px";
+  menu.style.top = e.pageY + "px";
+});
+
+document.addEventListener("click", (e) => {
+
+  if (
+    !menu.contains(e.target) &&
+    !e.target.classList.contains("chat-menu-btn")
+  ) {
+    menu.style.display = "none";
+  }
+
+}); // end of the menu Listener
+
+//start of the delete option listener for the chat menu 
+deleteChatOption.addEventListener("click", async () => {
+  const choice = prompt(
+    "Type 1 = Delete chat only\nType 2 = Delete chat and message history"
+  );
+
+  if (!selectedChatToDelete) return;
+
+  if (choice === "1") {
+    await db.collection("users")
+      .doc(auth.currentUser.uid)
+      .collection("chats")
+      .doc(selectedChatToDelete)
+      .delete();
+
+      window.currentChatUser = null;
+window.currentGroupId = null;
+
+document.getElementById("inputBar").style.display = "none";
+document.getElementById("headerName").textContent = "Welcome to Auralis";
+document.getElementById("headerStatus").textContent = "Select a chat to start";
+document.getElementById("headerAvatar").innerHTML = "A";
+document.getElementById("messages").innerHTML = "";
+
+document.getElementById("messages").innerHTML = `
+  <div id="welcomeScreen">
+    <img src="Welcome Image.png" id="welcomeImage">
+    <h1 id="welcomeTitle">Welcome Back ✨</h1>
+    <p id="welcomeSubtitle">
+      Every Friendhsip begins with a hello. ㅤꨄ︎
+    </p>
+  </div>
+`;
+
+document.getElementById("welcomeScreen").style.display = "flex";
+
+    alert("Chat deleted from sidebar");
+  }
+});
+// end of the delete option in the chat menu
+
 //reserinvbtn listener 
 
 saveInviteBtn.addEventListener("click", async () => {
@@ -4971,6 +5118,7 @@ document
 
 </div> <!-- end of the add group modal head-->
 <!-- ----------------------------------------------------->
+
 
 
 
