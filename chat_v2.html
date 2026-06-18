@@ -1281,7 +1281,7 @@ body{
   border:1px solid rgba(255,255,255,.08);
   border-radius:20px;
 
-  display:flex;
+  display:none;
   flex-direction:column;
   gap:14px;
 }
@@ -1786,9 +1786,9 @@ body{
 
 
 #welcomeImage{
-  width:38%;
-  max-width:420px;
-  min-width:260px;
+  width:50%;
+  max-width:550px;
+  min-width:300px;
   height:auto;
   object-fit:contain;
 }
@@ -2524,6 +2524,22 @@ transition:0.2s ease;
   margin-top:4px;
 }
 
+#linkExpiry{
+  background:transparent;
+  border:none;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
+
+#linkExpiry option{
+  background:#161033;
+}
+
+#inputBar{
+  display:none;
+}
+
 
 
 /*  to fit all screens CSS  */
@@ -2732,7 +2748,7 @@ body{
   </h1>
 
  <p id="welcomeSubtitle">
-  Your conversations are waiting.
+  Every Friendhsip begins with a hello. ㅤꨄ︎
 </p>
 
 <div id="welcomeCards">
@@ -3178,6 +3194,9 @@ function openChat(username) {
 
   window.currentChatUser = username;
 
+  document.getElementById("inputBar").style.display = "flex";
+
+
   const chatId = [
   window.currentUsername,
   username
@@ -3282,6 +3301,10 @@ if (welcome) {
 const messagesDiv =
 document.getElementById("messages");
 
+const searchInput = 
+document.getElementById("searchInput");
+
+
 let userStyles = {};
 let selectedMembers = [];
 let selectedGroupPhoto = "";
@@ -3337,6 +3360,10 @@ renderFriendRequests();
 
 
   if (!user) return;
+
+  loadSearchHistory();
+
+  
     const doc = await db
     .collection("users")
     .doc(user.uid)
@@ -3812,6 +3839,26 @@ allBtn.addEventListener("click", () => {
   });
 });//end of the allbtn listener
 
+// start of the searchinput Listener
+
+searchInput.addEventListener("keydown", async (e) => {
+  if (e.key !== "Enter") return;
+
+  const query = searchInput.value.trim();
+
+  if (!query) return;
+
+  await db
+    .collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("searchHistory")
+    .add({
+      query: query,
+      time: Date.now()
+    });
+});
+
+//end of the search input Listener
 
 
 const dmsBtn = document.getElementById("dmsBtn");
@@ -4141,7 +4188,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <span>🕒 Link expires</span>
 
-  <span>Never ▾</span>
+  
+<select id="linkExpiry">
+  <option value="never">Never</option>
+  <option value="1h">1 hour</option>
+  <option value="24h">24 hours</option>
+  <option value="7d">7 days</option>
+</select>
 
 </div>
 
@@ -4269,8 +4322,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const copyInviteBtn = document.getElementById("copyInviteBtn");
   auth.onAuthStateChanged(async user => {
-      console.log("AUTH CHECK RUNNING");
-  console.log("USER =", user);
+
+
   if (!user) return;
 
   const doc = await db
@@ -4291,9 +4344,29 @@ console.log("inviteText element =", inviteText);
 });
 
 copyInviteBtn.addEventListener("click", async () => {
+  const expiryValue = document.getElementById("linkExpiry").value;
+
+  let expiresAt = null;
+
+  if (expiryValue === "1h") {
+    expiresAt = Date.now() + 60 * 60 * 1000;
+  } else if (expiryValue === "24h") {
+    expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+  } else if (expiryValue === "7d") {
+    expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  }
 
   const link =
     document.getElementById("inviteLinkText").textContent.trim();
+
+  await db.collection("inviteLinks")
+    .doc(window.currentUsername)
+    .set({
+      username: window.currentUsername,
+      link: link,
+      expiresAt: expiresAt,
+      createdAt: Date.now()
+    });
 
   await navigator.clipboard.writeText(link);
 
@@ -4302,8 +4375,55 @@ copyInviteBtn.addEventListener("click", async () => {
   setTimeout(() => {
     copyInviteBtn.textContent = "Copy";
   }, 2000);
-
 });
+
+//checkInviteLink Function
+async function checkInviteLink(username) {
+  const doc = await db.collection("inviteLinks")
+    .doc(username)
+    .get();
+
+  if (!doc.exists) {
+    alert("Invite link not found.");
+    return false;
+  }
+
+  const inviteData = doc.data();
+
+  if (
+    inviteData.expiresAt &&
+    Date.now() > inviteData.expiresAt
+  ) {
+    alert("This invite link has expired.");
+    return false;
+  }
+
+  return true;
+}
+// end of the function checkInviteLink
+
+// start of the loadsearchhistory function 
+
+async function loadSearchHistory() {
+
+  const snapshot = await db
+    .collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("searchHistory")
+    .orderBy("time", "desc")
+    .limit(10)
+    .get();
+
+  snapshot.forEach(doc => {
+    console.log("Search:", doc.data().query);
+  });
+
+}
+
+
+// endo of the load search history function 
+
+
 
 const friends = [];
 const friendsList = 
@@ -4334,6 +4454,10 @@ document.addEventListener("click", async (e) => {
     alert("Enter a username first");
     return;
   }
+
+  const isValid = await checkInviteLink(friendUsername);
+
+   if (!isValid) return;
 
   await db.collection("friendRequests").add({
     from: window.currentUsername,
