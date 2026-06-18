@@ -1077,7 +1077,6 @@ body{
 }
 
 #friendsList{
-  padding:12px;
   display:flex;
   flex-direction:column;
   gap:12px;
@@ -2017,12 +2016,15 @@ body{
 
 .friend-card{
   display:flex;
+  grid-template-columns:52px 1fr 28px 126px 126px;
   align-items:center;
   gap:14px;
 }
 
 .friend-info{
   flex:1;
+  min-width: 0;
+  padding-right:32px;
 }
 
 .add-friend-btn{
@@ -2483,7 +2485,8 @@ transition:0.2s ease;
 
 .messageFriendBtn,
 .viewProfileBtn{
-  height:36px;
+  height: 40px;
+  width: 120px;
   padding:0 14px;
   font-size:13px;
   border-radius:10px;
@@ -2494,6 +2497,8 @@ transition:0.2s ease;
   align-items:center;
   justify-content:center;
   gap:6px;
+  flex-shrink:0;
+
 }
 
 .viewProfileBtn{
@@ -2509,6 +2514,7 @@ transition:0.2s ease;
   display:flex;
   gap:8px;
   margin-left:auto;
+  flex-shrink: 0;
 }
 
 
@@ -3128,7 +3134,10 @@ auth.onAuthStateChanged(user => {
     .collection("friends")
     .onSnapshot(snapshot => {
 
+  document.getElementById("friendsCount").textContent =
+    snapshot.size;
     
+   let onlineCount = 0;
 
       const friendsList =
       document.getElementById("friendsList");
@@ -3138,6 +3147,10 @@ auth.onAuthStateChanged(user => {
       snapshot.forEach(doc => {
 
   const friend = doc.data();
+
+   if (friend.status === "online") {
+    onlineCount++;
+  }
 
   const friendDiv = document.createElement("div");
 
@@ -3153,8 +3166,6 @@ friendDiv.innerHTML = `
   <div class="friend-meta">@${friend.username}</div>
 
 </div>
-
-  <div class="new-chat-select-circle"></div>
 
 
 
@@ -3181,6 +3192,7 @@ friendDiv.addEventListener("click", () => {
       username: friend.username,
       type: "dm"
     });
+
 
     
    openChat(friend.username);
@@ -3233,9 +3245,13 @@ chatList.innerHTML += `
 
 });
 
-    });
+document.getElementById("onlineFriendsCount").textContent =
+  onlineCount;
+
+  });
 
 });
+
 
 
 
