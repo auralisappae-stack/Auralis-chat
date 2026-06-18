@@ -3582,6 +3582,8 @@ function openChat(username) {
 
 function openGroup(groupId){
 
+  messagesDiv.style.backgroundImage = "none";
+
   const welcome =
 document.getElementById("welcomeScreen");
 
@@ -3589,15 +3591,75 @@ if (welcome) {
   welcome.style.display = "none";
 }
 
-  console.log("Opened group:", groupId);
 
   window.currentGroupId = groupId;
 
-  console.log(
-    "Current Group ID:",
-    window.currentGroupId
-  );
+  document.getElementById("inputBar").style.display = "flex";
 
+  db.collection("groups")
+  .doc(groupId)
+  .get()
+  .then(doc => {
+    const group = doc.data();
+
+    document.getElementById("headerName").textContent =
+      group.name;
+
+    document.getElementById("headerStatus").textContent =
+      `${group.members.length} members`;
+
+      loadGroupMessages(groupId);
+  });
+
+
+}
+
+// new function of the loadgroupMessages
+function loadGroupMessages(groupId){
+
+  db.collection("groups")
+    .doc(groupId)
+    .collection("messages")
+    .orderBy("time")
+    .onSnapshot(snapshot => {
+
+      messagesDiv.innerHTML = "";
+
+      snapshot.forEach(doc => {
+
+        const msg = doc.data();
+
+        const bubble =
+          document.createElement("div");
+
+        if(msg.user === window.currentUsername){
+          bubble.className = "bubble me";
+        } else {
+          bubble.className = "bubble other";
+        }
+
+        bubble.innerHTML = `
+          <div class="msgHeader">
+            <span class="msgUser">${msg.user}</span>
+            <span class="msgTime">
+              ${new Date(msg.time).toLocaleTimeString([],{
+                hour:'2-digit',
+                minute:'2-digit'
+              })}
+            </span>
+          </div>
+
+          <div class="msgText">
+            ${msg.text}
+          </div>
+        `;
+
+        messagesDiv.appendChild(bubble);
+      });
+
+      messagesDiv.scrollTop =
+        messagesDiv.scrollHeight;
+    });
 }
 
 
@@ -4943,6 +5005,8 @@ document.getElementById("messages").innerHTML = `
     </p>
   </div>
 `;
+
+messagesDiv.style.backgroundImage = "none";
 
 document.getElementById("welcomeScreen").style.display = "flex";
 
