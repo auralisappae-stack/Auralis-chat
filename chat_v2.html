@@ -1304,7 +1304,7 @@ body{
   border:1px solid rgba(255,255,255,.08);
   border-radius:20px;
 
-  display:none;
+  display:flex;
   flex-direction:column;
   gap:14px;
 }
@@ -4747,6 +4747,57 @@ document.getElementById("welcomeScreen").style.display = "flex";
     menu.style.display = "none";
 
   }
+
+  if (choice === "2") {
+    const chatId = [
+  window.currentUsername,
+  selectedChatToDelete
+].sort().join("_");
+
+const messages = await db
+  .collection("chats")
+  .doc(chatId)
+  .collection("messages")
+  .get();
+
+  const batch = db.batch();
+
+  messages.forEach(doc => {
+  batch.delete(doc.ref);
+});
+
+batch.delete(
+  db.collection("users")
+    .doc(auth.currentUser.uid)
+    .collection("chats")
+    .doc(selectedChatToDelete)
+);
+
+await batch.commit();
+
+window.currentChatUser = null;
+window.currentGroupId = null;
+
+document.getElementById("inputBar").style.display = "none";
+document.getElementById("headerName").textContent = "Welcome to Auralis";
+document.getElementById("headerStatus").textContent = "Select a chat to start";
+document.getElementById("headerAvatar").innerHTML = "A";
+
+document.getElementById("messages").innerHTML = `
+  <div id="welcomeScreen">
+    <img src="Welcome Image.png" id="welcomeImage">
+    <h1 id="welcomeTitle">Welcome Back ✨</h1>
+    <p id="welcomeSubtitle">
+      Every Friendhsip begins with a hello. ㅤꨄ︎
+    </p>
+  </div>
+`;
+
+menu.style.display = "none";
+
+alert("Chat and history deleted");
+}
+
 });
 // end of the delete option in the chat menu
 
