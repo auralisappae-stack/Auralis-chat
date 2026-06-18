@@ -2797,6 +2797,51 @@ async function loadAvatar() {
 
     const data = userDoc.data();
 
+    if (data.bubbleStyle) {
+  bubbleStyleSelect.value = data.bubbleStyle;
+  bubbleStyleSelect.dispatchEvent(new Event("change"));
+}
+
+if (data.fontStyle) {
+  fontStyleSelect.value = data.fontStyle;
+  fontStyleSelect.dispatchEvent(new Event("change"));
+}
+
+if (data.bubbleOutline) {
+  bubbleOutlineSelect.value = data.bubbleOutline;
+  bubbleOutlineSelect.dispatchEvent(new Event("change"));
+}
+
+if (data.bubbleOpacity) {
+  bubbleOpacitySelect.value = data.bubbleOpacity;
+  bubbleOpacitySelect.dispatchEvent(new Event("change"));
+}
+
+if (data.bubbleDecoration) {
+  document
+    .querySelector(`[data-decor="${data.bubbleDecoration}"]`)
+    ?.click();
+}
+
+if (data.bubbleColor) {
+  selectedBubbleColor = data.bubbleColor;
+
+  document
+    .querySelector(`[data-color="${data.bubbleColor}"]`)
+    ?.click();
+}
+
+if (data.chatBackground) {
+  const previewCard =
+    document.querySelector(".previewCard");
+
+  previewCard.style.backgroundImage =
+    `url(${data.chatBackground})`;
+
+  previewCard.style.backgroundSize = "cover";
+  previewCard.style.backgroundPosition = "center";
+}
+
 
 
   if (data.fontStyle) {

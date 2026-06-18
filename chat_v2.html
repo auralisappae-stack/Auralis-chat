@@ -489,6 +489,13 @@ body{
   z-index: 10;
 }
 
+#chatArea,
+#messages{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 
 #messages{
   background-size: cover;
@@ -3283,18 +3290,18 @@ db.collection("chats")
 
   messagesDiv.innerHTML = "";
 
-  const myStyle = userStyles[window.currentUsername];
-
+const myStyle =
+  userStyles[window.currentUsername] ||
+  userStyles[auth.currentUser.uid];
 
 if (myStyle?.chatBackground) {
-  const chatArea = document.getElementById("chatArea");
 
-  chatArea.style.backgroundImage =
+  messagesDiv.style.backgroundImage =
     `url(${myStyle.chatBackground})`;
 
-  chatArea.style.backgroundSize = "cover";
-  chatArea.style.backgroundPosition = "center";
-  chatArea.style.backgroundRepeat = "no-repeat";
+  messagesDiv.style.backgroundSize = "fit";
+  messagesDiv.style.backgroundPosition = "center";
+  messagesDiv.style.backgroundRepeat = "no-repeat";
 }
 
 
@@ -3306,8 +3313,9 @@ if (myStyle?.chatBackground) {
 
 
 
-    const style = userStyles[msg.user];
-
+const style =
+  userStyles[msg.user] ||
+  userStyles[auth.currentUser.uid];
  
 
 
@@ -3861,7 +3869,15 @@ db.collection("users")
 .onSnapshot(snapshot => {
 
   snapshot.forEach(doc => {
-    userStyles[doc.id] = doc.data();
+
+    const data = doc.data();
+
+userStyles[doc.id] = data;
+
+if (data.username) {
+  userStyles[data.username] = data;
+}
+
   });
 
 
@@ -3960,7 +3976,11 @@ console.log("USERNAME =", user.username);
     if (!user.username) return;
 
 
-    userStyles[doc.id] = doc.data();
+    userStyles[doc.id] = user;
+
+if (user.username) {
+  userStyles[user.username] = user;
+}
 
     const memberItem =
       document.createElement("div");
