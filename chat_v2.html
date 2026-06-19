@@ -3829,14 +3829,19 @@ chatList.innerHTML += `
     </div>
 
     <div class="chat-info">
-      <div class="chat-name">
-        ${chat.username}
-      </div>
+
+  <div class="chat-name">
+  ${userStyles[chat.username]?.displayName || chat.username}
+</div>
 
     <div class="chat-preview">
   ${
     chat.lastMessage
-      ? `${chat.lastSender === window.currentUsername ? "You" : chat.username}: ${chat.lastMessage.substring(0, 30)}${chat.lastMessage.length > 30 ? "..." : ""}`
+      ? `
+${chat.lastSender === window.currentUsername
+  ? "You"
+  : (userStyles[chat.username]?.displayName || chat.username)}: ${chat.lastMessage.substring(0, 30)}${chat.lastMessage.length > 30 ? "..." : ""}`
+  
       : "Start chatting..."
   }
 </div>
