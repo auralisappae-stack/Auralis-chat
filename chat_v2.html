@@ -4954,7 +4954,7 @@ document.addEventListener("click", async (e) => {
 
   await db.collection("friendRequests").add({
     from: window.currentUsername,
-    to: friendUsername,
+    to: friendUsername.split("-")[0],
     status: "pending",
     time: Date.now()
   });
