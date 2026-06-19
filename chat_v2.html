@@ -3976,8 +3976,13 @@ if (data.username) {
 
   });
 
-  renderChatList();
+document.querySelectorAll(".chat-item[data-user]").forEach(item => {
+  const username = item.dataset.user;
+  const profile = userStyles[username];
 
+  console.log("sidebar username:", username);
+  console.log("profile found:", profile);
+});
 
   });
 
