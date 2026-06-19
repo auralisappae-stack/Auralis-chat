@@ -4774,6 +4774,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //start of the new chat btn listener 
 
+ let inviteToken = "";
+
   const copyInviteBtn = document.getElementById("copyInviteBtn");
   auth.onAuthStateChanged(async user => {
 
@@ -4794,7 +4796,8 @@ const inviteText = document.getElementById("inviteLinkText");
 console.log("inviteText element =", inviteText);
 
 
- const inviteToken = Date.now().toString();
+
+ inviteToken = Date.now().toString();
 
   inviteText.textContent =
   `auralis.app/invite/${userData.username}-${inviteToken}`;
@@ -4836,7 +4839,7 @@ copyInviteBtn.addEventListener("click", async () => {
     .set({
       username: window.currentUsername,
       link: link,
-      token: Date.now().toString(),
+      token: inviteToken,
       expiresAt: expiresAt,
       createdAt: Date.now()
     });
