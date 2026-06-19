@@ -3954,7 +3954,9 @@ localStorage.getItem("username") ||
 "Guest";
 
 db.collection("users")
-.onSnapshot(snapshot => {
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .onSnapshot(snapshot => {
 
   snapshot.forEach(doc => {
 
