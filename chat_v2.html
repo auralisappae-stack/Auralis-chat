@@ -3954,9 +3954,7 @@ localStorage.getItem("username") ||
 "Guest";
 
 db.collection("users")
-  .doc(user.uid)
-  .collection("friends")
-  .onSnapshot(snapshot => {
+.onSnapshot(snapshot => {
 
   snapshot.forEach(doc => {
 
@@ -4046,8 +4044,14 @@ document.getElementById("userAvatar")
 
 
 
-db.collection("users")
-.onSnapshot(snapshot => {
+
+auth.onAuthStateChanged(user => {
+  if (!user) return;
+
+  db.collection("users")
+    .doc(user.uid)
+    .collection("friends")
+    .onSnapshot(snapshot => {
 
   console.log("Docs found:", snapshot.size);
 
@@ -4139,7 +4143,10 @@ setTimeout(() => {
       });
 
       alert("Group created!");
-    });
+    
+      });
+      });
+
 }, 100); // end of the group creation listener
 
 
