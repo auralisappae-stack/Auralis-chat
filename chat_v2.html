@@ -3671,11 +3671,15 @@ const searchInput =
 document.getElementById("searchInput");
 
 
+
+
 let userStyles = {};
 let selectedMembers = [];
 let selectedGroupPhoto = "";
 let createGroupModal;
 let friendRequests = [];
+let selectedChatType = null;
+let selectedChatElement = null;
 
 
 // function of the friend requests
@@ -3844,11 +3848,12 @@ console.log("GROUP FOUND:", group);
       return;
 
    chatList.innerHTML += `
-  <div
-    class="chat-item"
-    data-type="group"
-    onclick="openGroup('${groupDoc.id}')"
-  >
+ <div
+  class="chat-item"
+  data-type="group"
+  data-group-id="${groupDoc.id}"
+  onclick="openGroup('${groupDoc.id}')"
+>
 
     <div class="chat-avatar">
   ${
@@ -4953,8 +4958,16 @@ document.addEventListener("click", (e) => {
 
   e.stopPropagation();
 
-  selectedChatToDelete =
-  e.target.closest(".chat-item").dataset.user;
+ const chatItem =
+  e.target.closest(".chat-item");
+
+selectedChatToDelete =
+  chatItem.dataset.user || chatItem.dataset.groupId;
+
+selectedChatType =
+  chatItem.dataset.type;
+
+selectedChatElement = chatItem;
 
   menu.style.display = "block";
   menu.style.left = e.pageX + "px";
@@ -4979,6 +4992,31 @@ deleteChatOption.addEventListener("click", async () => {
   );
 
   if (!selectedChatToDelete) return;
+
+  if (selectedChatType === "group") {
+  await db.collection("groups")
+    .doc(selectedChatToDelete)
+    .delete();
+
+selectedChatElement?.remove();
+
+    if (selectedChatType === "group") {
+  await db.collection("groups")
+    .doc(selectedChatToDelete)
+    .delete();
+
+  selectedChatElement?.remove();
+
+  alert("Group deleted");
+  menu.style.display = "none";
+  return;
+}
+
+
+  alert("Group deleted");
+  menu.style.display = "none";
+  return;
+}
 
   if (choice === "1") {
     await db.collection("users")
@@ -5226,14 +5264,38 @@ document.addEventListener("click", async (e) => {
   const request = friendRequests.find(r => r.id === requestId);
   if (!request) return;
 
+ const currentUsername = window.currentUsername;
+
+ const otherUsername = request.username;
+
+await db.collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .doc(otherUsername)
+  .set({
+    username: otherUsername,
+    status: "accepted",
+    addedAt: Date.now()
+  });
+
+  const otherUserSnapshot = await db.collection("users")
+  .where("username", "==", otherUsername)
+  .get();
+
+  if (!otherUserSnapshot.empty) {
+  const otherUserDoc =
+    otherUserSnapshot.docs[0];
+
   await db.collection("users")
-    .doc(auth.currentUser.uid)
+    .doc(otherUserDoc.id)
     .collection("friends")
-    .doc(request.username)
+    .doc(currentUsername)
     .set({
-      username: request.username,
+      username: currentUsername,
+      status: "accepted",
       addedAt: Date.now()
     });
+}
 
   await db.collection("friendRequests")
     .doc(requestId)
