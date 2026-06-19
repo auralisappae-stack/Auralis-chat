@@ -4793,9 +4793,11 @@ document.addEventListener("DOMContentLoaded", () => {
 const inviteText = document.getElementById("inviteLinkText");
 console.log("inviteText element =", inviteText);
 
-  inviteText.textContent =
-  `auralis.app/invite/${userData.username}-${Date.now()}`;
 
+ const inviteToken = Date.now().toString();
+
+  inviteText.textContent =
+  `auralis.app/invite/${userData.username}-${inviteToken}`;
 
   const inviteDoc = await db
   .collection("inviteLinks")
