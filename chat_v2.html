@@ -3980,9 +3980,16 @@ document.querySelectorAll(".chat-item[data-user]").forEach(item => {
   const username = item.dataset.user;
   const profile = userStyles[username];
 
-  console.log("sidebar username:", username);
-  console.log("profile found:", profile);
-});
+if (!profile) return;
+
+const avatar = item.querySelector(".chat-avatar");
+const name = item.querySelector(".chat-name");
+
+avatar.innerHTML = profile.avatarURL
+  ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+  : username[0].toUpperCase();
+
+name.textContent = profile.displayName || username;});
 
   });
 
