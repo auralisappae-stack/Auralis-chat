@@ -3486,8 +3486,8 @@ messagesDiv.scrollHeight;
 
 }
 
-function openChat(username) {
-
+async function openChat(username) {
+  
     const welcome =
   document.getElementById("welcomeScreen");
 
@@ -3747,7 +3747,8 @@ renderFriendRequests();
   window.currentUsername = profile.username;
 
   document.getElementById("welcomeTitle").textContent =
-  `Welcome Back, ${profile.username} ✨`;
+  `Welcome Back, ${profile.displayName || profile.username} ✨`;
+
 
 
 
@@ -3883,7 +3884,7 @@ console.log("GROUP FOUND:", group);
 
 
   document.getElementById("userName").textContent =
-    profile.username;
+  profile.displayName || profile.username;
 
   const userAvatar =
   document.getElementById("userAvatar");
@@ -4309,9 +4310,16 @@ const receiverSnapshot = await db.collection("users")
     .doc(window.currentUsername)
     .set({
       username: window.currentUsername,
-      type: "dm"
-    }, { merge: true });
+ type: "dm",
+ unread: true,
+ unreadCount: firebase.firestore.FieldValue.increment(1),
+ lastMessage: text,
+ lastMessageTime: Date.now()
+}, { merge: true });
+
 }
+
+
 
 db.collection("chats")
   .doc(chatId)
@@ -4597,7 +4605,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <div class="invite-link-box">
 
-<span id="inviteLinkText"></span>
+<span id="inviteLinkText" style="display:none;"></span>
 
   <button id="copyInviteBtn">
     Copy
@@ -4786,7 +4794,8 @@ const inviteText = document.getElementById("inviteLinkText");
 console.log("inviteText element =", inviteText);
 
   inviteText.textContent =
-  `auralis.app/invite/${userData.username}`;
+  `auralis.app/invite/${userData.username}-${Date.now()}`;
+
 
   const inviteDoc = await db
   .collection("inviteLinks")
@@ -4825,11 +4834,17 @@ copyInviteBtn.addEventListener("click", async () => {
     .set({
       username: window.currentUsername,
       link: link,
+      token: Date.now().toString(),
       expiresAt: expiresAt,
       createdAt: Date.now()
     });
 
   await navigator.clipboard.writeText(link);
+
+ document.getElementById("inviteLinkText").style.display = "inline";
+
+ document.getElementById("inviteLinkText").textContent =
+  "Copied to clipboard ✓";
 
   copyInviteBtn.textContent = "Copied!";
 
@@ -4850,6 +4865,18 @@ async function checkInviteLink(username) {
   }
 
   const inviteData = doc.data();
+
+  const currentToken =
+  inviteData.link.split("-").pop();
+
+if (
+  inviteData.token &&
+  inviteData.token !== currentToken
+) {
+  alert("This invite link is no longer valid.");
+  return false;
+}
+
 
   if (
     inviteData.expiresAt &&

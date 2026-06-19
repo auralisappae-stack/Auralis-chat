@@ -3023,11 +3023,11 @@ saveProfileBtn.addEventListener("click", async () => {
 
   await setDoc(
     doc(db, "users", currentUser),
-    {
-      username: usernameInput.value,
-      usernameHandle: usernameHandleInput.value
-    },
-    { merge: true }
+   
+ {
+  displayName: usernameInput.value
+  },{ merge: true }
+  
   );
 
   saveProfileBtn.textContent = "Saved!";
