@@ -4856,7 +4856,7 @@ copyInviteBtn.addEventListener("click", async () => {
 //checkInviteLink Function
 async function checkInviteLink(username) {
   const doc = await db.collection("inviteLinks")
-    .doc(username)
+    .doc(username.split("-")[0])
     .get();
 
   if (!doc.exists) {
