@@ -673,11 +673,29 @@ body{
 
 
 
-.bubble.me,
 .bubble.other{
-  align-self:flex-start;
-  margin-left:0;
+  background:#24184A;
+
+  border:1px solid rgba(255,126,219,.10);
+
+   align-self:flex-start;
   margin-right:auto;
+
+}
+
+.bubble.me{
+  background:linear-gradient(
+    135deg,
+    #8B5CF6,
+    #A15CFF
+  );
+
+  box-shadow:
+    0 0 18px rgba(139,92,246,.25);
+
+    align-self:flex-end;
+
+  margin-left:auto !important;
 }
 
 .bubble:hover{
@@ -3306,17 +3324,20 @@ const style =
 
 if(msg.user === window.currentUsername){
   bubble.className = "bubble me";
+  bubble.style.marginLeft = "auto";
 } else {
   bubble.className = "bubble other";
+  bubble.style.marginRight = "auto";
 }
-
-bubble.style.marginLeft = "0";
-bubble.style.marginRight = "auto";
 
 
    bubble.innerHTML = `
   <div class="msgHeader">
-    <span class="msgUser">${msg.user}</span>
+
+    <span class="msgUser">
+  ${userStyles[msg.user]?.displayName || msg.user}
+</span>
+
     <span class="msgTime">
       ${new Date(msg.time).toLocaleTimeString([], {
         hour:'2-digit',

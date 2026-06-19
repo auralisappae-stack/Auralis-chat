@@ -2904,8 +2904,9 @@ console.log(data.fontStyle);
       userIdInput.value = data.userId;
     }
 
-    if (data.username) {
-  usernameInput.value = data.username;
+if (data.displayName || data.username) {
+  usernameInput.value =
+    data.displayName || data.username;
 }
 
 if (data.usernameHandle) {
