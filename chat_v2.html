@@ -3239,8 +3239,12 @@ chatList.innerHTML += `
         </div>
 
         <div class="chat-preview">
-          Start chatting...
-        </div>
+  ${friend.lastSender === window.currentUsername
+      ? "You: "
+      : friend.username + ": "}
+  ${(friend.lastMessage || "").substring(0, 30)}
+</div>
+
       </div>
 <button class="chat-menu-btn">⋮</button>
     </div>
@@ -4325,10 +4329,23 @@ const receiverSnapshot = await db.collection("users")
  unread: true,
  unreadCount: firebase.firestore.FieldValue.increment(1),
  lastMessage: text,
+ lastSender: window.currentUsername,
  lastMessageTime: Date.now()
 }, { merge: true });
 
 }
+
+await db.collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("chats")
+  .doc(window.currentChatUser)
+  .set({
+    username: window.currentChatUser,
+    type: "dm",
+    lastMessage: text,
+    lastSender: window.currentUsername,
+    lastMessageTime: Date.now()
+  }, { merge: true });
 
 
 
