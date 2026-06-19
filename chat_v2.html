@@ -3955,11 +3955,6 @@ console.log("Current Chat User:", window.currentChatUser);
 
 
 
-
-console.log("Auth loaded:", auth);
-
-
-
 const username =
 localStorage.getItem("currentUser") ||
 localStorage.getItem("username") ||
@@ -3972,13 +3967,15 @@ db.collection("users")
 
     const data = doc.data();
 
-userStyles[doc.id] = data;
+ userStyles[doc.id] = data;
 
 if (data.username) {
   userStyles[data.username] = data;
 }
 
   });
+
+  renderChatList();
 
 
   });
