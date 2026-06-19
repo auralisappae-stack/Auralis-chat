@@ -3732,22 +3732,6 @@ function renderFriendRequests() {
 } 
 // end of the funtion of the friend request
 
-function updateSidebarProfiles(){
-  document.querySelectorAll(".chat-item[data-user]").forEach(item => {
-    const username = item.dataset.user;
-    const profile = userStyles[username];
-    if (!profile) return;
-
-    item.querySelector(".chat-name").textContent =
-      profile.displayName || username;
-
-    item.querySelector(".chat-avatar").innerHTML =
-      profile.avatarURL
-        ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-        : username[0].toUpperCase();
-  });
-}
-
 window.selectedMembers = selectedMembers;
 
 auth.onAuthStateChanged(async user => {
@@ -3968,7 +3952,9 @@ console.log("Current Chat User:", window.currentChatUser);
 
 
 });
- 
+
+
+
 
 const username =
 localStorage.getItem("currentUser") ||
@@ -3990,7 +3976,8 @@ if (data.username) {
 
   });
 
-  updateSidebarProfiles();
+  renderChatList();
+
 
   });
 
