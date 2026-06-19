@@ -3324,11 +3324,12 @@ const style =
 
 if(msg.user === window.currentUsername){
   bubble.className = "bubble me";
-  bubble.style.marginLeft = "auto";
 } else {
   bubble.className = "bubble other";
-  bubble.style.marginRight = "auto";
 }
+
+bubble.style.marginLeft = "0";
+bubble.style.marginRight = "auto";
 
 
    bubble.innerHTML = `
@@ -4268,13 +4269,15 @@ dmsBtn.addEventListener("click", () => {
 
 setTimeout(() => {
 
-  document.getElementById("sendBtn")
- .addEventListener("click", async () => {
+document.getElementById("sendBtn")
+.addEventListener("click", async () => {
 
+const text =
+document.getElementById("msgInput").value.trim();
 
-    
-  const text =
-document.getElementById("msgInput").value;
+if (!text) {
+  return;
+}
 
 if(window.currentGroupId){
 
