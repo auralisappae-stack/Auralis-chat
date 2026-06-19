@@ -4268,7 +4268,7 @@ dmsBtn.addEventListener("click", () => {
 setTimeout(() => {
 
   document.getElementById("sendBtn")
-  .addEventListener("click", () => {
+ .addEventListener("click", async () => {
 
 
     
@@ -4293,6 +4293,25 @@ if(window.currentGroupId){
     window.currentUsername,
     window.currentChatUser
   ].sort().join("_");
+
+  
+const receiverSnapshot = await db.collection("users")
+  .where("username", "==", window.currentChatUser)
+  .get();
+
+  if (!receiverSnapshot.empty) {
+  const receiverId =
+    receiverSnapshot.docs[0].id;
+
+  await db.collection("users")
+    .doc(receiverId)
+    .collection("chats")
+    .doc(window.currentUsername)
+    .set({
+      username: window.currentUsername,
+      type: "dm"
+    }, { merge: true });
+}
 
 db.collection("chats")
   .doc(chatId)
