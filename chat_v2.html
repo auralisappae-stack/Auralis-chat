@@ -3239,12 +3239,9 @@ chatList.innerHTML += `
         </div>
 
         <div class="chat-preview">
-  ${friend.lastSender === window.currentUsername
-      ? "You: "
-      : friend.username + ": "}
-  ${(friend.lastMessage || "").substring(0, 30)}
-</div>
-
+          Start chatting...
+        </div>
+        
       </div>
 <button class="chat-menu-btn">⋮</button>
     </div>
@@ -3836,9 +3833,14 @@ chatList.innerHTML += `
         ${chat.username}
       </div>
 
-      <div class="chat-preview">
-        Start chatting...
-      </div>
+    <div class="chat-preview">
+  ${
+    chat.lastMessage
+      ? `${chat.lastSender === window.currentUsername ? "You" : chat.username}: ${chat.lastMessage.substring(0, 30)}${chat.lastMessage.length > 30 ? "..." : ""}`
+      : "Start chatting..."
+  }
+</div>
+
     </div>
 <button class="chat-menu-btn">⋮</button>
 
