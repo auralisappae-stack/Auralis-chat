@@ -4484,8 +4484,20 @@ setTimeout(() => {
    groupPhotoInput.addEventListener("change", () => {
 
   const file = groupPhotoInput.files[0];
+   if (!file) return;
 
-  if (!file) return;
+ const allowedTypes = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp"
+];
+
+if (!allowedTypes.includes(file.type)) {
+  alert("Please upload a PNG, JPG, JPEG, or WEBP image.");
+  groupPhotoInput.value = "";
+  return;
+}
 
   const reader = new FileReader();
 
@@ -4545,7 +4557,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <input
         type="file"
         id="groupPhotoInput"
-        accept="image/*"
+        accept=".png,.jpg,.jpeg,.webp"
         hidden
       >
     `;
@@ -5746,7 +5758,7 @@ document
     <input
       type="file"
       id="groupPhotoInput"
-      accept="image/*"
+      accept=".png,.jpg,.jpeg,.webp"
       hidden
     >
   </div>

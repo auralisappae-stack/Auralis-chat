@@ -442,16 +442,12 @@ input:checked + .slider:before{
 
 .profileCard{
   display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-
+  flex-direction:row;
+  align-items:flex-start;
+  gap:40px;
   padding:24px;
-
- 
   border:1px solid rgba(215,184,255,.12);
   border-radius:16px;
-
   margin-bottom:20px;
 
   box-shadow:
@@ -649,6 +645,7 @@ input:checked + .slider:before{
 }
 
 
+
 .accountFields{
   flex:1;
 
@@ -656,53 +653,34 @@ input:checked + .slider:before{
   flex-direction:column;
 
   gap:16px;
-
-  padding:20px;
-
-  background:#161033;
-
-  border:1px solid rgba(215,184,255,.12);
-
-  border-radius:16px;
 }
+
+
 
 .fieldRow{
   display:flex;
   align-items:center;
-
-  gap: 16px;
-
-  margin-bottom: 16px;
-  margin-left: 30px;
+  gap:16px;
+  margin-bottom:16px;
 }
 
 .fieldRow label{
-  width:130px;
-
-  color:#D7B8FF;
-
-  font-weight:600;
-  font-size:14px;
-
-  flex-shrink:0;
+  width:140px;
+  min-width:140px;
 }
 
-
 .accountInput{
-  width:340px;
-  min-width:340px;
-  max-width:340px;
+  flex:1;
+  width:100%;
+  max-width:420px;
 
   padding:12px 16px;
 
   background:#161033;
+  color:#FFFFFF;
 
   border:1px solid rgba(215,184,255,.12);
   border-radius:12px;
-
-  color:#FFFFFF;
-
-  transition:.25s ease;
 }
 
 
@@ -1734,6 +1712,14 @@ body.lightTheme .previewInputBar input::placeholder{
   transform:translateY(-2px);
 }
 
+.avatarColumn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  min-width:180px;
+}
+
 #resetAppearanceBtn{
   height:52px;
   width:100%;
@@ -1868,15 +1854,11 @@ body.lightTheme .previewInputBar input::placeholder{
  <div class="profileCard">
 
 
-
-<div class="profileHeader">
-
-
     <!-- LEFT SIDE -->
 
-  <div class="avatarSection">
+<div class="avatarColumn">
 
-    <div class="avatarPreview">
+  <div class="avatarPreview">
 
   <img
     id="avatarImage"
@@ -1896,16 +1878,14 @@ body.lightTheme .previewInputBar input::placeholder{
   onclick="document.getElementById('avatarInput').click()">
 
   Change Avatar
-
 </button>
-
-  </div>
+</div>
 
 
  <!-- RIGHT SIDE -->
 
 <!-- account fields in profile section -->
-  <div class="accountFields">
+<div class="accountFields">
 
     <div class="fieldRow">
     <label>Display Name</label>
@@ -1952,18 +1932,6 @@ body.lightTheme .previewInputBar input::placeholder{
 
     <!-- make the copy button works -->
 
-</div>
-
-<!--save profile button -->
-
-<div class="profileActions">
-  <button
-    class="saveBtn"
-    id="saveProfileBtn">
-    Save Profile
-  </button>
-<!--End of the save profile button -->
-</div>
 
   </div>
 
@@ -2729,9 +2697,21 @@ document.getElementById("saveSettingsBtn")
   await setDoc(
     doc(db, "users", currentUser),
     {
-      theme: themeSelect.value,
-      accentColor: accentSelect.value,
-      language: languageSelect.value
+{
+  theme: themeSelect.value,
+  accentColor: accentSelect.value,
+  language: languageSelect.value,
+
+  displayName: usernameInput.value,
+  bio: bioInput.value,
+
+  firstName: firstNameInput.value,
+  lastName: lastNameInput.value,
+  dateOfBirth: dateOfBirthInput.value,
+  location: locationInput.value,
+
+  status: statusSelect.value
+}
     },
     { merge: true }
   );
@@ -3099,7 +3079,7 @@ const statusDot =
     "#userStatusDropdown .statusDot"
   );
 
-statusDot.style.background = "#747f8d";
+  statusDot.style.background = "#747f8d";
 
 statusSelect.addEventListener("change", async () => {
 
