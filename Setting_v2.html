@@ -1870,7 +1870,8 @@ body.lightTheme .previewInputBar input::placeholder{
 <input
   type="file"
   id="avatarInput"
-  accept="image/*"
+  accept=".png,.jpg,.jpeg,.webp"
+
   style="display:none;">
 
 <button
@@ -2696,7 +2697,7 @@ document.getElementById("saveSettingsBtn")
 .addEventListener("click", async () => {
   await setDoc(
     doc(db, "users", currentUser),
-    {
+    
 {
   theme: themeSelect.value,
   accentColor: accentSelect.value,
@@ -2711,7 +2712,7 @@ document.getElementById("saveSettingsBtn")
   location: locationInput.value,
 
   status: statusSelect.value
-}
+
     },
     { merge: true }
   );
