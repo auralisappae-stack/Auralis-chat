@@ -3572,8 +3572,12 @@ async function openChat(username) {
 
       document.getElementById("headerName").textContent =
         username;
-        document.getElementById("headerStatus").textContent =
-        friendData.status || "offline";
+snapshot.docs[0].ref.onSnapshot((doc) => {
+  const liveData = doc.data();
+
+  document.getElementById("headerStatus").textContent =
+    liveData.status || "offline";
+});
 
       const chatId = [
         window.currentUsername,
