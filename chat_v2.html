@@ -4682,7 +4682,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-<div class="friend-search-row">
+<div class="friend-search-row" id="friendSearchRow">
 
   <div class="friend-search-box">
     <input
@@ -5387,6 +5387,9 @@ inviteTab.addEventListener("click", () => {
   inviteSection.style.display = "block";
   requestsSection.style.display = "none";
 
+    document.getElementById("friendSearchRow").style.display = "flex";
+
+
   document.querySelector(".friends-right-panel").style.display = "flex";
   inviteRightContent.style.display = "block";
 
@@ -5400,6 +5403,9 @@ requestsTab.addEventListener("click", () => {
   requestsTab.classList.add("active-tab");
   friendsTab.classList.remove("active-tab");
   inviteTab.classList.remove("active-tab");
+
+  document.getElementById("friendSearchRow").style.display = "none";
+
 
   friendsSection.style.display = "none";
   inviteSection.style.display = "none";
@@ -5419,6 +5425,9 @@ friendsTab.addEventListener("click", () => {
   friendsSection.style.display = "block";
   inviteSection.style.display = "none";
   requestsSection.style.display = "none";
+
+  document.getElementById("friendSearchRow").style.display = "flex";
+
 
   document.querySelector(".friends-right-panel").style.display = "flex";
   inviteRightContent.style.display = "none";
