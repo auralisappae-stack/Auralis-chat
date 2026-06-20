@@ -3691,6 +3691,26 @@ let friendRequests = [];
 let selectedChatType = null;
 let selectedChatElement = null;
 
+// function of the applyuser avatar 
+
+function applyUserAvatars() {
+  document.querySelectorAll(".chat-item[data-user]").forEach(item => {
+    const username = item.dataset.user;
+    const profile = userStyles[username];
+
+    if (!profile) return;
+
+    item.querySelector(".chat-avatar").innerHTML =
+      profile.avatarURL
+        ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+        : username[0].toUpperCase();
+
+    item.querySelector(".chat-name").textContent =
+      profile.displayName || username;
+  });
+}
+
+// end of the apply user avatar function 
 
 // function of the friend requests
 function renderFriendRequests() {
@@ -3863,26 +3883,9 @@ ${chat.lastSender === window.currentUsername
     </div>
 
 `;
+applyUserAvatars();
       
     });
-
-    
-
-document.querySelectorAll(".chat-item[data-user]").forEach(item => {
-  const username = item.dataset.user;
-  const profile = userStyles[username];
-  if (!profile) return;
-
-  const avatar = item.querySelector(".chat-avatar");
-  const name = item.querySelector(".chat-name");
-
-  avatar.innerHTML = profile.avatarURL
-    ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-    : username[0].toUpperCase();
-
-  name.textContent = profile.displayName || username;
-});
-
   });
 
   db.collection("groups")
@@ -3992,25 +3995,8 @@ if (data.username) {
 
   });
 
-  
-
-document.querySelectorAll(".chat-item[data-user]").forEach(item => {
-  const username = item.dataset.user;
-  const profile = userStyles[username];
-
-if (!profile) return;
-
-const avatar = item.querySelector(".chat-avatar");
-const name = item.querySelector(".chat-name");
-
-avatar.innerHTML = profile.avatarURL
-  ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-  : username[0].toUpperCase();
-
-name.textContent = profile.displayName || username;});
-
+    applyUserAvatars();
   });
-
 
 document.getElementById("settingsBtn")
 .addEventListener("click", () => {
