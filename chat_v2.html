@@ -4076,7 +4076,7 @@ if(snapshot.empty){
 const existingInvite = await db
   .collection("friendRequests")
   .where("from", "==", window.currentUsername)
-  .where("to", "==", friendUsername)
+  .where("to", "==", friendUsername.split("-")[0])
   .where("status", "==", "pending")
   .get();
 
@@ -4100,7 +4100,7 @@ if (alreadyFriends.exists) {
 await db.collection("friendRequests").add({
 
   from: window.currentUsername,
-  to: friendUsername,
+  to: friendUsername.split("-")[0],
   status: "pending",
   time: Date.now()
 
@@ -5098,13 +5098,35 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
-  const isValid = await checkInviteLink(friendUsername);
+  const inviteTo =
+    friendUsername.split("-")[0].trim().toLowerCase();
 
-   if (!isValid) return;
+  const me =
+    window.currentUsername.trim().toLowerCase();
+
+  if (inviteTo === me) {
+    alert("You cannot send an invite to yourself.");
+    return;
+  }
+
+  const isValid = await checkInviteLink(friendUsername);
+  if (!isValid) return;
+
+  const existingInvite = await db
+    .collection("friendRequests")
+    .where("from", "==", window.currentUsername)
+    .where("to", "==", inviteTo)
+    .where("status", "==", "pending")
+    .get();
+
+  if (!existingInvite.empty) {
+    alert("You already sent an invite to this user.");
+    return;
+  }
 
   await db.collection("friendRequests").add({
     from: window.currentUsername,
-    to: friendUsername.split("-")[0],
+    to: inviteTo,
     status: "pending",
     time: Date.now()
   });
