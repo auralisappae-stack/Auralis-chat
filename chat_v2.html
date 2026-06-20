@@ -4054,11 +4054,11 @@ document
   openAddFriendModal();
 return;
 
-  if(!friendUsername) return;
+if(!friendUsername) return;
 
   //search the firebase for the username to add 
 
-  if (friendUsername === window.currentUsername) {
+if (friendUsername === window.currentUsername) {
   alert("You cannot send an invite to yourself.");
   return;
 }
@@ -5413,7 +5413,7 @@ inviteTab.addEventListener("click", () => {
   inviteSection.style.display = "block";
   requestsSection.style.display = "none";
 
- sdocument.getElementById("friendSearchRow").style.display = "flex";
+document.getElementById("friendSearchRow").style.display = "flex";
 
 
   document.querySelector(".friends-right-panel").style.display = "flex";
