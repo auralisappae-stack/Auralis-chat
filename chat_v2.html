@@ -3155,9 +3155,24 @@ auth.onAuthStateChanged(user => {
 
   const friend = doc.data();
 
-   if (friend.status === "online") {
-    onlineCount++;
-  }
+  console.log("Friend:", friend);
+  console.log("Username:", friend.username);
+
+  db.collection("users")
+  .where("username", "==", friend.username)
+  .get()
+  .then(userSnap => {
+    if (!userSnap.empty) {
+      const friendProfile = userSnap.docs[0].data();
+
+      if (friendProfile.status === "online") {
+        onlineCount++;
+      }
+
+      document.getElementById("onlineFriendsCount").textContent =
+        onlineCount;
+    }
+  });
 
   const friendDiv = document.createElement("div");
 
