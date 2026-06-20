@@ -2674,10 +2674,10 @@ const locationInput =
 
 window.uploadAvatar = async function(file){
 
-  const storageRef = ref(
-    storage,
-    "avatars/" + file.name
-  );
+ const storageRef = ref(
+  storage,
+  `avatars/${currentUser}/${Date.now()}-${file.name}`
+);
 
   await uploadBytes(storageRef, file);
 
