@@ -3989,30 +3989,27 @@ localStorage.getItem("currentUser") ||
 localStorage.getItem("username") ||
 "Guest";
 
-db.collection("users")
-.onSnapshot(snapshot => {
-
+db.collection("users").onSnapshot(snapshot => {
   snapshot.forEach(doc => {
-
     const data = doc.data();
 
- userStyles[doc.id] = data;
+    userStyles[doc.id] = data;
 
-if (data.username) {
-  userStyles[data.username] = data;
-}
-
+    if (data.username) {
+      userStyles[data.username] = data;
+    }
   });
 
-    applyUserAvatars();
-  });
+  applyUserAvatars();
+});
+
+
+// setting btn start here 
 
 document.getElementById("settingsBtn")
 .addEventListener("click", () => {
   window.location.href = "Setting_v2.html";
 });
-
-
 
 
 document
