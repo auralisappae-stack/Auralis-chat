@@ -2405,6 +2405,12 @@ body.lightTheme .previewInputBar input::placeholder{
 </div>
 </div>
 
+<!-- saving the whole profile page -->
+<button id="saveSettingsBtn" class="saveBtn">
+  Save Settings
+</button>
+
+
 <!-- adding a hidden chat preview-->
 <div id="chatPreviewSection" style="display:none;">
 
@@ -2716,6 +2722,39 @@ avatarInput.addEventListener("change", async (e) => {
 const resetBtn = document.getElementById("resetAppearanceBtn");
 console.log("Reset button:", resetBtn);
 
+// save setting btn Listener starts here 
+document.getElementById("saveSettingsBtn")
+.addEventListener("click", async () => {
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      theme: themeSelect.value,
+      accentColor: accentSelect.value,
+      language: languageSelect.value
+    },
+    { merge: true }
+  );
+
+  alert("Settings saved!");
+});
+
+const saveBtn = document.getElementById("saveBtn");
+
+saveBtn.addEventListener("click", async () => {
+  await db.collection("users")
+    .doc(auth.currentUser.uid)
+    .set({
+      theme: themeSelect.value,
+      accent: accentSelect.value,
+      language: languageSelect.value,
+      status: statusSelect.value
+    }, { merge: true });
+
+  alert("Settings saved!");
+});
+
+// savesetting btn listener end here 
+
 // reset button listener starts here 
 document.getElementById("resetAppearanceBtn")
 .addEventListener("click", async () => {
@@ -2943,6 +2982,20 @@ if (data.email) {
   
 }
 
+if (data.theme) themeSelect.value = data.theme;
+if (data.accent) {
+  accentSelect.value = data.accent;
+  document.body.setAttribute("data-accent", data.accent);
+}
+
+if (data.language) languageSelect.value = data.language;
+
+if (data.status) {
+  statusSelect.value = data.status;
+  updateStatusDot(data.status);
+}
+
+
 
   } else {
 
@@ -2958,6 +3011,7 @@ if (data.email) {
     );
 
   } // closes if (userDoc.exists())
+
 } // closes loadAvatar()
 
 
@@ -3066,34 +3120,17 @@ const statusDot =
     "#userStatusDropdown .statusDot"
   );
 
+  function updateStatusDot(status) {
+  if (status === "online") statusDot.style.background = "#43b581";
+  if (status === "away") statusDot.style.background = "#faa61a";
+  if (status === "busy") statusDot.style.background = "#ed4245";
+  if (status === "gaming") statusDot.style.background = "#9146ff";
+  if (status === "listening") statusDot.style.background = "#1db954";
+  if (status === "offline") statusDot.style.background = "#747f8d";
+}
+
 statusSelect.addEventListener("change", () => {
-
-  const status = statusSelect.value;
-
-  if(status === "online"){
-    statusDot.style.background = "#43b581";
-  }
-
-  if(status === "away"){
-    statusDot.style.background = "#faa61a";
-  }
-
-  if(status === "busy"){
-    statusDot.style.background = "#ed4245";
-  }
-
-  if(status === "gaming"){
-    statusDot.style.background = "#9146ff";
-  }
-
-  if(status === "listening"){
-    statusDot.style.background = "#1db954";
-  }
-
-  if(status === "offline"){
-    statusDot.style.background = "#747f8d";
-  }
-
+  updateStatusDot(statusSelect.value);
 });
 
 
@@ -3293,6 +3330,25 @@ profileBtn.addEventListener("click", () => {
   ).style.display = "none";
 
 });
+
+// savebtn lsitener start here for the profile whole page 
+document.getElementById("saveBtn")
+.addEventListener("click", async () => {
+  await setDoc(
+    doc(db, "users", currentUser),
+    {
+      theme: themeSelect.value,
+      accent: accentSelect.value,
+      language: languageSelect.value,
+      status: statusSelect.value
+    },
+    { merge: true }
+  );
+
+  alert("Settings saved!");
+});
+
+// savebtn lsitener ends here for the profile whole page 
 
 
 //  make the light theme works
