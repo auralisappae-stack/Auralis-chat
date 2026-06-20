@@ -3708,21 +3708,30 @@ let selectedChatElement = null;
 
 // function of the applyuser avatar 
 
-function applyUserAvatars() {
-  document.querySelectorAll(".chat-item[data-user]").forEach(item => {
+async function applyUserAvatars() {
+  document.querySelectorAll(".chat-item[data-user]").forEach(async item => {
     const username = item.dataset.user;
-    const profile = userStyles[username];
 
-console.log("Avatar check:", username, profile);
+    const snap = await db.collection("users")
+      .where("username", "==", username)
+      .limit(1)
+      .get();
 
-    if (!profile) return;
+    if (snap.empty) return;
+
+    const profile = snap.docs[0].data();
 
     const avatar = item.querySelector(".chat-avatar");
     const name = item.querySelector(".chat-name");
 
-    avatar.innerHTML = profile.avatarURL
-      ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-      : username[0].toUpperCase();
+    if (profile.avatarURL) {
+      avatar.innerHTML = `
+        <img src="${profile.avatarURL}"
+          style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+      `;
+    } else {
+      avatar.textContent = username[0].toUpperCase();
+    }
 
     name.textContent = profile.displayName || username;
   });
@@ -3888,10 +3897,12 @@ ${chat.lastSender === window.currentUsername
 
     </div>
 
-`;
-applyUserAvatars();
-      
+`;      
     });
+    applyUserAvatars();
+    console.log("APPLIED AVATARS AFTER CHAT LIST");
+
+
   });
 
   const chatList = document.getElementById("chatList");
@@ -4001,6 +4012,8 @@ db.collection("users").onSnapshot(snapshot => {
   });
 
   applyUserAvatars();
+  console.log("APPLIED AVATARS AFTER CHAT LIST");
+
 });
 
 
