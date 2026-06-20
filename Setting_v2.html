@@ -1787,6 +1787,7 @@ body.lightTheme .previewInputBar input::placeholder{
       <span class="statusDot"></span>
 
       <select id="statusSelect">
+        <option value=""> Loading...</option>
         <option value="online"> Online</option>
         <option value="away"> Away</option>
         <option value="busy"> Busy</option>
@@ -3097,6 +3098,8 @@ const statusDot =
   document.querySelector(
     "#userStatusDropdown .statusDot"
   );
+
+statusDot.style.background = "#747f8d";
 
 statusSelect.addEventListener("change", async () => {
 
