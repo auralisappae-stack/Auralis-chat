@@ -4058,6 +4058,11 @@ return;
 
   //search the firebase for the username to add 
 
+  if (friendUsername === window.currentUsername) {
+  alert("You cannot send an invite to yourself.");
+  return;
+}
+
 const snapshot = await db
   .collection("users")
   .where("username", "==", friendUsername)
@@ -4065,6 +4070,30 @@ const snapshot = await db
 
 if(snapshot.empty){
   alert("User not found");
+  return;
+}
+
+const existingInvite = await db
+  .collection("friendRequests")
+  .where("from", "==", window.currentUsername)
+  .where("to", "==", friendUsername)
+  .where("status", "==", "pending")
+  .get();
+
+if (!existingInvite.empty) {
+  alert("You already sent an invite to this user.");
+  return;
+}
+
+const alreadyFriends = await db
+  .collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .doc(friendUsername)
+  .get();
+
+if (alreadyFriends.exists) {
+  alert("This user is already your friend.");
   return;
 }
 
@@ -4984,8 +5013,12 @@ copyInviteBtn.addEventListener("click", async () => {
 
 //checkInviteLink Function
 async function checkInviteLink(username) {
+  const parts = username.split("-");
+  const inviteUsername = parts[0];
+  const enteredToken = parts[1];
+
   const doc = await db.collection("inviteLinks")
-    .doc(username.split("-")[0])
+    .doc(inviteUsername)
     .get();
 
   if (!doc.exists) {
@@ -4995,17 +5028,10 @@ async function checkInviteLink(username) {
 
   const inviteData = doc.data();
 
-  const currentToken =
-  inviteData.link.split("-").pop();
-
-if (
-  inviteData.token &&
-  inviteData.token !== currentToken
-) {
-  alert("This invite link is no longer valid.");
-  return false;
-}
-
+  if (inviteData.token !== enteredToken) {
+    alert("This invite link is no longer valid.");
+    return false;
+  }
 
   if (
     inviteData.expiresAt &&
@@ -5387,7 +5413,7 @@ inviteTab.addEventListener("click", () => {
   inviteSection.style.display = "block";
   requestsSection.style.display = "none";
 
-    document.getElementById("friendSearchRow").style.display = "flex";
+ sdocument.getElementById("friendSearchRow").style.display = "flex";
 
 
   document.querySelector(".friends-right-panel").style.display = "flex";
