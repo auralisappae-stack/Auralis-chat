@@ -3713,15 +3713,18 @@ function applyUserAvatars() {
     const username = item.dataset.user;
     const profile = userStyles[username];
 
+console.log("Avatar check:", username, profile);
+
     if (!profile) return;
 
-    item.querySelector(".chat-avatar").innerHTML =
-      profile.avatarURL
-        ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-        : username[0].toUpperCase();
+    const avatar = item.querySelector(".chat-avatar");
+    const name = item.querySelector(".chat-name");
 
-    item.querySelector(".chat-name").textContent =
-      profile.displayName || username;
+    avatar.innerHTML = profile.avatarURL
+      ? `<img src="${profile.avatarURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+      : username[0].toUpperCase();
+
+    name.textContent = profile.displayName || username;
   });
 }
 
@@ -3858,20 +3861,8 @@ chatList.innerHTML += `
     data-type="dm"
     onclick="openChat('${chat.username}')"
   >
-    <div class="chat-avatar">
-  ${
-    userStyles[chat.username]?.avatarURL
-      ? `<img
-           src="${userStyles[chat.username].avatarURL}"
-           style="
-             width:100%;
-             height:100%;
-             object-fit:cover;
-             border-radius:50%;
-           "
-         >`
-      : chat.username[0].toUpperCase()
-  }
+<div class="chat-avatar" data-avatar-user="${chat.username}">
+  ${chat.username[0].toUpperCase()}
 </div>
 
     <div class="chat-info">
@@ -3902,6 +3893,9 @@ applyUserAvatars();
       
     });
   });
+
+  const chatList = document.getElementById("chatList");
+
 
   db.collection("groups")
 .onSnapshot(groupSnapshot => {
