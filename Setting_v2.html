@@ -2738,20 +2738,7 @@ document.getElementById("saveSettingsBtn")
   alert("Settings saved!");
 });
 
-const saveBtn = document.getElementById("saveBtn");
 
-saveBtn.addEventListener("click", async () => {
-  await db.collection("users")
-    .doc(auth.currentUser.uid)
-    .set({
-      theme: themeSelect.value,
-      accent: accentSelect.value,
-      language: languageSelect.value,
-      status: statusSelect.value
-    }, { merge: true });
-
-  alert("Settings saved!");
-});
 
 // savesetting btn listener end here 
 
@@ -2836,7 +2823,13 @@ async function loadAvatar() {
 
     const data = userDoc.data();
 
-    if (data.bubbleStyle) {
+if (data.status) {
+  statusSelect.value = data.status;
+  statusSelect.dispatchEvent(new Event("change"));
+}
+
+
+if (data.bubbleStyle) {
   bubbleStyleSelect.value = data.bubbleStyle;
   bubbleStyleSelect.dispatchEvent(new Event("change"));
 }
@@ -2982,20 +2975,6 @@ if (data.email) {
   
 }
 
-if (data.theme) themeSelect.value = data.theme;
-if (data.accent) {
-  accentSelect.value = data.accent;
-  document.body.setAttribute("data-accent", data.accent);
-}
-
-if (data.language) languageSelect.value = data.language;
-
-if (data.status) {
-  statusSelect.value = data.status;
-  updateStatusDot(data.status);
-}
-
-
 
   } else {
 
@@ -3011,7 +2990,6 @@ if (data.status) {
     );
 
   } // closes if (userDoc.exists())
-
 } // closes loadAvatar()
 
 
@@ -3120,17 +3098,42 @@ const statusDot =
     "#userStatusDropdown .statusDot"
   );
 
-  function updateStatusDot(status) {
-  if (status === "online") statusDot.style.background = "#43b581";
-  if (status === "away") statusDot.style.background = "#faa61a";
-  if (status === "busy") statusDot.style.background = "#ed4245";
-  if (status === "gaming") statusDot.style.background = "#9146ff";
-  if (status === "listening") statusDot.style.background = "#1db954";
-  if (status === "offline") statusDot.style.background = "#747f8d";
-}
+statusSelect.addEventListener("change", async () => {
 
-statusSelect.addEventListener("change", () => {
-  updateStatusDot(statusSelect.value);
+  const status = statusSelect.value;
+
+  if(status === "online"){
+    statusDot.style.background = "#43b581";
+  }
+
+  if(status === "away"){
+    statusDot.style.background = "#faa61a";
+  }
+
+  if(status === "busy"){
+    statusDot.style.background = "#ed4245";
+  }
+
+  if(status === "gaming"){
+    statusDot.style.background = "#9146ff";
+  }
+
+  if(status === "listening"){
+    statusDot.style.background = "#1db954";
+  }
+
+  if(status === "offline"){
+    statusDot.style.background = "#747f8d";
+  }
+
+  await setDoc(
+  doc(db, "users", currentUser),
+  {
+    status: status
+  },
+  { merge: true }
+);
+
 });
 
 
@@ -3330,25 +3333,6 @@ profileBtn.addEventListener("click", () => {
   ).style.display = "none";
 
 });
-
-// savebtn lsitener start here for the profile whole page 
-document.getElementById("saveBtn")
-.addEventListener("click", async () => {
-  await setDoc(
-    doc(db, "users", currentUser),
-    {
-      theme: themeSelect.value,
-      accent: accentSelect.value,
-      language: languageSelect.value,
-      status: statusSelect.value
-    },
-    { merge: true }
-  );
-
-  alert("Settings saved!");
-});
-
-// savebtn lsitener ends here for the profile whole page 
 
 
 //  make the light theme works
