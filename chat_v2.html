@@ -4047,81 +4047,11 @@ document.getElementById("settingsBtn")
 });
 
 
+
 document
 .getElementById("addFriendBtn")
-.addEventListener("click", async () => {
-
+.addEventListener("click", () => {
   openAddFriendModal();
-return;
-
-if(!friendUsername) return;
-
-  //search the firebase for the username to add 
-
-if (friendUsername === window.currentUsername) {
-  alert("You cannot send an invite to yourself.");
-  return;
-}
-
-const snapshot = await db
-  .collection("users")
-  .where("username", "==", friendUsername)
-  .get();
-
-if(snapshot.empty){
-  alert("User not found");
-  return;
-}
-
-const existingInvite = await db
-  .collection("friendRequests")
-  .where("from", "==", window.currentUsername)
-  .where("to", "==", friendUsername.split("-")[0])
-  .where("status", "==", "pending")
-  .get();
-
-if (!existingInvite.empty) {
-  alert("You already sent an invite to this user.");
-  return;
-}
-
-const alreadyFriends = await db
-  .collection("users")
-  .doc(auth.currentUser.uid)
-  .collection("friends")
-  .doc(friendUsername)
-  .get();
-
-if (alreadyFriends.exists) {
-  alert("This user is already your friend.");
-  return;
-}
-
-await db.collection("friendRequests").add({
-
-  from: window.currentUsername,
-  to: friendUsername.split("-")[0],
-  status: "pending",
-  time: Date.now()
-
-});
-
-alert("Friend request sent!");
-
-const friendDoc = snapshot.docs[0];
-
-const friendData = friendDoc.data();
-
-console.log("Friend data:", friendData);
-console.log("Avatar URL:", friendData.avatarURL);
-
-
-console.log(
-  "Saving friend to:",
-  window.currentUsername
-);
-
-
 });
 
 document.getElementById("userName")
@@ -4136,8 +4066,6 @@ document.getElementById("userAvatar")
 (window.currentUsername || "G")
 .charAt(0)
 .toUpperCase();
-
-
 
 
 
@@ -5123,6 +5051,18 @@ document.addEventListener("click", async (e) => {
     alert("You already sent an invite to this user.");
     return;
   }
+
+  const alreadyFriends = await db
+  .collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .doc(inviteTo)
+  .get();
+
+if (alreadyFriends.exists) {
+  alert("This user is already on your buddy list.");
+  return;
+}
 
   await db.collection("friendRequests").add({
     from: window.currentUsername,
