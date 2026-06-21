@@ -2818,6 +2818,8 @@ transition:0.2s ease;
 }
 
 
+
+
 /*  to fit all screens CSS  */
 
 @media (max-width: 768px){
@@ -3826,9 +3828,30 @@ renderFriendRequests();
 
   window.currentUsername = profile.username;
 
-  document.getElementById("welcomeTitle").textContent =
-  `Welcome Back, ${profile.displayName || profile.username} ✨`;
+db.collection("users")
+  .doc(user.uid)
+  .onSnapshot(doc => {
+    if (!doc.exists) return;
 
+    const data = doc.data();
+    const status = data.status || "online";
+
+    document.getElementById("statusText").textContent = status;
+
+    const dot = document.querySelector("#userStatus .statusDot");
+
+    if (dot) {
+      if (status === "online") dot.style.background = "#43b581";
+      if (status === "away") dot.style.background = "#faa61a";
+      if (status === "busy") dot.style.background = "#ed4245";
+      if (status === "gaming") dot.style.background = "#9146ff";
+      if (status === "listening") dot.style.background = "#1db954";
+      if (status === "offline") dot.style.background = "#747f8d";
+    }
+  });
+
+document.getElementById("welcomeTitle").textContent =
+  `Welcome Back, ${profile.displayName || profile.username} ✨`;
 
 
 
@@ -4168,6 +4191,14 @@ setTimeout(() => {
       });
 
       alert("Group created!");
+
+    document.getElementById("createGroupModal").style.display = "none";
+    document.getElementById("groupNameInput").value = "";
+    document.getElementById("groupDescriptionInput").value = "";
+    document.getElementById("selectedCount").textContent = "0 members selected";
+
+selectedMembers = [];
+selectedGroupPhoto = "";
     
       });
 

@@ -444,7 +444,7 @@ input:checked + .slider:before{
   display:flex;
   flex-direction:row;
   align-items:flex-start;
-  gap:40px;
+  gap:10px;
   padding:24px;
   border:1px solid rgba(215,184,255,.12);
   border-radius:16px;
@@ -481,28 +481,28 @@ input:checked + .slider:before{
 .profileAvatar{
   width:64px;
   height:64px;
-
+  min-width:64px;
+  min-height:64px;
+  flex-shrink:0;
   border-radius:50%;
-
- background:linear-gradient(
-  135deg,
-  var(--accent1),
-  var(--accent2)
-);
-
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
   color:#FFFFFF;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   font-size:22px;
   font-weight:700;
-
   margin-bottom:12px;
+  overflow:hidden;
+  box-shadow:0 0 24px rgba(139,92,246,.25);
+}
 
-  box-shadow:
-    0 0 24px rgba(139,92,246,.25);
+.profileAvatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
 }
 
 .profileName{
@@ -1535,6 +1535,23 @@ body.lightTheme .previewInputBar input::placeholder{
   cursor:pointer;
 }
 
+.sidebar > .profileCard{
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  text-align:center;
+}
+
+.sidebar > .profileCard > div:last-child{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+#userStatusDropdown{
+  justify-content:center;
+}
+
 /* back button from setting to chat page */
 #saveBtn,
 #backBtn{
@@ -1590,16 +1607,16 @@ body.lightTheme .previewInputBar input::placeholder{
 #userStatusDropdown{
   display:flex;
   align-items:center;
-  justify-content:center;
-
   gap:8px;
-  margin-bottom:6px;
+  margin-bottom:4px;
+  justify-content:flex-start;
 }
 
 
 
 
 #statusSelect{
+  width:120px;
   background:#161033;
 
   color:#FFFFFF;
@@ -1644,7 +1661,7 @@ body.lightTheme .previewInputBar input::placeholder{
   display:inline-block;
 
   position:relative;
-  left:12px;
+  left:0px;
 
   box-shadow:
     0 0 8px rgba(57,217,138,.45);
@@ -1748,6 +1765,9 @@ body.lightTheme .previewInputBar input::placeholder{
 }
 
 
+
+
+
   </style>
 </head>
 
@@ -1773,7 +1793,6 @@ body.lightTheme .previewInputBar input::placeholder{
       <span class="statusDot"></span>
 
       <select id="statusSelect">
-        <option value=""> Loading...</option>
         <option value="online"> Online</option>
         <option value="away"> Away</option>
         <option value="busy"> Busy</option>
@@ -1871,7 +1890,6 @@ body.lightTheme .previewInputBar input::placeholder{
   type="file"
   id="avatarInput"
   accept=".png,.jpg,.jpeg,.webp"
-
   style="display:none;">
 
 <button
@@ -2494,11 +2512,11 @@ import {
 
 import {
   getAuth,
-  onAuthStateChanged
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-console.log(ref);
-console.log(uploadBytes);
 
 const firebaseConfig = {
   apiKey: "AIzaSyAFZ0kdYk-HupIbGxTuY5EqE24xnwApEyc",
@@ -2514,13 +2532,19 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
+await setPersistence(auth, browserLocalPersistence);
+
+
 onAuthStateChanged(auth, async (user) => {
+  console.log("Auth state changed:", user);
+
   if (!user) {
     console.log("No user logged in");
     return;
   }
 
   currentUser = user.uid;
+
   console.log("currentUser =", currentUser);
 
   await loadAvatar();
@@ -2695,6 +2719,12 @@ console.log("Reset button:", resetBtn);
 // save setting btn Listener starts here 
 document.getElementById("saveSettingsBtn")
 .addEventListener("click", async () => {
+
+   if (!currentUser) {
+    alert("User not loaded yet. Please wait.");
+    return;
+  }
+
   await setDoc(
     doc(db, "users", currentUser),
     
@@ -3033,92 +3063,40 @@ console.log("usernameHandleInput =", usernameHandleInput);
 
 
 
-//save profile buttons here 
-saveProfileBtn.addEventListener("click", async () => {
-
-  await setDoc(
-    doc(db, "users", currentUser),
-   
- {
-  displayName: usernameInput.value
-  },{ merge: true }
-  
-  );
-
-  saveProfileBtn.textContent = "Saved!";
-
-  setTimeout(() => {
-    saveProfileBtn.textContent = "Save Profile";
-  }, 1500);
-
-});
-
 //listner for the avatar status in setting 
 
-statusSelect.addEventListener(
-  "change",
-  async () => {
+const statusDot =
+  document.querySelector("#userStatusDropdown .statusDot");
+
+if (statusDot) {
+  statusDot.style.background = "#747f8d";
+}
+
+if (statusSelect) {
+
+  statusSelect.addEventListener("change", async () => {
+
+    const status = statusSelect.value;
+
+    if (statusDot) {
+      if(status === "online") statusDot.style.background = "#43b581";
+      if(status === "away") statusDot.style.background = "#faa61a";
+      if(status === "busy") statusDot.style.background = "#ed4245";
+      if(status === "gaming") statusDot.style.background = "#9146ff";
+      if(status === "listening") statusDot.style.background = "#1db954";
+      if(status === "offline") statusDot.style.background = "#747f8d";
+    }
 
     await setDoc(
       doc(db, "users", currentUser),
-      {
-        status: statusSelect.value
-      },
+      { status: status },
       { merge: true }
+
     );
+  });
+  
 
-    console.log(
-      "Status saved:",
-      statusSelect.value
-    );
-
-  }
-);
-
-const statusDot =
-  document.querySelector(
-    "#userStatusDropdown .statusDot"
-  );
-
-  statusDot.style.background = "#747f8d";
-
-statusSelect.addEventListener("change", async () => {
-
-  const status = statusSelect.value;
-
-  if(status === "online"){
-    statusDot.style.background = "#43b581";
-  }
-
-  if(status === "away"){
-    statusDot.style.background = "#faa61a";
-  }
-
-  if(status === "busy"){
-    statusDot.style.background = "#ed4245";
-  }
-
-  if(status === "gaming"){
-    statusDot.style.background = "#9146ff";
-  }
-
-  if(status === "listening"){
-    statusDot.style.background = "#1db954";
-  }
-
-  if(status === "offline"){
-    statusDot.style.background = "#747f8d";
-  }
-
-  await setDoc(
-  doc(db, "users", currentUser),
-  {
-    status: status
-  },
-  { merge: true }
-);
-
-});
+}
 
 
 
