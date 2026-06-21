@@ -1813,6 +1813,10 @@ body{
   position:relative;
 }
 
+#welcomeScreen:not([style*="display: none"]) ~ #inputBar{
+  display:none;
+}
+
 
 #welcomeImage{
   width:50%;
@@ -1820,6 +1824,14 @@ body{
   min-width:300px;
   height:auto;
   object-fit:contain;
+}
+
+
+#welcomeLightImage{
+  display:none;
+  width:50%;
+  max-width:550px;
+  min-width:300px;
 }
 
 #welcomeTitle{
@@ -2874,6 +2886,367 @@ body{
   min-width:0;
 }
 
+/*  light theme CSS  */
+/* light theme CSS */
+body.lightTheme{
+  background:#F8F6FF;
+  color:#24184A;
+}
+
+body.lightTheme #app,
+body.lightTheme .sidebar,
+body.lightTheme #chatArea,
+body.lightTheme #messages{
+  background:#F8F6FF;
+}
+
+body.lightTheme .sidebar-header-card,
+body.lightTheme #userCard,
+body.lightTheme #header,
+body.lightTheme #inputBar,
+body.lightTheme .chat-item,
+body.lightTheme .welcomeCard{
+  background:#FFFFFF;
+  color:#24184A;
+  border-color:#E9D8FF;
+}
+
+body.lightTheme #header{
+  background:#FFFFFF;
+}
+
+body.lightTheme #headerName,
+body.lightTheme #userName,
+body.lightTheme .chat-name,
+body.lightTheme #welcomeTitle,
+body.lightTheme .welcomeCard h3{
+  color:#24184A;
+}
+
+body.lightTheme #welcomeSubtitle,
+body.lightTheme .chat-preview,
+body.lightTheme #userStatus,
+body.lightTheme .welcomeCard p{
+  color:#6B5A8E;
+}
+
+body.lightTheme .search-box,
+body.lightTheme #msgInput{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme .search-box::placeholder,
+body.lightTheme #msgInput::placeholder{
+  color:#8B7AB8;
+}
+
+body.lightTheme .filter-btn{
+  background:#F4EEFF;
+  color:#5B4B8A;
+}
+
+body.lightTheme .filter-btn.active{
+  background:linear-gradient(135deg,#8B5CF6,#FF7EDB);
+  color:white;
+}
+
+body.lightTheme .bubble.other{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme .bubble.other .msgUser,
+body.lightTheme .bubble.other .msgText{
+  color:#24184A;
+}
+
+body.lightTheme .bubble.other .msgTime{
+  color:#6B5A8E;
+}
+
+body.lightTheme .headerIcon{
+  opacity:.75;
+  filter:none;
+}
+
+body.lightTheme .headerIcon:hover{
+  background:#F4EEFF;
+  opacity:1;
+}
+
+body.lightTheme .headerIcon{
+  opacity:1;
+  filter:brightness(0) saturate(100%)
+         invert(17%) sepia(23%)
+         saturate(1825%) hue-rotate(228deg)
+         brightness(95%) contrast(95%);
+}
+
+body.lightTheme .friend-modal-content{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme .friend-modal-content h2,
+body.lightTheme #friendsSection h3,
+body.lightTheme .friend-name{
+  color:#24184A;
+}
+
+body.lightTheme .friend-meta,
+body.lightTheme .friends-right-panel p{
+  color:#6B5A8E;
+}
+
+body.lightTheme .friend-search-box,
+body.lightTheme .friendship-corner,
+body.lightTheme .friendship-stats{
+  background:#F8F6FF;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme .friend-search-box input{
+  color:#24184A;
+}
+
+body.lightTheme #closeFriendModal{
+  color:#24184A;
+}
+
+body.lightTheme .invite-link-box,
+body.lightTheme .link-setting,
+body.lightTheme .invite-info-card,
+body.lightTheme .friendship-stats{
+  background:#F8F6FF;
+  border:1px solid #E9D8FF;
+  color:#24184A;
+}
+
+body.lightTheme #linkExpiry{
+  color:#24184A;
+}
+
+body.lightTheme .step-icon{
+  background:#F4EEFF;
+  color:#8B5CF6;
+}
+
+body.lightTheme .invite-step p,
+body.lightTheme .invite-note,
+body.lightTheme #inviteSection p{
+  color:#6B5A8E;
+}
+
+body.lightTheme .invite-steps b,
+body.lightTheme #inviteSection h3,
+body.lightTheme #inviteSection h4{
+  color:#24184A;
+}
+
+body.lightTheme .friend-tabs button{
+  color:#6B5A8E;
+}
+
+body.lightTheme .friend-tabs button.active-tab{
+  color:#8B5CF6;
+}
+
+body.lightTheme #resetInviteBtn,
+body.lightTheme .invite-cancel-btn{
+  background:#F4EEFF;
+  color:#5B4B8A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme #resetInviteBtn:hover,
+body.lightTheme .invite-cancel-btn:hover{
+  background:#EDE4FF;
+}
+
+body.lightTheme .messageFriendBtn{
+  color:#24184A;
+  border:1px solid #D7B8FF;
+  background:#FFFFFF;
+}
+
+body.lightTheme .messageFriendBtn:hover{
+  background:#F4EEFF;
+}
+
+body.lightTheme .friend-meta{
+  color:#6B5A8E;
+}
+
+body.lightTheme .friend-name{
+  color:#24184A;
+}
+
+
+body.lightTheme #requestSort{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme .requests-header p,
+body.lightTheme .sort-box{
+  color:#6B5A8E;
+}
+
+body.lightTheme #requestsCount{
+  background:#8B5CF6;
+  color:white;
+}
+
+body.lightTheme #requestsSection h3{
+  color:#24184A;
+}
+
+body.lightTheme .active-tab{
+  border-color:#D7B8FF;
+}
+
+body.lightTheme .group-modal-content{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme .group-modal-header h2,
+body.lightTheme .group-info-section h3,
+body.lightTheme .group-info-section label{
+  color:#24184A;
+}
+
+body.lightTheme .group-modal-header p,
+body.lightTheme #selectedCount{
+  color:#6B5A8E;
+}
+
+body.lightTheme #groupNameInput,
+body.lightTheme #groupDescriptionInput,
+body.lightTheme #memberSearchInput,
+body.lightTheme .member-item{
+  background:#F8F6FF;
+  color:#24184A;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme #groupNameInput::placeholder,
+body.lightTheme #groupDescriptionInput::placeholder,
+body.lightTheme #memberSearchInput::placeholder{
+  color:#8B7AB8;
+}
+
+body.lightTheme .upload-group-photo{
+  background:#F8F6FF;
+  color:#5B4B8A;
+  border:2px dashed #B56CFF;
+}
+
+body.lightTheme #cancelGroupBtn{
+  background:#F4EEFF;
+  color:#5B4B8A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme #closeGroupModal{
+  color:#24184A;
+}
+
+body.lightTheme #newChatSearchInput,
+body.lightTheme .new-chat-friend{
+  background:#F8F6FF;
+  color:#24184A;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme #newChatSearchInput::placeholder{
+  color:#8B7AB8;
+}
+
+body.lightTheme .new-chat-friend .friend-name{
+  color:#24184A;
+}
+
+body.lightTheme .new-chat-friend .friend-meta{
+  color:#6B5A8E;
+}
+
+body.lightTheme #cancelNewChatBtn{
+  background:#F4EEFF;
+  color:#5B4B8A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme #closeNewChatModal{
+  color:#24184A;
+}
+
+body.lightTheme .new-chat-select-circle{
+  border:2px solid #8B5CF6;
+}
+
+body.lightTheme .new-chat-friend.selected{
+  background:#F4EEFF;
+  border-color:#8B5CF6;
+}
+
+
+body.lightTheme .sidebar-header-card{
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  padding:12px 0;
+  margin:16px;
+}
+
+
+body.lightTheme .search-box{
+  background:#FFFFFF;
+  border:1px solid #E9D8FF;
+}
+
+body.lightTheme .search-box::placeholder{
+  color:#8B7AB8;
+}
+
+body.lightTheme .filter-btn{
+  background:#F4EEFF;
+  color:#5B4B8A;
+}
+
+body.lightTheme .new-chat-btn{
+  background:#FFFFFF;
+  color:#24184A;
+  border:1px solid #D7B8FF;
+}
+
+body.lightTheme .chat-filters{
+  padding-top:4px;
+}
+
+body.lightTheme .new-chat-btn:hover{
+  background:#EDE4FF;
+}
+
+body.lightTheme .friends-section-title{
+  color:#6B5A8E;
+}
+
+
+body.lightTheme #welcomeImage{
+  display:none;
+}
+
+body.lightTheme #welcomeLightImage{
+  display:block;
+}
+
 
 
 
@@ -3021,6 +3394,12 @@ body{
     alt="Welcome"
     id="welcomeImage"
   >
+
+  <img
+  src="Welcome Image light theme.png"
+  alt="Welcome Light"
+  id="welcomeLightImage"
+>
 
   <h1 id="welcomeTitle">
     Welcome Back ✨
@@ -3813,6 +4192,8 @@ renderFriendRequests();
 
 
   if (!user) return;
+  document.getElementById("header").style.display = "none";
+
 
   loadSearchHistory();
 
@@ -3825,6 +4206,12 @@ renderFriendRequests();
   if (!doc.exists) return;
 
   const profile = doc.data();
+
+  if (profile.theme === "Light") {
+  document.body.classList.add("lightTheme");
+} else {
+  document.body.classList.remove("lightTheme");
+}
 
   window.currentUsername = profile.username;
 
