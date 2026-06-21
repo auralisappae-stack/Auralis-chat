@@ -3347,7 +3347,7 @@ body.lightTheme #welcomeLightImage{
 
   <div id="chatArea">
 
- <div id="header">
+<div id="header" style="display:none;">
 
   <div id="headerLeft">
 
@@ -3894,9 +3894,13 @@ messagesDiv.scrollHeight;
 }
 
 async function openChat(username) {
+
   
     const welcome =
   document.getElementById("welcomeScreen");
+
+  document.getElementById("header").style.display = "flex";
+
 
   if (welcome) {
     welcome.style.display = "none";
@@ -3995,6 +3999,9 @@ snapshot.docs[0].ref.onSnapshot((doc) => {
 }
 
 function openGroup(groupId){
+
+  document.getElementById("header").style.display = "flex";
+
 
   window.currentChatUser = null;
   messagesDiv.innerHTML = "";
@@ -5629,6 +5636,8 @@ document.getElementById("messages").innerHTML = `
 messagesDiv.style.backgroundImage = "none";
 
 document.getElementById("welcomeScreen").style.display = "flex";
+document.getElementById("header").style.display = "none";
+
 
     alert("Chat deleted from sidebar");
     menu.style.display = "none";
