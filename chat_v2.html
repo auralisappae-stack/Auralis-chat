@@ -2886,8 +2886,28 @@ body{
   min-width:0;
 }
 
+
+#inviteLightImage{
+  display:none;
+}
+
 /*  light theme CSS  */
 
+body.lightTheme #inviteDarkImage{
+  display:none;
+}
+
+body.lightTheme #inviteLightImage{
+  display:block;
+}
+
+body.lightTheme #friendsDarkImage {
+  display: none;
+}
+
+body.lightTheme #friendsLightImage {
+  display: block;
+}
 
 body.lightTheme #friendsSearch{
   background:white;
@@ -3333,6 +3353,11 @@ body.lightTheme #welcomeRightPanel{
   color:white;
   border:1px solid #E9D8FF;
 
+}
+
+
+#friendsLightImage {
+  display: none;
 }
 
 
@@ -5321,8 +5346,16 @@ document.addEventListener("DOMContentLoaded", () => {
     <img
       src="addfriends.png"
       class="friends-image"
+        id="friendsDarkImage"
       alt="Friends illustration"
     >
+
+    <img
+     src="addfriend Light.png"
+     class="friends-image"
+     id="friendsLightImage"
+     alt="Friends light illustration"
+>
 
     <div class="friendship-corner">
       <h3>Friendship Corner ✨</h3>
@@ -5344,11 +5377,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <div id="inviteRightContent" style="display:none;">
 
-      <img
-    src="addfriends.png"
-    class="friends-image"
-    alt="Invite illustration"
-  >
+   
+<img
+  src="addfriends.png"
+  class="friends-image"
+  id="inviteDarkImage"
+  alt="Invite illustration"
+>
+<img
+  src="addfriend Light.png"
+  class="friends-image"
+  id="inviteLightImage"
+  alt="Invite light illustration"
+>
 
     <div class="invite-steps">
       <h4>How it works</h4>
