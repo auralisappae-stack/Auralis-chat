@@ -447,7 +447,8 @@ body{
 
 #chatArea{
   flex:1;
-
+  height:100vh;
+  box-sizing:border-box;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2899,7 +2900,20 @@ select{
   font-size:18px;
 }
 
+
 /*  light theme CSS  */
+
+
+body.lightTheme .headerIcon:hover{
+  background:#F3ECFF;
+
+  transform:scale(1.05);
+
+  box-shadow:
+    0 0 14px rgba(181,108,255,.15);
+}
+
+
 
 body.lightTheme select{
   background:transparent;
@@ -3380,6 +3394,19 @@ body.lightTheme #welcomeRightPanel{
 }
 
 
+#leftPanel{
+  height:100vh;
+  box-sizing:border-box;
+}
+
+#chatArea{
+  height:100vh;
+  box-sizing:border-box;
+}
+
+
+
+
 
 
 
@@ -3488,24 +3515,14 @@ body.lightTheme #welcomeRightPanel{
 
 
 
+
     
 </div> <!-- closing of the app -->
 
 
 
-  
-
-  <div id="headerActions">
-  
-    <img src="searchIcon.png" class="headerIcon">
-
-    <img src="callIcon.png" class="headerIcon">
-
-<img src="AddIcon.png" class="headerIcon" id="addFriendBtn" style="display:none;">
-
 </div>
 
-</div>
 
 <!-- right panel of welome page-->
 
@@ -4631,11 +4648,15 @@ document.getElementById("settingsBtn")
 
 
 
-document
-.getElementById("addFriendBtn")
-.addEventListener("click", () => {
-  openAddFriendModal();
-});
+
+const addFriendBtn = document.getElementById("addFriendBtn");
+
+if (addFriendBtn) {
+  addFriendBtn.addEventListener("click", () => {
+    openAddFriendModal();
+  });
+}
+
 
 document
 .getElementById("friendsAddBtn")
@@ -4870,7 +4891,9 @@ groupsBtn.addEventListener("click", () => {
 
 const allBtn = document.getElementById("allBtn");
 
-allBtn.addEventListener("click", () => {
+if (allBtn) {
+  allBtn.addEventListener("click", () => {
+    
   const chats = document.querySelectorAll(".chat-item");
 
   chats.forEach(chat => {
@@ -4880,6 +4903,7 @@ allBtn.addEventListener("click", () => {
 
 // start of the searchinput Listener
 
+if (searchInput) {
 searchInput.addEventListener("keydown", async (e) => {
   if (e.key !== "Enter") return;
 
@@ -4896,6 +4920,8 @@ searchInput.addEventListener("keydown", async (e) => {
       time: Date.now()
     });
 });
+}
+}
 
 //end of the search input Listener
 
@@ -5425,8 +5451,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="invite-step">
           <div class="step-icon">👥</div>
           <div class="step-text">
-            <b>They join Auralis</b>
-            <p>Anyone with the link can create an account and join.</p>
+            <b>Dreams connect</b>
+            <p>Share your invitation and let meaningful connections begin.</p>
           </div>
         </div>
 
