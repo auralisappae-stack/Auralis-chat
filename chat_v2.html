@@ -2887,7 +2887,17 @@ body{
 }
 
 /*  light theme CSS  */
-/* light theme CSS */
+
+
+body.lightTheme #friendsSearch{
+  background:white;
+  color:#24184A;
+}
+
+body.lightTheme .rightPanelHeader h3{
+  color:#24184A;
+}
+
 body.lightTheme{
   background:#F8F6FF;
   color:#24184A;
@@ -3246,6 +3256,85 @@ body.lightTheme #welcomeImage{
 body.lightTheme #welcomeLightImage{
   display:block;
 }
+body.lightTheme #welcomeRightPanel{
+  background:#FFFFFF;
+  border-left:1px solid #E9D8FF;
+}
+
+/* welcome page right panel */
+
+
+#chatContent{
+  flex:1;
+  display:flex;
+  min-height:0;
+}
+
+#welcomeRightPanel{
+  width:320px;
+  min-width:320px;
+  display:block;
+  background:#161033;
+  border-left:1px solid rgba(215,184,255,.10);
+}
+
+#chatContent{
+    flex:1;
+    display:flex;
+    min-height:0;
+}
+
+
+
+#welcomeRightPanel{
+  display:block;
+}
+
+#welcomeScreen[style*="display: none"] ~ #welcomeRightPanel{
+  display:none;
+}
+
+/* welcomerightpanel CSS */
+.rightPanelHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+}
+
+.rightPanelHeader h3{
+  margin:0;
+  color:white;
+  font-size:22px;
+  font-weight:700;
+}
+
+#friendsAddBtn{
+  background:none;
+  border:none;
+  color:#B56CFF;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.rightPanelSearch{
+  padding:0 20px 20px;
+}
+
+#friendsSearch{
+  width:100%;
+  height:42px;
+  border:none;
+  outline:none;
+  border-radius:14px;
+  padding:0 15px;
+  box-sizing:border-box;
+  background:#2A233D;
+  color:white;
+  border:1px solid #E9D8FF;
+
+}
+
 
 
 
@@ -3272,14 +3361,7 @@ body.lightTheme #welcomeLightImage{
   <div class="sidebar-header-card">
 
   
-    <div class="search-inner">
-
-      <input
-        id="searchInput"
-        class="search-box"
-        placeholder="Search chats..."
-      >
-    </div>
+  
 
       <!-- Action Buttons -->
   <div class="chat-actions">
@@ -3375,14 +3457,19 @@ body.lightTheme #welcomeLightImage{
 
     <img src="callIcon.png" class="headerIcon">
 
-    <img src="AddIcon.png" class="headerIcon" id="addFriendBtn">
+<img src="AddIcon.png" class="headerIcon" id="addFriendBtn" style="display:none;">
 
 </div>
 
 </div>
+
+<!-- right panel of welome page-->
 
 
     <!-- messages here -->
+
+<div id="chatContent">
+
 
 <div id="messages">
 
@@ -3438,7 +3525,35 @@ body.lightTheme #welcomeLightImage{
 
 
 
+
 </div> <!-- end of the messages-->
+
+<div id="welcomeRightPanel">
+
+  <div class="rightPanelHeader">
+
+  <h3>Friends</h3>
+
+  <button id="friendsAddBtn">👥+</button>
+
+</div>
+
+  <div class="rightPanelSearch">  <!-- start of the input bar-->
+
+    <input
+      type="text"
+      id="friendsSearch"
+      placeholder="Search friends..."
+    >
+
+  </div> <!-- end of the input bar -->
+
+</div> <!-- end of the welcomeRightPanel-->
+
+
+
+</div> <!-- end of chatContent -->
+
 
    <div id="inputBar">
 
@@ -3895,6 +4010,9 @@ messagesDiv.scrollHeight;
 
 async function openChat(username) {
 
+  document.getElementById("welcomeRightPanel").style.display = "none";
+
+
   
     const welcome =
   document.getElementById("welcomeScreen");
@@ -3999,6 +4117,9 @@ snapshot.docs[0].ref.onSnapshot((doc) => {
 }
 
 function openGroup(groupId){
+
+  document.getElementById("welcomeRightPanel").style.display = "none";
+
 
   document.getElementById("header").style.display = "flex";
 
@@ -4468,6 +4589,12 @@ document.getElementById("settingsBtn")
 
 document
 .getElementById("addFriendBtn")
+.addEventListener("click", () => {
+  openAddFriendModal();
+});
+
+document
+.getElementById("friendsAddBtn")
 .addEventListener("click", () => {
   openAddFriendModal();
 });
@@ -5637,6 +5764,8 @@ messagesDiv.style.backgroundImage = "none";
 
 document.getElementById("welcomeScreen").style.display = "flex";
 document.getElementById("header").style.display = "none";
+document.getElementById("welcomeRightPanel").style.display = "block";
+
 
 
     alert("Chat deleted from sidebar");
