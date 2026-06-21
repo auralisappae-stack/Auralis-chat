@@ -1548,9 +1548,6 @@ body.lightTheme .previewInputBar input::placeholder{
   align-items:center;
 }
 
-#userStatusDropdown{
-  justify-content:center;
-}
 
 /* back button from setting to chat page */
 #saveBtn,
@@ -1605,6 +1602,8 @@ body.lightTheme .previewInputBar input::placeholder{
 
  /*avatar status CSS */
 #userStatusDropdown{
+  position:relative;
+  width:150px;
   display:flex;
   align-items:center;
   gap:8px;
@@ -1612,24 +1611,29 @@ body.lightTheme .previewInputBar input::placeholder{
   justify-content:flex-start;
 }
 
-
+#userStatusDropdown .statusDot{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  z-index:2;
+}
 
 
 #statusSelect{
-  width:120px;
+  width:100%;
+  height: 42px;
   background:#161033;
-
   color:#FFFFFF;
-
   border:1px solid rgba(215,184,255,.12);
-
   border-radius:10px;
-
   padding:6px 10px;
-
   cursor:pointer;
-
   transition:.25s ease;
+  padding-left: 44px;
 }
 
 #statusSelect:hover{
@@ -1764,6 +1768,68 @@ body.lightTheme .previewInputBar input::placeholder{
   color:white;
 }
 
+#profileDisplayName{
+  margin-top:10px;
+  margin-bottom:2px;
+  color:white;
+  font-size:20px;
+  font-weight:700;
+  text-align:center;
+}
+
+#profileUsername{
+  margin-top:0;
+  margin-bottom:8px;
+  color:#C5C0E8;
+  font-size:13px;
+  text-align:center;
+}
+
+
+#userIdInput{
+  user-select:none;
+  pointer-events:none;
+  opacity:.85;
+}
+
+#themePicker{
+  position:relative;
+  width:180px;
+  height:100px;
+}
+
+#themeIcon{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+#moonThemeBtn,
+#sunThemeBtn{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+}
+
+#moonThemeBtn{
+  left:0;
+}
+
+#sunThemeBtn{
+  right:0;
+}
+
+
+
+#moonThemeBtn:hover,
+#sunThemeBtn:hover{
+  background:rgba(255,255,255,.08);
+}
+
 
 
 
@@ -1784,15 +1850,17 @@ body.lightTheme .previewInputBar input::placeholder{
 
   <div class="profileAvatar">L</div>
 
+  <div id="profileDisplayName"></div>
+
+  <div id="profileUsername"></div>
+
   <div>
 
    
 
-    <div id="userStatusDropdown">
-
-      <span class="statusDot"></span>
-
-      <select id="statusSelect">
+    <div id="userStatusDropdown" class="status-select">
+  <span class="statusDot" id="statusDot"></span>
+  <select id="statusSelect">
         <option value="online"> Online</option>
         <option value="away"> Away</option>
         <option value="busy"> Busy</option>
@@ -1802,8 +1870,6 @@ body.lightTheme .previewInputBar input::placeholder{
       </select>
 
     </div>
-
-    <div class="profileTag">@auralis.app.ae</div>
 
   </div>
 
@@ -1943,11 +2009,15 @@ body.lightTheme .previewInputBar input::placeholder{
    <div class="fieldRow">
   <label>User ID</label>
 
-  <input
-    type="text"
-    class="accountInput"
-    id="userIdInput"
-    readonly>
+  
+<input
+  type="text"
+  class="accountInput"
+  id="userIdInput"
+  readonly
+  oncopy="return false"
+  oncut="return false"
+  onpaste="return false">
 
     <!-- make the copy button works -->
 
@@ -2315,13 +2385,16 @@ body.lightTheme .previewInputBar input::placeholder{
 
   <div class="settingsCard">
 
-    <div class="settingRow">
-      <span>Theme</span>
-      <select class="themeSelect" id="themeSelect">
-  <option>Dark</option>
-  <option>Light</option>
-</select>
-    </div>
+<div class="settingRow themeRow">
+  <span>Theme</span>
+
+  <div id="themePicker">
+    <img src="themeIcon.png" id="themeIcon">
+
+    <button id="moonThemeBtn"></button>
+    <button id="sunThemeBtn"></button>
+  </div>
+</div>
 
     <div class="settingRow">
       <span>Accent Color</span>
@@ -2835,6 +2908,26 @@ async function loadAvatar() {
 
     const data = userDoc.data();
 
+  if (!data.userId) {
+  const randomUserId = generateUserId();
+
+  await setDoc(
+    doc(db, "users", currentUser),
+    { userId: randomUserId },
+    { merge: true }
+  );
+
+  userIdInput.value = randomUserId;
+} else {
+  userIdInput.value = data.userId;
+}
+
+document.getElementById("profileDisplayName").textContent =
+  data.displayName || data.username || "User";
+
+document.getElementById("profileUsername").textContent =
+  "@" + (data.username || "username");
+
 if (data.status) {
   statusSelect.value = data.status;
   statusSelect.dispatchEvent(new Event("change"));
@@ -3083,7 +3176,7 @@ if (statusSelect) {
       if(status === "away") statusDot.style.background = "#faa61a";
       if(status === "busy") statusDot.style.background = "#ed4245";
       if(status === "gaming") statusDot.style.background = "#9146ff";
-      if(status === "listening") statusDot.style.background = "#1db954";
+      if (status === "listening")statusDot.style.background = "#7DD3FC";
       if(status === "offline") statusDot.style.background = "#747f8d";
     }
 
@@ -3300,15 +3393,17 @@ profileBtn.addEventListener("click", () => {
 //  make the light theme works
 const themeSelect = document.getElementById("themeSelect");
 
-themeSelect.addEventListener("change", () => {
+const moonThemeBtn = document.getElementById("moonThemeBtn");
+const sunThemeBtn = document.getElementById("sunThemeBtn");
 
-  if(themeSelect.value === "Light"){
-    document.body.classList.add("lightTheme");
-  } else {
-    document.body.classList.remove("lightTheme");
-  }
+moonThemeBtn.addEventListener("click", () => {
+  document.body.classList.remove("lightTheme");
+});
 
+sunThemeBtn.addEventListener("click", () => {
+  document.body.classList.add("lightTheme");
 }); // end of the theme light 
+
 
 const bubbleStyleSelect =
   document.getElementById("bubbleStyleSelect");
