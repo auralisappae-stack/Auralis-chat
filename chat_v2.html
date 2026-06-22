@@ -2177,24 +2177,19 @@ transition:0.2s ease;
 
 
 
-
-.step-icon img{
-  display:block;
-  object-fit:contain;
-   width:48px;
-  height:48px;
-}
-
 img[src="ShareLink Dark.png"]{
   width:100px;
+  height:auto;
 }
 
 img[src="ConnectDreamDark.png"]{
   width:150px;
+  height:auto;
 }
 
 img[src="JustChattingDark.png"]{
   width:150px;
+  height:auto;
 }
 
 
@@ -2594,8 +2589,6 @@ img[src="JustChattingDark.png"]{
   box-sizing: border-box;
   gap:12px;
 
-  margin-top:100px;
-
 }
 
 .invite-cancel-btn{
@@ -2633,9 +2626,7 @@ img[src="JustChattingDark.png"]{
 
 
 #resetInviteBtn{
-  
-  position:relative;
-  top:229.5px;
+  position:static !important; 
   width: 140px;
   height:48px;
   border-radius:12px;
@@ -2915,6 +2906,10 @@ img[src="JustChattingLight.png"]{
 
 body.lightTheme .dark-icon{
   display:none !important;
+}
+
+body.lightTheme .light-icon{
+  display:block !important;
 }
 
 body.lightTheme .light-icon{
@@ -3427,11 +3422,52 @@ body.lightTheme #welcomeRightPanel{
 .light-icon{
     display:none !important;
 }
+
+
+#settingsBtn{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+}
+
+#settingsBtn img{
+  width: 40px;
+  height:40px;
+  object-fit:contain;
+  display:block;
+}
 .dark-icon{
   display:block;
 }
 
+.light-icon{
+  display:none;
+}
 
+.settingsBottomBar{
+  display:grid !important;
+  grid-template-columns:1fr auto !important;
+  align-items:center !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  justify-content:space-between;
+
+  border-top:1px solid rgba(190,140,255,.25);
+  padding:28px 36px 8px;
+  margin-top:40px;
+}
+
+.settingsBottomBar .invite-actions{
+  display:flex !important;
+  gap:18px !important;
+  justify-content:flex-end !important;
+}
 
 
 </style>
@@ -3511,9 +3547,11 @@ body.lightTheme #welcomeRightPanel{
 </div>
 
     <div id="userActions">
-      <button id="profileBtn">👤</button>
-      <button id="settingsBtn">⚙️</button>
-      <button id="themeBtn">🌙</button>
+
+     <button id="settingsBtn">
+    <img src="SettingMainLight.png" class="light-icon">
+    <img src="SettingMainDark.png" class="dark-icon">
+    </button>
     </div>
 
   </div>
@@ -5370,16 +5408,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </div>
 
-
-<button
-  id="resetInviteBtn"
-  class="invite-cancel-btn"
->
-  ↻ Reset
-</button>
-
-
-
     </div>
 
 
@@ -5514,27 +5542,36 @@ document.addEventListener("DOMContentLoaded", () => {
         🛡️ You can change or disable the link anytime.
       </div>
 
-      <div class="invite-actions">
-  <button id="cancelInviteBtn" class="invite-cancel-btn">
-    Cancel
-  </button>
+      </div>
 
-  <button id="saveInviteBtn" class="invite-save-btn">
-    Save Changes
-  </button>
-
-</div>
-
+       </div>
     </div>
   </div>
 
+
+
+<div class="settingsBottomBar">
+
+  <button id="resetInviteBtn" class="invite-cancel-btn">
+    ↻ Reset
+  </button>
+
+  <div class="invite-actions">
+    <button id="cancelInviteBtn" class="invite-cancel-btn">
+      Cancel
+    </button>
+
+    <button id="saveInviteBtn" class="invite-save-btn">
+      Save Changes
+    </button>
 </div>
 
-</div> <!-- modal-layout -->
+</div> <!-- settingsBottomBar -->
 
-  </div> <!-- friend-modal-content -->
+</div> <!-- friend-modal-content -->
 
-</div> <!-- addFriendModal --> 
+</div> <!-- addFriendModal -->
+
 <script> 
 
   //start of the new chat btn listener 
