@@ -2167,52 +2167,42 @@ transition:0.2s ease;
 }
 
 .invite-step{
-  margin-bottom:14px;
-}
-
-.invite-steps h4{
-  color:#fff;
-  margin-bottom:16px;
-  font-size:14px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  opacity:.8;
-}
-
-.invite-steps p{
-  color:#9CA3AF;
-  line-height:1.5;
-  margin-bottom:16px;
-}
-
-.invite-steps b{
-  color:white;
-}
-
-.invite-steps{
-  width:100%;
-  text-align:left;
-  margin-top:12px;
-  padding-left:0;
-}
-
-.invite-steps h4{
-  color:#fff;
-  margin-bottom:20px;
-  font-size:18px;
-
-  margin-left:40px;
+  display:grid;
+  grid-template-columns:54px 1fr;
+  column-gap:28px;
+  align-items:center;
+  margin-bottom:0;
 
 }
 
-.invite-steps p{
-  color:#B8B8C7;
-  line-height:1.5;
-  margin-bottom:18px;
+
+
+
+.step-icon img{
+  display:block;
+  object-fit:contain;
+   width:48px;
+  height:48px;
 }
 
-.invite-steps b{
-  color:#fff;
+img[src="ShareLink Dark.png"]{
+  width:100px;
+}
+
+img[src="ConnectDreamDark.png"]{
+  width:150px;
+}
+
+img[src="JustChattingDark.png"]{
+  width:150px;
+}
+
+
+
+
+
+.step-text{
+  flex:1;
 }
 
 .invite-timeline{
@@ -2222,39 +2212,43 @@ transition:0.2s ease;
 .invite-timeline::before{
   content:"";
   position:absolute;
-  left:22px;
-  top:45px;
+  left:37px;
+  top:50px;
   width:2px;
-  height:130px;
+  height:200px;
   background:#B56CFF;
-}
-
-.invite-step{
-  display:flex;
-  gap:16px;
-  margin-bottom:22px;
-  position:relative;
+  z-index:1;
 }
 
 .step-icon{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#221542;
+  position:relative;
+  z-index:2;
+  width:60px;
+  height:72px;
   display:flex;
   align-items:center;
   justify-content:center;
   flex-shrink:0;
-  position:relative;
-  z-index:2;
+  margin-bottom:42px;
+  background:transparent !important;
 }
+
+.invite-steps h4{
+  text-align:center;
+  position:relative;
+  left:10px;
+  font-size:20px;
+  font-weight:600;
+  opacity:0.9;
+}
+
 
 .step-text b{
   color:#fff;
   display:block;
   margin-bottom:4px;
   font-size:16px;
-  font-weight:600;
+  font-weight:700;
 }
 
 
@@ -2264,6 +2258,7 @@ transition:0.2s ease;
   line-height:1.4;
   color:#B8B8C7;
 }
+
 
 .invite-info-card{
   display:flex;
@@ -2900,9 +2895,31 @@ select{
   font-size:18px;
 }
 
+img[src="ShareLink Light.png"]{
+  width:100px;
+  height:auto;
+}
+
+img[src="ConnectDreams Light.png"]{
+  width:150px;
+  height:auto;
+}
+
+img[src="JustChattingLight.png"]{
+  width:150px;
+  height:auto;
+}
+
 
 /*  light theme CSS  */
 
+body.lightTheme .dark-icon{
+  display:none !important;
+}
+
+body.lightTheme .light-icon{
+  display:block !important;
+}
 
 body.lightTheme .headerIcon:hover{
   background:#F3ECFF;
@@ -3404,8 +3421,15 @@ body.lightTheme #welcomeRightPanel{
   box-sizing:border-box;
 }
 
-
-
+#inviteIconLight{
+  display:none;
+}
+.light-icon{
+    display:none !important;
+}
+.dark-icon{
+  display:block;
+}
 
 
 
@@ -5441,15 +5465,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div class="invite-timeline">
         <div class="invite-step">
-          <div class="step-icon">🔗</div>
-          <div class="step-text">
+
+          <div class="step-icon">
+  <img src="ShareLink Dark.png" class="dark-icon">
+
+   <img src="ShareLink Light.png" class="light-icon">
+
+          </div>
+
+
+           <div class="step-text">
             <b>Share your link</b>
             <p>Send it to friends however you like.</p>
           </div>
         </div>
 
         <div class="invite-step">
-          <div class="step-icon">👥</div>
+
+          <div class="step-icon">
+
+  <img src="ConnectDreamDark.png" class="dark-icon">
+  <img src="ConnectDreams Light.png" class="light-icon">
+
+  </div>
+
           <div class="step-text">
             <b>Dreams connect</b>
             <p>Share your invitation and let meaningful connections begin.</p>
@@ -5457,7 +5496,13 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="invite-step">
-          <div class="step-icon">💬</div>
+          <div class="step-icon">
+
+  <img src="JustChattingDark.png" class="dark-icon">
+
+  <img src="JustChattingLight.png" class="light-icon">
+
+</div>
           <div class="step-text">
             <b>Start chatting</b>
             <p>You’ll be able to chat right away.</p>
