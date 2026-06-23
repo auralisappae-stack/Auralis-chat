@@ -2019,20 +2019,38 @@ body{
 
 
 .friend-avatar{
-  width:52px;
-  height:52px;
+  width:48px;
+  height:48px;
   border-radius:50%;
 
   display:flex;
   align-items:center;
   justify-content:center;
+  border:2px solid rgba(139,92,246,.15);
 
   background:linear-gradient(135deg,#8b5cf6,#d946ef);
   color:white;
   font-size:20px;
   font-weight:700;
 }
+.friend-avatar-wrap{
+  position:relative;
+  flex-shrink:0;
 
+}
+
+.friend-online-badge{
+  position:absolute;
+  right:0;
+  bottom:0;
+
+  width:12px;
+  height:12px;
+
+  border-radius:50%;
+  background:#58D04F;
+  border:2px solid white;
+}
 
 .friend-card{
   display:flex;
@@ -2045,7 +2063,12 @@ body{
   flex:1;
   min-width: 0;
   padding-right:32px;
+   display:flex;
+  flex-direction:column;
+  gap:4px;
 }
+
+
 
 .add-friend-btn{
   border:none;
@@ -3469,6 +3492,127 @@ body.lightTheme #welcomeRightPanel{
   justify-content:flex-end !important;
 }
 
+#welcomeFriendsSection{
+  margin-top:24px;
+}
+
+.friends-group-header{
+  font-weight:700;
+  color:#6b5fa3;
+  margin:18px 0 12px;
+  font-size:14px;
+}
+
+.friend-status-dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+.friend-status-dot.online{
+  background:#58D04F;
+}
+.friends-group-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.friend-status-dot.offline{
+  background:#B8B1CF;
+}
+
+#onlineFriendsList,
+#offlineFriendsList{
+  margin-bottom:18px;
+}
+.friends-group-header{
+  border-bottom:1px solid rgba(190,140,255,.18);
+  padding-bottom:10px;
+  margin-bottom:12px;
+}
+.friends-group-header{
+  margin-top:24px;
+}
+.friends-group-header:first-child{
+  margin-top:0;
+}
+.friend-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 4px;
+  border-bottom:1px solid rgba(190,140,255,.12);
+  border-radius:12px;
+  transition:.2s ease;
+  cursor:pointer;
+
+}
+.friend-row:hover{
+  background:rgba(139,92,246,.08);
+}
+.friend-presence{
+  margin-left:auto;
+  font-size:13px;
+  font-weight:600;
+  color:#58D04F;
+}
+.friend-name{
+  font-weight:600;
+  font-size:15px;
+}
+.friend-status{
+  line-height:1.2;
+}
+.friend-online-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#58D04F;
+  display:inline-block;
+}
+.friend-online-badge.offline{
+  background:#9A93B8;
+}
+.friend-status{
+  font-size:13px;
+  color:#8D83B7;
+}
+.friend-count{
+  margin-left:6px;
+  font-size:13px;
+  font-weight:700;
+  color:#8D83B7;
+}
+.friend-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  min-width:22px;
+  height:22px;
+
+  padding:0 8px;
+
+  border-radius:999px;
+
+  background:rgba(139,92,246,.12);
+  border:1px solid rgba(139,92,246,.25);
+
+  color:#8D83B7;
+}
+.friends-group-header{
+  font-size:12px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:#8D83B7;
+  font-weight:700;
+  padding:0 16px 10px 16px;
+
+}
+
+
+
 
 </style>
 
@@ -3670,6 +3814,63 @@ body.lightTheme #welcomeRightPanel{
     >
 
   </div> <!-- end of the input bar -->
+
+  <!-- start of the rightpanel outside -->
+   <div id="welcomeFriendsSection">
+
+<div class="friends-group-header">
+  <span class="friend-status-dot online"></span>
+  ONLINE <span class="friend-count" id="onlineCount">0</span>
+
+</div>
+
+  <div id="onlineFriendsList">
+
+ <div class="friend-row">
+
+  <div class="friend-avatar-wrap">
+  <img src="Test1 (2).jpg" class="friend-avatar">
+  <span class="friend-online-badge"></span>
+</div>
+
+<div class="friend-info">
+  <div class="friend-name">Lili</div>
+  <div class="friend-status">
+    Listening to Lo-fi Beats
+  </div>
+</div>
+
+</div>
+
+
+  </div>
+
+<div class="friends-group-header">
+  <span class="friend-status-dot offline"></span>
+OFFLINE <span class="friend-count" id="offlineCount">0</span>
+</div>
+
+  <div id="offlineFriendsList">
+
+    <div class="friend-row">
+
+  <div class="friend-avatar-wrap">
+    <img src="Test2.jpg" class="friend-avatar">
+    <span class="friend-online-badge offline"></span>
+  </div>
+
+  <div class="friend-info">
+    <div class="friend-name">Alex</div>
+    <div class="friend-status">
+      Last seen 2 hours ago
+    </div>
+  </div>
+
+</div>
+
+  </div>
+
+</div>
 
 </div> <!-- end of the welcomeRightPanel-->
 
@@ -4394,6 +4595,140 @@ async function applyUserAvatars() {
 
 // end of the apply user avatar function 
 
+//start of the Friends Data 
+const sampleFriends = [
+  {
+    name: "Lili",
+    avatar: "Test1 (2).jpg",
+    status: "online",
+    activity: "Listening to Lo-fi Beats"
+  },
+  {
+    name: "Alex",
+    avatar: "Test2.jpg",
+    status: "offline",
+    activity: "Last seen 2 hours ago"
+  }
+];
+
+function renderWelcomeFriends(friendsData = sampleFriends) {
+
+  const onlineList = document.getElementById("onlineFriendsList");
+  const offlineList = document.getElementById("offlineFriendsList");
+
+  onlineList.innerHTML = "";
+  offlineList.innerHTML = "";
+
+  const onlineFriends =
+  friendsData.filter(friend => friend.status === "online");
+
+const offlineFriends =
+ friendsData.filter(friend => friend.status === "offline");
+
+document.getElementById("onlineCount").textContent =
+  onlineFriends.length;
+
+document.getElementById("offlineCount").textContent =
+  offlineFriends.length;
+
+onlineFriends.forEach(friend => {
+  onlineList.innerHTML += `
+   <div class="friend-row">
+
+  <div class="friend-avatar-wrap">
+    <img src="${friend.avatar}" class="friend-avatar">
+    <span class="friend-online-badge"></span>
+  </div>
+
+<div class="friend-info">
+  <div class="friend-name">
+    ${friend.name}
+  </div>
+
+  <div class="friend-status">
+  ${friend.activity}
+</div>
+  </div>
+    </div>
+  `;
+});
+
+offlineFriends.forEach(friend => {
+  offlineList.innerHTML += `
+    <div class="friend-row">
+
+      <div class="friend-avatar-wrap">
+        <img src="${friend.avatar}" class="friend-avatar">
+        <span class="friend-online-badge offline"></span>
+      </div>
+
+      <div class="friend-info">
+        <div class="friend-name">
+          ${friend.name}
+        </div>
+
+        <div class="friend-status">
+          ${friend.activity}
+        </div>
+      </div>
+
+    </div>
+  `;
+});
+}
+
+// end of the friends data 
+
+let realFriends = [];
+async function loadRealFriends() {
+if (!auth.currentUser) return;
+realFriends = [];
+
+
+const snapshot = await db
+  .collection("users")
+  .doc(auth.currentUser.uid)
+  .collection("friends")
+  .get();
+
+
+for (const doc of snapshot.docs) {
+
+const friendUsername = doc.data().username;
+
+
+const userQuery = db
+  .collection("users")
+  .where("username", "==", friendUsername)
+  .limit(1);
+
+
+userQuery.onSnapshot(userSnapshot => {
+  if (userSnapshot.empty) return;
+
+  const friendData = userSnapshot.docs[0].data();
+
+  realFriends = realFriends.filter(f => f.name !== friendUsername);
+
+  realFriends.push({
+    name: friendUsername,
+    avatar: friendData.avatar || "Test1 (2).jpg",
+    status: friendData.status === "online" ? "online" : "offline",
+    activity: friendData.status === "online" ? "Online" : "Offline"
+  });
+
+  renderWelcomeFriends(realFriends);
+});
+
+}
+
+}
+
+
+
+
+
+
 // function of the friend requests
 function renderFriendRequests() {
     const container = document.getElementById("friendRequestsList");
@@ -4526,10 +4861,9 @@ document.getElementById("welcomeTitle").textContent =
   .collection("chats")
   .onSnapshot(snapshot => {
 
-     console.log("CHATS FOUND:", snapshot.size);
 
     snapshot.forEach(doc => {
-      console.log("CHAT DOC:", doc.id, doc.data());
+
     });
 
     const chatList =
@@ -4541,8 +4875,6 @@ document.getElementById("welcomeTitle").textContent =
 
       const chat = doc.data();
 
-        console.log("CHAT DATA:", chat);
-        console.log("CHAT TYPE:", chat.type);
 
   if (chat.type && chat.type !== "dm") return;
 
@@ -4584,7 +4916,6 @@ ${chat.lastSender === window.currentUsername
 `;      
     });
     applyUserAvatars();
-    console.log("APPLIED AVATARS AFTER CHAT LIST");
 
 
   });
@@ -4598,7 +4929,6 @@ ${chat.lastSender === window.currentUsername
   groupSnapshot.forEach(groupDoc => {
 
     const group = groupDoc.data();
-console.log("GROUP FOUND:", group);
 
     if (!group.members.includes(window.currentUsername))
       return;
@@ -4668,11 +4998,7 @@ if (profile.avatarURL) {
 
 
 
-    //listener 
-
-console.log("Username:", window.currentUsername);
-console.log("Current Chat User:", window.currentChatUser);
-
+//listener 
 
 });
 
@@ -4696,7 +5022,6 @@ db.collection("users").onSnapshot(snapshot => {
   });
 
   applyUserAvatars();
-  console.log("APPLIED AVATARS AFTER CHAT LIST");
 
 });
 
@@ -4740,18 +5065,34 @@ document.getElementById("userAvatar")
 .toUpperCase();
 
 
+window.addEventListener("beforeunload", () => {
+  if (auth.currentUser) {
+    db.collection("users").doc(auth.currentUser.uid).update({
+      isOnline: false,
+      status: "offline",
+      lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+});
+
 
 auth.onAuthStateChanged(user => {
   if (!user) return;
+
+
+db.collection("users").doc(user.uid).update({
+  isOnline: true,
+  status: "online",
+  lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+});
+
+  loadRealFriends();
+
 
   db.collection("users")
     .doc(user.uid)
     .collection("friends")
     .onSnapshot(snapshot => {
-
-  console.log("Docs found:", snapshot.size);
-
-  console.log("USERS SNAPSHOT FIRED");
 
 
   const membersList =
@@ -4762,7 +5103,6 @@ auth.onAuthStateChanged(user => {
   snapshot.forEach(doc => {
 
     const user = doc.data();
-console.log("USERNAME =", user.username);
     if (!user.username) return;
 
 
@@ -4800,7 +5140,6 @@ if (!selectedMembers.includes(username)) {
   document.getElementById("selectedCount").textContent =
     `${selectedMembers.length} members selected`;
 
-  console.log(selectedMembers);
 
 });
 
@@ -4816,7 +5155,6 @@ setTimeout(() => {
     .getElementById("createGroupSubmitBtn")
     .addEventListener("click", async () => {
 
-      console.log("CREATE GROUP CLICKED");
 
       const groupName =
         document.getElementById("groupNameInput").value.trim();
@@ -4938,7 +5276,6 @@ groupsBtn.addEventListener("click", () => {
 
   chats.forEach(chat => {
 
-    console.log("Type =", chat.dataset.type);
 
     if (chat.dataset.type === "group") {
       chat.style.display = "flex";
@@ -5103,7 +5440,6 @@ setTimeout(() => {
   const createGroupModal =
     document.getElementById("createGroupModal");
 
-  console.log(closeGroupModal);
 
   closeGroupModal.addEventListener("click", () => {
 
@@ -5118,12 +5454,10 @@ const createGroupBtn =
 
 createGroupBtn.addEventListener("click", () => {
 
-  console.log("Create Group clicked");
 
   const createGroupModal =
     document.getElementById("createGroupModal");
 
-  console.log(createGroupModal);
 
   createGroupModal.style.display = "flex";
 
@@ -5138,8 +5472,7 @@ setTimeout(() => {
   const groupPhotoInput =
     document.getElementById("groupPhotoInput");
 
-  console.log(uploadGroupPhoto);
-  console.log(groupPhotoInput);
+
 
   uploadGroupPhoto.addEventListener("click", () => {
 
@@ -5198,7 +5531,6 @@ setTimeout(() => {
   const membersList =
     document.getElementById("membersList");
 
-  console.log(membersList);
 
 }, 100);
 
@@ -5209,7 +5541,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cancelBtn.addEventListener("click", () => {
 
-    console.log("ORIGINAL CANCEL RUNNING");
 
     document.getElementById("createGroupModal").style.display = "none";
 
@@ -6074,17 +6405,12 @@ cancelInviteBtn.addEventListener("click", async () => {
 
 
 
-  friendSearchInput.addEventListener("input", () => {
+friendSearchInput.addEventListener("input", () => {
+  const query = friendSearchInput.value.toLowerCase().trim();
 
-  let value = friendSearchInput.value.trim();
-
-  if (value.includes("/invite/")) {
-
-    value = value.split("/invite/")[1];
-
-friendSearchInput.value = value;
+  if (friendsTab.classList.contains("active-tab")) {
+    searchAddedFriends(query);
   }
-
 });
 
   
@@ -6415,6 +6741,15 @@ document.getElementById("startNewChatBtn")
   openChat(selectedNewChatUser);
 
 });
+
+function searchAddedFriends(query){
+  const friends = document.querySelectorAll("#friendsList .friend-item");
+
+  friends.forEach(friend => {
+    const text = friend.textContent.toLowerCase();
+    friend.style.display = text.includes(query) ? "flex" : "none";
+  });
+}
 
 
 function openAddFriendModal() {
