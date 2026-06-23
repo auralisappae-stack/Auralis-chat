@@ -6301,7 +6301,7 @@ saveInviteBtn.addEventListener("click", async () => {
     document.getElementById("inviteLinkText").textContent.trim();
 
   await db.collection("inviteLinks")
-    .doc(window.currentUsername)
+   .doc(auth.currentUser.uid)
    .set({
    username: window.currentUsername,
    link: link,
