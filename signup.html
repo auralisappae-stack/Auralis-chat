@@ -351,9 +351,47 @@ const user = document
   const error = document.getElementById("error");
 
 
+    // REQUIRED
+if (user === "" || email === "" || password === "" || confirm === "") {
+  error.innerText = "Username, email and password are required!";
+  error.style.display = "block";
+  return;
+}
+
+  // MATCH
+  if (password !== confirm) {
+    error.innerText = "Passwords do not match!";
+    error.style.display = "block";
+    return;
+  }
+
+  // LENGTH
+  if (password.length < 8) {
+    error.innerText = "Password must be at least 8 characters";
+    error.style.display = "block";
+    return;
+  }
+
+  // CAPITAL LETTER
+  if (!/[A-Z]/.test(password)) {
+    error.innerText = "Must include a capital letter";
+    error.style.display = "block";
+    return;
+  }
+
  let cred;
 
 try {
+
+    const usernameCheck = await getDoc(
+  doc(db, "usernames", user)
+);
+
+if (usernameCheck.exists()) {
+  error.innerText = "Username already taken";
+  error.style.display = "block";
+  return;
+}
 
   cred = await createUserWithEmailAndPassword(
     auth,
@@ -392,16 +430,6 @@ try {
     return;
   }
 
-  const usernameCheck = await getDoc(
-  doc(db, "usernames", user)
-);
-
-if (usernameCheck.exists()) {
-  error.innerText = "Username already taken";
-  error.style.display = "block";
-  return;
-}
-
   // reset message
   error.style.display = "none";
   error.innerText = "";
@@ -415,33 +443,9 @@ if (usernameCheck.exists()) {
 
 localStorage.setItem("server", JSON.stringify(server));
 
-  // REQUIRED
-  if (user === "" || password === "" || confirm === "") {
-    error.innerText = "Username and password are required!";
-    error.style.display = "block";
-    return;
-  }
 
-  // MATCH
-  if (password !== confirm) {
-    error.innerText = "Passwords do not match!";
-    error.style.display = "block";
-    return;
-  }
 
-  // LENGTH
-  if (password.length < 8) {
-    error.innerText = "Password must be at least 8 characters";
-    error.style.display = "block";
-    return;
-  }
 
-  // CAPITAL LETTER
-  if (!/[A-Z]/.test(password)) {
-    error.innerText = "Must include a capital letter";
-    error.style.display = "block";
-    return;
-  }
 
   // ✅ SUCCESS
   error.style.color = "#4CAF50";

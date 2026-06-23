@@ -3826,20 +3826,6 @@ body.lightTheme #welcomeRightPanel{
 
   <div id="onlineFriendsList">
 
- <div class="friend-row">
-
-  <div class="friend-avatar-wrap">
-  <img src="Test1 (2).jpg" class="friend-avatar">
-  <span class="friend-online-badge"></span>
-</div>
-
-<div class="friend-info">
-  <div class="friend-name">Lili</div>
-  <div class="friend-status">
-    Listening to Lo-fi Beats
-  </div>
-</div>
-
 </div>
 
 
@@ -5381,7 +5367,6 @@ await db.collection("users")
     lastSender: window.currentUsername,
     lastMessageTime: Date.now()
   }, { merge: true });
-
 
 
 db.collection("chats")
