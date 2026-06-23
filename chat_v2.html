@@ -5955,7 +5955,7 @@ async function checkInviteLink(username) {
   const enteredToken = parts[1];
 
   const doc = await db.collection("inviteLinks")
-    .doc(inviteUsername)
+    .doc(auth.currentUser.uid)
     .get();
 
   if (!doc.exists) {
