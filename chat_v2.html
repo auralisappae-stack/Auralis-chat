@@ -6028,7 +6028,7 @@ function addFriend(username) {
 document.addEventListener("click", async (e) => {
   if (e.target.id !== "sendInviteBtn") return;
 
-  const friendUsername = friendSearchInput.value.trim();
+let friendUsername = friendSearchInput.value.trim();
 
   if (!friendUsername) {
     alert("Enter a username first");
