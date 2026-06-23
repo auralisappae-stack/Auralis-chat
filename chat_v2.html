@@ -5955,7 +5955,7 @@ async function checkInviteLink(username) {
   const enteredToken = parts[1];
 
   const doc = await db.collection("inviteLinks")
-    .doc(auth.currentUser.uid)
+    .doc(inviteUsername)
     .get();
 
   if (!doc.exists) {
@@ -6045,6 +6045,10 @@ document.addEventListener("click", async (e) => {
     alert("You cannot send an invite to yourself.");
     return;
   }
+
+  friendUsername = friendUsername
+  .replace("auralis.app/invite/", "")
+  .trim();
 
   const isValid = await checkInviteLink(friendUsername);
   if (!isValid) return;
@@ -6301,7 +6305,7 @@ saveInviteBtn.addEventListener("click", async () => {
     document.getElementById("inviteLinkText").textContent.trim();
 
   await db.collection("inviteLinks")
-   .doc(auth.currentUser.uid)
+    .doc(window.currentUsername)
    .set({
    username: window.currentUsername,
    link: link,
