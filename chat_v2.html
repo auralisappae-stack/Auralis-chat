@@ -3852,23 +3852,8 @@ OFFLINE <span class="friend-count" id="offlineCount">0</span>
 
   <div id="offlineFriendsList">
 
-    <div class="friend-row">
 
-  <div class="friend-avatar-wrap">
-    <img src="Test2.jpg" class="friend-avatar">
-    <span class="friend-online-badge offline"></span>
-  </div>
-
-  <div class="friend-info">
-    <div class="friend-name">Alex</div>
-    <div class="friend-status">
-      Last seen 2 hours ago
-    </div>
-  </div>
-
-</div>
-
-  </div>
+  </div> <!-- end of the offline friendlist-->
 
 </div>
 
@@ -4596,20 +4581,7 @@ async function applyUserAvatars() {
 // end of the apply user avatar function 
 
 //start of the Friends Data 
-const sampleFriends = [
-  {
-    name: "Lili",
-    avatar: "Test1 (2).jpg",
-    status: "online",
-    activity: "Listening to Lo-fi Beats"
-  },
-  {
-    name: "Alex",
-    avatar: "Test2.jpg",
-    status: "offline",
-    activity: "Last seen 2 hours ago"
-  }
-];
+const sampleFriends = [];
 
 function renderWelcomeFriends(friendsData = sampleFriends) {
 
