@@ -4731,10 +4731,6 @@ window.selectedMembers = selectedMembers;
 
 auth.onAuthStateChanged(async user => {
 
-renderFriendRequests();
-
-
-
   if (!user) return;
   document.getElementById("header").style.display = "none";
 
