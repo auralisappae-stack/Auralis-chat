@@ -6031,11 +6031,6 @@ let friendUsername = friendSearchInput.value.trim();
     return;
   }
 
-  if (inviteTo === me) {
-    alert("You cannot send an invite to yourself.");
-    return;
-  }
-
   friendUsername = friendUsername
   .replace("auralis.app/invite/", "")
   .trim();
@@ -6047,10 +6042,6 @@ let friendUsername = friendSearchInput.value.trim();
   const me =
     window.currentUsername.trim().toLowerCase();
 
-    if (inviteTo === me) {
-  alert("You cannot send an invite to yourself.");
-  return;
-}
 
   const isValid = await checkInviteLink(friendUsername);
   if (!isValid) return;
