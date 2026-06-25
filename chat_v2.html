@@ -559,6 +559,13 @@ body{
   border-top:1px solid rgba(215,184,255,.10);
 
   backdrop-filter:blur(12px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  width: calc(100% - 320px);
+
 }
 
 #msgInput{
@@ -2889,12 +2896,7 @@ body{
   flex-shrink:0;
 }
 
-#chatArea{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-}
+
 
 
 #inviteLightImage{
@@ -3356,6 +3358,8 @@ body.lightTheme #welcomeRightPanel{
   flex:1;
   display:flex;
   min-height:0;
+  padding-bottom: 80px;
+
 }
 
 #welcomeRightPanel{
@@ -3366,11 +3370,6 @@ body.lightTheme #welcomeRightPanel{
   border-left:1px solid rgba(215,184,255,.10);
 }
 
-#chatContent{
-    flex:1;
-    display:flex;
-    min-height:0;
-}
 
 
 
@@ -3434,10 +3433,7 @@ body.lightTheme #welcomeRightPanel{
   box-sizing:border-box;
 }
 
-#chatArea{
-  height:100vh;
-  box-sizing:border-box;
-}
+
 
 #inviteIconLight{
   display:none;
