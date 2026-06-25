@@ -5998,9 +5998,6 @@ async function loadSearchHistory() {
 
 
 // endo of the load search history function 
-
-
-
 const friends = [];
 const friendsList = 
 document.getElementById("friendsList");
@@ -6042,10 +6039,11 @@ let friendUsername = friendSearchInput.value.trim();
   const me =
     window.currentUsername.trim().toLowerCase();
 
+
 if (inviteTo === me) {
   alert("You cannot send an invite to yourself.");
   return;
-
+}
 
   const isValid = await checkInviteLink(friendUsername);
   if (!isValid) return;
