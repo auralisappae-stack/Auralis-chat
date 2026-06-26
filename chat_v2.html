@@ -502,7 +502,7 @@ body{
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-    
+  grid-column:1;
   flex:1;
 
   display:flex;
@@ -557,7 +557,7 @@ body{
   backdrop-filter:blur(12px);
   box-sizing:border-box;
   display:none;
-
+  width:calc(100% - 320px);
 }
 
 #msgInput{
@@ -3360,6 +3360,8 @@ body.lightTheme #welcomeRightPanel{
   display:block;
   background:#161033;
   border-left:1px solid rgba(215,184,255,.10);
+  grid-column:2;
+
 }
 
 
