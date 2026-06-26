@@ -549,22 +549,22 @@ body{
 
 #inputBar{
   padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
-  display:flex;
-  align-items:center;
-  gap:8px;
+  background: #0B0620;
+  border-top: 1px solid rgba(215,184,255,.10);
+  backdrop-filter: blur(12px);
 
-  background:#0B0620;
-
-  border-top:1px solid rgba(215,184,255,.10);
-
-  backdrop-filter:blur(12px);
   position: absolute;
   left: 0;
-  right: 0;
+  right: 320px;   /* reserve space for the right panel */
   bottom: 0;
 
-  width: calc(100% - 320px);
+  width: auto;
+  box-sizing: border-box;
+  display:none;
 
 }
 
@@ -3845,7 +3845,6 @@ OFFLINE <span class="friend-count" id="offlineCount">0</span>
 
 </div> <!-- end of chatContent -->
 
-
    <div id="inputBar">
 
   <button class="inputIcon">➕</button>
@@ -3864,6 +3863,8 @@ OFFLINE <span class="friend-count" id="offlineCount">0</span>
 </div>
 
   </div>
+
+
 
 </div> <!-- end of chatarea-->
 
