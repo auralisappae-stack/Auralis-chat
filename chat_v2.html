@@ -452,17 +452,10 @@ body{
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-
   background:#161033;
-
   display:flex;
-  flex-direction:column;
-
+  flex-direction:row;
   position:relative;
-
-   flex:1;
-  display:flex;
-  flex-direction:column;
   min-height:0;
 }
 
@@ -3341,15 +3334,12 @@ body.lightTheme #welcomeRightPanel{
 
 /* welcome page right panel */
 
-
 #chatContent{
   flex:1;
-  display:flex;
   min-height:0;
-  padding-bottom: 80px;
-
+  display:flex;
+  flex-direction:column;
 }
-
 #welcomeRightPanel{
   width:320px;
   min-width:320px;
@@ -3357,11 +3347,7 @@ body.lightTheme #welcomeRightPanel{
   background:#161033;
   border-left:1px solid rgba(215,184,255,.10);
   grid-column:2;
-
 }
-
-
-
 
 #welcomeRightPanel{
   display:block;
