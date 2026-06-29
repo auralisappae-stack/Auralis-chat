@@ -556,8 +556,7 @@ body{
   border-top:1px solid rgba(215,184,255,.10);
   backdrop-filter:blur(12px);
   box-sizing:border-box;
-  display:none;
-  width:calc(100% - 320px);
+  margin-top:auto;
 }
 
 #msgInput{
@@ -3709,16 +3708,9 @@ body.lightTheme #welcomeRightPanel{
 
 </div>
 
-
-
-
-    
 </div> <!-- closing of the app -->
 
-
-
 </div>
-
 
 <!-- right panel of welome page-->
 
@@ -3777,6 +3769,20 @@ body.lightTheme #welcomeRightPanel{
 
 
   </div> <!-- welcome screen image closer-->
+
+  <div id="inputBar">
+  <button class="inputIcon">➕</button>
+
+  <input
+    id="msgInput"
+    placeholder="Type a message..."
+  >
+
+  <button class="inputIcon">😊</button>
+  <button class="inputIcon">🎤</button>
+
+  <button id="sendBtn">➤</button>
+</div>
 
   
 
@@ -3838,25 +3844,6 @@ OFFLINE <span class="friend-count" id="offlineCount">0</span>
 
 
 </div> <!-- end of chatContent -->
-
-   <div id="inputBar">
-
-  <button class="inputIcon">➕</button>
-
-  <input
-    id="msgInput"
-    placeholder="Type a message..."
-  >
-
-  <button class="inputIcon">😊</button>
-
-  <button class="inputIcon">🎤</button>
-
-  <button id="sendBtn">➤</button>
-
-</div>
-
-  </div>
 
 
 
