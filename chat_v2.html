@@ -4714,6 +4714,9 @@ window.selectedMembers = selectedMembers;
 auth.onAuthStateChanged(async user => {
 
   if (!user) return;
+  
+  document.getElementById("inputBar").style.display = "none";
+
   document.getElementById("header").style.display = "none";
 
 
@@ -5354,6 +5357,8 @@ document.getElementById("msgInput").addEventListener("keydown", function(e) {
     sendMessage();
   }
 });
+
+// end of the btn enter msgs for the chats
 
 setTimeout(() => {
 
