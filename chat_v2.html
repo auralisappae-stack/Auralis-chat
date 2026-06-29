@@ -3795,6 +3795,7 @@ body.lightTheme #welcomeRightPanel{
 
 
 </div> <!-- end of chatMain -->
+
 <div id="welcomeRightPanel">
 
   <div class="rightPanelHeader">
@@ -4652,7 +4653,7 @@ userQuery.onSnapshot(userSnapshot => {
 
   realFriends.push({
     name: friendUsername,
-    avatar: friendData.avatar || "Test1 (2).jpg",
+    avatar: friendData.avatarURL || "Test1 (2).jpg",
     status: friendData.status === "online" ? "online" : "offline",
     activity: friendData.status === "online" ? "Online" : "Offline"
   });
@@ -4663,11 +4664,6 @@ userQuery.onSnapshot(userSnapshot => {
 }
 
 }
-
-
-
-
-
 
 // function of the friend requests
 function renderFriendRequests() {
@@ -4714,7 +4710,7 @@ window.selectedMembers = selectedMembers;
 auth.onAuthStateChanged(async user => {
 
   if (!user) return;
-  
+
   document.getElementById("inputBar").style.display = "none";
 
   document.getElementById("header").style.display = "none";
