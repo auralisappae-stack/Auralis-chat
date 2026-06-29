@@ -3791,8 +3791,6 @@ body.lightTheme #welcomeRightPanel{
 
   <button class="inputIcon">😊</button>
   <button class="inputIcon">🎤</button>
-
-  <button id="sendBtn">➤</button>
 </div>
 
 
@@ -5280,94 +5278,82 @@ dmsBtn.addEventListener("click", () => {
 });//end of the clicked listener
 
 
-setTimeout(() => {
+async function sendMessage() {
+  const input = document.getElementById("msgInput");
+  const text = input.value.trim();
 
-document.getElementById("sendBtn")
-.addEventListener("click", async () => {
+  if (!text) return;
 
-const text =
-document.getElementById("msgInput").value.trim();
+  if (window.currentGroupId) {
+    await db.collection("groups")
+      .doc(window.currentGroupId)
+      .collection("messages")
+      .add({
+        user: window.currentUsername,
+        text: text,
+        time: Date.now()
+      });
 
-if (!text) {
-  return;
-}
-
-if(window.currentGroupId){
-
-  
-  db.collection("groups")
-    .doc(window.currentGroupId)
-    .collection("messages")
-    .add({
-      user: window.currentUsername,
-      text: text,
-      time: Date.now()
-    });
-
-} else {
-
+  } else {
     const chatId = [
-    window.currentUsername,
-    window.currentChatUser
-  ].sort().join("_");
+      window.currentUsername,
+      window.currentChatUser
+    ].sort().join("_");
 
-  
-const receiverSnapshot = await db.collection("users")
-  .where("username", "==", window.currentChatUser)
-  .get();
+    const receiverSnapshot = await db.collection("users")
+      .where("username", "==", window.currentChatUser)
+      .get();
 
-  if (!receiverSnapshot.empty) {
-  const receiverId =
-    receiverSnapshot.docs[0].id;
+    if (!receiverSnapshot.empty) {
+      const receiverId = receiverSnapshot.docs[0].id;
 
-  await db.collection("users")
-    .doc(receiverId)
-    .collection("chats")
-    .doc(window.currentUsername)
-    .set({
-      username: window.currentUsername,
- type: "dm",
- unread: true,
- unreadCount: firebase.firestore.FieldValue.increment(1),
- lastMessage: text,
- lastSender: window.currentUsername,
- lastMessageTime: Date.now()
-}, { merge: true });
+      await db.collection("users")
+        .doc(receiverId)
+        .collection("chats")
+        .doc(window.currentUsername)
+        .set({
+          username: window.currentUsername,
+          type: "dm",
+          unread: true,
+          unreadCount: firebase.firestore.FieldValue.increment(1),
+          lastMessage: text,
+          lastSender: window.currentUsername,
+          lastMessageTime: Date.now()
+        }, { merge: true });
+    }
 
+    await db.collection("users")
+      .doc(auth.currentUser.uid)
+      .collection("chats")
+      .doc(window.currentChatUser)
+      .set({
+        username: window.currentChatUser,
+        type: "dm",
+        lastMessage: text,
+        lastSender: window.currentUsername,
+        lastMessageTime: Date.now()
+      }, { merge: true });
+
+    await db.collection("chats")
+      .doc(chatId)
+      .collection("messages")
+      .add({
+        user: window.currentUsername,
+        chatUser: window.currentChatUser,
+        text: text,
+        time: Date.now()
+      });
+  }
+
+  input.value = "";
 }
 
-await db.collection("users")
-  .doc(auth.currentUser.uid)
-  .collection("chats")
-  .doc(window.currentChatUser)
-  .set({
-    username: window.currentChatUser,
-    type: "dm",
-    lastMessage: text,
-    lastSender: window.currentUsername,
-    lastMessageTime: Date.now()
-  }, { merge: true });
-
-
-db.collection("chats")
-  .doc(chatId)
-  .collection("messages")
-  .add({
-    user: window.currentUsername,
-    chatUser: window.currentChatUser,
-    text: text,
-    time: Date.now(),
-  });
-
-}
-document.getElementById("msgInput").value = "";
-
-
+document.getElementById("msgInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    sendMessage();
+  }
 });
-
-
-
-});// end of the listener
 
 setTimeout(() => {
 
