@@ -452,10 +452,17 @@ body{
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
   background:#161033;
+
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
+
   position:relative;
+
+   flex:1;
+  display:flex;
+  flex-direction:column;
   min-height:0;
 }
 
@@ -495,7 +502,7 @@ body{
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  grid-column:1;
+    
   flex:1;
 
   display:flex;
@@ -540,16 +547,18 @@ body{
 }
 
 
+
 #inputBar{
   padding:14px 18px;
   display:flex;
   align-items:center;
   gap:8px;
+
   background:#0B0620;
   border-top:1px solid rgba(215,184,255,.10);
   backdrop-filter:blur(12px);
+
   box-sizing:border-box;
-  margin-top:auto;
 }
 
 #msgInput{
@@ -729,8 +738,6 @@ body{
     flex-direction: column;
     height: 100%;
   }
-
-
 
   #sidebarBottom{
   width:100%;
@@ -1807,6 +1814,9 @@ body{
   position:relative;
 }
 
+#welcomeScreen:not([style*="display: none"]) ~ #inputBar{
+  display:none;
+}
 
 
 #welcomeImage{
@@ -2585,7 +2595,9 @@ img[src="JustChattingDark.png"]{
   background:#161033;
 }
 
-
+#inputBar{
+  display:none;
+}
 
 
 #inviteRightContent{
@@ -3334,20 +3346,25 @@ body.lightTheme #welcomeRightPanel{
 
 /* welcome page right panel */
 
+
 #chatContent{
   flex:1;
-  min-height:0;
   display:flex;
-  flex-direction:column;
+  min-height:0;
+  padding-bottom: 80px;
+
 }
+
 #welcomeRightPanel{
   width:320px;
   min-width:320px;
   display:block;
   background:#161033;
   border-left:1px solid rgba(215,184,255,.10);
-  grid-column:2;
 }
+
+
+
 
 #welcomeRightPanel{
   display:block;
@@ -3580,9 +3597,15 @@ body.lightTheme #welcomeRightPanel{
   color:#8D83B7;
   font-weight:700;
   padding:0 16px 10px 16px;
-
 }
 
+
+#chatMain{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 
 
 
@@ -3691,9 +3714,16 @@ body.lightTheme #welcomeRightPanel{
 
 </div>
 
+
+
+
+    
 </div> <!-- closing of the app -->
 
+
+
 </div>
+
 
 <!-- right panel of welome page-->
 
@@ -3701,6 +3731,8 @@ body.lightTheme #welcomeRightPanel{
     <!-- messages here -->
 
 <div id="chatContent">
+<div id="chatMain">
+
 
 
 <div id="messages">
@@ -3754,10 +3786,9 @@ body.lightTheme #welcomeRightPanel{
   </div> <!-- welcome screen image closer-->
 
   
-
 </div> <!-- end of the messages-->
 
-  <div id="inputBar">
+<div id="inputBar">
   <button class="inputIcon">➕</button>
 
   <input
@@ -3769,11 +3800,10 @@ body.lightTheme #welcomeRightPanel{
   <button class="inputIcon">🎤</button>
 
   <button id="sendBtn">➤</button>
-</div> <!-- end o fthe search bar for msgs-->
-
-</div> <!-- end of chatContent -->
+</div>
 
 
+</div> <!-- end of chatMain -->
 <div id="welcomeRightPanel">
 
   <div class="rightPanelHeader">
