@@ -3600,6 +3600,22 @@ body.lightTheme #welcomeRightPanel{
   min-height: 0;
 }
 
+#deleteModal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#deleteModalBox{
+  background: #130b2e;
+  color: white;
+  padding: 24px;
+  border-radius: 18px;
+}
 
 
 </style>
@@ -4447,6 +4463,13 @@ if (group.photoURL) {
   });
 
 
+}
+
+//function of the OpenDeleteModal
+function openDeleteModal() {
+    console.log("delete modal opened");
+
+  document.getElementById("deleteModal").style.display = "flex";
 }
 
 // new function of the loadgroupMessages
@@ -6129,9 +6152,8 @@ document.addEventListener("click", (e) => {
 
 //start of the delete option listener for the chat menu 
 deleteChatOption.addEventListener("click", async () => {
-  const choice = prompt(
-    "Type 1 = Delete chat only\nType 2 = Delete chat and message history"
-  );
+ openDeleteModal();
+ return;
 
   if (!selectedChatToDelete) return;
 
@@ -6808,7 +6830,11 @@ document
 <!-- ----------------------------------------------------->
 
 
-
+<div id="deleteModal" style="display:none;">
+  <div id="deleteModalBox">
+    <h3>Delete chat?</h3>
+  </div>
+</div>
 
 </body>
 </html>
