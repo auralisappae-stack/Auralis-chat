@@ -1799,18 +1799,11 @@ body{
 
 #deleteChatOnlyCard,
 #deleteHistoryCard{
-  margin-top: 18px;
-  padding: 18px;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 18px;
-  cursor: pointer;
-  transition: .25s;
+    min-height: 82px;
+    padding: 14px 22px;
 
-  pointer-events: auto;
-  user-select: none;
-  cursor: pointer;
-  position: relative;
-  z-index: 10;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
 }
 
 #deleteChatOnlyCard:hover,
@@ -1819,10 +1812,13 @@ body{
 }
 
 #deleteButtons{
-  display: flex;
-  justify-content: flex-end;
-  gap: 16px;
-  margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+
+    margin-top: 12px;
+    flex-shrink: 0;
 }
 
 #cancelDeleteBtn{
@@ -1832,6 +1828,7 @@ body{
   border-radius: 999px;
   padding: 12px 26px;
   cursor: pointer;
+  
 }
 
 #confirmDeleteBtn{
@@ -1854,6 +1851,8 @@ body{
   font-size: 22px;
   color: #b7afd8;
   margin-bottom: 28px;
+  text-align: left;
+  margin-top: 12px;
 }
 
 #deleteWarning{
@@ -1865,17 +1864,24 @@ body{
   color: #d8d2f4;
 }
 
+
+
 #deleteModalBox{
-  width: 700px;
-  max-width: 92%;
-  background: rgba(20,16,38,.92);
-  border: 1px solid rgba(170,130,255,.25);
-  border-radius: 28px;
-  padding: 36px;
-  color: white;
-  box-shadow: 0 20px 60px rgba(0,0,0,.45);
-  backdrop-filter: blur(18px);
-  position: relative;
+    width: 800px;
+    max-width: 90vw;
+    max-height: 90vh;
+
+    background: #130b2e;
+    color: white;
+
+    padding: 28px 36px;
+    border-radius: 28px;
+
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    overflow: hidden;
 }
 
 #closeDeleteModal{
@@ -3710,28 +3716,23 @@ body.lightTheme #welcomeRightPanel{
   justify-content: center;
 }
 
-#deleteModalBox{
-  background: #130b2e;
-  color: white;
-  padding: 24px;
-  border-radius: 18px;
-}
 #deleteIcon{
-  width: 72px;
-  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  margin: 0;
+  flex-shrink: 0;
+}
+#deleteHeader h2{
+  margin: 0;
+}
 
-  background: linear-gradient(135deg, #8b5cf6, #d946ef);
-  border-radius: 20px;
-
-  box-shadow:
-    0 0 30px rgba(139,92,246,.35),
-    inset 0 1px 0 rgba(255,255,255,.15);
-
-  margin-bottom: 20px;
+#deleteIcon img{
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 #deleteChatOnlyCard h3,
 #deleteHistoryCard h3{
@@ -3790,6 +3791,68 @@ body.lightTheme #welcomeRightPanel{
   background: rgba(139,92,246,.2);
   color: #fff;
   transform: rotate(90deg);
+}
+#deleteHeader{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.deleteOptionIcon{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  align-self: center;
+}
+.deleteOptionTitle{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  margin: 0;
+}
+
+.deleteOptionHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 8px;
+  padding-right: 6px;
+  gap: 16px;
+}
+.deleteOptionRow{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.deleteOptionContent{
+  flex: 1;
+}
+.deleteOptionContent p{
+  margin: 0;
+}
+.optionSelectIcon{
+    width: 42px;
+    height: 42px;
+
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+}
+
+
+.deleteOptions{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+#deleteChatOnlyCard{
+    margin-bottom: 18px;
 }
 
 </style>
@@ -4643,7 +4706,18 @@ if (group.photoURL) {
 function openDeleteModal() {
     console.log("delete modal opened");
 
-  document.getElementById("deleteModal").style.display = "flex";
+    document.getElementById("deleteModal").style.display = "flex";
+
+    // Reset selection every time the modal opens
+    deleteChoice = null;
+
+    // Remove selected card styling
+    document.getElementById("deleteChatOnlyCard").classList.remove("selected");
+    document.getElementById("deleteHistoryCard").classList.remove("selected");
+
+    // Reset both circles to the unselected image
+    document.getElementById("deleteOnlySelect").src = "UnselectedCircle.png";
+    document.getElementById("deleteHistorySelect").src = "UnselectedCircle.png";
 }
 
 
@@ -4853,7 +4927,12 @@ alert("Chat and history deleted");
 }
   });
 
-  const deleteChatOnlyCard = document.getElementById("deleteChatOnlyCard");
+  
+const deleteHistoryCard = document.getElementById("deleteHistoryCard");
+const deleteChatOnlyCard = document.getElementById("deleteChatOnlyCard");
+const deleteOnlySelect = document.getElementById("deleteOnlySelect");
+const deleteHistorySelect = document.getElementById("deleteHistorySelect");
+
 
 if (deleteChatOnlyCard) {
   deleteChatOnlyCard.addEventListener("click", () => {
@@ -4862,11 +4941,11 @@ if (deleteChatOnlyCard) {
 
     document.getElementById("deleteChatOnlyCard").classList.add("selected");
     document.getElementById("deleteHistoryCard").classList.remove("selected");
+
+deleteOnlySelect.setAttribute("src", "SelectedCircle.png");
+deleteHistorySelect.setAttribute("src", "UnselectedCircle.png");
   });
 }
-
-  const deleteHistoryCard = document.getElementById("deleteHistoryCard");
-
 
 if (deleteHistoryCard) {
 
@@ -4878,12 +4957,14 @@ deleteHistoryCard.addEventListener("click", () => {
 
   document.getElementById("deleteHistoryCard").classList.add("selected");
   document.getElementById("deleteChatOnlyCard").classList.remove("selected");
+
+  deleteOnlySelect.setAttribute("src", "UnselectedCircle.png");
+  deleteHistorySelect.setAttribute("src","SelectedCircle.png");
+
 });
 }
 
 });
-
-
 
 // function of the applyuser avatar 
 
@@ -7139,38 +7220,92 @@ document
 
 <!-- ----------------------------------------------------->
 
-
 <div id="deleteModal">
 
   <div id="deleteModalBox">
 
     <button id="closeDeleteModal">✕</button>
 
-    <div id="deleteIcon">🗑️</div>
-    <h2>Delete Chat</h2>
+<div id="deleteHeader">
+
+  <div id="deleteIcon">
+    <img src="DeleteChat.png" alt="Delete">
+  </div>
+
+  <h2>Delete Chat</h2>
+
+</div>
 
     <p>
       Choose an option below to continue.
     </p>
 
-    <div id="deleteChatOnlyCard" tabindex="0">
+<div id="deleteChatOnlyCard" tabindex="0">
 
-  <h3>💬 Delete Chat Only</h3>
+<div class="deleteOptionRow">
 
+  <img src="SelectedCircle.png"
+     id="deleteOnlySelect"
+     class="optionSelectIcon"
+     alt="Selected">
+<div class="deleteOptionContent">
+
+  <div class="deleteOptionHeader">
+
+    <h3 class="deleteOptionTitle">
+      Delete Chat Only
+    </h3>
+
+    <img src="DeleteOnlyChat.png"
+         class="deleteOptionIcon"
+         alt="Delete Chat Only">
+
+  </div>
 
   <p>
     Removes this conversation from your chat list. The other person keeps the chat.
   </p>
-</div>
+
+</div> <!-- deleteOptionContent -->
+
+</div> <!-- deleteOptionRow -->
+
+</div> <!-- deleteChatOnlyCard -->
+
 
 <div id="deleteHistoryCard" tabindex="0">
-  <h3>🗑️ Delete Chat &amp; History</h3>
 
+<div class="deleteOptionRow">
+
+  <img src="UnselectedCircle.png"
+       id="deleteHistorySelect"
+     class="optionSelectIcon"
+     alt="Not Selected">
+
+
+  <div class="deleteOptionContent">
+  <div class="deleteOptionHeader">
+
+    <h3 class="deleteOptionTitle">
+      Delete Chat &amp; History
+    </h3>
+
+    <img src="DeleteChatHistory.png"
+         class="deleteOptionIcon"
+         alt="Delete Chat & History">
+
+  </div>
 
   <p>
     Permanently deletes this conversation history. This action cannot be undone.
   </p>
-</div>
+
+</div> <!-- deleteOptionContent -->
+
+</div> <!-- deleteOptionRow -->
+
+</div> <!-- deleteHistoryCard -->
+
 
     <div id="deleteWarning">
       ⚠️ This action cannot be undone.
