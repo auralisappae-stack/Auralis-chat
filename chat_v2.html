@@ -5983,7 +5983,7 @@ document.addEventListener("DOMContentLoaded", () => {
   >
 
   <h3 class="friends-section-title">
-    ⭐ Recent
+    ⭐ Favourite Friends
   </h3>
 
   <div id="recentFriendsList"></div>
@@ -6398,6 +6398,21 @@ async function checkInviteLink(username) {
   return true;
 }
 // end of the function checkInviteLink
+
+// start fo the get fav friends automated
+function getFavouriteFriends(friends, messages) {
+  return friends
+    .map(friend => {
+      const count = messages.filter(msg =>
+        msg.sender === friend.username || msg.receiver === friend.username
+      ).length;
+
+      return { ...friend, chatCount: count };
+    })
+    .sort((a, b) => b.chatCount - a.chatCount)
+    .slice(0, 3);
+}
+// end of the fav automated frnd 
 
 // start of the loadsearchhistory function 
 
@@ -6939,7 +6954,8 @@ const recentSnapshot = await db
   .collection("chats")
   .get();
 
-  recentSnapshot.forEach(doc => {
+  recentSnapshot.docs.slice(0, 3).forEach(doc => {
+
   const chat = doc.data();
 
   recentList.innerHTML += `
