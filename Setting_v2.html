@@ -2108,11 +2108,12 @@ body.lightTheme .previewInputBar input::placeholder{
   background:rgba(255,255,255,.08);
 }
 .securityRow{
+   min-height: 92px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    padding: 18px 0;
+    padding: 22px 28px;
 
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
@@ -2185,6 +2186,15 @@ height: 38px;
     font-size: 14px;
     cursor: pointer;
     width: 160px;
+
+    background: #241d3d;
+    color: #ffffff;
+
+    border: 1px solid #433b63;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 .securitySelect.small{
     width: 90px;
@@ -2198,6 +2208,72 @@ height: 38px;
 .dangerBtn:hover {
   background: #b91c1c;
 }
+
+.customSelect{
+    position: relative;
+}
+
+.customSelectBtn{
+    width: 90px;
+    height: 40px;
+}
+.customSelectBtn{
+    width: 90px;
+    height: 40px;
+
+    border: 1px solid #433b63;
+    border-radius: 10px;
+
+    background: #241d3d;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+}
+.customSelectBtn:hover{
+    background: #2d2550;
+    border-color: #5865F2;
+}
+.customSelectMenu{
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 6px);
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    min-width: 160px;
+
+    background: #241d3d;
+    border: 1px solid #433b63;
+    border-radius: 10px;
+
+    overflow: hidden;
+    z-index: 1000;
+}
+.customSelectMenu div{
+    padding: 10px 14px;
+
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+
+    transition: background 0.2s ease;
+}
+.customSelectMenu div:hover{
+    background: #5865F2;
+}
+
+.customSelect.open .customSelectMenu{
+    display: block;
+}
+
 
 
 
@@ -2838,11 +2914,17 @@ height: 38px;
 
     </div>
 
-<select class="securitySelect" id="friendRequestSelect">
-  <option>Everyone</option>
-  <option>Friends of Friends</option>
-  <option>Nobody</option>
-</select>
+<div class="customSelect" id="friendRequestSelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">Everyone</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>Everyone</div>
+        <div>Friends of Friends</div>
+        <div>Nobody</div>
+    </div>
+</div>
 
   </div> <!-- end of the first Row -->
 
@@ -2859,11 +2941,17 @@ height: 38px;
 
     </div>
 
-<select class="securitySelect" id="messagePermissionSelect">
-  <option>Everyone</option>
-  <option>Friends Only</option>
-  <option>Nobody</option>
-</select>
+<div class="customSelect" id="messagePermissionSelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">Everyone</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>Everyone</div>
+        <div>Friends Only</div>
+        <div>Nobody</div>
+    </div>
+</div>
 
 </div> <!-- end of the Second Row -->
 
@@ -2879,11 +2967,17 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect" id="profileVisibilitySelect">
-  <option>Everyone</option>
-  <option>Friends Only</option>
-  <option>Only Me</option>
-</select>
+<div class="customSelect" id="profileVisibilitySelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">Everyone</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>Everyone</div>
+        <div>Friends Only</div>
+        <div>Only Me</div>
+    </div>
+</div>
 
 </div><!-- end of the Third  Row -->
 
@@ -2900,10 +2994,17 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect Small" id="readReceiptsSelect">
-  <option>On</option>
-  <option>Off</option>
-</select>
+<div class="customSelect small" id="readReceiptsSelect">
+
+  <button class="customSelectBtn">
+  <span class="selectedValue">On</span>
+</button>
+
+  <div class="customSelectMenu">
+    <div>On</div>
+    <div>Off</div>
+  </div>
+</div>
 
 </div> <!-- end of the Fourth  Row -->
 
@@ -2936,10 +3037,16 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect small" id="pushNotificationsSelect">
-  <option>On</option>
-  <option>Off</option>
-</select>
+<div class="customSelect small" id="pushNotificationsSelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">On</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>On</div>
+        <div>Off</div>
+    </div>
+</div>
 
 </div> <!-- end of first row -->
 
@@ -2957,10 +3064,16 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect small" id="emailNotificationsSelect">
-  <option>On</option>
-  <option>Off</option>
-</select>
+<div class="customSelect small" id="emailNotificationsSelect">
+  <button class="customSelectBtn">
+    <span class="selectedValue">On</span>
+  </button>
+
+  <div class="customSelectMenu">
+    <div>On</div>
+    <div>Off</div>
+  </div>
+</div>
 
 </div> <!-- end of second row -->
 
@@ -2976,10 +3089,17 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect small" id="marketingEmailsSelect">
-  <option>On</option>
-  <option>Off</option>
-</select>
+
+<div class="customSelect small" id="marketingEmailsSelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">On</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>On</div>
+        <div>Off</div>
+    </div>
+</div>
 
 </div> <!-- end of Third row -->
 
@@ -2996,10 +3116,16 @@ height: 38px;
 
 </div>
 
-<select class="securitySelect small" id="smsNotificationsSelect">
-  <option>On</option>
-  <option>Off</option>
-</select>
+<div class="customSelect small" id="smsNotificationsSelect">
+    <button class="customSelectBtn">
+        <span class="selectedValue">On</span>
+    </button>
+
+    <div class="customSelectMenu">
+        <div>On</div>
+        <div>Off</div>
+    </div>
+</div>
 
 </div> <!-- end of Fourth row -->
 
@@ -4462,17 +4588,47 @@ console.log(document.getElementById("backBtn"));
   
 window.addEventListener("DOMContentLoaded", () => {
 
-  document.getElementById("backBtn")
-  .addEventListener("click", () => {
+    document.getElementById("backBtn")
+        .addEventListener("click", () => {
+            window.location.href = "chat_v2.html";
+        });
 
-    window.location.href =
-    "chat_v2.html";
+    document.querySelectorAll(".customSelect").forEach(select => {
 
-  });
+        const btn = select.querySelector(".customSelectBtn");
+        const options = select.querySelectorAll(".customSelectMenu div");
+
+        btn.addEventListener("click", () => {
+            select.classList.toggle("open");
+        });
+
+        options.forEach(option => {
+            option.addEventListener("click", () => {
+                btn.querySelector(".selectedValue").textContent = option.textContent;
+                select.classList.remove("open");
+            });
+        });
+
+    });
+
+    document.addEventListener("click", (event) => {
+
+    document.querySelectorAll(".customSelect").forEach(select => {
+
+        if (!select.contains(event.target)) {
+
+            select.classList.remove("open");
+
+        }
+
+    });
 
 });
 
+}); // DOMContentLoaded ends here
+
 </script>
+
   <button id="backBtn">
     Back to Chat
   </button>
