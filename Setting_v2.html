@@ -2107,8 +2107,97 @@ body.lightTheme .previewInputBar input::placeholder{
 #sunThemeBtn:hover{
   background:rgba(255,255,255,.08);
 }
+.securityRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
+    padding: 18px 0;
 
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.securityRowInfo h3{
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.securityRowInfo p{
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.5;
+}
+.securityBtn{
+width: 95px;
+height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #5865F2;
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.securityBtn:hover{
+    background: #4752C4;
+}
+.securitySection{
+    margin-top: 28px;
+}
+.securitySectionTitle{
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+.securitySectionSubtitle{
+    margin: 8px 0 20px;
+    color: rgba(255,255,255,0.65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+.securityRowInfo{
+    flex: 1;
+    padding-right: 24px;
+}
+.securityCard{
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 0 20px;
+    margin-top: 16px;
+}
+.securitySelect{
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    width: 160px;
+}
+.securitySelect.small{
+    width: 90px;
+}
+
+.dangerBtn {
+  background: #dc2626;
+  color: white;
+}
+
+.dangerBtn:hover {
+  background: #b91c1c;
+}
 
 
 
@@ -2165,7 +2254,6 @@ body.lightTheme .previewInputBar input::placeholder{
     Account
   </div>
 
-  <button class="navItem">👤 My Account</button>
 
 <button class="navItem" id="profileBtn">
   👤 Profile
@@ -2622,14 +2710,397 @@ body.lightTheme .previewInputBar input::placeholder{
 
 </div> <!-- appearancePage -->
 
-
 <div id="securityPage" style="display:none;">
 
-  <h1 class="pageTitle">Security</h1>
+  <h1 class="pageTitle">
+    🛡️ Security & Privacy
+  </h1>
 
   <p class="pageSubTitle">
-    Manage your account security.
+    Manage your security settings and protect your privacy.
   </p>
+
+  <div class="securitySection">
+
+    <h2 class="securitySectionTitle">
+      🛡️ Account Security
+    </h2>
+
+    <p class="securitySectionSubtitle">
+      Keep your account protected and secure.
+    </p>
+
+    <div class="securityCard">
+
+      <!-- Password Row -->
+      <div class="securityRow">
+
+        <div class="securityRowInfo">
+          <h3>Password</h3>
+          <p>Change your password regularly to keep your account safe.</p>
+        </div>
+
+        <button
+          class="securityBtn"
+          id="changePasswordBtn">
+          Change
+        </button>
+
+      </div>
+
+      <!-- Second Row (empty for now) -->
+      <div class="securityRow">
+
+      <div class="securityRowInfo">
+
+        <h3>Two-Factor Authentication</h3>
+
+        <p>
+        Add an extra layer of protection to your account.
+      </p>
+
+      </div>
+
+      <button
+      class="securityBtn"
+      id="twoFactorBtn">
+      Enable
+      </button>
+
+      </div>   <!-- end of the Second Row (empty for now) -->
+
+        <!-- Third Row -->
+       <div class="securityRow">
+
+        <div class="securityRowInfo">
+          <h3>Login Sessions</h3>
+
+          <p>
+           View and manage devices currently signed in to your account.
+          </p>
+
+       </div>
+
+      <button
+       class="securityBtn"
+       id="loginSessionsBtn">
+       View
+      </button>
+
+        </div> <!-- end of the third row-->
+
+        <div class="securityRow">
+
+        <div class="securityRowInfo">
+
+          <h3>Recovery Email</h3>
+
+        <p>
+          Keep your recovery email up to date so you can regain access if needed.
+       </p>
+
+        </div>
+
+        <button
+       class="securityBtn"
+       id="recoveryEmailBtn">
+        Update
+       </button>
+
+       </div> <!-- end of the fourth row-->
+
+    </div>
+
+  </div> <!-- securitySection -->
+
+<div class="securitySection">
+
+  <h2 class="securitySectionTitle">
+    🔒 Privacy Controls
+  </h2>
+
+  <p class="securitySectionSubtitle">
+    Choose who can interact with you and what others can see.
+  </p>
+
+  <div class="securityCard">
+
+<!-- first Row -->
+  <div class="securityRow">
+
+    <div class="securityRowInfo">
+
+      <h3>Who Can Add You</h3>
+
+    <p>
+  Choose who is allowed to send you friend requests.
+   </p>
+
+    </div>
+
+<select class="securitySelect" id="friendRequestSelect">
+  <option>Everyone</option>
+  <option>Friends of Friends</option>
+  <option>Nobody</option>
+</select>
+
+  </div> <!-- end of the first Row -->
+
+    <!-- Second Row -->
+  <div class="securityRow">
+
+    <div class="securityRowInfo">
+
+      <h3>Who Can Message You</h3>
+
+    <p>
+     Choose who is allowed to send you direct messages.
+    </p>
+
+    </div>
+
+<select class="securitySelect" id="messagePermissionSelect">
+  <option>Everyone</option>
+  <option>Friends Only</option>
+  <option>Nobody</option>
+</select>
+
+</div> <!-- end of the Second Row -->
+
+<div class="securityRow">
+
+<div class="securityRowInfo">
+
+<h3>Profile Visibility</h3>
+
+<p>
+  Choose who can view your profile information.
+</p>
+
+</div>
+
+<select class="securitySelect" id="profileVisibilitySelect">
+  <option>Everyone</option>
+  <option>Friends Only</option>
+  <option>Only Me</option>
+</select>
+
+</div><!-- end of the Third  Row -->
+
+<!--Fourth  Row -->
+<div class="securityRow">
+
+<div class="securityRowInfo">
+
+  <h3>Read Receipts</h3>
+
+  <p>
+  Let others know when you've read their messages.
+</p>
+
+</div>
+
+<select class="securitySelect Small" id="readReceiptsSelect">
+  <option>On</option>
+  <option>Off</option>
+</select>
+
+</div> <!-- end of the Fourth  Row -->
+
+  </div>
+
+</div>
+
+<div class="securitySection">
+
+  <h2 class="securitySectionTitle">
+  🔔 Notifications
+</h2>
+
+<p class="securitySectionSubtitle">
+  Manage how and when you receive notifications.
+</p>
+
+<div class="securityCard">
+
+  <!-- first row -->
+<div class="securityRow">
+
+<div class="securityRowInfo">
+
+  <h3>Push Notifications</h3>
+
+<p>
+  Receive notifications on your device for new activity.
+</p>
+
+</div>
+
+<select class="securitySelect small" id="pushNotificationsSelect">
+  <option>On</option>
+  <option>Off</option>
+</select>
+
+</div> <!-- end of first row -->
+
+
+  <!-- Second Row -->
+<div class="securityRow">
+
+<div class="securityRowInfo">
+
+  <h3>Email Notifications</h3>
+
+<p>
+  Receive important updates and account alerts by email.
+</p>
+
+</div>
+
+<select class="securitySelect small" id="emailNotificationsSelect">
+  <option>On</option>
+  <option>Off</option>
+</select>
+
+</div> <!-- end of second row -->
+
+  <!-- Third Row -->
+<div class="securityRow">
+<div class="securityRowInfo">
+
+  <h3>Marketing Emails</h3>
+
+<p>
+  Receive promotional offers, news, and product updates by email.
+</p>
+
+</div>
+
+<select class="securitySelect small" id="marketingEmailsSelect">
+  <option>On</option>
+  <option>Off</option>
+</select>
+
+</div> <!-- end of Third row -->
+
+<!-- Fourth Row-->
+<div class="securityRow">
+
+<div class="securityRowInfo">
+
+  <h3>SMS Notifications</h3>
+
+<p>
+  Receive important account alerts and verification codes by SMS.
+</p>
+
+</div>
+
+<select class="securitySelect small" id="smsNotificationsSelect">
+  <option>On</option>
+  <option>Off</option>
+</select>
+
+</div> <!-- end of Fourth row -->
+
+
+</div> <!-- end of securityCard -->
+
+</div> <!-- end of the third security section-->
+
+
+<div class="securitySection">
+
+  <h2 class="securitySectionTitle">
+  📱 Connected Devices
+</h2>
+
+  <p class="securitySectionSubtitle">
+    View and manage devices connected to your account.
+  </p>
+
+<div class="securityCard">
+
+  <!-- first row -->
+  <div class="securityRow">
+
+<div class="securityRowInfo">
+
+    <h3>Current Device</h3>
+
+ <p>
+  This is the device you're currently using to access your account.
+ </p>
+
+</div>
+
+<button
+  class="securityBtn"
+  id="currentDeviceBtn">
+  Details
+</button>
+
+</div> <!-- end of the first row -->
+
+  <!-- Second Row -->
+<div class="securityRow">
+<div class="securityRowInfo">
+
+  <h3>Other Devices</h3>
+
+  <p>
+  View and manage other devices that are signed in to your account.
+</p>
+
+</div>
+
+<button
+  class="securityBtn"
+  id="otherDevicesBtn">
+  Manage
+</button>
+
+</div> <!-- end of the second row -->
+
+</div> <!-- end of securityCard -->
+
+</div> <!-- end of Connected Devices section -->
+
+<div class="securitySection">
+
+  <h2 class="securitySectionTitle">
+  ⚠️ Danger Zone
+</h2>
+
+<p class="securitySectionSubtitle">
+  Permanently remove your account or take other irreversible actions.
+</p>
+
+<div class="securityCard">
+
+  <!-- first row -->
+  <div class="securityRow">
+  <div class="securityRowInfo">
+
+    <h3>Delete Account</h3>
+
+  <p>
+  Permanently delete your account and all associated data. This action cannot be undone.
+</p>
+
+</div>
+
+<button
+class="securityBtn dangerBtn"
+  id="deleteAccountBtn">
+  Delete
+</button>
+
+</div>  <!-- end of the First row-->
+
+</div> <!-- end of the securitycard-->
+
+</div>
 
 </div> <!-- securityPage -->
 
