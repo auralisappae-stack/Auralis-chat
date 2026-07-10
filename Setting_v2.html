@@ -77,6 +77,8 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pop
 
 .settingsContent{
   background:#0B0620;
+  gap: 40px;
+
 }
 
 .settingsCard{
@@ -166,28 +168,33 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pop
 }
 
 body[data-accent="auralis"]{
-  --accent1:#8B5CF6;
-  --accent2:#FF7EDB;
+  --accent: #8B5CF6;
+  --accent-light: #A15CFF;
+  --accent-secondary: #FF7EDB;
 }
 
 body[data-accent="pink"]{
-  --accent1:#FF5DA2;
-  --accent2:#FF9FD1;
+  --accent: #FF5DA2;
+  --accent-light: #FF9FD1;
+  --accent-secondary: #FF7EDB;
 }
 
 body[data-accent="blue"]{
-  --accent1:#3B82F6;
-  --accent2:#60A5FA;
+  --accent: #3B82F6;
+  --accent-light: #60A5FA;
+  --accent-secondary: #2563EB;
 }
 
 body[data-accent="green"]{
-  --accent1:#10B981;
-  --accent2:#34D399;
+  --accent: #10B981;
+  --accent-light: #34D399;
+  --accent-secondary: #059669;
 }
 
 body[data-accent="gold"]{
-  --accent1:#F59E0B;
-  --accent2:#FCD34D;
+  --accent: #F59E0B;
+  --accent-light: #FCD34D;
+  --accent-secondary: #F97316;
 }
 
 
@@ -240,8 +247,8 @@ body[data-accent="gold"]{
 .navItem.active{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+ var(--accent),
+ var(--accent-secondary)
 );
 
   color:#FFFFFF;
@@ -388,8 +395,8 @@ body[data-accent="gold"]{
 input:checked + .slider{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 }
 
@@ -400,8 +407,8 @@ input:checked + .slider:before{
 .switch input:checked + .slider{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   box-shadow:
@@ -485,7 +492,7 @@ input:checked + .slider:before{
   min-height:64px;
   flex-shrink:0;
   border-radius:50%;
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
   color:#FFFFFF;
   display:flex;
   align-items:center;
@@ -525,8 +532,8 @@ input:checked + .slider:before{
 
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   border:1px solid rgba(215,184,255,.12);
@@ -616,8 +623,8 @@ input:checked + .slider:before{
 .uploadBtn.primary{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   border:none;
@@ -718,19 +725,15 @@ input:checked + .slider:before{
 .actionBtn{
   width:90px;
   height:44px;
-
-  background:#161033;
-
+  background: var(--accent);
   border:1px solid rgba(215,184,255,.12);
-
   border-radius:10px;
-
   color:#FFFFFF;
-
   cursor:pointer;
-
-  transition:.25s ease;
-
+  transition:
+    background .2s ease,
+    transform .15s ease,
+    box-shadow .2s ease;
   font-weight:600;
 }
 
@@ -738,9 +741,8 @@ input:checked + .slider:before{
   background:#24184A;
 
   border-color:rgba(161,92,255,.35);
-
-  box-shadow:
-    0 0 16px rgba(139,92,246,.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 
@@ -751,8 +753,8 @@ input:checked + .slider:before{
 .actionBtn.primary{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   border:none;
@@ -841,8 +843,8 @@ input:checked + .slider:before{
 
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   border:none;
@@ -928,8 +930,9 @@ input:checked + .slider:before{
 .saveBtn{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
+
 );
 
   color:white;
@@ -1365,8 +1368,9 @@ body.lightTheme input:checked + .slider{
 ::-webkit-scrollbar-thumb{
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
+
 );
 
 
@@ -1548,8 +1552,8 @@ body.lightTheme .previewCard{
 
   background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   color:white;
@@ -1661,8 +1665,9 @@ body.lightTheme .previewInputBar input::placeholder{
 
  background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
+
 );
 
   color:white;
@@ -1849,8 +1854,8 @@ body.lightTheme .previewInputBar input::placeholder{
 #saveBtn{
   background:linear-gradient(
   135deg,
-  var(--accent1),
-  var(--accent2)
+  var(--accent),
+  var(--accent-secondary)
 );
 
   box-shadow:
@@ -2070,6 +2075,7 @@ body.lightTheme .previewInputBar input::placeholder{
   opacity:.85;
 }
 
+/*light /Dark  BTN Css */
 #themePicker{
   position:relative;
   width:180px;
@@ -2100,13 +2106,12 @@ body.lightTheme .previewInputBar input::placeholder{
 #sunThemeBtn{
   right:0;
 }
-
-
-
 #moonThemeBtn:hover,
 #sunThemeBtn:hover{
   background:rgba(255,255,255,.08);
 }
+
+/*Security page Css */
 .securityRow{
    min-height: 92px;
     display: flex;
@@ -2130,8 +2135,8 @@ body.lightTheme .previewInputBar input::placeholder{
     line-height: 1.5;
 }
 .securityBtn{
-width: 95px;
-height: 38px;
+    width: 95px;
+    height: 38px;
 
     display: flex;
     align-items: center;
@@ -2140,17 +2145,26 @@ height: 38px;
     border: none;
     border-radius: 10px;
 
-    background: #5865F2;
-    color: #fff;
+    background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent-secondary)
+    );
 
+    color: #fff;
     font-size: 14px;
     font-weight: 600;
-
     cursor: pointer;
+
     transition: background 0.2s ease;
 }
+
 .securityBtn:hover{
-    background: #4752C4;
+    background: color-mix(
+        in srgb,
+        var(--accent) 82%,
+        black
+    );
 }
 .securitySection{
     margin-top: 28px;
@@ -2216,39 +2230,54 @@ height: 38px;
 .customSelectBtn{
     width: 90px;
     height: 40px;
-}
-.customSelectBtn{
-    width: 90px;
-    height: 40px;
 
     border: 1px solid #433b63;
     border-radius: 10px;
 
-    background: #241d3d;
-    color: #fff;
+    background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent-secondary)
+    );
 
+    color: #fff;
     font-size: 14px;
     font-weight: 600;
-
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
 
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
 }
 .customSelectBtn:hover{
-    background: #2d2550;
-    border-color: #5865F2;
+    background: color-mix(
+        in srgb,
+        var(--accent) 82%,
+        black
+    );
+
+    border-color: var(--accent);
+    transform: translateY(-1px);
+
+    box-shadow: 0 4px 12px color-mix(
+        in srgb,
+        var(--accent) 25%,
+        transparent
+    );
 }
 .customSelectMenu{
     display: none;
-
+    padding: 6px;
     position: absolute;
     top: calc(100% + 6px);
-
     left: 50%;
     transform: translateX(-50%);
 
     width: 100%;
     min-width: 160px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 
     background: #241d3d;
     border: 1px solid #433b63;
@@ -2257,21 +2286,35 @@ height: 38px;
     overflow: hidden;
     z-index: 1000;
 }
+.customSelectMenu div:hover{
+    background: var(--accent);
+}
 .customSelectMenu div{
     padding: 10px 14px;
-
+    border-radius: 8px;
     color: #fff;
     cursor: pointer;
     text-align: center;
-
+    margin-bottom: 4px;
     transition: background 0.2s ease;
 }
-.customSelectMenu div:hover{
-    background: #5865F2;
+
+.customSelectMenu div:last-child{
+    margin-bottom: 0;
 }
 
-.customSelect.open .customSelectMenu{
-    display: block;
+.customSelectMenu div:hover{
+    background: var(--accent);
+}
+
+.customSelect.open .customSelectBtn{
+    border-color: var(--accent);
+
+    box-shadow: 0 0 0 3px color-mix(
+        in srgb,
+        var(--accent) 15%,
+        transparent
+    );
 }
 
 
@@ -4573,15 +4616,73 @@ if(outline === "glow"){
 
 
 // start of the accent color changes 
-
 const accentSelect = document.getElementById("accentSelect");
 
-accentSelect.addEventListener("change", () => {
-  document.body.setAttribute(
-    "data-accent",
-    accentSelect.value
-  );
-});  // end of the accent color changes 
+function applyAccent(accent) {
+
+    document.body.setAttribute("data-accent", accent);
+
+    const colors = {
+
+        auralis: {
+            accent: "#8B5CF6",
+            light: "#A15CFF",
+            secondary: "#FF7EDB"
+        },
+
+        pink: {
+            accent: "#FF7EDB",
+            light: "#FF9FEA",
+            secondary: "#8B5CF6"
+        },
+
+        blue: {
+            accent: "#5865F2",
+            light: "#7983F5",
+            secondary: "#3B82F6"
+        },
+
+        green: {
+            accent: "#22C55E",
+            light: "#4ADE80",
+            secondary: "#14B8A6"
+        },
+
+        gold: {
+            accent: "#F59E0B",
+            light: "#FBBF24",
+            secondary: "#F97316"
+        }
+
+    };
+
+    const selected = colors[accent];
+    if (!selected) return;
+
+    document.documentElement.style.setProperty("--accent", selected.accent);
+    document.documentElement.style.setProperty("--accent-light", selected.light);
+    document.documentElement.style.setProperty("--accent-secondary", selected.secondary);
+}
+
+if (accentSelect) {
+
+    accentSelect.addEventListener("change", () => {
+        applyAccent(accentSelect.value);
+    });
+
+    applyAccent(accentSelect.value);
+
+}
+
+
+
+const accentName =
+    accentSelect.options[accentSelect.selectedIndex].text.trim();
+
+applyAccent(accentName);
+
+applyAccent(accentSelect.value);
+// end of the accent color changes 
 
 
 console.log(document.getElementById("backBtn"));
