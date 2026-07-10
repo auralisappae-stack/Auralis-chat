@@ -85,11 +85,15 @@ href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pop
   background:#161033;
   border:1px solid rgba(215,184,255,.12);
   border-radius:20px;
+  margin-top: 24px;
+  padding: 28px;
 }
-
-
-
-
+.settingsCardTitle{
+    margin: 0 0 20px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+}
 
   .sidebar{
   padding:24px;
@@ -2317,6 +2321,57 @@ body.lightTheme .previewInputBar input::placeholder{
     );
 }
 
+.settingsCardSubtitle{
+    margin: 8px 0 24px;
+    color: rgba(255,255,255,.65);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/*  Styling the volume slider*/
+.volumeSlider{
+    width: 220px;
+    height: 6px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    cursor: pointer;
+}
+
+.volumeSlider::-webkit-slider-thumb{
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 18px;
+    height: 18px;
+
+    border: 3px solid #fff;
+    border-radius: 50%;
+
+    background: var(--accent);
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+.sliderGroup{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sliderValue{
+    min-width: 48px;
+    text-align: right;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
 
 
 
@@ -2389,7 +2444,10 @@ body.lightTheme .previewInputBar input::placeholder{
   ⚙️ General
 </button>
 
-  <button class="navItem">🎙️ Voice & Audio</button>
+  <button class="navItem" data-page="voiceAudio">
+    🎙️ Voice & Audio
+</button>
+
   <button class="navItem">🔔 Notifications</button>
 
   <button class="navItem" id="appearanceBtn">
@@ -3284,7 +3342,209 @@ class="securityBtn dangerBtn"
 
 </div> <!-- generalPage -->
 
+<!-- -------------New Page (Voice And Audio)------------ -->
+ 
+<div id="voiceAudioPage" style="display:none;">
 
+    <h1 class="pageTitle">Voice & Audio</h1>
+
+    <p class="pageSubTitle">
+        Configure your microphone, speakers, and voice processing settings.
+    </p>
+
+    <div class="settingsCard">
+
+    <h2 class="settingsCardTitle">
+        🎙️ Input Settings
+    </h2>
+
+ <p class="settingsCardSubtitle">
+    Configure your microphone and input preferences for voice communication.
+</p>
+
+<!-- Row one -->
+    <div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Input Device</h3>
+        <p>Select the microphone you want Auralis to use.</p>
+    </div>
+
+    <select class="themeSelect" id="inputDeviceSelect">
+        <option>Default Microphone</option>
+        <option>Headset Microphone</option>
+        <option>External USB Microphone</option>
+    </select>
+
+</div> <!--closer of  Row one -->
+
+<!-- Row two -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Input Volume</h3>
+        <p>Adjust the microphone input level.</p>
+    </div>
+
+<div class="sliderGroup">
+
+    <input
+        type="range"
+        class="volumeSlider"
+        id="inputVolume"
+        min="0"
+        max="100"
+        value="75">
+
+    <span class="sliderValue" id="inputVolumeValue">
+        75%
+    </span>
+
+</div>
+
+</div> <!-- close of Row two -->
+
+<!-- Row three -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Microphone Test</h3>
+        <p>Test your microphone to make sure it's working correctly.</p>
+    </div>
+
+    <button class="securityBtn">
+        Test
+    </button>
+
+</div> <!-- close of Row three -->
+
+</div> <!-- close of the first settind card-->
+
+<div class="settingsCard">
+
+    <h2 class="settingsCardTitle">
+        🔊 Output Settings
+    </h2>
+
+    <p class="settingsCardSubtitle">
+        Choose where audio is played and adjust the output volume.
+    </p>
+
+    <!-- Row one -->
+    <div class="settingRow">
+
+        <div class="settingInfo">
+            <h3>Output Device</h3>
+            <p>Select the speakers or headphones Auralis should use.</p>
+        </div>
+
+        <select class="themeSelect" id="outputDeviceSelect">
+            <option>Default Speakers</option>
+            <option>Headphones</option>
+            <option>Bluetooth Audio</option>
+        </select>
+
+    </div>  <!-- close of the Row one -->
+
+    <!-- Row two -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Output Volume</h3>
+        <p>Adjust the volume of incoming audio.</p>
+    </div>
+
+    <div class="sliderGroup">
+
+        <input
+            type="range"
+            class="volumeSlider"
+            id="outputVolume"
+            min="0"
+            max="100"
+            value="80">
+
+        <span class="sliderValue" id="outputVolumeValue">
+            80%
+        </span>
+
+    </div>
+
+</div> <!-- close of Row two -->
+
+<!-- Row three -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Test Output</h3>
+        <p>Play a short sound to verify your selected output device.</p>
+    </div>
+
+    <button class="securityBtn" id="testOutputBtn">
+        Test
+    </button>
+
+</div> <!-- close of Row three -->
+
+</div> <!-- close of the second  settind card-->
+
+<div class="settingsCard">
+
+    <h2 class="settingsCardTitle">
+        🎛️ Voice Processing
+    </h2>
+
+    <p class="settingsCardSubtitle">
+        Improve voice clarity and reduce unwanted background sounds.
+    </p>
+
+    <!-- Row one -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Noise Suppression</h3>
+        <p>Reduce background noise while you speak.</p>
+    </div>
+
+    <button class="securityBtn" id="noiseSuppressionBtn">
+        Enable
+    </button>
+
+</div> <!-- close of Row one -->
+
+<!-- Row two -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Echo Cancellation</h3>
+        <p>Prevent your microphone from capturing speaker output.</p>
+    </div>
+
+    <button class="securityBtn" id="echoCancellationBtn">
+        Enable
+    </button>
+
+</div> <!-- close of Row two -->
+
+<!-- Row three -->
+<div class="settingRow">
+
+    <div class="settingInfo">
+        <h3>Voice Activation Mode</h3>
+        <p>Choose how your microphone is activated during voice chat.</p>
+    </div>
+
+    <select class="themeSelect" id="voiceModeSelect">
+        <option>Voice Activity</option>
+        <option>Push to Talk</option>
+        <option>Always On</option>
+    </select>
+
+</div> <!-- close of Row three -->
+
+</div> <!-- closing of the third setting card -->
+
+</div> <!-- voiceAudioPage -->
 
 
 
@@ -4262,22 +4522,85 @@ const generalPage =
 const generalBtn =
   document.getElementById("generalBtn");
 
+const voiceAudioBtn =
+  document.querySelector('[data-page="voiceAudio"]');
+
+const voiceAudioPage =
+  document.getElementById("voiceAudioPage");
+
 
 generalBtn.addEventListener("click", () => {
 
   profilePage.style.display = "none";
   appearancePage.style.display = "none";
   securityPage.style.display = "none";
+  voiceAudioPage.style.display = "none";
   generalPage.style.display = "block";
 
   appSettingsPanel.style.display = "block";
   appearancePreview.style.display = "none";
 
   document.getElementById(
-  "chatPreviewSection"
-).style.display = "none";
+    "chatPreviewSection"
+  ).style.display = "none";
 
 });
+
+voiceAudioBtn.addEventListener("click", () => {
+
+  profilePage.style.display = "none";
+  appearancePage.style.display = "none";
+  securityPage.style.display = "none";
+  generalPage.style.display = "none";
+
+  voiceAudioPage.style.display = "block";
+
+  appSettingsPanel.style.display = "block";
+  appearancePreview.style.display = "none";
+
+  document.getElementById(
+    "chatPreviewSection"
+  ).style.display = "none";
+
+});
+
+//make the slider behave for the input volume slider
+
+const inputVolume =
+    document.getElementById("inputVolume");
+
+const inputVolumeValue =
+    document.getElementById("inputVolumeValue");
+
+if (inputVolume && inputVolumeValue) {
+
+    inputVolume.addEventListener("input", () => {
+
+        inputVolumeValue.textContent =
+            inputVolume.value + "%";
+
+    });
+
+} // end of the slider behave
+
+//make the slider behave just like the input volume slider
+const outputVolume =
+    document.getElementById("outputVolume");
+
+const outputVolumeValue =
+    document.getElementById("outputVolumeValue");
+
+if (outputVolume && outputVolumeValue) {
+
+    outputVolume.addEventListener("input", () => {
+
+        outputVolumeValue.textContent =
+            outputVolume.value + "%";
+
+    });
+
+}
+// end of the slider behave Output Volume 
 
 securityBtn.addEventListener("click", () => {
 
@@ -4285,6 +4608,7 @@ securityBtn.addEventListener("click", () => {
   appearancePage.style.display = "none";
   securityPage.style.display = "block";
   generalPage.style.display = "none";
+  voiceAudioPage.style.display = "none";
 
   appSettingsPanel.style.display = "block";
   appearancePreview.style.display = "none";
